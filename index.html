@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>刘晔工作台</title>
+<meta name="theme-color" content="#2563eb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="刘晔工作台">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-512.png">
+<link rel="icon" type="image/png" href="./icon-192.png">
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(e){console.log('SW skip',e);});});}</script>
+<style>
+:root{
+  --bg:#f0f2f5; --card:#fff; --border:#e8eaed; --primary:#2563eb; --primary-light:#eff6ff;
+  --text:#1f2937; --text-sec:#6b7280; --green:#16a34a; --green-bg:#f0fdf4;
+  --orange:#ea580c; --orange-bg:#fff7ed; --red:#dc2626; --red-bg:#fef2f2;
+  --purple:#7c3aed; --purple-bg:#f5f3ff; --teal:#0d9488; --teal-bg:#f0fdfa;
+  --order:#b45309; --order-bg:#fffbeb; --brand:#c026d3; --brand-bg:#fdf4ff;
+  --radius:12px; --shadow:0 1px 3px rgba(0,0,0,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+.app{max-width:1280px;margin:0 auto;padding:16px}
+
+/* Header */
+.header{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border-radius:var(--radius);padding:24px 28px;margin-bottom:16px;box-shadow:0 4px 12px rgba(37,99,235,.25)}
+.header-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.header h1{font-size:24px;font-weight:700}
+.header-meta{display:flex;gap:20px;align-items:center;font-size:13px;opacity:.9}
+.header-meta span{display:flex;align-items:center;gap:4px}
+.progress-ring{width:56px;height:56px;position:relative}
+.progress-ring svg{transform:rotate(-90deg)}
+.progress-ring .bg-circle{fill:none;stroke:rgba(255,255,255,.25);stroke-width:5}
+.progress-ring .fg-circle{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .5s}
+.progress-ring .pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;font-weight:700}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;background:var(--card);border-radius:var(--radius) var(--radius) 0 0;padding:6px;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{padding:10px 20px;border:none;background:transparent;color:var(--text-sec);font-size:14px;font-weight:500;cursor:pointer;border-radius:8px;white-space:nowrap;transition:all .2s}
+.tab:hover{background:var(--primary-light);color:var(--primary)}
+.tab.active{background:var(--primary);color:#fff}
+
+/* Tab Content */
+.tab-content{display:none;background:var(--card);border-radius:0 0 var(--radius) var(--radius);padding:20px;min-height:500px;box-shadow:var(--shadow)}
+.tab-content.active{display:block}
+
+/* Section Title */
+.section-title{font-size:17px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-title .count{font-size:12px;background:var(--primary-light);color:var(--primary);padding:2px 10px;border-radius:20px}
+
+/* Task Management */
+.task-toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.task-filter{display:flex;gap:6px;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;border:1px solid var(--border);background:var(--card);border-radius:20px;font-size:12px;cursor:pointer;color:var(--text-sec);transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-add{padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-weight:500;transition:all .2s}
+.btn-add:hover{background:#1d4ed8}
+
+.task-list{display:flex;flex-direction:column;gap:8px}
+.task-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:10px;transition:all .2s;background:#fff}
+.task-item:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.task-item.done{opacity:.55}
+.task-item.done .task-title{text-decoration:line-through}
+.task-check{width:20px;height:20px;border:2px solid var(--border);border-radius:6px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.task-check.checked{background:var(--green);border-color:var(--green)}
+.task-check.checked::after{content:'';width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.task-body{flex:1;min-width:0}
+.task-title{font-weight:500;font-size:14px}
+.task-meta{display:flex;gap:10px;margin-top:4px;flex-wrap:wrap}
+.task-cat{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500}
+.cat-distributor{background:var(--primary-light);color:var(--primary)}
+.cat-competitor{background:var(--orange-bg);color:var(--orange)}
+.cat-customer{background:var(--green-bg);color:var(--green)}
+.cat-newproduct{background:var(--purple-bg);color:var(--purple)}
+.cat-order{background:var(--order-bg);color:var(--order)}
+.cat-brand{background:var(--brand-bg);color:var(--brand)}
+.cat-meeting-internal{background:#f0fdfa;color:#0d9488}
+.cat-meeting-customer{background:#fdf2f8;color:#db2777}
+.cat-meeting-distributor{background:#ecfeff;color:#0891b2}
+.task-notes{font-size:11px;color:var(--text-sec);margin-top:5px;background:#f9fafb;padding:5px 9px;border-radius:6px;border-left:2px solid var(--teal)}
+.task-notes b{color:var(--text)}
+.task-priority{font-size:11px;padding:2px 8px;border-radius:4px}
+.pri-high{background:var(--red-bg);color:var(--red)}
+.pri-mid{background:var(--orange-bg);color:var(--orange)}
+.pri-low{background:var(--green-bg);color:var(--green)}
+.task-time{font-size:11px;color:var(--text-sec)}
+.task-del{color:var(--text-sec);cursor:pointer;font-size:16px;padding:4px;opacity:.5;transition:opacity .2s}
+.task-del:hover{opacity:1;color:var(--red)}
+.task-edit{color:var(--text-sec);cursor:pointer;font-size:15px;padding:4px;opacity:.5;transition:opacity .2s;margin-right:2px}
+.task-edit:hover{opacity:1;color:var(--primary)}
+.cat-bizdev{background:#fef3c7;color:#b45309;font-weight:500}
+.pri-iu{background:var(--red-bg);color:var(--red);font-weight:600}
+.pri-inu{background:var(--primary-light);color:var(--primary);font-weight:600}
+.pri-nnu{background:var(--green-bg);color:var(--green);font-weight:600}
+.pri-nu{background:var(--orange-bg);color:var(--orange);font-weight:600}
+.ddl-urgent{font-size:11px;padding:2px 8px;border-radius:4px;background:var(--red-bg);color:var(--red);font-weight:600}
+.ddl-over{font-size:11px;padding:2px 8px;border-radius:4px;background:#fecaca;color:#b91c1c;font-weight:600}
+.ddl-warn{font-size:11px;padding:2px 8px;border-radius:4px;background:var(--orange-bg);color:var(--orange);font-weight:600}
+.ddl-normal{font-size:11px;padding:2px 8px;border-radius:4px;background:#f1f5f9;color:var(--text-sec)}
+.monthly-list{display:flex;flex-direction:column;gap:10px}
+.monthly-item{border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:#fff;transition:all .2s}
+.monthly-item:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.monthly-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.monthly-title{font-weight:600;font-size:15px}
+.monthly-actions{display:flex;gap:4px;flex-shrink:0}
+.monthly-progress{margin-top:10px}
+.progress-track{height:10px;background:#eef2f7;border-radius:6px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),#60a5fa);border-radius:6px;transition:width .3s}
+.monthly-progress .progress-text{font-size:12px;color:var(--text-sec);margin-top:6px}
+.monthly-meta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center}
+
+/* Add Task Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:var(--radius);padding:24px;width:90%;max-width:480px}
+.modal h3{margin-bottom:16px;font-size:18px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;color:var(--text-sec);margin-bottom:4px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.btn-cancel{padding:8px 16px;background:#f3f4f6;border:none;border-radius:8px;cursor:pointer;font-size:14px}
+.btn-save{padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px}
+
+/* Brand Monitoring */
+.brand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px}
+.brand-card{border:1px solid var(--border);border-radius:10px;padding:16px;transition:all .2s;background:#fff}
+.brand-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.brand-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:10px}
+.brand-name{font-size:16px;font-weight:600}
+.brand-name a{color:var(--primary);text-decoration:none}
+.brand-name a:hover{text-decoration:underline}
+.brand-status{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;white-space:nowrap}
+.status-new{background:var(--red-bg);color:var(--red)}
+.status-none{background:var(--green-bg);color:var(--green)}
+.status-pending{background:#f3f4f6;color:var(--text-sec)}
+.brand-check{font-size:11px;padding:3px 10px;border-radius:20px;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text-sec);white-space:nowrap;transition:all .2s}
+.brand-check:hover{border-color:var(--green)}
+.brand-check.checked{background:var(--green-bg);color:var(--green);border-color:var(--green-bg)}
+.brand-products{display:flex;flex-direction:column;gap:8px}
+.brand-product{padding:8px 10px;background:#f9fafb;border-radius:8px;border-left:3px solid var(--primary)}
+.brand-product .pname{font-weight:500;font-size:13px;display:flex;align-items:center;gap:6px}
+.brand-product .pdesc{font-size:12px;color:var(--text-sec);margin-top:2px}
+.new-badge{font-size:10px;background:var(--red);color:#fff;padding:1px 6px;border-radius:10px}
+.brand-foot{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--text-sec)}
+.brand-tags{display:flex;gap:4px;flex-wrap:wrap}
+.brand-tag{font-size:10px;padding:1px 6px;border-radius:4px;background:#f3f4f6;color:var(--text-sec)}
+.brand-visit{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border:1px solid var(--primary);color:var(--primary);border-radius:20px;font-size:11px;font-weight:500;text-decoration:none;transition:all .2s;white-space:nowrap}
+.brand-visit:hover{background:var(--primary);color:#fff}
+.brand-product .pname{font-weight:500;font-size:13px;display:flex;align-items:center;gap:6px}
+.pmeta{font-size:11px;color:var(--text-sec);margin-top:5px;display:flex;flex-wrap:wrap;gap:5px}
+.pmeta span{background:#eef2ff;color:#374151;padding:1px 6px;border-radius:4px}
+.pmeta .price{background:#ecfdf5;color:#047857}
+.pmeta .model{background:#f1f5f9;color:#334155}
+.pspec{font-size:12px;color:#475569;margin-top:3px;line-height:1.5}
+.psource{font-size:10px;color:#9ca3af;margin-top:3px}
+.psource a{color:var(--primary);text-decoration:none}
+.psource a:hover{text-decoration:underline}
+.brand-exhib{margin-top:10px;border-top:1px dashed var(--border);padding-top:8px}
+.exhib-title{font-size:12px;font-weight:600;color:var(--orange);margin-bottom:6px}
+.exhib-item{font-size:11px;color:var(--text-sec);padding:3px 0;border-bottom:1px solid #f3f4f6;display:flex;gap:5px;flex-wrap:wrap;align-items:center;line-height:1.5}
+.exhib-item b{color:var(--text)}
+.exhib-item a{color:var(--primary);text-decoration:none}
+.exhib-item a:hover{text-decoration:underline}
+.social-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.social-row .social-label{font-size:10px;color:var(--text-sec)}
+.social-chip{font-size:10px;padding:2px 8px;border-radius:12px;display:inline-flex;align-items:center;gap:3px;text-decoration:none;border:1px solid var(--border);line-height:1.4}
+.social-chip.found{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
+.social-chip.none{background:#f3f4f6;color:var(--text-sec)}
+.social-chip.unverified{background:#fffbeb;color:#b45309;border-color:#fde68a}
+
+/* Daily Review */
+.review-section{margin-bottom:24px}
+.review-card{border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+.review-card h4{font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.review-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.stat-box{background:#f9fafb;border-radius:10px;padding:14px;text-align:center}
+.stat-num{font-size:28px;font-weight:700}
+.stat-label{font-size:12px;color:var(--text-sec);margin-top:2px}
+.review-textarea{width:100%;min-height:80px;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;resize:vertical}
+.review-save{margin-top:10px;padding:8px 20px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px}
+.review-tag{font-size:11px;font-weight:400;color:var(--primary);background:var(--primary-light);padding:2px 8px;border-radius:10px;margin-left:4px}
+.review-tasklist{display:flex;flex-direction:column;gap:6px}
+.review-task{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 8px;border-radius:6px;background:#f9fafb}
+.review-task .rt-title{flex:1;min-width:0}
+.review-task.done-task{color:var(--green)}
+.review-task.done-task .rt-check{color:var(--green);font-weight:700}
+.review-task .rt-cat{font-size:10px;padding:1px 6px;border-radius:4px;background:#fff;border:1px solid var(--border);color:var(--text-sec);white-space:nowrap}
+.review-task .rt-time{font-size:11px;color:var(--text-sec);white-space:nowrap}
+.review-empty{font-size:12px;color:var(--text-sec);padding:8px 4px}
+
+/* Review sub-tabs */
+.subtabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.subtab{padding:7px 16px;border:1px solid var(--border);background:var(--card);border-radius:20px;font-size:13px;cursor:pointer;color:var(--text-sec);transition:all .2s}
+.subtab:hover{background:var(--primary-light);color:var(--primary)}
+.subtab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* Review Library / Weekly */
+.lib-divider{height:1px;background:var(--border);margin:22px 0}
+
+/* Weekly review */
+.week-card{border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;background:linear-gradient(135deg,#f8fafc,#fff)}
+.week-range{font-size:13px;color:var(--text-sec);margin-bottom:12px}
+.week-bar{height:22px;background:#eef0f3;border-radius:12px;overflow:hidden;position:relative;margin:8px 0}
+.week-bar-fill{height:100%;background:linear-gradient(90deg,var(--green),#22c55e);border-radius:12px;transition:width .5s;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;color:#fff;font-size:11px;font-weight:700}
+.week-stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.week-stat{flex:1;min-width:120px;background:#f9fafb;border-radius:10px;padding:12px;text-align:center}
+.week-stat .ws-num{font-size:22px;font-weight:700;color:var(--primary)}
+.week-stat .ws-label{font-size:12px;color:var(--text-sec);margin-top:2px}
+.day-minis{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:14px}
+.day-mini{background:#f9fafb;border-radius:8px;padding:8px 4px;text-align:center;font-size:11px}
+.day-mini.today{outline:2px solid var(--primary);background:var(--primary-light)}
+.day-mini .dm-day{font-weight:600;color:var(--text-sec)}
+.day-mini .dm-num{font-size:16px;font-weight:700;color:var(--green);margin:4px 0}
+.day-mini .dm-bar{height:5px;background:#e5e7eb;border-radius:3px;overflow:hidden;margin-top:4px}
+.day-mini .dm-bar i{display:block;height:100%;background:var(--green)}
+.lib-h3{font-size:15px;font-weight:600;margin:18px 0 10px;display:flex;align-items:center;gap:6px}
+.diff-item{background:var(--red-bg);border-left:3px solid var(--red);border-radius:6px;padding:8px 12px;margin-bottom:6px;font-size:13px}
+.diff-item .di-date{font-size:11px;color:var(--text-sec);margin-right:6px}
+.followup-box{width:100%;min-height:80px;border:1px solid var(--border);border-radius:8px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;margin-top:8px}
+.followup-hint{font-size:12px;color:var(--text-sec);margin-top:6px}
+
+/* History */
+.hist-select{padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;min-width:200px;margin-bottom:12px}
+.hist-block{margin-bottom:14px}
+.hist-block h5{font-size:13px;font-weight:600;margin-bottom:6px;color:var(--text-sec)}
+.hist-text{font-size:13px;background:#f9fafb;border-radius:8px;padding:10px;white-space:pre-wrap;line-height:1.7}
+.hist-count{font-size:12px;color:var(--text-sec);margin-bottom:8px}
+
+/* SOP */
+.sop-list{display:flex;flex-direction:column;gap:16px}
+.sop-card{border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.sop-header{padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:15px;user-select:none}
+.sop-header:hover{background:#f9fafb}
+.sop-icon{font-size:12px;transition:transform .2s}
+.sop-card.open .sop-icon{transform:rotate(90deg)}
+.sop-body{display:none;padding:0 16px 16px}
+.sop-card.open .sop-body{display:block}
+.sop-step{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.sop-step:last-child{border-bottom:none}
+.sop-num{width:24px;height:24px;background:var(--primary-light);color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.sop-step-body{flex:1}
+.sop-step-title{font-weight:500;font-size:13px}
+.sop-step-desc{font-size:12px;color:var(--text-sec);margin-top:2px}
+.sop-step-meta{display:flex;gap:10px;margin-top:4px;font-size:11px}
+
+/* SOP 联动/专属化 */
+.sop-sync{margin-left:auto;padding:6px 14px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px}
+.sop-sync:hover{opacity:.9}
+.sop-tip{font-size:12px;color:var(--text-sec);margin-bottom:12px;line-height:1.6;background:#f8fafc;padding:8px 10px;border-radius:8px}
+.sop-practice{margin-top:12px;padding:10px;background:#f8fafc;border-radius:8px;border:1px dashed var(--border)}
+.sop-practice-h{font-size:12px;font-weight:600;color:var(--primary);margin-bottom:6px}
+.sp-sub{font-size:11px;color:var(--text-sec);margin:6px 0 3px}
+.sp-item{font-size:12px;padding:3px 0;border-bottom:1px dashed #eef2f7;display:flex;gap:8px;align-items:baseline}
+.sp-date{color:var(--text-sec);font-size:11px;flex-shrink:0}
+.sp-cat{font-size:10px;padding:0 5px;border-radius:4px;background:var(--primary-light);color:var(--primary);margin-left:auto;white-space:nowrap}
+.sop-notes{margin-top:10px}
+.sop-notes-h{font-size:12px;font-weight:600;color:var(--orange);margin-bottom:4px}
+.sop-notes-box{width:100%;min-height:64px;font-size:12px;padding:8px;border:1px solid var(--border);border-radius:8px;resize:vertical;font-family:inherit;line-height:1.6}
+
+/* 周报导出 */
+.week-export{margin-left:auto;padding:4px 12px;background:var(--green);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;vertical-align:middle}
+.week-export:hover{opacity:.9}
+.report-box{width:100%;min-height:320px;font-size:12px;font-family:'Consolas','Menlo',monospace;padding:12px;border:1px solid var(--border);border-radius:8px;resize:vertical;line-height:1.7;white-space:pre-wrap;color:var(--text)}
+.report-actions{display:flex;gap:10px;margin-top:12px;justify-content:flex-end}
+.btn-copy{padding:8px 18px;border:none;border-radius:8px;cursor:pointer;font-size:13px;background:var(--primary);color:#fff}
+.btn-dl{padding:8px 18px;border:none;border-radius:8px;cursor:pointer;font-size:13px;background:#f3f4f6;color:var(--text)}
+.sop-step-meta span{padding:1px 6px;border-radius:4px;background:#f3f4f6}
+
+/* Empty State */
+.empty{text-align:center;padding:40px 20px;color:var(--text-sec)}
+.empty p{margin-top:8px}
+
+/* Responsive */
+@media(max-width:768px){
+  .brand-grid{grid-template-columns:1fr}
+  .header-meta{flex-direction:column;align-items:flex-start;gap:4px}
+}
+
+/* 年度销售计划 */
+.sales-wrap{display:flex;flex-direction:column;gap:14px}
+.sales-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sales-year{font-size:20px;font-weight:700;color:var(--primary)}
+.sales-unit{font-size:13px;color:var(--text-sec);background:#f3f4f6;padding:3px 10px;border-radius:20px}
+.sales-settings-btn{margin-left:auto;padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;color:var(--text-sec);transition:all .2s}
+.sales-settings-btn:hover{color:var(--primary);border-color:var(--primary)}
+.sales-hint{font-size:12px;color:var(--text-sec);line-height:1.7;background:#f8fafc;padding:8px 12px;border-radius:8px}
+.sales-hint b{color:var(--text)}
+.sales-legend{display:flex;gap:18px;align-items:center;font-size:13px}
+.sales-legend .lg{display:flex;align-items:center;gap:6px;color:var(--text-sec)}
+.sales-legend .sw{width:14px;height:14px;border-radius:4px;display:inline-block}
+.sales-legend .sw.target{background:linear-gradient(180deg,#60a5fa,#2563eb)}
+.sales-legend .sw.achieved{background:linear-gradient(180deg,#4ade80,#16a34a)}
+.sales-chart{display:flex;gap:10px;align-items:flex-start;overflow-x:auto;margin-top:4px}
+.sales-yaxis{width:46px;height:240px;position:relative;flex-shrink:0}
+.sales-yaxis .tick{position:absolute;right:8px;transform:translateY(-50%);font-size:10px;color:var(--text-sec);white-space:nowrap}
+.sales-yaxis .tick::after{content:'';position:absolute;right:-8px;top:50%;width:5px;border-top:1px solid var(--border)}
+.sales-grid{flex:1;min-width:660px;display:grid;grid-template-columns:repeat(12,1fr);gap:8px}
+.sales-col{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.sales-bars{height:240px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:5px;position:relative;border-bottom:2px solid var(--border)}
+.sales-bars:hover{background:rgba(37,99,235,.05)}
+.sales-bar{width:40%;border-radius:5px 5px 0 0;position:relative;transition:height .45s ease;min-height:2px}
+.sales-bar.target{background:linear-gradient(180deg,#60a5fa,#2563eb)}
+.sales-bar.achieved{background:linear-gradient(180deg,#4ade80,#16a34a)}
+.sales-val{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;white-space:nowrap}
+.sales-val.target{color:#2563eb}
+.sales-val.achieved{color:#16a34a}
+.sales-month{font-size:12px;color:var(--text-sec)}
+.sales-col:hover .sales-month{color:var(--primary);font-weight:600}
+.sales-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px}
+.sales-stat{background:#f9fafb;border-radius:10px;padding:14px;text-align:center}
+.sales-stat .num{font-size:24px;font-weight:700;color:var(--primary)}
+.sales-stat .num.green{color:var(--green)}
+.sales-stat .label{font-size:12px;color:var(--text-sec);margin-top:2px}
+.sales-empty{text-align:center;color:var(--text-sec);padding:20px}
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ HEADER ============ -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <h1>刘晔工作台</h1>
+        <div style="font-size:13px;opacity:.85;margin-top:4px">战术听力防护 / 渠道开发</div>
+      </div>
+      <div class="header-meta">
+        <span id="todayDate"></span>
+        <span id="taskSummary"></span>
+        <div class="progress-ring">
+          <svg width="56" height="56">
+            <circle class="bg-circle" cx="28" cy="28" r="24"/>
+            <circle class="fg-circle" id="progressCircle" cx="28" cy="28" r="24" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+          </svg>
+          <div class="pct" id="progressPct">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TABS ============ -->
+  <div class="tabs">
+    <button class="tab active" data-tab="tasks">今日任务</button>
+    <button class="tab" data-tab="brands">品牌新品监控</button>
+    <button class="tab" data-tab="review">每日复盘</button>
+    <button class="tab" data-tab="sop">业务SOP</button>
+    <button class="tab" data-tab="sales">年度销售计划</button>
+  </div>
+
+  <!-- ============ 今日任务 ============ -->
+  <div class="tab-content active" id="tab-tasks">
+    <div class="subtabs">
+      <button class="subtab active" data-sub="daily">📅 今日任务</button>
+      <button class="subtab" data-sub="monthly">📊 月度KPI</button>
+    </div>
+    <div id="sub-daily-tasks">
+      <div class="section-title">
+        <span>今日任务管理</span>
+        <span class="count" id="taskCount">0</span>
+      </div>
+      <div class="task-toolbar">
+        <div class="task-filter">
+          <button class="filter-btn active" data-filter="all">全部</button>
+          <button class="filter-btn" data-filter="distributor">经销商对接</button>
+          <button class="filter-btn" data-filter="newproduct">新品跟进</button>
+          <button class="filter-btn" data-filter="competitor">竞品监控</button>
+          <button class="filter-btn" data-filter="customer">客户跟进</button>
+          <button class="filter-btn" data-filter="order">订单管理</button>
+          <button class="filter-btn" data-filter="brand">品牌活动</button>
+          <button class="filter-btn" data-filter="bizdev">业务开发</button>
+          <button class="filter-btn" data-filter="meeting-internal">内部周会</button>
+          <button class="filter-btn" data-filter="meeting-customer">客户会议</button>
+          <button class="filter-btn" data-filter="meeting-distributor">经销商会议</button>
+        </div>
+        <button class="btn-add" id="btnAdd">+ 新增任务</button>
+      </div>
+      <div class="task-list" id="taskList"></div>
+    </div>
+    <div id="sub-monthly" style="display:none">
+      <div class="section-title">
+        <span>月度 KPI 监控</span>
+        <span class="count" id="monthlyCount">0 项</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-sec);margin-bottom:14px;line-height:1.7">
+        专用于监测你的<b>月度 KPI</b> 完成进度（进度条呈现）。点击「✎」可<b>二次修改</b>当前值 / 目标 / 截止时间；⏳ 为按天倒计时。
+      </div>
+      <button class="btn-add" id="btnAddMonthly" style="margin-bottom:14px">+ 新增月度KPI</button>
+      <div class="monthly-list" id="monthlyList"></div>
+    </div>
+  </div>
+
+  <!-- ============ 品牌新品监控 ============ -->
+  <div class="tab-content" id="tab-brands">
+    <div class="section-title">
+      <span>品牌新品监控</span>
+      <span class="count" id="brandCount">10个品牌</span>
+    </div>
+    <div style="margin-bottom:12px;font-size:12px;color:var(--text-sec)">
+      红=有更新(新品/社媒) 灰=无更新 ｜ 已查品牌自动沉底、未查品牌排前 ｜ 仅「有更新」品牌显示「确认已查」，每天自动变灰需重新确认 ｜ <b>周一~周六 09:00 自动刷新（周日不更新）</b>
+    </div>
+    <div class="brand-grid" id="brandGrid"></div>
+  </div>
+
+  <!-- ============ 每日复盘 ============ -->
+  <div class="tab-content" id="tab-review">
+    <div class="section-title"><span>每日复盘</span></div>
+    <div class="subtabs">
+      <button class="subtab active" data-sub="daily">📅 今日复盘</button>
+      <button class="subtab" data-sub="lib">📚 复盘信息库</button>
+    </div>
+
+    <!-- 今日复盘 -->
+    <div id="sub-daily">
+      <div class="review-stats" id="reviewStats"></div>
+      <div class="review-section">
+        <div class="review-card">
+          <h4>✅ 今日完成 <span class="review-tag">自动同步自今日任务</span></h4>
+          <div class="review-tasklist" id="reviewDoneList"></div>
+        </div>
+        <div class="review-card">
+          <h4>📋 明天待做 <span class="review-tag">未完成自动转入</span></h4>
+          <div class="review-tasklist" id="reviewPlanList"></div>
+        </div>
+        <div class="review-card">
+          <h4>⚠️ 未完成及原因</h4>
+          <textarea class="review-textarea" id="reviewPending" placeholder="对这些未完成的任务，原因是什么？如何改进？（周五/六周复盘会自动汇总为本周难点）"></textarea>
+        </div>
+        <div class="review-card">
+          <h4>💡 关键收获</h4>
+          <textarea class="review-textarea" id="reviewLearn" placeholder="今天的经验教训、市场洞察、客户反馈..."></textarea>
+        </div>
+        <div class="review-card">
+          <h4>📔 工作日记</h4>
+          <textarea class="review-textarea" id="reviewDiary" placeholder="今天的工作流水、重要沟通记录、临时事项、心情备注..."></textarea>
+        </div>
+        <button class="review-save" id="btnSaveReview">保存复盘</button>
+      </div>
+    </div>
+
+    <!-- 复盘信息库 -->
+    <div id="sub-lib" style="display:none">
+      <div class="week-card">
+        <div class="lib-h3">🗓️ 本周回溯 <button class="week-export" id="btnExportWeekly">📤 导出周报</button></div>
+        <div class="week-range" id="weekRange"></div>
+        <div class="week-bar"><div class="week-bar-fill" id="weekBarFill">0%</div></div>
+        <div class="week-stats">
+          <div class="week-stat"><div class="ws-num" id="weekDone" style="color:var(--green)">0</div><div class="ws-label">本周完成任务</div></div>
+          <div class="week-stat"><div class="ws-num" id="weekTotal" style="color:var(--primary)">0</div><div class="ws-label">本周任务总数</div></div>
+          <div class="week-stat"><div class="ws-num" id="weekDays" style="color:var(--orange)">0</div><div class="ws-label">有记录天数</div></div>
+        </div>
+        <div class="day-minis" id="dayMinis"></div>
+        <div class="lib-h3">⚠️ 本周难点</div>
+        <div id="weekDiffs"></div>
+        <div class="lib-h3">➡️ 下周跟进</div>
+        <textarea class="followup-box" id="weekFollowup" placeholder="记录下周需要继续跟进的任务与重点（按周保存，周五/六回溯时填写）"></textarea>
+        <div class="followup-hint" id="weekFollowupHint"></div>
+      </div>
+
+      <div class="lib-divider"></div>
+
+      <div class="lib-h3">📂 历史归档（按日期查看当日完成与日记）</div>
+      <select class="hist-select" id="histDate"></select>
+      <div class="hist-count" id="histCount"></div>
+      <div id="histDetail"></div>
+    </div>
+  </div>
+
+  <!-- ============ 业务SOP ============ -->
+  <div class="tab-content" id="tab-sop">
+    <div class="section-title"><span>业务流程SOP</span>
+      <button class="sop-sync" id="btnSyncSop">🔄 同步本周实践</button>
+    </div>
+    <div class="sop-tip">本 SOP 已联动你的「今日任务」与「工作日记」：每个流程下方会自动显示本周相关实践，并可在「我的实践沉淀」中沉淀你的专属经验。点右上角「同步本周实践」可一键把本周踩坑与有效做法提炼进 SOP，逐步形成刘晔专属的业务 SOP。</div>
+    <div class="sop-list" id="sopList"></div>
+  </div>
+
+  <!-- ============ 年度销售计划 ============ -->
+  <div class="tab-content" id="tab-sales">
+    <div class="section-title">
+      <span>年度销售计划</span>
+      <span class="count" id="salesCount">12个月</span>
+    </div>
+    <div class="sales-wrap">
+      <div class="sales-head">
+        <span class="sales-year" id="salesYearLbl">2026年</span>
+        <span class="sales-unit">单位：<span id="salesUnitLbl">万元</span></span>
+        <button class="sales-settings-btn" id="btnSalesSettings">⚙ 年度设置</button>
+      </div>
+      <div class="sales-hint">按月度划分的年度销售计划：<b>蓝色</b>=预期销售目标，<b style="color:var(--green)">绿色</b>=已达成数据，两者在同一个月里并列呈现。点击任意月份的柱形即可<b>二次修改</b>目标与达成数值（数据自动本地保存）。⚠️ 当前为示例数据，请替换为实际数值。</div>
+      <div class="sales-legend">
+        <span class="lg"><span class="sw target"></span>预期销售目标</span>
+        <span class="lg"><span class="sw achieved"></span>已达成数据</span>
+      </div>
+      <div class="sales-chart">
+        <div class="sales-yaxis" id="salesYaxis"></div>
+        <div class="sales-grid" id="salesGrid"></div>
+      </div>
+      <div class="sales-summary">
+        <div class="sales-stat"><div class="num" id="salesSumTarget">0</div><div class="label">全年预期目标（<span id="salesSumUnit1">万元</span>）</div></div>
+        <div class="sales-stat"><div class="num green" id="salesSumAchieved">0</div><div class="label">全年已达成（<span id="salesSumUnit2">万元</span>）</div></div>
+        <div class="sales-stat"><div class="num" id="salesSumComp">0%</div><div class="label">总完成率</div></div>
+        <div class="sales-stat"><div class="num" id="salesSumRemain">0</div><div class="label">剩余缺口（<span id="salesSumUnit3">万元</span>）</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 新增任务弹窗 ============ -->
+<div class="modal-overlay" id="taskModal">
+  <div class="modal">
+    <h3 id="modalTitle">新增任务</h3>
+    <div class="form-group">
+      <label>任务标题</label>
+      <input type="text" id="taskInput" placeholder="输入任务内容...">
+    </div>
+    <div class="form-group">
+      <label>任务分类</label>
+      <select id="taskCatInput">
+        <option value="distributor">经销商对接</option>
+        <option value="newproduct">新品跟进</option>
+        <option value="competitor">竞品监控/市场调研</option>
+        <option value="customer">客户跟进</option>
+        <option value="order">订单管理</option>
+        <option value="brand">品牌活动</option>
+        <option value="bizdev">业务开发</option>
+        <option value="meeting-internal">项目会议·内部周会</option>
+        <option value="meeting-customer">项目会议·客户会议</option>
+        <option value="meeting-distributor">项目会议·经销商会议</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>优先级（按 重要·紧急 四象限）</label>
+      <select id="taskPriInput">
+        <option value="iu">重要 + 紧急</option>
+        <option value="inu" selected>重要 + 不紧急</option>
+        <option value="nnu">不重要 + 不紧急</option>
+        <option value="nu">不重要 + 紧急</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>截止时间（精确到秒）</label>
+      <input type="datetime-local" id="taskDeadlineInput" step="1">
+    </div>
+    <div class="form-group" id="meetingNotesGroup" style="display:none">
+      <label>会议结论 / 纪要</label>
+      <textarea id="taskNotesInput" placeholder="记录会议决议、待办事项、跟进项、责任人..." style="width:100%;min-height:64px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;resize:vertical"></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnCancelTask">取消</button>
+      <button class="btn-save" id="btnSaveTask">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 月度KPI弹窗 ============ -->
+<div class="modal-overlay" id="monthlyModal">
+  <div class="modal">
+    <h3 id="monthlyModalTitle">新增月度KPI</h3>
+    <div class="form-group">
+      <label>KPI 名称</label>
+      <input type="text" id="monthlyTitle" placeholder="如：本月新开发经销商 / 本月渠道回款">
+    </div>
+    <div class="form-group" style="display:flex;gap:10px">
+      <div style="flex:1">
+        <label>当前值</label>
+        <input type="number" id="monthlyCurrent" placeholder="0" step="any">
+      </div>
+      <div style="flex:1">
+        <label>目标值</label>
+        <input type="number" id="monthlyTarget" placeholder="100" step="any">
+      </div>
+      <div style="flex:1">
+        <label>单位</label>
+        <input type="text" id="monthlyUnit" placeholder="家 / 万元 / 次">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>优先级（按 重要·紧急 四象限）</label>
+      <select id="monthlyPri">
+        <option value="iu">重要 + 紧急</option>
+        <option value="inu" selected>重要 + 不紧急</option>
+        <option value="nnu">不重要 + 不紧急</option>
+        <option value="nu">不重要 + 紧急</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>截止时间（精确到秒，默认本月最后一天）</label>
+      <input type="datetime-local" id="monthlyDeadline" step="1">
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnCancelMonthly">取消</button>
+      <button class="btn-save" id="btnSaveMonthly">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 周报导出弹窗 ============ -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal" style="max-width:680px">
+    <h3>📤 本周工作周报（可直接复制发送）</h3>
+    <textarea class="report-box" id="reportText" readonly></textarea>
+    <div class="report-actions">
+      <button class="btn-dl" id="btnDownloadReport">⬇ 下载 .txt</button>
+      <button class="btn-copy" id="btnCopyReport">📋 复制全文</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 年度销售计划·月份编辑弹窗 ============ -->
+<div class="modal-overlay" id="salesModal">
+  <div class="modal">
+    <h3>编辑 <span id="salesMonthLbl"></span> 销售数据</h3>
+    <div class="form-group" style="display:flex;gap:10px">
+      <div style="flex:1">
+        <label>预期销售目标（<span id="salesMonthUnit">万元</span>）</label>
+        <input type="number" id="salesTargetInput" step="any" placeholder="0">
+      </div>
+      <div style="flex:1">
+        <label>已达成（<span id="salesMonthUnit2">万元</span>）</label>
+        <input type="number" id="salesAchievedInput" step="any" placeholder="0">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnCancelSalesMonth">取消</button>
+      <button class="btn-save" id="btnSaveSalesMonth">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 年度销售计划·年度设置弹窗 ============ -->
+<div class="modal-overlay" id="salesSettingModal">
+  <div class="modal">
+    <h3>年度销售计划设置</h3>
+    <div class="form-group" style="display:flex;gap:10px">
+      <div style="flex:1">
+        <label>年度</label>
+        <input type="number" id="salesYearInput" placeholder="2026">
+      </div>
+      <div style="flex:1">
+        <label>金额单位</label>
+        <input type="text" id="salesUnitInput" placeholder="万元">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnCancelSalesSettings">取消</button>
+      <button class="btn-save" id="btnSaveSalesSettings">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ DATA ============
+const DEFAULT_TASKS = [
+  {id:1,title:'跟进3M PELTOR ComTac VI 国内到货情况',cat:'newproduct',pri:'iu',time:'10:00',done:false},
+  {id:2,title:'巡查10个竞品品牌官网新品动态',cat:'competitor',pri:'iu',time:'11:00',done:false},
+  {id:3,title:'回复Walker\'s客户询价邮件',cat:'customer',pri:'inu',time:'14:00',done:false},
+  {id:4,title:'跟进华东经销商Q2订单发货及回款',cat:'order',pri:'inu',time:'16:00',done:false},
+  {id:5,title:'确认OPS-CORE FAST SF新品采购报价',cat:'distributor',pri:'iu',time:'17:00',done:false},
+  {id:6,title:'策划Q3 EARMOR×WALKER\'S联合促销活动',cat:'brand',pri:'inu',time:'15:00',done:false},
+  {id:7,title:'组织Q3新品引进项目周会，同步各品牌到货进度',cat:'meeting-internal',pri:'inu',time:'15:30',done:false,notes:'决议：每周五同步各品牌到货进度；ComTac VI 到货延期至下周三，由采购跟进'},
+  {id:8,title:'与华东经销商季度业务回顾会',cat:'meeting-customer',pri:'iu',time:'14:00',done:false,notes:'待确认：Q3 进货目标 50万；重点推 EARMOR + WALKER\'S 组合套餐'},
+  {id:9,title:'与3M PELTOR亚太区销售电话会',cat:'meeting-distributor',pri:'iu',time:'10:30',done:false,notes:'议题：ComTac VI 国内代理授权续签、NIB 机型供货周期'},
+];
+
+const BRANDS = [
+  {
+    name:"3M PELTOR", url:"https://www.3m.com/3M/en_US/peltor-us/", status:"new", checked:"2026-07-31", region:"美国/瑞典",
+    products:[
+      {name:"ComTac IX NIB", isNew:true, model:"MT14H419A", price:"官网未列价", colors:"O.D. Green等", specs:"衰减29dB；内置NIB无线队间通信(5-10m全双工,最多4讲/60听)；无蓝牙", source:"https://www.3m.com/3M/en_LB/p/d/b5005624009"},
+      {name:"ComTac VIII", isNew:true, model:"MT14H418A-90", price:"官网未列价", colors:"Charcoal Grey/Coyote Brown/O.D.Green", specs:"NRR 23dB；Hearing Defender版无麦克风/不支持电台；MAP任务音频5档", source:"https://www.3m.com/3M/en_US/p/d/b5005502016"},
+      {name:"ProTac Hunter / ProTac Shooter", isNew:true, price:"RRP £89.99", colors:"—", specs:"SNR 26/32dB；2×AA最长100h；3.5mm接口", source:"https://www.gunmart.net/shooting-accessories/safety-security/hearing-protection/you-heard-it-here-first-new-hearing-protection-from-3m-peltor"}
+    ],
+    social:{
+      linkedin:{url:"https://www.linkedin.com/company/3m-peltor-communication-solutions",status:"found",note:"有参展帖(Eurosatory 2026/SOF Week)"},
+      youtube:{url:"https://www.youtube.com/3mpeltor",status:"unverified",note:"官方频道存在,近期参展帖未核实"},
+      instagram:{url:"https://www.instagram.com/3mpeltor",status:"unverified",note:"账号存在,近期帖未核实"},
+      facebook:{url:"https://www.facebook.com/3MPELTOR",status:"unverified",note:"官方主页,近期帖未核实"},
+      blog:{url:"https://3m.com/peltor",status:"found",note:"官网产品目录(非独立Blog)"}
+    },
+    exhibitions:[
+      {show:"SHOT Show 2026",date:"2026-01",booth:"#60409",channel:"展商目录",url:"https://n2a.goexposoftware.com/events/ss26/goExpo/exhibitor/viewExhibitorProfile.php?__id=188"},
+      {show:"Eurosatory 2026",date:"2026-06",booth:"K319(Hall5a)",channel:"LinkedIn",url:"https://www.linkedin.com/company/3m-peltor-communication-solutions"},
+      {show:"Enforce Tac 2026",date:"2026-02-23~25",booth:"Hall7A #4040",channel:"LinkedIn",url:"https://www.linkedin.com/posts/3m-peltor-communication-solutions_3mpeltor-comtac-enforcetac-activity-7430739071934607360-jKia"},
+      {show:"MSPO 2025",date:"2025-09",booth:"2-C08",channel:"官网",url:"https://www.targikielce.pl/en/mspo-2025/list-of-exhibitors/3m-poland-sp-z-oo,3190569"}
+    ],
+    tags:["军用","警用","NIB通讯","Eurosatory 2026"]
+  },
+  {
+    name:"HOWARD LEIGHT", url:"https://www.howardleightshootingsports.com/", status:"new", checked:"2026-07-31", region:"美国(Honeywell)",
+    products:[
+      {name:"Impact Sport Bluetooth 5.0 Earbuds", isNew:true, price:"官网未列价", colors:"—", specs:"NRR 29dB；BT5.0；6×环境放大；双全向麦；200mAh 10h", source:"https://www.howardleightshootingsports.com/products/impact-sport-bluetooth-shooting-earbuds"},
+      {name:"Impact Sport Bluetooth 耳罩(多SKU)", isNew:true, price:"MSRP $149( Promo $159)", colors:"Brushed Bronze/OD Green/FDE/2nd Amendment等", specs:"NRR21dB(Promo19)；BT5.0；0.5ms；4×放大；锂电20h；USB-C", source:"https://www.howardleightshootingsports.com/products/impact-sport-bluetooth-earmuff-promo-pack"}
+    ],
+    social:{
+      linkedin:{url:"",status:"none",note:"官方账号未找到"},
+      youtube:{url:"https://www.youtube.com/hlhearforever",status:"unverified",note:"旧资料账号,帖未核实"},
+      instagram:{url:"https://www.instagram.com/howardleightshootingsports",status:"unverified",note:"账号存在,近期帖未核实"},
+      facebook:{url:"https://www.facebook.com/HowardLeightbyHoneywell",status:"unverified",note:"官方主页,近期帖未核实"},
+      blog:{url:"https://www.howardleightshootingsports.com/post/",status:"found",note:"官网Blog"}
+    },
+    exhibitions:[
+      {show:"SHOT Show 2026",date:"2026-01",booth:"#41850",channel:"展商目录",url:"https://n2a.goexposoftware.com/events/ss26/goExpo/exhibitor/viewExhibitorProfile.php?__id=283"}
+    ],
+    tags:["民用射击","Honeywell","NRR 29dB"]
+  },
+  {
+    name:"WALKER'S", url:"https://walkersgameear.com/", status:"new", checked:"2026-07-31", region:"美国",
+    products:[
+      {name:"Razor X-TRM (MAHP Shake-Awake)", isNew:true, model:"Razor X-TRM", price:"未找到", colors:"未找到", specs:"MAHP动作激活防护(微动自动开机)；动态声压抑制；双高增益全向麦；橡胶装甲超薄机身；GEL耳垫", source:"https://huntinglife.com/walkers-reveals-all-new-shake-awake-muffs-with-patent-pending-motion-activated-hearing-protection"},
+      {name:"Suppressor Bluetooth Earbuds", isNew:true, model:"Suppressor BT", price:"$149.99(BT)/$99.99(非BT)", colors:"未找到", specs:"NRR 25dB；BT5.3 LE；IP54；每侧双麦；4模式；Walker Link 4.0 App；续航36h", source:"https://www.thefirearmblog.com/blog/walkers-launches-new-suppressor-earbuds-with-bluetooth-option-44823214"},
+      {name:"Razor Junior Muffs (青少年款)", isNew:true, model:"Razor Junior", price:"未找到", colors:"未找到", specs:"紧凑低姿态；NRR 23dB；双Hi-Gain全向麦；0.02s声激活压缩；金属丝头带", source:"https://www.thetacticalwire.com/releases/2026/05/walkers-launches-youth-sized-compact-razor-junior-muffs"}
+    ],
+    social:{
+      linkedin:{url:"",status:"none",note:"官方未列(母公司GSM Outdoors有帖)"},
+      youtube:{url:"https://www.youtube.com/@WalkersProtectItOrLoseIt",status:"unverified",note:"频道存在,参展帖未核实"},
+      instagram:{url:"https://www.instagram.com/walkersgsm/",status:"unverified",note:"账号存在,参展帖未核实"},
+      facebook:{url:"https://www.facebook.com/walkersgameear/",status:"unverified",note:"账号存在,参展帖未核实"},
+      blog:{url:"https://www.walkersgameear.com/blog/",status:"found",note:"官网Blog"}
+    },
+    exhibitions:[
+      {show:"SHOT Show 2026",date:"2026-01-20~23",booth:"#12669(GSM Outdoors)",channel:"新闻稿",url:"https://huntinglife.com/walkers-reveals-all-new-shake-awake-muffs-with-patent-pending-motion-activated-hearing-protection"},
+      {show:"SHOT Show Industry Day at the Range 2026",date:"2026-01-19",booth:"Eye&Ear赞助商",channel:"LinkedIn(GSM Outdoors)",url:"https://www.linkedin.com/posts/gsmoutdoors_walkers-announced-as-official-eye-and-ear-activity-7388650709602271232-D-_F"}
+    ],
+    tags:["民用射击","蓝牙","SHOT Show 2026"]
+  },
+  {
+    name:"EARMOR", url:"https://www.earmor.com/", status:"new", checked:"2026-07-31", region:"中国",
+    products:[
+      {name:"M20T PRO", isNew:true, price:"$119.99", colors:"—", specs:"BT5.3入耳式电子耳塞；透明模式；多聆听模式(室内/室外/静音)；低姿态Gray Man", source:"https://www.earmor.com/"},
+      {name:"M300T", isNew:false, price:"$71.99", colors:"Black/Sand/Army Green", specs:"NRR 22dB(部分零售标23)；BT5.4；IPX5；2×AAA 60h；环境音放大；>82dB抑制", source:"https://www.earmor.com/"},
+      {name:"M32 PLUS", isNew:false, price:"$119.99", colors:"8色", specs:"NRR22/SNR29；<1ms压缩；EMI/RFI屏蔽；凝胶耳垫；U-174军规接口(PTT)；盔轨兼容", source:"https://www.earmor.com/shooting-range-ear-protection-just-got-better-with-earmor-m32-plus-gel-pads"},
+      {name:"M31 PLUS", isNew:false, price:"$83.99", colors:"—", specs:"NRR22；凝胶耳垫；PTT/通讯兼容", source:"https://www.earmor.com/"},
+      {name:"M300X", isNew:false, price:"$59.90", colors:"—", specs:"轻量电子拾音耳罩；BT", source:"https://www.earmor.com/"}
+    ],
+    social:{
+      linkedin:{url:"",status:"none",note:"官方账号未找到"},
+      youtube:{url:"",status:"none",note:"官方频道URL未确认(@opsmen6128失效)"},
+      instagram:{url:"https://www.instagram.com/earmor_official/",status:"found",note:"有参展帖(SHOT2026/IWA2026高光)"},
+      facebook:{url:"https://www.facebook.com/opsmenofficial/",status:"unverified",note:"账号存在,参展帖未核实"},
+      blog:{url:"https://www.earmor.com/blog/",status:"found",note:"官网Blog"}
+    },
+    exhibitions:[
+      {show:"SHOT Show 2026",date:"2026-01",booth:"#60310",channel:"官网",url:"https://www.earmor.com/headline-shatter-the-silence-earmors-revolutionary-m300t-m20t-pro-igniting-shot-show-2026"},
+      {show:"IWA OutdoorClassics 2026",date:"2026-02/26~3/1",booth:"Hall5 #5-338",channel:"官网Blog",url:"http://www.earmorshop.com/blog/earmor-exhibitions-2026-2/"},
+      {show:"Enforce Tac 2026",date:"2026-02",booth:"Hall7 #7-500",channel:"官网Blog",url:"http://www.earmorshop.com/blog/earmor-exhibitions-2026-2/"},
+      {show:"EHC 2026 (欧洲手枪锦标赛)",date:"2026-06",booth:"设摊",channel:"官网",url:"https://www.earmor.com/earmor-2026-european-handgun-championship/"},
+      {show:"SHOT 2025 / IDEX / MSPO / Milipol",date:"2025",booth:"#60310",channel:"官网",url:"https://www.earmor.com/earmor-at-shot-show-2025-pioneering-innovation-in-hearing-protection-and-tactical-gear"}
+    ],
+    tags:["军用","警用","IPSC赛事","国产","性价比"]
+  },
+  {
+    name:"OTTO ENGINEERING", url:"https://www.otto-comm.com/", status:"new", checked:"2026-07-31", region:"美国(otto-comm.com)",
+    products:[
+      {name:"NoizeBarrier TAC 2.0", isNew:true, model:"NoizeBarrier TAC 2.0", price:"官方未公开(经销商T.REX $1,199.99; MCCR $665/$825)", colors:"Black/FDE/ODG", specs:"NRR23dB(SNR29)；双线圈扬声器；360°情景；5档音量；2×AA 100h；IP68；MIL-STD-810G；美制TAA/BAA/Berry；较前代轻12%", source:"https://www.otto-comm.com/products/headsets-and-earplugs/noizebarrier-headsets-and-earplugs/noizebarrier%20tac%202"}
+    ],
+    social:{
+      linkedin:{url:"https://www.linkedin.com/showcase/ottocommunications/",status:"found",note:"有参展帖(SOF Week 2026/Eurosatory 2026)"},
+      youtube:{url:"",status:"none",note:"官方频道URL未确认"},
+      instagram:{url:"https://www.instagram.com/ottoengineering/",status:"unverified",note:"账号存在,参展帖未核实"},
+      facebook:{url:"https://www.facebook.com/ottocommunications",status:"unverified",note:"官方主页,参展帖未核实"},
+      blog:{url:"https://www.otto-comm.com/news",status:"found",note:"官网News"}
+    },
+    exhibitions:[
+      {show:"SOF Week 2026",date:"2026-05-18~21",booth:"#2419",channel:"LinkedIn(OTTO Communications)",url:"https://www.linkedin.com/posts/ottocommunications_heading-to-sof-week-2026-in-tampa-so-are-activity-7460761363737661441-NXKa"},
+      {show:"Eurosatory 2026",date:"2026-06-15~19",booth:"Hall5A D251",channel:"LinkedIn(showcase)",url:"https://www.linkedin.com/showcase/ottocommunications/"}
+    ],
+    tags:["军用","警用","战术通讯","SOF Week 2026"]
+  },
+  {
+    name:"INVISIO", url:"https://www.invisio.com/", status:"new", checked:"2026-07-31", region:"丹麦",
+    products:[
+      {name:"INVISIO T30 头戴", isNew:true, price:"未公开(国防渠道)", colors:"—", specs:"单重防护30dB SNR/33dB NRSA20；双重38dB SNR/39dB NRSA20；声源定位低至9°；AA 110h；2m/2h沉浸；VOX；DSEI 2025首发", source:"https://invisio.com/products/headsets/invisio-t30/"},
+      {name:"INVISIO H-Series (H4/H6)", isNew:true, price:"未公开(预计2026出货)", colors:"—", specs:"H4四口/H6六口战术智能hub；嵌入计算/数据路由/集中供电/OTA升级", source:"https://corp.invisio.com/news-and-events/press-releases/2025-09-09-invisio-announces-h-series-a-new-generation-of-tactical-smart-hubs-that-drastically-improves-battlefield-efficiency"},
+      {name:"INVISIO T30 Drone Aware", isNew:true, price:"未公开", colors:"—", specs:"被动无RF发射；防护31dB SNR/33dB NRSA20；Eurosatory 2026发布；预计Q3 2026", source:"https://invisio.com/company/news-events/news/invisio-introduces-enhanced-drone-awareness-capability-at-eurosatory-2026"}
+    ],
+    social:{
+      linkedin:{url:"https://www.linkedin.com/company/invisio-tactical-communication-systems",status:"found",note:"有参展帖(Eurosatory 2026/DSEI 2025)"},
+      youtube:{url:"",status:"none",note:"官方频道URL未确认"},
+      instagram:{url:"",status:"none",note:"官方URL未确认"},
+      facebook:{url:"",status:"none",note:"官方URL未确认"},
+      blog:{url:"https://invisio.com/company/news-events/",status:"found",note:"News & Events"}
+    },
+    exhibitions:[
+      {show:"DSEI 2025",date:"2025-09-09~12",booth:"S13-510",channel:"新闻稿",url:"https://corp.invisio.com/news-and-events/pressrelease/unlimited-versatility-zero-compromise-invisio-announces-launch-of-new-t30-headset"},
+      {show:"Eurosatory 2026",date:"2026-06-15~19",booth:"Hall5A C128",channel:"官网News",url:"https://invisio.com/company/news-events/news/invisio-introduces-enhanced-drone-awareness-capability-at-eurosatory-2026"}
+    ],
+    tags:["军用","双耳通讯","Bone Conduction","Drone Aware"]
+  },
+  {
+    name:"AXIL", url:"https://goaxil.com/", status:"new", checked:"2026-07-31", region:"美国",
+    products:[
+      {name:"GS Extreme 3.0", isNew:true, price:"$119.99(原价$184.60)", colors:"Black/Desert Tan", specs:"BT5.3；21dB NRR/26dB SNR(硅胶17)；85dB压缩；续航15h(HE40/BT20)；IP65；SonicShieldX", source:"https://goaxil.com/products/gs-extreme-3-0"},
+      {name:"CRX", isNew:true, price:"$79.99(原价$123.06)", colors:"—", specs:"SonicShieldX；6×增强；20dB NRR/26dB SNR；IP65；10h；USB-C", source:"https://goaxil.com/products/crx"},
+      {name:"MXII PRO 耳罩", isNew:true, price:"$99.99(原价$153.99)", colors:"—", specs:"22dB NRR；SonicShieldX脉冲滤波；5×增强；BT5.3；60h；IP65；内置耳塞仓", source:"https://goaxil.com/products/mxii-pro"}
+    ],
+    social:{
+      linkedin:{url:"https://www.linkedin.com/company/axilofficial",status:"found",note:"有参展帖(SHOT 2026 #14845)"},
+      youtube:{url:"",status:"none",note:"频道URL未找到"},
+      instagram:{url:"https://www.instagram.com/axilofficial/",status:"unverified",note:"账号存在,参展帖未核实"},
+      facebook:{url:"https://www.facebook.com/goaxil",status:"unverified",note:"账号存在,参展帖未核实"},
+      blog:{url:"https://goaxil.com/blogs/axil/",status:"found",note:"官网Blog"}
+    },
+    exhibitions:[
+      {show:"SHOT Show 2026",date:"2026-01-20~23",booth:"#14845",channel:"LinkedIn/展商目录",url:"https://n2a.goexposoftware.com/events/ss26/goExpo/exhibitor/viewExhibitorProfile.php?__id=1124"}
+    ],
+    tags:["民用射击","蓝牙","耳塞","SHOT Show 2026"]
+  },
+  {
+    name:"DECIBULLZ", url:"https://decibullz.com/", status:"none", checked:"2026-07-31", region:"美国",
+    products:[
+      {name:"Custom Molded Earplugs 31dB NRR", isNew:false, price:"$25.99(促销)", colors:"黑色", specs:"31dB NRR；THERMO-FIT可塑形/可重塑；无电池；美国制造", source:"https://decibullz.com/products/custom-molded-earplugs-31db-nrr"},
+      {name:"Percussive Shooting Filter Earplugs 2.0", isNew:false, model:"FLTR-SHO-BLK", price:"$92.00", colors:"黑色", specs:"ANSI IPIL认证脉冲防护最高33dB；THERMO-FIT；含塑形工具+泡沫/硅胶tip", source:"https://decibullz.com/products/custom-molded-percussive-shooting-filter-earplugs"},
+      {name:"PRO Custom Molded Earplugs Pro-Pack", isNew:false, price:"$39.99(促销)", colors:"—", specs:"31dB NRR；含收纳盒+挂绳", source:"https://decibullz.com/products/pro-custom-molded-earplugs-31db-nrr-pro-pack"}
+    ],
+    social:{
+      linkedin:{url:"",status:"none",note:"官方账号未找到"},
+      youtube:{url:"",status:"none",note:"频道URL未确认"},
+      instagram:{url:"https://www.instagram.com/decibullz",status:"unverified",note:"账号存在,参展帖未核实"},
+      facebook:{url:"https://www.facebook.com/decibullz",status:"unverified",note:"账号存在,参展帖未核实"},
+      blog:{url:"https://decibullz.com/blogs/articles",status:"found",note:"官网Blog"}
+    },
+    exhibitions:[
+      {show:"SHOT Show (历史参展)",date:"2019(#317)",booth:"#317",channel:"媒体",url:"https://theunionpulse.com/news/range-day-roundup-reflex-sight-cooling-body-armor-pop-up-targets-and-much-more"}
+    ],
+    tags:["定制模制","无电池","NRR 31/33dB","射击"]
+  },
+  {
+    name:"OPS-CORE", url:"https://www.opscore.com/", status:"new", checked:"2026-07-31", region:"美国(Gentex)",
+    products:[
+      {name:"AMP Helmet Rail Mount with Vent Mode", isNew:true, price:"$163.95", colors:"Tan499/Black/Ranger Green", specs:"三档(Deployed/Vented/Stowed)；Vent档微离耳通风；兼容NFMI耳塞；约0.25lb/对", source:"https://www.gentexcorp.com/news/gentex-corporation-announces-new-ops-core-amp-rail-mount-with-vent-mode/"},
+      {name:"FAST XP Helmet System", isNew:true, price:"未公布", colors:"—", specs:"NIJ IIIA+hG2；high/mid-cut；LockDown Liner；Head-Loc FLEX；PowerPath ARC；面向执法", source:"https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/"},
+      {name:"NOMAD System", isNew:true, price:"未公布", colors:"Black", specs:"低姿态头带式NVG/VAS挂载；无需传统头盔；Berry Compliant", source:"https://www.gentexcorp.com/news/"},
+      {name:"FAST SF Next Gen", isNew:true, price:"约$1,999.95(零售商)", colors:"—", specs:"较上代轻10-15%；NIJ IIIA；LockDown；Head-Loc FLEX；USSOCOM FTHS", source:"https://www.businesswire.com/news/home/20250505038661/en/"}
+    ],
+    social:{
+      linkedin:{url:"https://www.linkedin.com/showcase/gentex-ops-core",status:"found",note:"有参展帖(SHOT2026/DSEI2025)"},
+      youtube:{url:"https://www.youtube.com/channel/UCXpfOpIjGm0ocVfPclEfOag",status:"unverified",note:"Ops-Core频道,参展帖未核实"},
+      instagram:{url:"https://www.instagram.com/_opscore/",status:"unverified",note:"账号存在,参展帖未核实"},
+      facebook:{url:"https://www.facebook.com/OpsCore",status:"unverified",note:"官方主页,参展帖未核实"},
+      blog:{url:"https://www.gentexcorp.com/news",status:"found",note:"Gentex新闻室"}
+    },
+    exhibitions:[
+      {show:"SHOT Show 2026",date:"2026-01",booth:"#62109",channel:"LinkedIn",url:"https://www.linkedin.com/posts/gentex-ops-core_shotshow2026-shotshow-opscore-activity-7415121891817852928-vdZo"},
+      {show:"DSEI 2025",date:"2025-09",booth:"#S4-335",channel:"LinkedIn",url:"https://www.linkedin.com/posts/gentex-ops-core_s4-dsei-opscore-activity-7371657493191602176-E7wz"},
+      {show:"SOF Week 2025",date:"2025-05",booth:"SOF SELECT",channel:"Business Wire",url:"https://next.spartanat.com/en/next-gen-fast-sf-helmet-lighter-tougher-more-comfortable"}
+    ],
+    tags:["军用","弹道头盔","RAILINK","轻量化","2026新品"]
+  },
+  {
+    name:"SORDIN", url:"https://www.sordin.com/", status:"new", checked:"2026-07-31", region:"瑞典",
+    products:[
+      {name:"Sordin Supreme X2 系列", isNew:true, price:"from €371.02(3,699 kr)", colors:"Black/Green", specs:"SordinFLEX模块化平台；防水；方向性环境音；NRR23/SNR29；AA 60h/锂电90h", source:"https://sordin.com/products/sordin-supreme-x2"},
+      {name:"Sordin Supreme X2 SFA", isNew:true, price:"3,999 kr", colors:"—", specs:"可拆SFA距离环切换SNR两档；4音频档案；3.5mm AUX", source:"https://sordin.com/products/sordin-supreme-x2-sfa"},
+      {name:"Sordin Supreme T2 (MIL)", isNew:true, price:"8,295 kr", colors:"Green/Black/Tan", specs:"SordinFLEX；三种boom mic×头带/颈带/盔用；MIL级", source:"https://sordin.com/blogs/news/sordin-supreme-t2-new-mil-classified-communication-headsets-for-tactical-operations"}
+    ],
+    social:{
+      linkedin:{url:"https://se.linkedin.com/company/sordin-ab",status:"found",note:"有参展帖(IWA 2026/Defence Expo)"},
+      youtube:{url:"",status:"none",note:"官方URL未确认"},
+      instagram:{url:"",status:"none",note:"官方URL未确认"},
+      facebook:{url:"https://www.facebook.com/sordinsweden",status:"unverified",note:"账号存在,参展帖未核实"},
+      blog:{url:"https://sordin.com/blogs/news",status:"found",note:"Press Release"}
+    },
+    exhibitions:[
+      {show:"IWA OutdoorClassics 2026",date:"2026-02/26~3/1",booth:"3A-610",channel:"LinkedIn",url:"https://www.linkedin.com/posts/sordin_sordin-at-iwa-outdoorclassics-from-february-activity-7431097747321110528-W99O"},
+      {show:"SHOT Show 2026",date:"2026-01",booth:"零售商报道",channel:"媒体",url:"https://actiongunner.com/new-products-at-shot-show-2026-highlights-for-competitive-shooters/"},
+      {show:"DSEI UK 2025",date:"2025-09",booth:"TBA",channel:"Blog",url:"https://sordin.com/blogs/news/dsei-uk-2025"}
+    ],
+    tags:["军用","民用射击","瑞典","X2系列"]
+  },
+];
+
+const SOPS = [
+  {
+    title:'竞品分析流程', color:'#16a34a', bg:'#f0fdf4',
+    kw:['竞品','监控','SHOT','IWA','展会','社媒','官网','价格','新品','PELTOR','EARMOR','WALKER','OTTO','INVISIO','OPS','SORDIN','AXIL','DECIBULLZ','HOWARD','参数','对比','SWOT','参展','NRR','降噪'],
+    steps:[
+      {t:'锁定监控清单', d:'固定10个核心品牌(3M PELTOR / HOWARD LEIGHT / WALKER\'S / EARMOR / OTTO / INVISIO / AXIL / DECIBULLZ / OPS-CORE / SORDIN)，按军警·战术·民用分层，明确各自对标品类', meta:['负责人:刘晔','时效:持续']},
+      {t:'官网+社媒巡检', d:'周一~周六 09:00 自动刷新；人工点「确认已查」标记有更新的品牌(新品/参展)；巡查官网 Blog 及 LinkedIn / YouTube / Instagram / Facebook 参展帖', meta:['负责人:刘晔','时效:每周']},
+      {t:'参数与价格库', d:'维护型号 / 价格 / 颜色 / NRR或降噪dB / 蓝牙 / 续航 / 防护等级 / 认证(CE·ANSI·FCC)，每条附来源 URL 可复核', meta:['负责人:刘晔','时效:每周']},
+      {t:'展会动态跟踪', d:'盯 SHOT Show / IWA / SOF Week / DSEI / Eurosatory 等，记录展会名·日期·展位·报道渠道', meta:['负责人:刘晔','时效:每月']},
+      {t:'SWOT 对比', d:'从价格·性能·渠道·品牌力四维度做对比表，识别我方机会与威胁', meta:['负责人:刘晔','时效:每月']},
+      {t:'行动转化', d:'据竞品动态调定价 / 上架节奏 / 选品，并把情报同步给经销商', meta:['负责人:刘晔+主管','时效:及时']},
+    ]
+  },
+  {
+    title:'经销商开发与管理', color:'#ea580c', bg:'#fff7ed',
+    kw:['经销商','代理','订单','客户','采购','续签','报价','渠道','MOQ','交期','签约','样品','谈判','跟进','会议','品牌活动','回款','到货'],
+    steps:[
+      {t:'渠道识别', d:'展会(Shot Show / IWA · 广交会 · 军警展)、行业推荐、官网、电商、转介绍发掘潜在经销商与客户', meta:['负责人:刘晔','时效:持续']},
+      {t:'资质评估', d:'核营业执照·品牌授权·经营能力·目标市场覆盖·品类匹配度', meta:['负责人:刘晔','时效:5日内']},
+      {t:'首次接触', d:'发产品手册 + 报价单，摸清需求 / 预算 / 决策链', meta:['负责人:刘晔','时效:1日内']},
+      {t:'样品与方案', d:'寄样实测(降噪 / 续航 / 舒适) + 选型方案 + 定制报价', meta:['负责人:刘晔','时效:7日内']},
+      {t:'合作谈判', d:'谈价格梯度 / MOQ / 账期 / 交期 / 售后 / 窜货管控', meta:['负责人:刘晔','时效:3日内']},
+      {t:'签约建档', d:'签协议建档案(授权范围·价格体系·区域保护)', meta:['负责人:刘晔','时效:2日内']},
+      {t:'跟进成交', d:'订单 / 物流跟踪，促成交付与回款', meta:['负责人:刘晔','时效:7日内']},
+      {t:'分级复购', d:'按采购量 / 利润 / 忠诚度 A·B·C 分级，新品营销激活复购', meta:['负责人:刘晔','时效:每月']},
+      {t:'季度评估', d:'评准时率 / 合格率 / 响应 / 价格力；同步新品动态维关系；盯代理续签', meta:['负责人:刘晔','时效:每季度']},
+    ]
+  },
+];
+
+// ============ 年度销售计划 默认数据 ============
+const DEFAULT_SALES_PLAN = {
+  year:2026, unit:'万元',
+  months:[
+    {m:1, target:60, achieved:55},
+    {m:2, target:65, achieved:62},
+    {m:3, target:70, achieved:68},
+    {m:4, target:75, achieved:70},
+    {m:5, target:80, achieved:77},
+    {m:6, target:90, achieved:85},
+    {m:7, target:95, achieved:88},
+    {m:8, target:90, achieved:0},
+    {m:9, target:100, achieved:0},
+    {m:10, target:105, achieved:0},
+    {m:11, target:110, achieved:0},
+    {m:12, target:120, achieved:0}
+  ]
+};
+let salesPlan = (function(){
+  try{
+    let s = JSON.parse(localStorage.getItem('liuye_sales_plan'));
+    if(s && Array.isArray(s.months) && s.months.length){ return s; }
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_SALES_PLAN));
+})();
+function saveSalesPlan(){ localStorage.setItem('liuye_sales_plan', JSON.stringify(salesPlan)); }
+function normalizeSalesPlan(){
+  let have = {};
+  salesPlan.months.forEach(x=>{ have[x.m] = x; });
+  let arr = [];
+  for(let i=1;i<=12;i++){ arr.push(have[i] || {m:i, target:0, achieved:0}); }
+  salesPlan.months = arr;
+}
+
+// ============ STATE ============
+let tasks = JSON.parse(localStorage.getItem('liuye_tasks') || 'null') || DEFAULT_TASKS;
+// ============ 月度KPI 默认数据 ============
+const DEFAULT_MONTHLY = [
+  {id:1,title:'本月新开发经销商',current:3,target:8,unit:'家',pri:'iu'},
+  {id:2,title:'本月渠道回款',current:62,target:120,unit:'万元',pri:'inu'},
+  {id:3,title:'本月重点客户拜访',current:12,target:20,unit:'家',pri:'inu'},
+  {id:4,title:'本月竞品动态情报沉淀',current:5,target:10,unit:'条',pri:'nnu'}
+];
+let monthlyTasks = JSON.parse(localStorage.getItem('liuye_monthly_tasks') || 'null') || DEFAULT_MONTHLY;
+// 优先级映射：4 象限（重要·紧急 最高优先）
+const PRI_MAP={
+  iu:{label:'重要·紧急',cls:'pri-iu',w:0},
+  inu:{label:'重要·不紧急',cls:'pri-inu',w:1},
+  nnu:{label:'不重要·不紧急',cls:'pri-nnu',w:2},
+  nu:{label:'不重要·紧急',cls:'pri-nu',w:3}
+};
+// 旧数据迁移：pri(high/mid/low)→4象限；time→deadline(精确到秒)
+function migrateTasks(){
+  tasks=tasks.map(t=>{
+    if(!t.pri || ['high','mid','low'].includes(t.pri)){
+      t.pri = t.pri==='high'?'iu':t.pri==='low'?'nnu':'inu';
+    }
+    if(!t.deadline){
+      let tm=(t.time||'18:00').split(':').map(Number);
+      let d=new Date(); d.setHours(tm[0]||18,tm[1]||0,0,0);
+      t.deadline=fmtDateTimeLocal(d);
+    }
+    return t;
+  });
+  monthlyTasks=monthlyTasks.map(m=>{
+    if(!m.pri || ['high','mid','low'].includes(m.pri)) m.pri=m.pri==='high'?'iu':m.pri==='low'?'nnu':'inu';
+    if(!m.deadline) m.deadline=defaultMonthlyDeadline();
+    return m;
+  });
+}
+// 每日重置：已完成且非当天的任务归档清除（次日「今日任务」不再显示，复盘「今日完成」仅记当天）
+tasks = tasks.filter(t=> !(t.done && t.doneDate && t.doneDate!==getToday()));
+migrateTasks();
+let currentFilter = 'all';
+let editingReviewDate = '';
+let editingId = null;
+let editingMonthlyId = null;
+
+// ============ INIT ============
+function init(){
+  renderDate();
+  renderTasks();
+  renderMonthly();
+  renderBrands();
+  renderReview();
+  renderSOP();
+  renderSalesPlan();
+  bindTabs();
+  bindFilters();
+  bindBrandChecks();
+  bindReviewSubtabs();
+  bindTaskSubtabs();
+  bindMonthly();
+  bindSalesPlan();
+  bindStatic(); bindTaskList(); bindSopList();
+  // 跨天守护：标签页一直开着时，到零点自动归档当日统计、清空已完成(已入历史)、重置品牌确认(变灰)
+  let _watchDate=getToday();
+  setInterval(()=>{
+    const t=getToday();
+    if(t!==_watchDate){rolloverDay(_watchDate); _watchDate=t; renderBrands(); renderReview();}
+  },60000);
+}
+
+// 跨天归档：记录当日完成率统计，清除已完成任务(已存入历史)
+function rolloverDay(oldDate){
+  let done=tasks.filter(t=>t.done && t.doneDate===oldDate).length;
+  let stats=JSON.parse(localStorage.getItem('liuye_day_stats')||'{}');
+  stats[oldDate]={done, total:tasks.length};
+  localStorage.setItem('liuye_day_stats',JSON.stringify(stats));
+  tasks=tasks.filter(t=>!t.done); // 已完成项已归档，未完成顺延到新一天
+  saveTasks();
+}
+
+// 品牌巡检按钮：事件委托，避免内联 onclick 的引号转义问题
+function bindBrandChecks(){
+  const grid=document.getElementById('brandGrid');
+  if(!grid)return;
+  grid.addEventListener('click',function(e){
+    const btn=e.target.closest('.brand-check');
+    if(!btn)return;
+    toggleBrandFlag(btn.dataset.brand);
+  });
+}
+
+// 静态按钮：统一用 addEventListener 绑定（避免内联 onclick 在受限环境下被禁用）
+function bindStatic(){
+  const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
+  on('btnAdd',openTaskModal);
+  on('btnSaveReview',saveReview);
+  on('btnExportWeekly',exportWeeklyReport);
+  on('btnSyncSop',syncSOP);
+  on('btnCancelTask',closeTaskModal);
+  on('btnSaveTask',saveTask);
+  on('btnDownloadReport',downloadReport);
+  on('btnCopyReport',copyReport);
+  const cat=document.getElementById('taskCatInput');
+  if(cat)cat.addEventListener('change',toggleMeetingNotes);
+}
+
+// 任务列表：事件委托（勾选/编辑/删除）
+function bindTaskList(){
+  const list=document.getElementById('taskList');
+  if(!list)return;
+  list.addEventListener('click',function(e){
+    const el=e.target.closest('[data-act]');
+    if(!el)return;
+    const id=Number(el.dataset.id), act=el.dataset.act;
+    if(act==='toggle')toggleTask(id);
+    else if(act==='edit')editTask(id);
+    else if(act==='del')delTask(id);
+  });
+}
+
+// SOP 列表：事件委托（折叠 + 实践沉淀输入）
+function bindSopList(){
+  const list=document.getElementById('sopList');
+  if(!list)return;
+  list.addEventListener('click',function(e){
+    const h=e.target.closest('.sop-header');
+    if(h){h.parentElement.classList.toggle('open');}
+  });
+  list.addEventListener('input',function(e){
+    const ta=e.target.closest('.sop-notes-box');
+    if(ta)saveSopNote(Number(ta.dataset.i),ta.value);
+  });
+}
+
+function renderDate(){
+  const d = new Date();
+  const days = ['日','一','二','三','四','五','六'];
+  document.getElementById('todayDate').textContent = d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 星期'+days[d.getDay()];
+}
+
+// ============ TABS ============
+function bindTabs(){
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.onclick=()=>{
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      document.getElementById('tab-'+t.dataset.tab).classList.add('active');
+    };
+  });
+}
+
+// ============ TASKS ============
+function bindFilters(){
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    b.onclick=()=>{
+      document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      currentFilter=b.dataset.filter;
+      renderTasks();
+    };
+  });
+}
+
+function renderTasks(){
+  saveTasks();
+  let list=document.getElementById('taskList');
+  // 今日任务只显示未完成项（已完成当天归档进复盘，次日清空）
+  let base=tasks.filter(t=>!t.done);
+  let filtered = currentFilter==='all'?base:base.filter(t=>t.cat===currentFilter);
+  // 排序：优先级权重升序（重要·紧急 最前）→ 截止时间升序（越近越前）
+  filtered.sort((a,b)=>{
+    let wa=(PRI_MAP[a.pri]||PRI_MAP.inu).w, wb=(PRI_MAP[b.pri]||PRI_MAP.inu).w;
+    if(wa!==wb)return wa-wb;
+    let da=Date.parse(a.deadline||''), db=Date.parse(b.deadline||'');
+    return (isNaN(da)?1e15:da)-(isNaN(db)?1e15:db);
+  });
+  document.getElementById('taskCount').textContent=filtered.length+'项';
+
+  if(filtered.length===0){
+    list.innerHTML='<div class="empty"><p>暂无任务，点击「新增任务」添加</p></div>';
+    updateProgress(); return;
+  }
+
+  const catMap={'distributor':['经销商对接','cat-distributor'],'newproduct':['新品跟进','cat-newproduct'],competitor:['竞品监控','cat-competitor'],customer:['客户跟进','cat-customer'],'order':['订单管理','cat-order'],brand:['品牌活动','cat-brand'],bizdev:['业务开发','cat-bizdev'],'meeting-internal':['内部周会','cat-meeting-internal'],'meeting-customer':['客户会议','cat-meeting-customer'],'meeting-distributor':['经销商会议','cat-meeting-distributor']};
+
+  list.innerHTML=filtered.map(t=>{
+    const c=catMap[t.cat]||['其他',''];
+    const p=PRI_MAP[t.pri]||PRI_MAP.inu;
+    const ddl=ddlInfo(t.deadline);
+    return `<div class="task-item ${t.done?'done':''}">
+      <div class="task-check ${t.done?'checked':''}" data-act="toggle" data-id="${t.id}"></div>
+      <div class="task-body">
+        <div class="task-title">${t.title}</div>
+        <div class="task-meta">
+          <span class="task-cat ${c[1]}">${c[0]}</span>
+          <span class="task-priority ${p.cls}">${p.label}</span>
+          <span class="task-time">📅 ${fmtDeadline(t.deadline)}</span>
+          <span class="${ddl.cls}">⏳ ${ddl.text}</span>
+        </div>
+        ${t.notes?`<div class="task-notes">📝 <b>纪要：</b>${t.notes}</div>`:''}
+      </div>
+      <span class="task-edit" data-act="edit" data-id="${t.id}" title="编辑">✎</span>
+      <span class="task-del" data-act="del" data-id="${t.id}" title="删除">×</span>
+    </div>`;
+  }).join('');
+  updateProgress();
+}
+
+function toggleTask(id){
+  let t=tasks.find(x=>x.id===id);
+  if(t){
+    t.done=!t.done;
+    if(t.done){t.doneDate=getToday(); archiveTask(t,t.doneDate);}
+    else {t.doneDate=null; unarchiveTask(id);}
+  }
+  renderTasks(); renderReviewStats(); renderReviewTasks();
+}
+
+function delTask(id){
+  unarchiveTask(id);
+  tasks=tasks.filter(x=>x.id!==id);
+  renderTasks(); renderReviewStats(); renderReviewTasks();
+}
+
+// 完成的任务按日期归档（用于历史查看与周复盘）
+function getArchive(){try{return JSON.parse(localStorage.getItem('liuye_done_archive')||'{}')}catch(e){return{}}}
+function saveArchive(a){localStorage.setItem('liuye_done_archive',JSON.stringify(a))}
+function archiveTask(t,date){
+  let a=getArchive();
+  if(!a[date])a[date]=[];
+  if(!a[date].some(x=>x.id===t.id))a[date].push({id:t.id,title:t.title,cat:t.cat,deadline:t.deadline,notes:t.notes||''});
+  saveArchive(a);
+}
+function unarchiveTask(id){
+  let a=getArchive();
+  for(const d in a){a[d]=a[d].filter(x=>x.id!==id); if(a[d].length===0)delete a[d];}
+  saveArchive(a);
+}
+
+function openTaskModal(){editingId=null;resetModalFields();document.getElementById('modalTitle').textContent='新增任务';document.getElementById('taskModal').classList.add('show')}
+
+function editTask(id){
+  let t=tasks.find(x=>x.id===id); if(!t)return;
+  editingId=id;
+  document.getElementById('modalTitle').textContent='编辑任务';
+  document.getElementById('taskInput').value=t.title;
+  document.getElementById('taskCatInput').value=t.cat;
+  document.getElementById('taskPriInput').value=t.pri;
+  document.getElementById('taskDeadlineInput').value=t.deadline;
+  toggleMeetingNotes();
+  if(t.cat.indexOf('meeting')===0)document.getElementById('taskNotesInput').value=t.notes||'';
+  document.getElementById('taskModal').classList.add('show');
+}
+
+function resetModalFields(){
+  document.getElementById('taskInput').value='';
+  document.getElementById('taskNotesInput').value='';
+  document.getElementById('meetingNotesGroup').style.display='none';
+  document.getElementById('taskCatInput').value='distributor';
+  document.getElementById('taskPriInput').value='inu';
+  document.getElementById('taskDeadlineInput').value=defaultTaskDeadline();
+}
+
+function closeTaskModal(){editingId=null;document.getElementById('taskModal').classList.remove('show');resetModalFields()}
+
+function toggleMeetingNotes(){
+  const isMeeting=document.getElementById('taskCatInput').value.indexOf('meeting')===0;
+  document.getElementById('meetingNotesGroup').style.display=isMeeting?'block':'none';
+}
+
+function saveTask(){
+  let title=document.getElementById('taskInput').value.trim();
+  if(!title)return;
+  let cat=document.getElementById('taskCatInput').value;
+  let pri=document.getElementById('taskPriInput').value;
+  let deadline=document.getElementById('taskDeadlineInput').value||defaultTaskDeadline();
+  let notes=cat.indexOf('meeting')===0?document.getElementById('taskNotesInput').value.trim():'';
+  if(editingId){
+    let t=tasks.find(x=>x.id===editingId);
+    if(t){t.title=title;t.cat=cat;t.pri=pri;t.deadline=deadline;if(notes)t.notes=notes;else delete t.notes;}
+  }else{
+    let task={id:Date.now(),title,cat,pri,deadline,done:false};
+    if(notes)task.notes=notes;
+    tasks.push(task);
+  }
+  closeTaskModal(); renderTasks(); renderReviewStats(); renderReviewTasks();
+}
+
+function saveTasks(){localStorage.setItem('liuye_tasks',JSON.stringify(tasks))}
+
+function updateProgress(){
+  let done=tasks.filter(t=>t.done).length, total=tasks.length;
+  let pct=total>0?Math.round(done/total*100):0;
+  document.getElementById('taskSummary').textContent=`已完成 ${done}/${total}`;
+  document.getElementById('progressPct').textContent=pct+'%';
+  let circ=document.getElementById('progressCircle');
+  circ.style.strokeDashoffset=150.8*(1-pct/100);
+}
+
+// ============ 月度KPI ============
+function saveMonthly(){localStorage.setItem('liuye_monthly_tasks',JSON.stringify(monthlyTasks))}
+
+function renderMonthly(){
+  let list=document.getElementById('monthlyList');
+  if(!list)return;
+  if(monthlyTasks.length===0){
+    list.innerHTML='<div class="empty"><p>暂无月度KPI，点击「+ 新增月度KPI」添加</p></div>';
+    updateMonthlySummary(); return;
+  }
+  // 排序：优先级权重升序（重要·紧急 最前）
+  let arr=[...monthlyTasks].sort((a,b)=>(PRI_MAP[a.pri]||PRI_MAP.inu).w-(PRI_MAP[b.pri]||PRI_MAP.inu).w);
+  list.innerHTML=arr.map(m=>{
+    const p=PRI_MAP[m.pri]||PRI_MAP.inu;
+    let target=Number(m.target)||0, cur=Number(m.current)||0;
+    let pct=target>0?Math.max(0,Math.min(100,Math.round(cur/target*100))):0;
+    const ddl=ddlInfo(m.deadline);
+    let fillColor = pct>=100?'var(--green)':'linear-gradient(90deg,var(--primary),#60a5fa)';
+    return `<div class="monthly-item">
+      <div class="monthly-head">
+        <div class="monthly-title">${esc(m.title)}</div>
+        <div class="monthly-actions">
+          <span class="task-edit" data-mact="edit" data-id="${m.id}" title="二次修改">✎</span>
+          <span class="task-del" data-mact="del" data-id="${m.id}" title="删除">×</span>
+        </div>
+      </div>
+      <div class="monthly-progress">
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${fillColor}"></div></div>
+        <div class="progress-text">${cur} / ${target} ${esc(m.unit||'')} · 完成度 ${pct}%</div>
+      </div>
+      <div class="monthly-meta">
+        <span class="task-priority ${p.cls}">${p.label}</span>
+        <span class="task-time">📅 ${fmtDeadline(m.deadline)}</span>
+        <span class="${ddl.cls}">⏳ ${ddl.text}</span>
+      </div>
+    </div>`;
+  }).join('');
+  updateMonthlySummary();
+}
+
+function updateMonthlySummary(){
+  let el=document.getElementById('monthlyCount');
+  if(el)el.textContent=monthlyTasks.length+' 项';
+}
+
+function openMonthlyModal(){editingMonthlyId=null;resetMonthlyFields();document.getElementById('monthlyModalTitle').textContent='新增月度KPI';document.getElementById('monthlyModal').classList.add('show')}
+function editMonthly(id){
+  let m=monthlyTasks.find(x=>x.id===id); if(!m)return;
+  editingMonthlyId=id;
+  document.getElementById('monthlyModalTitle').textContent='二次修改月度KPI';
+  document.getElementById('monthlyTitle').value=m.title;
+  document.getElementById('monthlyCurrent').value=m.current;
+  document.getElementById('monthlyTarget').value=m.target;
+  document.getElementById('monthlyUnit').value=m.unit||'';
+  document.getElementById('monthlyPri').value=m.pri;
+  document.getElementById('monthlyDeadline').value=m.deadline;
+  document.getElementById('monthlyModal').classList.add('show');
+}
+function resetMonthlyFields(){
+  document.getElementById('monthlyTitle').value='';
+  document.getElementById('monthlyCurrent').value='';
+  document.getElementById('monthlyTarget').value='';
+  document.getElementById('monthlyUnit').value='';
+  document.getElementById('monthlyPri').value='inu';
+  document.getElementById('monthlyDeadline').value=defaultMonthlyDeadline();
+}
+function closeMonthlyModal(){editingMonthlyId=null;document.getElementById('monthlyModal').classList.remove('show');resetMonthlyFields()}
+function saveMonthlyTask(){
+  let title=document.getElementById('monthlyTitle').value.trim();
+  if(!title)return;
+  let current=parseFloat(document.getElementById('monthlyCurrent').value)||0;
+  let target=parseFloat(document.getElementById('monthlyTarget').value)||0;
+  let unit=document.getElementById('monthlyUnit').value.trim();
+  let pri=document.getElementById('monthlyPri').value;
+  let deadline=document.getElementById('monthlyDeadline').value||defaultMonthlyDeadline();
+  if(editingMonthlyId){
+    let m=monthlyTasks.find(x=>x.id===editingMonthlyId);
+    if(m){m.title=title;m.current=current;m.target=target;m.unit=unit;m.pri=pri;m.deadline=deadline;}
+  }else{
+    monthlyTasks.push({id:Date.now(),title,current,target,unit,pri,deadline});
+  }
+  closeMonthlyModal(); renderMonthly(); saveMonthly();
+}
+function delMonthly(id){
+  if(!confirm('确定删除该月度KPI？'))return;
+  monthlyTasks=monthlyTasks.filter(x=>x.id!==id);
+  renderMonthly(); saveMonthly();
+}
+function bindMonthly(){
+  const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
+  on('btnAddMonthly',openMonthlyModal);
+  on('btnSaveMonthly',saveMonthlyTask);
+  on('btnCancelMonthly',closeMonthlyModal);
+  const list=document.getElementById('monthlyList');
+  if(list)list.addEventListener('click',function(e){
+    const el=e.target.closest('[data-mact]'); if(!el)return;
+    const id=Number(el.dataset.id), act=el.dataset.mact;
+    if(act==='edit')editMonthly(id); else if(act==='del')delMonthly(id);
+  });
+  const modal=document.getElementById('monthlyModal');
+  if(modal)modal.onclick=function(e){if(e.target===this)closeMonthlyModal()};
+}
+
+// ============ 年度销售计划 ============
+function renderSalesPlan(){
+  normalizeSalesPlan();
+  const host = document.getElementById('salesGrid');
+  if(!host) return;
+  const months = salesPlan.months;
+  let maxV = 0;
+  months.forEach(x=>{ maxV = Math.max(maxV, Number(x.target)||0, Number(x.achieved)||0); });
+  if(maxV <= 0) maxV = 100;
+  maxV = Math.ceil(maxV * 1.1 / 10) * 10; // 取整并留 10% 余量
+  const H = 240;
+  // Y 轴刻度
+  const yax = document.getElementById('salesYaxis');
+  if(yax){
+    let ticks = '';
+    [0,0.25,0.5,0.75,1].forEach(f=>{
+      let val = Math.round(maxV * f);
+      let top = (1 - f) * H;
+      ticks += `<div class="tick" style="top:${top}px">${val}</div>`;
+    });
+    yax.innerHTML = ticks;
+  }
+  // 12 个月分组柱形
+  host.innerHTML = months.map(x=>{
+    let t = Number(x.target)||0, a = Number(x.achieved)||0;
+    let th = Math.max(2, Math.round(t / maxV * H));
+    let ah = Math.max(2, Math.round(a / maxV * H));
+    let pct = t > 0 ? Math.round(a / t * 100) : 0;
+    return `<div class="sales-col" data-m="${x.m}" title="${x.m}月 ｜ 预期目标 ${t}${salesPlan.unit} ｜ 已达成 ${a}${salesPlan.unit} ｜ 完成率 ${pct}%">
+      <div class="sales-bars">
+        <div class="sales-bar target" style="height:${th}px"><span class="sales-val target">${t}</span></div>
+        <div class="sales-bar achieved" style="height:${ah}px"><span class="sales-val achieved">${a}</span></div>
+      </div>
+      <div class="sales-month">${x.m}月</div>
+    </div>`;
+  }).join('');
+  // 概要
+  let totT = months.reduce((s,x)=>s + (Number(x.target)||0), 0);
+  let totA = months.reduce((s,x)=>s + (Number(x.achieved)||0), 0);
+  let comp = totT > 0 ? Math.round(totA / totT * 100) : 0;
+  let remain = Math.max(0, totT - totA);
+  const u = salesPlan.unit;
+  document.getElementById('salesYearLbl').textContent = salesPlan.year + '年';
+  document.getElementById('salesUnitLbl').textContent = u;
+  document.getElementById('salesSumTarget').textContent = totT;
+  document.getElementById('salesSumAchieved').textContent = totA;
+  document.getElementById('salesSumComp').textContent = comp + '%';
+  document.getElementById('salesSumRemain').textContent = remain;
+  document.getElementById('salesSumUnit1').textContent = u;
+  document.getElementById('salesSumUnit2').textContent = u;
+  document.getElementById('salesSumUnit3').textContent = u;
+}
+
+let editingSalesMonth = null;
+function openSalesMonthModal(m){
+  let x = salesPlan.months.find(z=>z.m === m);
+  if(!x) return;
+  editingSalesMonth = m;
+  document.getElementById('salesMonthLbl').textContent = m + '月';
+  document.getElementById('salesMonthUnit').textContent = salesPlan.unit;
+  document.getElementById('salesMonthUnit2').textContent = salesPlan.unit;
+  document.getElementById('salesTargetInput').value = x.target;
+  document.getElementById('salesAchievedInput').value = x.achieved;
+  document.getElementById('salesModal').classList.add('show');
+}
+function closeSalesMonthModal(){
+  editingSalesMonth = null;
+  document.getElementById('salesModal').classList.remove('show');
+}
+function saveSalesMonth(){
+  if(editingSalesMonth == null) return;
+  let x = salesPlan.months.find(z=>z.m === editingSalesMonth);
+  if(!x) return;
+  x.target = parseFloat(document.getElementById('salesTargetInput').value) || 0;
+  x.achieved = parseFloat(document.getElementById('salesAchievedInput').value) || 0;
+  closeSalesMonthModal();
+  renderSalesPlan();
+  saveSalesPlan();
+}
+
+function openSalesSettings(){
+  document.getElementById('salesYearInput').value = salesPlan.year;
+  document.getElementById('salesUnitInput').value = salesPlan.unit;
+  document.getElementById('salesSettingModal').classList.add('show');
+}
+function closeSalesSettings(){ document.getElementById('salesSettingModal').classList.remove('show'); }
+function saveSalesSettings(){
+  let y = parseInt(document.getElementById('salesYearInput').value, 10) || new Date().getFullYear();
+  let u = document.getElementById('salesUnitInput').value.trim() || '万元';
+  salesPlan.year = y;
+  salesPlan.unit = u;
+  closeSalesSettings();
+  renderSalesPlan();
+  saveSalesPlan();
+}
+
+function bindSalesPlan(){
+  const on = (id, fn)=>{ const el = document.getElementById(id); if(el) el.addEventListener('click', fn); };
+  on('btnSalesSettings', openSalesSettings);
+  on('btnSaveSalesSettings', saveSalesSettings);
+  on('btnCancelSalesSettings', closeSalesSettings);
+  on('btnSaveSalesMonth', saveSalesMonth);
+  on('btnCancelSalesMonth', closeSalesMonthModal);
+  const grid = document.getElementById('salesGrid');
+  if(grid) grid.addEventListener('click', function(e){
+    const col = e.target.closest('.sales-col');
+    if(!col) return;
+    openSalesMonthModal(Number(col.dataset.m));
+  });
+  const m = document.getElementById('salesModal');
+  if(m) m.onclick = function(e){ if(e.target === this) closeSalesMonthModal(); };
+  const sm = document.getElementById('salesSettingModal');
+  if(sm) sm.onclick = function(e){ if(e.target === this) closeSalesSettings(); };
+}
+
+// ============ BRANDS ============
+// 品牌是否有更新：有新品的(status=new) 或 任一社媒渠道确认有动态(found)
+function hasUpdate(b){
+  if(b.status==='new')return true;
+  if(b.social){for(const k in b.social){const c=b.social[k]; if(c&&c.status==='found')return true;}}
+  return false;
+}
+function getBrandFlags(){
+  try{
+    let o=JSON.parse(localStorage.getItem('liuye_brand_flags')||'{}');
+    if(o.date!==getToday())return{}; // 跨天自动作废：每天确认按钮统统变灰
+    return o.flags||{};
+  }catch(e){return{}}
+}
+function toggleBrandFlag(name){
+  let flags=getBrandFlags();
+  flags[name]=!flags[name];
+  localStorage.setItem('liuye_brand_flags',JSON.stringify({date:getToday(),flags}));
+  renderBrands(); renderReviewStats();
+}
+
+function renderBrands(){
+  let grid=document.getElementById('brandGrid');
+  const flags=getBrandFlags();
+  // 排序：未查品牌按原顺序排前，已查品牌沉到最底；红色"有更新"徽章保留
+  const idx=Object.fromEntries(BRANDS.map((b,i)=>[b.name,i]));
+  const ordered=[...BRANDS].sort((a,b)=>{
+    const ca=flags[a.name]?1:0, cb=flags[b.name]?1:0;
+    if(ca!==cb)return ca-cb;
+    return idx[a.name]-idx[b.name];
+  });
+  const socialDefs=[['linkedin','LinkedIn','in'],['youtube','YouTube','YT'],['instagram','Instagram','IG'],['facebook','Facebook','FB'],['blog','官网Blog','Blog']];
+  grid.innerHTML=ordered.map(b=>{
+    const s=hasUpdate(b)?['有更新','status-new']:['无更新','status-pending'];
+    const products=(b.products||[]).map(p=>`
+      <div class="brand-product">
+        <div class="pname">${p.name} ${p.isNew?'<span class="new-badge">NEW</span>':''}</div>
+        <div class="pmeta">
+          ${p.model?`<span class="model">型号 ${p.model}</span>`:''}
+          ${p.price?`<span class="price">${p.price}</span>`:''}
+          ${p.colors?`<span>配色 ${p.colors}</span>`:''}
+        </div>
+        <div class="pspec">${p.specs||''}</div>
+        ${p.source?`<div class="psource">来源：<a href="${p.source}" target="_blank">${p.source}</a></div>`:''}
+      </div>`).join('');
+    const social=socialDefs.map(([k,label,icon])=>{
+      const c=b.social&&b.social[k];
+      if(!c)return '';
+      const cls=c.status==='found'?'found':(c.status==='unverified'?'unverified':'none');
+      const stxt=c.status==='found'?(c.note||'有动态'):(c.status==='unverified'?'未确认':'无/未找到');
+      const inner=`<span>${icon}</span>${label}`;
+      return c.url?`<a class="social-chip ${cls}" href="${c.url}" target="_blank" title="${c.note||''}">${inner} · ${stxt}</a>`:`<span class="social-chip ${cls}" title="${c.note||''}">${inner} · ${stxt}</span>`;
+    }).join('');
+    const exhib=(b.exhibitions||[]).map(e=>`
+      <div class="exhib-item"><b>${e.show}</b>${e.date?` · ${e.date}`:''}${e.booth?` · 展位 ${e.booth}`:''}${e.channel?` · ${e.channel}`:''}${e.url?` · <a href="${e.url}" target="_blank">来源链接</a>`:''}</div>`).join('');
+    return `<div class="brand-card">
+      <div class="brand-head">
+        <div>
+          <div class="brand-name"><a href="${b.url}" target="_blank">${b.name}</a></div>
+          <div style="font-size:11px;color:var(--text-sec);margin-top:2px">${b.region}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <span class="brand-status ${s[1]}">${s[0]}</span>
+          ${hasUpdate(b)?`<button class="brand-check ${flags[b.name]?'checked':''}" data-brand="${esc(b.name)}" title="点击确认已查">${flags[b.name]?'✓ 已查':'确认已查'}</button>`:''}
+          <a class="brand-visit" href="${b.url}" target="_blank">访问官网</a>
+        </div>
+      </div>
+      <div class="brand-products">${products}</div>
+      ${exhib?`<div class="brand-exhib"><div class="exhib-title">参展 / 展会动态</div>${exhib}</div>`:''}
+      <div class="social-row"><span class="social-label">社媒参展动态:</span>${social}</div>
+      <div class="brand-foot">
+        <span>检查: ${b.checked}</span>
+        <div class="brand-tags">${(b.tags||[]).map(t=>`<span class="brand-tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============ REVIEW ============
+const CAT_MAP={'distributor':['经销商对接','cat-distributor'],'newproduct':['新品跟进','cat-newproduct'],competitor:['竞品监控','cat-competitor'],customer:['客户跟进','cat-customer'],'order':['订单管理','cat-order'],brand:['品牌活动','cat-brand'],'meeting-internal':['内部周会','cat-meeting-internal'],'meeting-customer':['客户会议','cat-meeting-customer'],'meeting-distributor':['经销商会议','cat-meeting-distributor']};
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function renderReview(){
+  renderReviewStats();
+  // Load saved free-text review fields (今日完成/明天待做 为自动同步，不在此保存)
+  let review=JSON.parse(localStorage.getItem('liuye_review_'+getToday())||'{}');
+  ['Pending','Learn','Diary'].forEach(k=>{
+    let el=document.getElementById('review'+k);
+    if(!el)return;
+    if(review[k.toLowerCase()])el.value=review[k.toLowerCase()];
+    el.oninput=()=>{review[k.toLowerCase()]=el.value;localStorage.setItem('liuye_review_'+getToday(),JSON.stringify(review))};
+  });
+  renderReviewTasks();
+}
+
+function renderReviewStats(){
+  const today=getToday();
+  let done=tasks.filter(t=>t.done && t.doneDate===today).length; // 仅当天完成
+  let pending=tasks.filter(t=>!t.done).length; // 待完成=未完成任务
+  let total=done+pending;
+  let pct=total>0?Math.round(done/total*100):0;
+  let updateBrands=BRANDS.filter(b=>hasUpdate(b)).length; // 有新品或社媒更新
+  let pendingBrands=BRANDS.filter(b=>hasUpdate(b) && !getBrandFlags()[b.name]).length; // 待确认已查
+  document.getElementById('reviewStats').innerHTML=`
+    <div class="stat-box"><div class="stat-num" style="color:var(--green)">${done}</div><div class="stat-label">今日已完成</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--orange)">${pending}</div><div class="stat-label">待完成</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${pct}%</div><div class="stat-label">完成率</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--red)">${updateBrands}</div><div class="stat-label">品牌有更新</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--text-sec)">${pendingBrands}</div><div class="stat-label">品牌待检查</div></div>
+  `;
+}
+
+function renderReviewTasks(){
+  let doneList=document.getElementById('reviewDoneList');
+  let planList=document.getElementById('reviewPlanList');
+  if(!doneList||!planList)return;
+  let done=tasks.filter(t=>t.done && t.doneDate===getToday()), undone=tasks.filter(t=>!t.done);
+  doneList.innerHTML=done.length?done.map(t=>`<div class="review-task done-task"><span class="rt-check">✓</span><span class="rt-title">${esc(t.title)}</span><span class="rt-cat">${CAT_MAP[t.cat]?CAT_MAP[t.cat][0]:'其他'}</span></div>`).join(''):'<div class="review-empty">今天还没有完成的任务，去「今日任务」里勾选吧</div>';
+  planList.innerHTML=undone.length?undone.map(t=>`<div class="review-task plan-task"><span class="rt-dot">○</span><span class="rt-title">${esc(t.title)}</span>${t.deadline?`<span class="rt-time">⏰${fmtDeadline(t.deadline)}</span>`:''}<span class="rt-cat">${CAT_MAP[t.cat]?CAT_MAP[t.cat][0]:'其他'}</span></div>`).join(''):'<div class="review-empty">🎉 所有任务都已完成</div>';
+}
+
+function saveReview(){
+  let review={};
+  ['Pending','Learn','Diary'].forEach(k=>{let el=document.getElementById('review'+k);if(el)review[k.toLowerCase()]=el.value});
+  localStorage.setItem('liuye_review_'+getToday(),JSON.stringify(review));
+  alert('复盘已保存！');
+}
+
+// ============ 复盘信息库 / 周回溯 / 历史 ============
+function bindReviewSubtabs(){
+  document.querySelectorAll('#tab-review .subtab').forEach(b=>{
+    b.onclick=()=>{
+      document.querySelectorAll('#tab-review .subtab').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      const sub=b.dataset.sub;
+      document.getElementById('sub-daily').style.display=sub==='daily'?'block':'none';
+      document.getElementById('sub-lib').style.display=sub==='lib'?'block':'none';
+      if(sub==='lib')renderLibrary();
+    };
+  });
+}
+
+function bindTaskSubtabs(){
+  document.querySelectorAll('#tab-tasks .subtab').forEach(b=>{
+    b.onclick=()=>{
+      document.querySelectorAll('#tab-tasks .subtab').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      const sub=b.dataset.sub;
+      document.getElementById('sub-daily-tasks').style.display=sub==='daily'?'block':'none';
+      document.getElementById('sub-monthly').style.display=sub==='monthly'?'block':'none';
+      if(sub==='monthly')renderMonthly();
+    };
+  });
+}
+
+function renderLibrary(){renderWeekReview();renderHistory();}
+
+function getWeekRange(){
+  const now=new Date();
+  const day=now.getDay(); // 0=周日..6=周六
+  const diff=(day===0?-6:1-day); // 距本周一的天数
+  const mon=new Date(now); mon.setDate(now.getDate()+diff); mon.setHours(0,0,0,0);
+  const sun=new Date(mon); sun.setDate(mon.getDate()+6);
+  return {mon,sun};
+}
+function fmtDate(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+
+function renderWeekReview(){
+  const {mon,sun}=getWeekRange();
+  const today=getToday();
+  const days=[];
+  for(let i=0;i<7;i++){const d=new Date(mon); d.setDate(mon.getDate()+i); days.push(d);}
+  const dayNames=['一','二','三','四','五','六','日'];
+  const stats=JSON.parse(localStorage.getItem('liuye_day_stats')||'{}');
+  const archive=getArchive();
+
+  let weekDone=0, weekTotal=0, daysWithRecord=0;
+  const minis=days.map((d,i)=>{
+    const ds=fmtDate(d);
+    let done, total;
+    if(ds===today){done=tasks.filter(t=>t.done&&t.doneDate===today).length; total=tasks.length;}
+    else {const a=archive[ds]||[]; done=a.length; total=(stats[ds]&&stats[ds].total)?stats[ds].total:a.length;}
+    if(done>0||total>0)daysWithRecord++;
+    weekDone+=done; weekTotal+=total;
+    const pct=total>0?Math.round(done/total*100):0;
+    const isToday=ds===today;
+    return `<div class="day-mini ${isToday?'today':''}">
+      <div class="dm-day">周${dayNames[i]}</div>
+      <div class="dm-num">${done}</div>
+      <div style="font-size:10px;color:var(--text-sec)">/${total}</div>
+      <div class="dm-bar"><i style="width:${pct}%"></i></div>
+    </div>`;
+  }).join('');
+  const pct=weekTotal>0?Math.round(weekDone/weekTotal*100):0;
+
+  document.getElementById('weekRange').textContent='本周：'+fmtDate(mon)+'（周一） ~ '+fmtDate(sun)+'（周日）';
+  document.getElementById('weekBarFill').textContent=pct+'%';
+  document.getElementById('weekBarFill').style.width=pct+'%';
+  document.getElementById('weekDone').textContent=weekDone;
+  document.getElementById('weekTotal').textContent=weekTotal;
+  document.getElementById('weekDays').textContent=daysWithRecord;
+  document.getElementById('dayMinis').innerHTML=minis;
+
+  // 本周难点：汇总每日"未完成及原因"
+  let diffs='';
+  days.forEach(d=>{
+    const ds=fmtDate(d);
+    let review={};
+    try{review=JSON.parse(localStorage.getItem('liuye_review_'+ds)||'{}')}catch(e){}
+    if(review.pending&&review.pending.trim()){
+      diffs+=`<div class="diff-item"><span class="di-date">${ds}</span>${esc(review.pending)}</div>`;
+    }
+  });
+  document.getElementById('weekDiffs').innerHTML=diffs||'<div class="review-empty">本周暂无记录的难点</div>';
+
+  // 下周跟进（按周保存）
+  const weekId=fmtDate(mon);
+  let follow=document.getElementById('weekFollowup');
+  follow.value=localStorage.getItem('liuye_week_followup_'+weekId)||'';
+  follow.oninput=()=>localStorage.setItem('liuye_week_followup_'+weekId,follow.value);
+  const undone=tasks.filter(t=>!t.done);
+  document.getElementById('weekFollowupHint').textContent=undone.length?('💡 本周遗留未完成任务（可复制至此）：'+undone.map(t=>t.title).join('； ')):'';
+}
+
+function renderHistory(){
+  let sel=document.getElementById('histDate');
+  if(!sel)return;
+  const archive=getArchive();
+  let allDates=new Set(Object.keys(archive));
+  for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i); const m=k&&k.match(/^liuye_review_(.+)$/); if(m)allDates.add(m[1]);}
+  const dates=Array.from(allDates).sort().reverse();
+  if(dates.length===0){
+    sel.innerHTML='<option>— 暂无历史记录 —</option>';
+    document.getElementById('histCount').textContent='';
+    document.getElementById('histDetail').innerHTML='<div class="review-empty">还没有任何复盘记录，完成今天任务并写日记后会出现在这里</div>';
+    return;
+  }
+  sel.innerHTML=dates.map(d=>`<option value="${d}">${d}</option>`).join('');
+  sel.onchange=()=>showHistoryDetail(sel.value);
+  showHistoryDetail(sel.value);
+  document.getElementById('histCount').textContent='共 '+dates.length+' 天记录';
+}
+
+function showHistoryDetail(date){
+  const archive=getArchive();
+  const done=archive[date]||[];
+  let review={};
+  try{review=JSON.parse(localStorage.getItem('liuye_review_'+date)||'{}')}catch(e){}
+  let html=`<div class="hist-block"><h5>✅ 当日完成（${done.length} 项）</h5>${done.length?done.map(t=>`<div class="review-task done-task"><span class="rt-check">✓</span><span class="rt-title">${esc(t.title)}</span><span class="rt-cat">${CAT_MAP[t.cat]?CAT_MAP[t.cat][0]:'其他'}</span></div>`).join(''):'<div class="review-empty">无</div>'}</div>`;
+  if(review.diary)html+=`<div class="hist-block"><h5>📔 工作日记</h5><div class="hist-text">${esc(review.diary).replace(/\n/g,'<br>')}</div></div>`;
+  if(review.pending)html+=`<div class="hist-block"><h5>⚠️ 未完成及原因</h5><div class="hist-text">${esc(review.pending).replace(/\n/g,'<br>')}</div></div>`;
+  if(review.learn)html+=`<div class="hist-block"><h5>💡 关键收获</h5><div class="hist-text">${esc(review.learn).replace(/\n/g,'<br>')}</div></div>`;
+  document.getElementById('histDetail').innerHTML=html;
+}
+
+function getToday(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+// ============ 日期 / 倒计时 工具 ============
+function pad2(n){return String(n).padStart(2,'0')}
+function fmtDateTimeLocal(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())+'T'+pad2(d.getHours())+':'+pad2(d.getMinutes())+':'+pad2(d.getSeconds())}
+function defaultTaskDeadline(){let d=new Date();d.setHours(18,0,0,0);return fmtDateTimeLocal(d)}
+function defaultMonthlyDeadline(){let d=new Date();let last=new Date(d.getFullYear(),d.getMonth()+1,0,23,59,59);return fmtDateTimeLocal(last)}
+function fmtDeadline(d){if(!d)return '未设置';return String(d).replace('T',' ')}
+function ddlInfo(d){
+  if(!d)return {text:'无截止',cls:'ddl-normal'};
+  let ms=Date.parse(d); if(isNaN(ms))return {text:'无截止',cls:'ddl-normal'};
+  let days=Math.ceil((ms-Date.now())/86400000);
+  if(days>1)return {text:'剩 '+days+' 天',cls:days<=3?'ddl-warn':'ddl-normal'};
+  if(days===1)return {text:'剩 1 天',cls:'ddl-urgent'};
+  if(days===0)return {text:'今天截止',cls:'ddl-urgent'};
+  return {text:'已逾期 '+Math.abs(days)+' 天',cls:'ddl-over'};
+}
+
+// ============ SOP ============
+function renderSOP(){
+  let list=document.getElementById('sopList');
+  list.innerHTML=SOPS.map((s,i)=>{
+    return `<div class="sop-card ${i===0?'open':''}">
+      <div class="sop-header">
+        <span style="color:${s.color}">${s.title}</span>
+        <span class="sop-icon">▶</span>
+      </div>
+      <div class="sop-body" style="background:${s.bg};margin-top:0">
+        ${s.steps.map((st,j)=>`<div class="sop-step">
+          <div class="sop-num">${j+1}</div>
+          <div class="sop-step-body">
+            <div class="sop-step-title">${st.t}</div>
+            <div class="sop-step-desc">${st.d}</div>
+            <div class="sop-step-meta">${st.meta.map(m=>`<span>${m}</span>`).join('')}</div>
+          </div>
+        </div>`).join('')}
+        <div class="sop-practice">
+          <div class="sop-practice-h">📌 本周实践联动（来自今日任务 + 工作日记）</div>
+          ${sopPracticeHtml(i)||'<div class="review-empty">本周暂无相关实践记录，完成任务或写日记后将自动联动到此</div>'}
+        </div>
+        <div class="sop-notes">
+          <div class="sop-notes-h">✍️ 我的实践沉淀（刘晔专属，可编辑）</div>
+          <textarea class="sop-notes-box" data-i="${i}" placeholder="把执行该流程中踩过的坑、有效做法、行业经验写在这里，逐步沉淀成你的专属 SOP……">${esc(getSopNote(i))}</textarea>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ---- SOP 联动：汇集本周任务 + 工作日记 ----
+function collectWeekPractice(){
+  const {mon,sun}=getWeekRange();
+  const inWeek=ds=>{const d=new Date(ds);return d>=mon&&d<=sun;};
+  let items=[];
+  tasks.filter(t=>t.done&&t.doneDate).forEach(t=>{if(inWeek(t.doneDate))items.push({date:t.doneDate,title:t.title,cat:t.cat});});
+  const archive=getArchive();
+  Object.keys(archive).forEach(ds=>{if(inWeek(ds))archive[ds].forEach(t=>items.push({date:ds,title:t.title,cat:t.cat}));});
+  let diary=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);const m=k&&k.match(/^liuye_review_(.+)$/);
+    if(m&&inWeek(m[1])){let r={};try{r=JSON.parse(localStorage.getItem(k)||'{}')}catch(e){}if(r.diary)diary.push({date:m[1],text:r.diary});}
+  }
+  return {items,diary};
+}
+function sopMatch(sop,text,cat){
+  text=(text||'')+' '+(CAT_MAP[cat]?CAT_MAP[cat][0]:'');
+  return sop.kw.some(k=>text.indexOf(k)>=0);
+}
+function sopPracticeHtml(i){
+  const sop=SOPS[i];
+  const {items,diary}=collectWeekPractice();
+  let html='';
+  const mt=items.filter(it=>sopMatch(sop,it.title,it.cat));
+  if(mt.length){
+    html+='<div class="sp-sub">✅ 相关已完成任务（'+mt.length+'）</div>';
+    mt.forEach(it=>{html+=`<div class="sp-item"><span class="sp-date">${it.date}</span><span>${esc(it.title)}</span><span class="sp-cat">${CAT_MAP[it.cat]?CAT_MAP[it.cat][0]:''}</span></div>`;});
+  }
+  const md=[];
+  diary.forEach(d=>{d.text.split(/[\n。；;]/).forEach(s=>{s=s.trim();if(s&&sopMatch(sop,s))md.push({date:d.date,text:s});});});
+  if(md.length){
+    html+='<div class="sp-sub">📔 相关工作日记（'+md.length+'）</div>';
+    md.slice(0,12).forEach(d=>{html+=`<div class="sp-item"><span class="sp-date">${d.date}</span><span>${esc(d.text)}</span></div>`;});
+  }
+  return html;
+}
+function getSopNotes(){try{return JSON.parse(localStorage.getItem('liuye_sop_notes')||'[]')}catch(e){return[]}}
+function getSopNote(i){const n=getSopNotes();return n[i]||'';}
+function saveSopNote(i,v){let n=getSopNotes();n[i]=v;localStorage.setItem('liuye_sop_notes',JSON.stringify(n));}
+function syncSOP(){
+  const {items,diary}=collectWeekPractice();
+  let n=getSopNotes();
+  let added=0;
+  const trig=['难点','问题','注意','改进','关键','经验','标准','流程','建议','发现','需要','必须','警惕','风险','坑','复盘','总结','教训','技巧','有效','无效','避开'];
+  SOPS.forEach((sop,i)=>{
+    let lines=(n[i]||'').split('\n').map(x=>x.trim()).filter(Boolean);
+    diary.forEach(d=>{d.text.split(/[\n。；;]/).forEach(s=>{s=s.trim();if(s.length>=6&&sopMatch(sop,s)&&trig.some(t=>s.indexOf(t)>=0)){const line='· ['+d.date+'] 日记沉淀：'+s;if(!lines.some(l=>l===line)){lines.push(line);added++;}}});});
+    items.filter(it=>sopMatch(sop,it.title,it.cat)).forEach(it=>{const line='· ['+it.date+'] 任务沉淀：'+it.title;if(!lines.some(l=>l===line)){lines.push(line);added++;}});
+    n[i]=lines.join('\n');
+  });
+  localStorage.setItem('liuye_sop_notes',JSON.stringify(n));
+  renderSOP();
+  alert('已同步本周实践到 SOP：新增 '+added+' 条专属沉淀（可在各流程的「我的实践沉淀」查看 / 编辑）');
+}
+
+// ============ 周报导出 ============
+function buildWeeklyReport(){
+  const {mon,sun}=getWeekRange();
+  const today=getToday();
+  const dayNames=['一','二','三','四','五','六','日'];
+  const stats=JSON.parse(localStorage.getItem('liuye_day_stats')||'{}');
+  const archive=getArchive();
+  let weekDone=0,weekTotal=0,lines=[];
+  for(let i=0;i<7;i++){
+    const d=new Date(mon);d.setDate(mon.getDate()+i);const ds=fmtDate(d);
+    let done,total,titles=[];
+    if(ds===today){done=tasks.filter(t=>t.done&&t.doneDate===today).length;total=tasks.length;tasks.filter(t=>t.done&&t.doneDate===today).forEach(t=>titles.push(t.title));}
+    else{const a=archive[ds]||[];done=a.length;total=(stats[ds]&&stats[ds].total)?stats[ds].total:a.length;a.forEach(t=>titles.push(t.title));}
+    weekDone+=done;weekTotal+=total;
+    if(titles.length){
+      lines.push('【周'+dayNames[i]+' '+ds+'】完成 '+titles.length+' 项');
+      titles.forEach(t=>lines.push('  · '+t));
+      let rev={};try{rev=JSON.parse(localStorage.getItem('liuye_review_'+ds)||'{}')}catch(e){}
+      if(rev.diary&&rev.diary.trim())lines.push('  日记：'+rev.diary.trim().replace(/\n/g,' / '));
+    }
+  }
+  const pct=weekTotal>0?Math.round(weekDone/weekTotal*100):0;
+  let diffs=[];
+  for(let i=0;i<7;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);const ds=fmtDate(d);let rev={};try{rev=JSON.parse(localStorage.getItem('liuye_review_'+ds)||'{}')}catch(e){}if(rev.pending&&rev.pending.trim())diffs.push(ds+'：'+rev.pending.trim().replace(/\n/g,'；'));}
+  const weekId=fmtDate(mon);
+  const follow=(localStorage.getItem('liuye_week_followup_'+weekId)||'').trim();
+  const upd=(typeof hasUpdate==='function'?BRANDS.filter(b=>hasUpdate(b)):BRANDS.filter(b=>b.status==='new')).map(b=>b.name);
+  let r='';
+  r+='【刘晔工作周报】\n';
+  r+='汇报周期：'+fmtDate(mon)+'（周一） ~ '+fmtDate(sun)+'（周日）\n';
+  r+='整体完成率：'+pct+'%（本周完成 '+weekDone+' / 共 '+weekTotal+' 项）\n';
+  r+='\n————————— 每日完成 —————————\n';
+  r+=lines.length?lines.join('\n'):'本周暂无完成任务记录';
+  r+='\n\n————————— 本周难点 / 风险 —————————\n';
+  r+=diffs.length?diffs.join('\n'):'本周无特别记录的难点';
+  r+='\n\n————————— 品牌动态 —————————\n';
+  r+=upd.length?('本周有更新的品牌（'+upd.length+' 个）：'+upd.join('、')):'本周监控品牌暂无需跟进的新品 / 社媒更新';
+  r+='\n\n————————— 下周重点跟进 —————————\n';
+  r+=follow||'（待填写）';
+  r+='\n\n—————————\n汇报人：刘晔（战术听力防护 / 通讯装备 · 销售 · 渠道开发）\n生成时间：'+new Date().toLocaleString('zh-CN');
+  return r;
+}
+function exportWeeklyReport(){document.getElementById('reportText').value=buildWeeklyReport();document.getElementById('reportModal').classList.add('show');}
+function copyReport(){const t=document.getElementById('reportText');t.select();if(navigator.clipboard){navigator.clipboard.writeText(t.value).then(()=>alert('已复制到剪贴板，可直接粘贴发送')).catch(()=>alert('复制失败，请手动选择文本复制'));}else{document.execCommand('copy');alert('已复制到剪贴板');}}
+function downloadReport(){const t=document.getElementById('reportText').value;const blob=new Blob([t],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='刘晔工作周报_'+getToday()+'.txt';a.click();URL.revokeObjectURL(a.href);}
+document.getElementById('reportModal').onclick=function(e){if(e.target===this)this.classList.remove('show')};
+
+// Modal click outside to close
+document.getElementById('taskModal').onclick=function(e){if(e.target===this)closeTaskModal()};
+// Enter to add task
+document.getElementById('taskInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();saveTask()}});
+
+init();
+</script>
+</body>
+</html>
