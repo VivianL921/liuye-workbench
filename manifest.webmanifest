@@ -1,0 +1,17 @@
+{
+  "name": "刘晔工作台",
+  "short_name": "刘晔台",
+  "description": "战术听力防护装备渠道开发工作台：任务管理、品牌新品监控、每日复盘、业务SOP、年度销售计划",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#2563eb",
+  "orientation": "any",
+  "icons": [
+    {"src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
