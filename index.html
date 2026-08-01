@@ -47,6 +47,12 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);co
 /* Tab Content */
 .tab-content{display:none;background:var(--card);border-radius:0 0 var(--radius) var(--radius);padding:20px;min-height:500px;box-shadow:var(--shadow)}
 .tab-content.active{display:block}
+/* 移动端：tab 自动换行(避免横滑容器吞掉 iOS 点击) + 即时响应点击 */
+@media (max-width:600px){
+  .tabs{overflow-x:visible;flex-wrap:wrap}
+  .tab{flex:1 1 auto;touch-action:manipulation}
+  .subtab,.filter-btn,.btn-add,.brand-check,.sop-header{touch-action:manipulation}
+}
 
 /* Section Title */
 .section-title{font-size:17px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
@@ -984,14 +990,16 @@ let editingMonthlyId = null;
 
 // ============ INIT ============
 function init(){
-  renderDate();
-  renderTasks();
-  renderMonthly();
-  renderBrands();
-  renderReview();
-  renderSOP();
-  renderSalesPlan();
+  // 优先绑定模块切换：即使后续某个模块在移动端渲染异常，导航也不受影响
   bindTabs();
+  const safe=(fn,name)=>{try{fn();}catch(e){console.error('['+name+'] init 渲染异常:',e);}};
+  safe(renderDate,'renderDate');
+  safe(renderTasks,'renderTasks');
+  safe(renderMonthly,'renderMonthly');
+  safe(renderBrands,'renderBrands');
+  safe(renderReview,'renderReview');
+  safe(renderSOP,'renderSOP');
+  safe(renderSalesPlan,'renderSalesPlan');
   bindFilters();
   bindBrandChecks();
   bindReviewSubtabs();
@@ -1079,13 +1087,17 @@ function renderDate(){
 
 // ============ TABS ============
 function bindTabs(){
-  document.querySelectorAll('.tab').forEach(t=>{
-    t.onclick=()=>{
-      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
-      t.classList.add('active');
-      document.getElementById('tab-'+t.dataset.tab).classList.add('active');
-    };
+  const tabs=document.querySelector('.tabs');
+  if(!tabs)return;
+  // 容器级事件委托：跨浏览器最稳，规避 iOS 上按钮点击被吞的问题
+  tabs.addEventListener('click',function(e){
+    const t=e.target.closest('.tab');
+    if(!t)return;
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const tc=document.getElementById('tab-'+t.dataset.tab);
+    if(tc)tc.classList.add('active');
   });
 }
 
