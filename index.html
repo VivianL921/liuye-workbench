@@ -1046,12 +1046,15 @@ function pushSync(){
   const savedAt=Date.now();
   const body={savedAt:savedAt, state:collectSyncState()};
   const content=btoa(unescape(encodeURIComponent(JSON.stringify(body))));
-  return fetch(SYNC_API, {headers:ghHeaders()}).then(r=> r.ok? r.json().catch(()=>null): null).then(meta=>{
+  return fetch(SYNC_API, {headers:ghHeaders()}).then(r=>{ if(r.status===401) throw new Error('401 Token 无效或已过期'); return r.ok? r.json().catch(()=>null): null; }).then(meta=>{
     const payload={message:'sync: update data '+new Date(savedAt).toISOString(), content:content, branch:SYNC_BRANCH};
     if(meta&&meta.sha) payload.sha=meta.sha;
     return fetch(SYNC_API, {method:'PUT', headers:ghHeaders(), body:JSON.stringify(payload)});
-  }).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); localStorage.setItem('liuye_last_sync', String(savedAt)); setSyncStatus('已同步 '+new Date(savedAt).toLocaleTimeString('zh-CN')); return true; })
-  .catch(e=>{ console.error('pushSync 失败', e); setSyncStatus('同步失败'); return false; });
+  }).then(r=>{
+    if(!r.ok){ return r.json().catch(()=>({})).then(err=>{ throw new Error('HTTP '+r.status+' '+(err.message||'上传被拒绝')); }); }
+    localStorage.setItem('liuye_last_sync', String(savedAt)); setSyncStatus('已同步 '+new Date(savedAt).toLocaleTimeString('zh-CN')); return true;
+  })
+  .catch(e=>{ console.error('pushSync 失败', e); setSyncStatus('同步失败: '+(e&&e.message?e.message:e)); return false; });
 }
 function pullSync(){
   return fetch(SYNC_RAW, {cache:'no-store'}).then(r=>{ if(r.status===404) return null; if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(data=>{
