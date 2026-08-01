@@ -1043,21 +1043,30 @@ function setSyncDetail(txt){ const el=document.getElementById('syncDetail'); if(
 let _pushTimer=null;
 function schedulePush(){ clearTimeout(_pushTimer); _pushTimer=setTimeout(pushSync, 1200); }
 function ghHeaders(){ const h={'Accept':'application/vnd.github+json','Content-Type':'application/json'}; const tk=getSyncToken(); if(tk) h['Authorization']='Basic '+btoa(SYNC_REPO+':'+tk); return h; }
-function pushSync(){
-  const tk=getSyncToken();
-  if(!tk){ setSyncStatus('未配置Token'); return Promise.resolve(false); }
+let _pushing=false, _pushPending=false;
+function _doPushOnce(attempt){
   const savedAt=Date.now();
   const body={savedAt:savedAt, state:collectSyncState()};
   const content=btoa(unescape(encodeURIComponent(JSON.stringify(body))));
+  // 先取最新 sha 再 PUT；遇到 409(版本冲突)自动用最新 sha 重试，最多 3 次
   return fetch(SYNC_API, {headers:ghHeaders()}).then(r=>{ if(r.status===401) throw new Error('401 Token 无效或已过期'); return r.ok? r.json().catch(()=>null): null; }).then(meta=>{
     const payload={message:'sync: update data '+new Date(savedAt).toISOString(), content:content, branch:SYNC_BRANCH};
     if(meta&&meta.sha) payload.sha=meta.sha;
     return fetch(SYNC_API, {method:'PUT', headers:ghHeaders(), body:JSON.stringify(payload)});
   }).then(r=>{
+    if(r.status===409 && attempt<3) return _doPushOnce(attempt+1);
     if(!r.ok){ return r.json().catch(()=>({})).then(err=>{ throw new Error('HTTP '+r.status+' '+(err.message||'上传被拒绝')); }); }
     localStorage.setItem('liuye_last_sync', String(savedAt)); setSyncStatus('已同步 '+new Date(savedAt).toLocaleTimeString('zh-CN')); return true;
-  })
-  .catch(e=>{ console.error('pushSync 失败', e); const m=(e&&e.message)?e.message:e; setSyncStatus('同步失败: '+m); setSyncDetail('❌ 上传失败：'+m); return false; });
+  });
+}
+function pushSync(){
+  const tk=getSyncToken();
+  if(!tk){ setSyncStatus('未配置Token'); return Promise.resolve(false); }
+  if(_pushing){ _pushPending=true; return Promise.resolve(false); }   // 串行化：同一时刻只允许一次推送，其余排队
+  _pushing=true;
+  return _doPushOnce(0)
+    .catch(e=>{ console.error('pushSync 失败', e); const m=(e&&e.message)?e.message:e; setSyncStatus('同步失败: '+m); setSyncDetail('❌ 上传失败：'+m); return false; })
+    .finally(()=>{ _pushing=false; if(_pushPending){ _pushPending=false; return pushSync(); } });
 }
 function pullSync(){
   return fetch(SYNC_RAW, {cache:'no-store'}).then(r=>{ if(r.status===404) return null; if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(data=>{
@@ -1099,7 +1108,7 @@ function setupSyncUI(){
 // 自动同步：任何 liuye_ 数据写入后，debounce 推送到云
 (function(){
   const _set=Storage.prototype.setItem;
-  Storage.prototype.setItem=function(k,v){ _set.call(this,k,v); if(typeof k==='string' && k.indexOf('liuye_')===0){ try{ schedulePush(); }catch(e){} } };
+  Storage.prototype.setItem=function(k,v){ _set.call(this,k,v); if(typeof k==='string' && k.indexOf('liuye_')===0 && k!=='liuye_last_sync' && k!=='liuye_sync_token'){ try{ schedulePush(); }catch(e){} } };
 })();
 
 function init(){
