@@ -322,6 +322,13 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);co
 .sales-stat .num.green{color:var(--green)}
 .sales-stat .label{font-size:12px;color:var(--text-sec);margin-top:2px}
 .sales-empty{text-align:center;color:var(--text-sec);padding:20px}
+.sync-btn{margin-left:10px;padding:5px 12px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.15);color:#fff;border-radius:20px;font-size:12px;cursor:pointer;backdrop-filter:blur(2px);touch-action:manipulation}
+.sync-btn:active{transform:scale(.95)}
+.sync-modal .hint{font-size:12px;color:var(--text-sec);line-height:1.7;margin:6px 0 12px}
+.sync-modal .row{display:flex;gap:8px;align-items:center;margin:10px 0;flex-wrap:wrap}
+.sync-modal input{flex:1;min-width:200px;padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-size:13px}
+.sync-modal .status{font-size:12px;margin-top:8px;color:var(--primary);min-height:16px}
+@media (max-width:600px){.sync-btn{font-size:11px;padding:4px 9px;margin-left:6px}}
 
 </style>
 </head>
@@ -338,6 +345,7 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);co
       <div class="header-meta">
         <span id="todayDate"></span>
         <span id="taskSummary"></span>
+        <button id="btnSync" class="sync-btn" title="云同步：电脑与手机共用一份数据">☁️ <span id="syncState">未配置</span></button>
         <div class="progress-ring">
           <svg width="56" height="56">
             <circle class="bg-circle" cx="28" cy="28" r="24"/>
@@ -656,6 +664,23 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);co
       <button class="btn-cancel" id="btnCancelSalesSettings">取消</button>
       <button class="btn-save" id="btnSaveSalesSettings">保存</button>
     </div>
+  </div>
+</div>
+
+<!-- ============ 云同步弹窗 ============ -->
+<div class="modal-overlay" id="syncModal">
+  <div class="modal sync-modal">
+    <h3>☁️ 云同步（电脑 ↔ 手机）</h3>
+    <p class="hint">数据存到 GitHub 仓库，电脑和手机共用一份。两端各填一次下方 Token（<b>仅存本机浏览器，不会写进公开代码</b>）即可自动双向同步；手机不填 Token 也能<b>拉取</b>电脑数据。</p>
+    <div class="row">
+      <input type="password" id="syncTokenInput" placeholder="粘贴 GitHub Token（ghp_... 或 github_pat_...）" autocomplete="off">
+    </div>
+    <div class="row">
+      <button class="btn-save" id="btnSyncNow">⬆️ 上传(本机→云)</button>
+      <button class="btn-cancel" id="btnPullNow">⬇️ 拉取(云→本机)</button>
+      <button class="btn-cancel" id="btnCloseSync">关闭</button>
+    </div>
+    <div class="status" id="syncDetail"></div>
   </div>
 </div>
 
@@ -989,9 +1014,93 @@ let editingId = null;
 let editingMonthlyId = null;
 
 // ============ INIT ============
+// ============ 云同步（GitHub 仓库 = 电脑↔手机共享存储） ============
+const SYNC_REPO='VivianL921', SYNC_BRANCH='main', SYNC_PATH='data/sync.json';
+const SYNC_RAW='https://raw.githubusercontent.com/'+SYNC_REPO+'/'+SYNC_BRANCH+'/'+SYNC_PATH;
+const SYNC_API='https://api.github.com/repos/'+SYNC_REPO+'/liuye-workbench/contents/'+SYNC_PATH;
+function getSyncToken(){ return localStorage.getItem('liuye_sync_token')||''; }
+function setSyncToken(t){ if(t&&t.trim()) localStorage.setItem('liuye_sync_token', t.trim()); else localStorage.removeItem('liuye_sync_token'); }
+function reloadCore(){
+  try{ let s=JSON.parse(localStorage.getItem('liuye_sales_plan')); if(s&&Array.isArray(s.months)&&s.months.length){salesPlan=s;}else{salesPlan=JSON.parse(JSON.stringify(DEFAULT_SALES_PLAN));} }catch(e){ salesPlan=JSON.parse(JSON.stringify(DEFAULT_SALES_PLAN)); }
+  tasks=JSON.parse(localStorage.getItem('liuye_tasks')||'null')||DEFAULT_TASKS;
+  monthlyTasks=JSON.parse(localStorage.getItem('liuye_monthly_tasks')||'null')||DEFAULT_MONTHLY;
+}
+function collectSyncState(){
+  const st={};
+  for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k&&k.indexOf('liuye_')===0) st[k]=localStorage.getItem(k); }
+  return st;
+}
+function applySyncState(state){
+  if(!state) return;
+  for(const k in state){ try{ localStorage.setItem(k, state[k]); }catch(e){} }
+  reloadCore();
+  try{ localStorage.setItem('liuye_last_sync', String(state.__savedAt||Date.now())); }catch(e){}
+}
+function setSyncStatus(txt){ const el=document.getElementById('syncState'); if(el) el.textContent=txt; }
+let _pushTimer=null;
+function schedulePush(){ clearTimeout(_pushTimer); _pushTimer=setTimeout(pushSync, 1200); }
+function ghHeaders(){ const h={'Accept':'application/vnd.github+json','Content-Type':'application/json'}; const tk=getSyncToken(); if(tk) h['Authorization']='Basic '+btoa(SYNC_REPO+':'+tk); return h; }
+function pushSync(){
+  const tk=getSyncToken();
+  if(!tk){ setSyncStatus('未配置Token'); return Promise.resolve(false); }
+  const savedAt=Date.now();
+  const body={savedAt:savedAt, state:collectSyncState()};
+  const content=btoa(unescape(encodeURIComponent(JSON.stringify(body))));
+  return fetch(SYNC_API, {headers:ghHeaders()}).then(r=> r.ok? r.json().catch(()=>null): null).then(meta=>{
+    const payload={message:'sync: update data '+new Date(savedAt).toISOString(), content:content, branch:SYNC_BRANCH};
+    if(meta&&meta.sha) payload.sha=meta.sha;
+    return fetch(SYNC_API, {method:'PUT', headers:ghHeaders(), body:JSON.stringify(payload)});
+  }).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); localStorage.setItem('liuye_last_sync', String(savedAt)); setSyncStatus('已同步 '+new Date(savedAt).toLocaleTimeString('zh-CN')); return true; })
+  .catch(e=>{ console.error('pushSync 失败', e); setSyncStatus('同步失败'); return false; });
+}
+function pullSync(){
+  return fetch(SYNC_RAW, {cache:'no-store'}).then(r=>{ if(r.status===404) return null; if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(data=>{
+    if(!data||!data.state) return false;
+    const remote=Number(data.savedAt)||0;
+    const local=Number(localStorage.getItem('liuye_last_sync')||0);
+    if(remote>local){
+      applySyncState(Object.assign({}, data.state, {__savedAt:remote}));
+      setSyncStatus('已拉取 '+new Date(remote).toLocaleTimeString('zh-CN'));
+      return true;
+    }
+    return false;
+  }).catch(e=>{ console.error('pullSync 失败', e); return false; });
+}
+function rerenderAll(){ renderTasks(); renderMonthly(); renderBrands(); renderReview(); renderSOP(); renderSalesPlan(); }
+function setupSyncUI(){
+  const btn=document.getElementById('btnSync');
+  if(btn) btn.onclick=()=>{ const m=document.getElementById('syncModal'); if(m) m.classList.add('show'); };
+  const tok=document.getElementById('syncTokenInput');
+  if(tok && getSyncToken()) tok.value=getSyncToken();
+  const now=document.getElementById('btnSyncNow');
+  if(now) now.onclick=()=>{
+    const v=document.getElementById('syncTokenInput').value.trim();
+    setSyncToken(v);
+    const d=document.getElementById('syncDetail'); if(d) d.textContent='上传中…';
+    pushSync().then(ok=>{ if(d) d.textContent = ok? '✅ 已上传到云（电脑→手机可用）' : '❌ 上传失败，请检查 Token 是否有效'; });
+  };
+  const pull=document.getElementById('btnPullNow');
+  if(pull) pull.onclick=()=>{
+    const d=document.getElementById('syncDetail'); if(d) d.textContent='拉取中…';
+    pullSync().then(u=>{ if(u) rerenderAll(); if(d) d.textContent = u? '✅ 已拉取最新数据' : 'ℹ️ 云端暂无比你本机更新的数据'; });
+  };
+  const close=document.getElementById('btnCloseSync');
+  if(close) close.onclick=()=>{ const m=document.getElementById('syncModal'); if(m) m.classList.remove('show'); };
+  const m=document.getElementById('syncModal');
+  if(m) m.onclick=function(e){ if(e.target===this) m.classList.remove('show'); };
+  setSyncStatus(getSyncToken()? '已配置Token' : '未配置Token');
+}
+// 自动同步：任何 liuye_ 数据写入后，debounce 推送到云
+(function(){
+  const _set=Storage.prototype.setItem;
+  Storage.prototype.setItem=function(k,v){ _set.call(this,k,v); if(typeof k==='string' && k.indexOf('liuye_')===0){ try{ schedulePush(); }catch(e){} } };
+})();
+
 function init(){
   // 优先绑定模块切换：即使后续某个模块在移动端渲染异常，导航也不受影响
   bindTabs();
+  // 启动先拉取云端(电脑↔手机共享)数据，再渲染，保证手机端看到最新内容
+  pullSync().finally(()=>{
   const safe=(fn,name)=>{try{fn();}catch(e){console.error('['+name+'] init 渲染异常:',e);}};
   safe(renderDate,'renderDate');
   safe(renderTasks,'renderTasks');
@@ -1013,6 +1122,8 @@ function init(){
     const t=getToday();
     if(t!==_watchDate){rolloverDay(_watchDate); _watchDate=t; renderBrands(); renderReview();}
   },60000);
+  setupSyncUI();
+  });
 }
 
 // 跨天归档：记录当日完成率统计，清除已完成任务(已存入历史)
