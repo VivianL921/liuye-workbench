@@ -1026,8 +1026,10 @@ function reloadCore(){
   monthlyTasks=JSON.parse(localStorage.getItem('liuye_monthly_tasks')||'null')||DEFAULT_MONTHLY;
 }
 function collectSyncState(){
+  // 只同步业务数据，排除本地配置项（token / 最后同步时间），避免把 GitHub Token 上传触发密钥扫描 409
+  const exclude={'liuye_sync_token':1,'liuye_last_sync':1};
   const st={};
-  for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k&&k.indexOf('liuye_')===0) st[k]=localStorage.getItem(k); }
+  for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k&&k.indexOf('liuye_')===0&&!exclude[k]) st[k]=localStorage.getItem(k); }
   return st;
 }
 function applySyncState(state){
