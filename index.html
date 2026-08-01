@@ -330,6 +330,25 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);co
 .sync-modal .status{font-size:12px;margin-top:8px;color:var(--primary);min-height:16px}
 @media (max-width:600px){.sync-btn{font-size:11px;padding:4px 9px;margin-left:6px}}
 
+/* 本周回溯：每日卡片可点击补日记 */
+.day-mini{cursor:pointer;transition:transform .15s,box-shadow .15s}
+.day-mini:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.14)}
+.day-mini:active{transform:scale(.97)}
+.dm-edit{font-size:10px;color:var(--primary);margin-top:3px;font-weight:600}
+
+/* 历史归档：年/月/日滚动选择 */
+.date-pickers{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:8px}
+.date-pickers .dp-label{display:flex;flex-direction:column;font-size:12px;color:var(--text-sec);gap:4px}
+.date-pickers select{padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:15px;background:var(--card);color:var(--text);min-width:78px}
+.btn-view{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:14px;cursor:pointer;white-space:nowrap}
+.btn-view:active{opacity:.85}
+.date-hint{font-size:12px;color:var(--text-sec);margin:6px 0 10px}
+
+/* 自定义任务分类 */
+.cat-add-wrap{margin-top:8px;border-top:1px dashed var(--border);padding-top:10px}
+.cat-add-wrap label{font-size:12px;color:var(--text-sec)}
+.cat-hint{font-size:12px;color:var(--green);margin-top:5px;min-height:14px}
+
 </style>
 </head>
 <body>
@@ -379,17 +398,7 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);co
       </div>
       <div class="task-toolbar">
         <div class="task-filter">
-          <button class="filter-btn active" data-filter="all">全部</button>
-          <button class="filter-btn" data-filter="distributor">经销商对接</button>
-          <button class="filter-btn" data-filter="newproduct">新品跟进</button>
-          <button class="filter-btn" data-filter="competitor">竞品监控</button>
-          <button class="filter-btn" data-filter="customer">客户跟进</button>
-          <button class="filter-btn" data-filter="order">订单管理</button>
-          <button class="filter-btn" data-filter="brand">品牌活动</button>
-          <button class="filter-btn" data-filter="bizdev">业务开发</button>
-          <button class="filter-btn" data-filter="meeting-internal">内部周会</button>
-          <button class="filter-btn" data-filter="meeting-customer">客户会议</button>
-          <button class="filter-btn" data-filter="meeting-distributor">经销商会议</button>
+          <div class="filter-bar" id="filterBar" style="display:flex;gap:8px;flex-wrap:wrap"></div>
         </div>
         <button class="btn-add" id="btnAdd">+ 新增任务</button>
       </div>
@@ -478,7 +487,13 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);co
       <div class="lib-divider"></div>
 
       <div class="lib-h3">📂 历史归档（按日期查看当日完成与日记）</div>
-      <select class="hist-select" id="histDate"></select>
+      <div class="date-pickers" id="datePickers">
+        <span class="dp-label">年<select id="dpYear"></select></span>
+        <span class="dp-label">月<select id="dpMonth"></select></span>
+        <span class="dp-label">日<select id="dpDay"></select></span>
+        <button class="btn-view" id="btnViewDate">🔍 查看</button>
+      </div>
+      <div class="date-hint" id="dateHint">滚动选择任意年月日，点击「查看」即可调出当天的工作日记与完成情况</div>
       <div class="hist-count" id="histCount"></div>
       <div id="histDetail"></div>
     </div>
@@ -546,6 +561,14 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);co
         <option value="meeting-customer">项目会议·客户会议</option>
         <option value="meeting-distributor">项目会议·经销商会议</option>
       </select>
+      <div class="cat-add-wrap">
+        <label>没有合适的？自行添加任务分类</label>
+        <div style="display:flex;gap:8px;margin-top:5px">
+          <input type="text" id="newCatInput" placeholder="如：售后支持 / 展会执行 / 合同审批" style="flex:1;padding:8px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px">
+          <button class="btn-add" id="btnAddCat" type="button">➕ 添加</button>
+        </div>
+        <div class="cat-hint" id="catHint"></div>
+      </div>
     </div>
     <div class="form-group">
       <label>优先级（按 重要·紧急 四象限）</label>
@@ -621,6 +644,29 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:var(--bg);co
     <div class="report-actions">
       <button class="btn-dl" id="btnDownloadReport">⬇ 下载 .txt</button>
       <button class="btn-copy" id="btnCopyReport">📋 复制全文</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 补充工作日记弹窗（本周回溯点击某天） ============ -->
+<div class="modal-overlay" id="dayDiaryModal">
+  <div class="modal">
+    <h3 id="dayDiaryTitle">补充工作日记</h3>
+    <div class="form-group">
+      <label>⚠️ 未完成及原因</label>
+      <textarea class="review-textarea" id="dayPending" placeholder="对未完成的任务，原因是什么？如何改进？（将汇总进本周难点）"></textarea>
+    </div>
+    <div class="form-group">
+      <label>💡 关键收获</label>
+      <textarea class="review-textarea" id="dayLearn" placeholder="经验教训、市场洞察、客户反馈..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>📔 工作日记</label>
+      <textarea class="review-textarea" id="dayDiary" placeholder="当天工作流水、重要沟通、临时事项、心情备注..."></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnCancelDayDiary">取消</button>
+      <button class="btn-save" id="btnSaveDayDiary">保存</button>
     </div>
   </div>
 </div>
@@ -1124,7 +1170,7 @@ function init(){
   safe(renderReview,'renderReview');
   safe(renderSOP,'renderSOP');
   safe(renderSalesPlan,'renderSalesPlan');
-  bindFilters();
+  renderFilterButtons();
   bindBrandChecks();
   bindReviewSubtabs();
   bindTaskSubtabs();
@@ -1171,6 +1217,9 @@ function bindStatic(){
   on('btnSyncSop',syncSOP);
   on('btnCancelTask',closeTaskModal);
   on('btnSaveTask',saveTask);
+  on('btnAddCat',addCustomCat);
+  on('btnCancelDayDiary',()=>document.getElementById('dayDiaryModal').classList.remove('show'));
+  on('btnSaveDayDiary',saveDayDiary);
   on('btnDownloadReport',downloadReport);
   on('btnCopyReport',copyReport);
   const cat=document.getElementById('taskCatInput');
@@ -1228,10 +1277,16 @@ function bindTabs(){
 }
 
 // ============ TASKS ============
-function bindFilters(){
-  document.querySelectorAll('.filter-btn').forEach(b=>{
+function renderFilterButtons(){
+  const bar=document.getElementById('filterBar');
+  if(!bar)return;
+  const cats=getUserCats();
+  let html='<button class="filter-btn '+(currentFilter==='all'?'active':'')+'" data-filter="all">全部</button>';
+  Object.keys(cats).forEach(k=>{ html+='<button class="filter-btn '+(currentFilter===k?'active':'')+'" data-filter="'+k+'">'+esc(cats[k][0])+'</button>'; });
+  bar.innerHTML=html;
+  bar.querySelectorAll('.filter-btn').forEach(b=>{
     b.onclick=()=>{
-      document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+      bar.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
       b.classList.add('active');
       currentFilter=b.dataset.filter;
       renderTasks();
@@ -1259,7 +1314,7 @@ function renderTasks(){
     updateProgress(); return;
   }
 
-  const catMap={'distributor':['经销商对接','cat-distributor'],'newproduct':['新品跟进','cat-newproduct'],competitor:['竞品监控','cat-competitor'],customer:['客户跟进','cat-customer'],'order':['订单管理','cat-order'],brand:['品牌活动','cat-brand'],bizdev:['业务开发','cat-bizdev'],'meeting-internal':['内部周会','cat-meeting-internal'],'meeting-customer':['客户会议','cat-meeting-customer'],'meeting-distributor':['经销商会议','cat-meeting-distributor']};
+  const catMap=getUserCats();
 
   list.innerHTML=filtered.map(t=>{
     const c=catMap[t.cat]||['其他',''];
@@ -1315,14 +1370,14 @@ function unarchiveTask(id){
   saveArchive(a);
 }
 
-function openTaskModal(){editingId=null;resetModalFields();document.getElementById('modalTitle').textContent='新增任务';document.getElementById('taskModal').classList.add('show')}
+function openTaskModal(){editingId=null;resetModalFields();document.getElementById('modalTitle').textContent='新增任务';renderCatOptions(document.getElementById('taskCatInput'));const ni=document.getElementById('newCatInput');if(ni)ni.value='';const hi=document.getElementById('catHint');if(hi)hi.textContent='';document.getElementById('taskModal').classList.add('show')}
 
 function editTask(id){
   let t=tasks.find(x=>x.id===id); if(!t)return;
   editingId=id;
   document.getElementById('modalTitle').textContent='编辑任务';
   document.getElementById('taskInput').value=t.title;
-  document.getElementById('taskCatInput').value=t.cat;
+  renderCatOptions(document.getElementById('taskCatInput'),t.cat);
   document.getElementById('taskPriInput').value=t.pri;
   document.getElementById('taskDeadlineInput').value=t.deadline;
   toggleMeetingNotes();
@@ -1673,6 +1728,25 @@ function renderBrands(){
 
 // ============ REVIEW ============
 const CAT_MAP={'distributor':['经销商对接','cat-distributor'],'newproduct':['新品跟进','cat-newproduct'],competitor:['竞品监控','cat-competitor'],customer:['客户跟进','cat-customer'],'order':['订单管理','cat-order'],brand:['品牌活动','cat-brand'],'meeting-internal':['内部周会','cat-meeting-internal'],'meeting-customer':['客户会议','cat-meeting-customer'],'meeting-distributor':['经销商会议','cat-meeting-distributor']};
+// 自定义任务分类（持久化、自动同步到云）
+function getCustomCats(){try{return JSON.parse(localStorage.getItem('liuye_custom_cats')||'[]')}catch(e){return[]}}
+function getUserCats(){const m=Object.assign({},CAT_MAP);getCustomCats().forEach(c=>{m[c.value]=[c.label,'']});return m}
+function catName(c){const m=getUserCats();return (m[c]||['其他'])[0]}
+function renderCatOptions(sel,selected){
+  const cats=getUserCats();
+  sel.innerHTML=Object.keys(cats).map(k=>'<option value="'+k+'" '+(k===selected?'selected':'')+'>'+esc(cats[k][0])+'</option>').join('');
+}
+function addCustomCat(){
+  const inp=document.getElementById('newCatInput'),hint=document.getElementById('catHint');
+  const name=inp.value.trim();
+  if(!name){hint.textContent='请输入分类名称';hint.style.color='var(--red)';return;}
+  const arr=getCustomCats();
+  if(arr.some(c=>c.label===name)){hint.textContent='「'+name+'」已存在';hint.style.color='var(--red)';return;}
+  const value='cat_'+Date.now();
+  arr.push({value,label:name});localStorage.setItem('liuye_custom_cats',JSON.stringify(arr));
+  renderCatOptions(document.getElementById('taskCatInput'),value);
+  inp.value='';hint.textContent='✅ 已添加「'+name+'」并自动选中';hint.style.color='var(--green)';
+}
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
 function renderReview(){
@@ -1710,8 +1784,8 @@ function renderReviewTasks(){
   let planList=document.getElementById('reviewPlanList');
   if(!doneList||!planList)return;
   let done=tasks.filter(t=>t.done && t.doneDate===getToday()), undone=tasks.filter(t=>!t.done);
-  doneList.innerHTML=done.length?done.map(t=>`<div class="review-task done-task"><span class="rt-check">✓</span><span class="rt-title">${esc(t.title)}</span><span class="rt-cat">${CAT_MAP[t.cat]?CAT_MAP[t.cat][0]:'其他'}</span></div>`).join(''):'<div class="review-empty">今天还没有完成的任务，去「今日任务」里勾选吧</div>';
-  planList.innerHTML=undone.length?undone.map(t=>`<div class="review-task plan-task"><span class="rt-dot">○</span><span class="rt-title">${esc(t.title)}</span>${t.deadline?`<span class="rt-time">⏰${fmtDeadline(t.deadline)}</span>`:''}<span class="rt-cat">${CAT_MAP[t.cat]?CAT_MAP[t.cat][0]:'其他'}</span></div>`).join(''):'<div class="review-empty">🎉 所有任务都已完成</div>';
+  doneList.innerHTML=done.length?done.map(t=>`<div class="review-task done-task"><span class="rt-check">✓</span><span class="rt-title">${esc(t.title)}</span><span class="rt-cat">${catName(t.cat)}</span></div>`).join(''):'<div class="review-empty">今天还没有完成的任务，去「今日任务」里勾选吧</div>';
+  planList.innerHTML=undone.length?undone.map(t=>`<div class="review-task plan-task"><span class="rt-dot">○</span><span class="rt-title">${esc(t.title)}</span>${t.deadline?`<span class="rt-time">⏰${fmtDeadline(t.deadline)}</span>`:''}<span class="rt-cat">${catName(t.cat)}</span></div>`).join(''):'<div class="review-empty">🎉 所有任务都已完成</div>';
 }
 
 function saveReview(){
@@ -1779,11 +1853,12 @@ function renderWeekReview(){
     weekDone+=done; weekTotal+=total;
     const pct=total>0?Math.round(done/total*100):0;
     const isToday=ds===today;
-    return `<div class="day-mini ${isToday?'today':''}">
+    return `<div class="day-mini ${isToday?'today':''}" data-date="${ds}">
       <div class="dm-day">周${dayNames[i]}</div>
       <div class="dm-num">${done}</div>
       <div style="font-size:10px;color:var(--text-sec)">/${total}</div>
       <div class="dm-bar"><i style="width:${pct}%"></i></div>
+      <div class="dm-edit">✍️ 补日记</div>
     </div>`;
   }).join('');
   const pct=weekTotal>0?Math.round(weekDone/weekTotal*100):0;
@@ -1795,6 +1870,7 @@ function renderWeekReview(){
   document.getElementById('weekTotal').textContent=weekTotal;
   document.getElementById('weekDays').textContent=daysWithRecord;
   document.getElementById('dayMinis').innerHTML=minis;
+  document.querySelectorAll('#dayMinis .day-mini').forEach(m=>{ m.onclick=()=>openDayDiary(m.dataset.date); });
 
   // 本周难点：汇总每日"未完成及原因"
   let diffs='';
@@ -1818,22 +1894,35 @@ function renderWeekReview(){
 }
 
 function renderHistory(){
-  let sel=document.getElementById('histDate');
-  if(!sel)return;
-  const archive=getArchive();
-  let allDates=new Set(Object.keys(archive));
-  for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i); const m=k&&k.match(/^liuye_review_(.+)$/); if(m)allDates.add(m[1]);}
-  const dates=Array.from(allDates).sort().reverse();
-  if(dates.length===0){
-    sel.innerHTML='<option>— 暂无历史记录 —</option>';
-    document.getElementById('histCount').textContent='';
-    document.getElementById('histDetail').innerHTML='<div class="review-empty">还没有任何复盘记录，完成今天任务并写日记后会出现在这里</div>';
-    return;
-  }
-  sel.innerHTML=dates.map(d=>`<option value="${d}">${d}</option>`).join('');
-  sel.onchange=()=>showHistoryDetail(sel.value);
-  showHistoryDetail(sel.value);
-  document.getElementById('histCount').textContent='共 '+dates.length+' 天记录';
+  renderDatePickers();
+  document.getElementById('histCount').textContent='';
+  showHistoryDetail(getToday());
+}
+function renderDatePickers(){
+  const ySel=document.getElementById('dpYear'),mSel=document.getElementById('dpMonth'),dSel=document.getElementById('dpDay');
+  if(!ySel||!mSel||!dSel)return;
+  if(ySel.options.length)return; // 只初始化一次，避免切换 tab 时重置选择
+  const now=new Date();
+  let htmlY='';for(let y=now.getFullYear()-2;y<=now.getFullYear()+1;y++)htmlY+='<option value="'+y+'">'+y+'年</option>';
+  ySel.innerHTML=htmlY; ySel.value=now.getFullYear();
+  let htmlM='';for(let m=1;m<=12;m++)htmlM+='<option value="'+m+'">'+m+'月</option>';
+  mSel.innerHTML=htmlM; mSel.value=now.getMonth()+1;
+  fillDayOptions();
+  ySel.onchange=fillDayOptions; mSel.onchange=fillDayOptions;
+  const vBtn=document.getElementById('btnViewDate');
+  if(vBtn)vBtn.onclick=viewByPicker;
+}
+function fillDayOptions(){
+  const ySel=document.getElementById('dpYear'),mSel=document.getElementById('dpMonth'),dSel=document.getElementById('dpDay');
+  if(!ySel||!mSel||!dSel)return;
+  const y=+ySel.value,m=+mSel.value;const max=new Date(y,m,0).getDate();
+  const cur=dSel.value?+dSel.value:new Date().getDate();
+  let html='';for(let d=1;d<=max;d++)html+='<option value="'+d+'">'+d+'日</option>';
+  dSel.innerHTML=html; dSel.value=Math.min(cur,max);
+}
+function viewByPicker(){
+  const date=document.getElementById('dpYear').value+'-'+pad2(document.getElementById('dpMonth').value)+'-'+pad2(document.getElementById('dpDay').value);
+  showHistoryDetail(date);
 }
 
 function showHistoryDetail(date){
@@ -1841,11 +1930,36 @@ function showHistoryDetail(date){
   const done=archive[date]||[];
   let review={};
   try{review=JSON.parse(localStorage.getItem('liuye_review_'+date)||'{}')}catch(e){}
-  let html=`<div class="hist-block"><h5>✅ 当日完成（${done.length} 项）</h5>${done.length?done.map(t=>`<div class="review-task done-task"><span class="rt-check">✓</span><span class="rt-title">${esc(t.title)}</span><span class="rt-cat">${CAT_MAP[t.cat]?CAT_MAP[t.cat][0]:'其他'}</span></div>`).join(''):'<div class="review-empty">无</div>'}</div>`;
-  if(review.diary)html+=`<div class="hist-block"><h5>📔 工作日记</h5><div class="hist-text">${esc(review.diary).replace(/\n/g,'<br>')}</div></div>`;
+  let html=`<div class="hist-block"><h5>✅ 当日完成（${done.length} 项）</h5>${done.length?done.map(t=>`<div class="review-task done-task"><span class="rt-check">✓</span><span class="rt-title">${esc(t.title)}</span><span class="rt-cat">${catName(t.cat)}</span></div>`).join(''):'<div class="review-empty">无</div>'}</div>`;
   if(review.pending)html+=`<div class="hist-block"><h5>⚠️ 未完成及原因</h5><div class="hist-text">${esc(review.pending).replace(/\n/g,'<br>')}</div></div>`;
   if(review.learn)html+=`<div class="hist-block"><h5>💡 关键收获</h5><div class="hist-text">${esc(review.learn).replace(/\n/g,'<br>')}</div></div>`;
+  if(review.diary)html+=`<div class="hist-block"><h5>📔 工作日记</h5><div class="hist-text">${esc(review.diary).replace(/\n/g,'<br>')}</div></div>`;
   document.getElementById('histDetail').innerHTML=html;
+}
+
+// 本周回溯：点击某天，补充/修改那天的工作日记
+function openDayDiary(date){
+  let review={};
+  try{review=JSON.parse(localStorage.getItem('liuye_review_'+date)||'{}')}catch(e){}
+  document.getElementById('dayDiaryTitle').textContent='补充工作日记 · '+date;
+  document.getElementById('dayPending').value=review.pending||'';
+  document.getElementById('dayLearn').value=review.learn||'';
+  document.getElementById('dayDiary').value=review.diary||'';
+  document.getElementById('dayDiaryModal').dataset.date=date;
+  document.getElementById('dayDiaryModal').classList.add('show');
+}
+function saveDayDiary(){
+  const modal=document.getElementById('dayDiaryModal');
+  const date=modal.dataset.date;
+  if(!date)return;
+  let review={};
+  try{review=JSON.parse(localStorage.getItem('liuye_review_'+date)||'{}')}catch(e){}
+  review.pending=document.getElementById('dayPending').value;
+  review.learn=document.getElementById('dayLearn').value;
+  review.diary=document.getElementById('dayDiary').value;
+  localStorage.setItem('liuye_review_'+date,JSON.stringify(review));
+  modal.classList.remove('show');
+  renderLibrary();
 }
 
 function getToday(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
@@ -1922,7 +2036,7 @@ function sopPracticeHtml(i){
   const mt=items.filter(it=>sopMatch(sop,it.title,it.cat));
   if(mt.length){
     html+='<div class="sp-sub">✅ 相关已完成任务（'+mt.length+'）</div>';
-    mt.forEach(it=>{html+=`<div class="sp-item"><span class="sp-date">${it.date}</span><span>${esc(it.title)}</span><span class="sp-cat">${CAT_MAP[it.cat]?CAT_MAP[it.cat][0]:''}</span></div>`;});
+    mt.forEach(it=>{html+=`<div class="sp-item"><span class="sp-date">${it.date}</span><span>${esc(it.title)}</span><span class="sp-cat">${catName(it.cat)}</span></div>`;});
   }
   const md=[];
   diary.forEach(d=>{d.text.split(/[\n。；;]/).forEach(s=>{s=s.trim();if(s&&sopMatch(sop,s))md.push({date:d.date,text:s});});});
