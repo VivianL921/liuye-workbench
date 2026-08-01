@@ -1183,7 +1183,7 @@ let editingMonthlyId = null;
 // ============ INIT ============
 // ============ 云同步（GitHub 仓库 = 电脑↔手机共享存储） ============
 const SYNC_REPO='VivianL921', SYNC_BRANCH='main', SYNC_PATH='data/sync.json';
-const SYNC_RAW='https://raw.githubusercontent.com/'+SYNC_REPO+'/'+SYNC_BRANCH+'/'+SYNC_PATH;
+const SYNC_RAW='https://'+SYNC_REPO+'.github.io/liuye-workbench/'+SYNC_PATH;
 const SYNC_API='https://api.github.com/repos/'+SYNC_REPO+'/liuye-workbench/contents/'+SYNC_PATH;
 function getSyncToken(){ return localStorage.getItem('liuye_sync_token')||''; }
 function setSyncToken(t){ if(t&&t.trim()) localStorage.setItem('liuye_sync_token', t.trim()); else localStorage.removeItem('liuye_sync_token'); }
