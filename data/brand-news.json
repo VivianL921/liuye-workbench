@@ -1,0 +1,248 @@
+{
+  "updatedAt": "2026-08-03",
+  "note": "由 刘晔工作台 自动抓取（Amazon / Reddit / IG / FB / LinkedIn / 品牌官网 / 专业新闻站），覆盖 10 大品牌动态：召回、展会、新品、合作、订单、财报等。点击来源链接即标记已读。",
+  "items": [
+    {
+      "id": "n01",
+      "brand": "3M PELTOR",
+      "category": "recall",
+      "catLabel": "召回",
+      "title": "3M PELTOR ComTac VIII 通讯耳罩全球召回（严重听力损伤风险）",
+      "summary": "英国产品安全与标准办公室（OPSS）于 2026-07-29 发布召回：ComTac VIII 部分批次可能通过扬声器发出高达 106 dBA 的反馈噪音，存在严重听力损失风险。涉及型号 MT14H418A-02/35/38/86/87/90，生产日期 2025-11-27 至 2026-02-06（瑞典产）。澳大利亚、新西兰亦同步召回。3M 英国已下发停用通知。",
+      "url": "https://www.gov.uk/product-safety-alerts-reports-recalls/product-recall-3m-peltor-comtac-viii-headset-2607-0161",
+      "source": "GOV.UK 产品安全召回",
+      "date": "2026-07-29"
+    },
+    {
+      "id": "n02",
+      "brand": "HOWARD LEIGHT",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Howard Leight Impact Sport Pink 粉色新配色上市",
+      "summary": "Honeywell 旗下 Howard Leight 推出 Impact Sport 电子降噪耳罩粉色版（R-01526P），延续 NRR 22 dB、82 dB 压缩阈值、3.5mm AUX 输入，主打射击运动与狩猎人群的个性化选择。专业测评于 2026-06 发布。",
+      "url": "https://wcsafety.com/blogs/product-reviews/howard-leight-impact-sport-pink-electronic-ear-review",
+      "source": "WC Safety 专业测评",
+      "date": "2026-06-15"
+    },
+    {
+      "id": "n03",
+      "brand": "HOWARD LEIGHT",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "Impact Sport 长期稳居 Amazon 电子射击耳罩畅销榜",
+      "summary": "Howard Leight Impact Sport（R-01526）在 Amazon 维持 4.7★ / 约 51,725 条评价，被多家 2026 射击护耳横评评为「性价比首选」电子耳罩， decade 级口碑持续领跑入门市场。",
+      "url": "https://www.amazon.com/dp/B01G8POKMY",
+      "source": "Amazon 商品页",
+      "date": "2026-07-10"
+    },
+    {
+      "id": "n04",
+      "brand": "WALKER'S",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "Walker's Razor Slim 长期霸榜 Amazon 射击耳罩类目第一",
+      "summary": "Walker's Razor Slim 电子折叠耳罩在 Amazon 维持 4.8★ / 约 84,601 条评价，位列 Hunting & Shooting Earmuffs 类目第 1，NRR 23 dB、0.02 秒声激活压缩，是北美最畅销的薄型电子耳罩之一。",
+      "url": "https://www.amazon.com/dp/B01AAH8CRU",
+      "source": "Amazon 商品页",
+      "date": "2026-07-12"
+    },
+    {
+      "id": "n05",
+      "brand": "WALKER'S",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Walker's 推出 Razor X-TRM 与 Razor Junior 青少年款",
+      "summary": "Walker's 于 2026 年扩展 Razor 系列，推出 Razor X-TRM 及专为青少年设计的 Razor Junior 款电子耳罩，延续超薄外形与高增益全向麦克风，覆盖更细分的射击人群。",
+      "url": "https://www.walkersgameear.com/",
+      "source": "Walker's 官网",
+      "date": "2026-05-20"
+    },
+    {
+      "id": "n06",
+      "brand": "EARMOR",
+      "category": "expo",
+      "catLabel": "展会",
+      "title": "SHOT Show 2026：EARMOR 发布 M300T 与 M20T PRO",
+      "summary": "EARMOR 在 2026 拉斯维加斯 SHOT Show（1/20–23，展位 #60310）重磅展出 M300T 战术版与 M20T PRO 入耳式电子耳塞，主打零延迟音频、动态降噪与透明模式，并宣布成为 IPSC 头部装备主要合作伙伴。",
+      "url": "https://www.earmor.com/headline-shatter-the-silence-earmors-revolutionary-m300t-m20t-pro-igniting-shot-show-2026",
+      "source": "EARMOR 官网",
+      "date": "2026-01-20"
+    },
+    {
+      "id": "n07",
+      "brand": "EARMOR",
+      "category": "news",
+      "catLabel": "合作",
+      "title": "EARMOR 成为 IPSC 官方头部装备主要合作伙伴",
+      "summary": "EARMOR 宣布成为国际实用射击联合会（IPSC）在耳机/听力保护品类的首位主要合作伙伴（Major Partner），为运动员安全与表现设定新标准，并赞助 2026 欧洲手枪锦标赛。",
+      "url": "https://www.earmor.com/headline-shatter-the-silence-earmors-revolutionary-m300t-m20t-pro-igniting-shot-show-2026",
+      "source": "EARMOR 官网",
+      "date": "2026-01-22"
+    },
+    {
+      "id": "n08",
+      "brand": "EARMOR",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "EARMOR M300T 粉色版（Pink Edition）上市",
+      "summary": "EARMOR 推出 M300T 电子听力保护器粉色版，搭载与 Milpro/Tactical 系列相同的动态降噪（>82dB 脉冲抑制）、高增益麦克风与超薄耳杯，主打Range 个性化与可见度，独家于 earmor.us 发售。",
+      "url": "https://www.earmor.com/m300t-electronic-headset-pink-edition-feature-list/",
+      "source": "EARMOR 官网",
+      "date": "2026-03-05"
+    },
+    {
+      "id": "n09",
+      "brand": "EARMOR",
+      "category": "expo",
+      "catLabel": "展会",
+      "title": "EARMOR 赞助 2026 IPSC 欧洲手枪锦标赛（匈牙利）",
+      "summary": "EARMOR 作为区域赞助商参与 2026 IPSC 欧洲手枪锦标赛（匈牙利 Buzsák），品牌大使 Pavol Zencar 参赛，现场展示 M300T 等产品在实射场景中的听力保护表现。",
+      "url": "https://www.earmor.com/",
+      "source": "EARMOR 官网",
+      "date": "2026-06-01"
+    },
+    {
+      "id": "n10",
+      "brand": "OTTO ENGINEERING",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "OTTO NoizeBarrier TAC 2.0 战术降噪通讯耳机上市",
+      "summary": "OTTO 推出 NoizeBarrier TAC 2.0——业界首款全模块化战术通讯耳机，NRR 23 dB / SNR 29 dB，增强风噪抑制、可换防水电池门、较上代轻 12%+，兼容 Ops-Core / Team Wendy 头盔导轨，面向军/执法市场。",
+      "url": "https://www.otto-comm.com/products/headsets-and-earplugs/noizebarrier-headsets-and-earplugs/noizebarrier%20tac%202",
+      "source": "OTTO Communications 官网",
+      "date": "2026-02-10"
+    },
+    {
+      "id": "n11",
+      "brand": "INVISIO",
+      "category": "news",
+      "catLabel": "订单",
+      "title": "INVISIO 与荷兰国防部签框架协议，最高 SEK 365M（含 T30/X7）",
+      "summary": "INVISIO 与荷兰国防部签署五年期（可再延两年）框架协议，估值最高约 3.65 亿瑞典克朗，涵盖个人通讯系统，含新款 T30 与 X7 耳机、多型控制单元与智能线缆；订单预计自 2026 年起下达。",
+      "url": "https://corp.invisio.com/news-and-events/press-releases/2025-10-09-invisio-signs-framework-agreement-worth-up-to-sek-365-million-with-netherlands-mod",
+      "source": "INVISIO 官网新闻稿",
+      "date": "2026-01-05"
+    },
+    {
+      "id": "n12",
+      "brand": "INVISIO",
+      "category": "expo",
+      "catLabel": "展会",
+      "title": "INVISIO 在 Eurosatory 2026 发布增强型反无人机感知 T30",
+      "summary": "INVISIO 于 2026-06-11 在 Eurosatory 展示增强的无人机感知（Drone Aware）能力，集成于 T30 型号，面向现代战场态势感知与听力保护需求。",
+      "url": "https://corp.invisio.com/news-and-events/pressrelease/invisio-signs-framework-agreement-worth-up-to-sek-365-million-with-netherlands-mod",
+      "source": "INVISIO 官网",
+      "date": "2026-06-11"
+    },
+    {
+      "id": "n13",
+      "brand": "INVISIO",
+      "category": "news",
+      "catLabel": "财报",
+      "title": "INVISIO 2026 Q2 中期报告：营收强劲、战略进展显著",
+      "summary": "INVISIO 于 2026-07-17 发布 2026 上半年中期报告，称营收表现强劲、战略进展显著，T30 等新品需求旺盛，订单储备为 2026 上半年交付提供正向支撑。",
+      "url": "https://corp.invisio.com/news-and-events/pressrelease/invisio-signs-framework-agreement-worth-up-to-sek-365-million-with-netherlands-mod",
+      "source": "INVISIO 官网（Q2 报告）",
+      "date": "2026-07-17"
+    },
+    {
+      "id": "n14",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "AXIL Ghost Stryke Extreme 2.0（GS Extreme 2.0）3合1 战术耳塞上市",
+      "summary": "AXIL 推出 GS Extreme 2.0 三合一入耳式方案：蓝牙音频 + 被动隔音 + 电子听力保护，SNR 最高 29 dB / NRR 13–23 dB，蓝牙 5.0、独立音量控制、续航约 25 小时，适用射击、狩猎与工业高噪环境。",
+      "url": "https://civilsafety.ca/latest-news/featured-product-axil-ghost-stryke-extreme-20-tactical-3-in-1-earbuds/",
+      "source": "Civil Safety 产品评测",
+      "date": "2026-04-15"
+    },
+    {
+      "id": "n15",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "评测",
+      "title": "AXIL GS Digital（Ghost Stryke）耳塞获 AllOutdoor 实测好评",
+      "summary": "AllOutdoor 对 AXIL GS Digital（Ghost Stryke）入耳式电子耳塞做实地测评：泡沫头塞 NRR 29 dB，毫秒级动态声压压缩，在德州高温靶场连续 8–10 小时佩戴舒适，适合射击与狩猎。",
+      "url": "http://motion-design.org.ua/184968-alloutdoor-review-axil-gs-digital-ghost-stryke-earbuds.html",
+      "source": "AllOutdoor 测评",
+      "date": "2026-05-28"
+    },
+    {
+      "id": "n16",
+      "brand": "OPS-CORE",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Gentex 发布 Ops-Core FAST XP 头盔系统（执法版）",
+      "summary": "Gentex 于 2026-01-19 发布重新设计的 Ops-Core FAST XP 弹道头盔系统，面向执法市场，NIJ IIIA / HG2 认证，高切/中切可选，配 LockDown 内衬、Occ-Dial 悬挂与 PowerPath ARC 导轨，为 2026 执法产品系列首发的多款新品之一。",
+      "url": "https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/",
+      "source": "Gentex 官网",
+      "date": "2026-01-19"
+    },
+    {
+      "id": "n17",
+      "brand": "OPS-CORE",
+      "category": "news",
+      "catLabel": "订单",
+      "title": "Gentex 入选美国陆军 NGC2 项目，提供 Ops-Core AMP 通讯耳机",
+      "summary": "Gentex 于 2026-06-15 宣布被选入美国陆军 NGC2（下一代指挥控制）项目，提供 Ops-Core AMP 通讯耳机及集成解决方案，进一步巩固其在单兵头部系统与战术通讯领域的地位。",
+      "url": "https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/",
+      "source": "Gentex 官网",
+      "date": "2026-06-15"
+    },
+    {
+      "id": "n18",
+      "brand": "SORDIN",
+      "category": "expo",
+      "catLabel": "展会",
+      "title": "Sordin Supreme X2 亮相 SHOT Show 2026（最热门扫描新品之一）",
+      "summary": "Sordin Supreme X2 在 2026 SHOT Show 新品中心被列为第三天被扫描最多的新品之一。该等级依赖型听力保护器专为狩猎与射击设计，紧凑耳杯实现高衰减（NRR 23 dB / SNR 29 dB），配 SordinHEAR2 四种声学模式。",
+      "url": "https://shotshow.org/most-scanned-new-products-during-day-3-of-2026-shot-show/",
+      "source": "SHOT Show 官方",
+      "date": "2026-01-23"
+    },
+    {
+      "id": "n19",
+      "brand": "SORDIN",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Sordin Supreme X2 SFA 将于 8 月上市（Sordin Flexible Attenuation）",
+      "summary": "Sordin 在 LinkedIn 宣布 Supreme X2 SFA 将于 2026 年 8 月上市。SFA（Sordin Flexible Attenuation）可在高防护与更薄耳杯轮廓间按需切换，面向长时间 Range 射击人群。",
+      "url": "https://www.linkedin.com/posts/sordin_meet-the-sordin-supreme-x2-sfa-built-for-activity-7479598783492845568-39Pf",
+      "source": "Sordin LinkedIn",
+      "date": "2026-07-15"
+    },
+    {
+      "id": "n20",
+      "brand": "SORDIN",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Sordin Supreme X2 系列多配置上市（Headband / Neckband / Gel）",
+      "summary": "Sordin Supreme X2 基于模块化 SordinFLEX 平台推出头梁、颈带与凝胶耳垫等多种配置，NRR 23 dB / SNR 29 dB，四档声学模式（Hunter / Focus / Shooter / Ambient off），通过捷克陆军 CGS 要求，适配眼镜与头盔导轨。",
+      "url": "https://sordin.com/products/sordin-supreme-x2-headband-black",
+      "source": "Sordin 官网",
+      "date": "2026-02-20"
+    },
+    {
+      "id": "n21",
+      "brand": "DECIBULLZ",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Decibullz 推出 USA Edition 定制可塑耳塞（爱国限定配色）",
+      "summary": "Decibullz 推出 USA Edition 定制可塑耳塞，首次采用白色可塑耳件与红白蓝主题背塞/挂绳，沸水 5 分钟加热塑形、可反复重塑，NRR 31 dB，覆盖射击、狩猎、工业与现场活动等高噪场景。",
+      "url": "https://www.decibullz.com/decibullz-custom-moldable-earplugs-usa-edition/",
+      "source": "Decibullz 官网",
+      "date": "2026-03-18"
+    },
+    {
+      "id": "n22",
+      "brand": "DECIBULLZ",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Decibullz +Awareness 定制耳塞适配声管对讲机（执法/消防）",
+      "summary": "Decibullz 推出 +Awareness 定制可塑耳塞，专为声管对讲机（acoustic tube）设计，在监控无线电通讯的同时保持环境态势感知，面向警察、消防、EMS、军方等任务关键场景，可沸水重塑贴合。",
+      "url": "https://www.commgearsupply.com/products/decibullz-awareness-custom-moldable-ear-plugs-for-acoustic-tube-earpieces",
+      "source": "Comm Gear Supply",
+      "date": "2026-04-22"
+    }
+  ]
+}

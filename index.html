@@ -219,6 +219,30 @@ body{
 .brand-foot{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--text-sec)}
 .brand-tags{display:flex;gap:4px;flex-wrap:wrap}
 .brand-tag{font-size:10px;padding:1px 6px;border-radius:4px;background:#f3f4f6;color:var(--text-sec)}
+.brand-check.alert{background:#fff;color:var(--red);border-color:var(--red)}
+.brand-check.alert:hover{background:var(--red);color:#fff}
+.status-done{background:var(--green-bg);color:var(--green)}
+.pdate{display:inline-block;font-size:10px;color:var(--primary);background:#eef2ff;padding:1px 6px;border-radius:10px;margin-left:4px}
+.btn-refresh{padding:5px 14px;border:1px solid var(--primary);background:var(--primary);color:#fff;border-radius:20px;font-size:12px;cursor:pointer;transition:all .2s}
+.btn-refresh:hover{opacity:.88}
+.btn-refresh:disabled{opacity:.5;cursor:default}
+.news-list{display:flex;flex-direction:column;gap:12px}
+.news-card{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);box-shadow:0 2px 10px rgba(31,41,55,.06);transition:all .25s}
+.news-card.read{opacity:.55;background:rgba(243,244,246,.7);border-color:rgba(229,231,235,.6)}
+.news-card.unread{border-left:4px solid var(--red)}
+.news-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.news-brand{font-weight:600;font-size:14px;color:var(--text)}
+.news-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:#eef2ff;color:#4f46e5;white-space:nowrap}
+.news-cat.recall{background:#fee2e2;color:#b91c1c}
+.news-cat.news{background:#fef3c7;color:#b45309}
+.news-cat.expo{background:#dcfce7;color:#15803d}
+.news-title{font-weight:600;font-size:14px;margin-bottom:4px;color:var(--text)}
+.news-sum{font-size:13px;color:var(--text-sec);line-height:1.6;margin-bottom:8px}
+.news-foot{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-sec);gap:10px}
+.news-src{color:var(--primary);text-decoration:none;font-weight:500}
+.news-src:hover{text-decoration:underline}
+.news-date{white-space:nowrap}
+.news-empty{text-align:center;color:var(--text-sec);padding:40px 0;font-size:13px}
 .brand-visit{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border:1px solid var(--primary);color:var(--primary);border-radius:20px;font-size:11px;font-weight:500;text-decoration:none;transition:all .2s;white-space:nowrap}
 .brand-visit:hover{background:var(--primary);color:#fff}
 .brand-product .pname{font-weight:500;font-size:13px;display:flex;align-items:center;gap:6px}
@@ -477,11 +501,12 @@ body{
     <nav class="nav">
       <div class="nav-item active" data-tab="tasks"><span class="ni-ico">✅</span><span>今日任务</span></div>
       <div class="nav-item" data-tab="brands"><span class="ni-ico">🔍</span><span>品牌新品监控</span></div>
+      <div class="nav-item" data-tab="news"><span class="ni-ico">📰</span><span>品牌市场动态</span></div>
       <div class="nav-item" data-tab="review"><span class="ni-ico">📖</span><span>每日复盘</span></div>
       <div class="nav-item" data-tab="sop"><span class="ni-ico">🗂️</span><span>业务SOP</span></div>
       <div class="nav-item" data-tab="sales"><span class="ni-ico">📈</span><span>年度销售计划</span></div>
     </nav>
-    <div class="side-foot">数据本地保存 + 云端同步<br>周一~周六 09:00 自动刷新品牌</div>
+    <div class="side-foot">数据本地保存 + 云端同步<br>周一~周六 09:00 自动刷新品牌与市场动态</div>
   </aside>
 
   <!-- ============ 右侧主内容区 ============ -->
@@ -544,9 +569,24 @@ body{
       <span class="count" id="brandCount">10个品牌</span>
     </div>
     <div style="margin-bottom:12px;font-size:12px;color:var(--text-sec)">
-      红=有更新(新品/社媒) 灰=无更新 ｜ 已查品牌自动沉底、未查品牌排前 ｜ 仅「有更新」品牌显示「确认已查」，每天自动变灰需重新确认 ｜ <b>周一~周六 09:00 自动刷新（周日不更新）</b>
+      <b style="color:var(--red)">红</b>=官网有新品发布且你未确认该发布 ｜ <b style="color:var(--text-sec)">灰</b>=已确认或官网暂无新品 ｜ 仅红色品牌显示「确认已查」，点后变灰，<b>直到该品牌官网再次发布新品才重新变红</b>（不再每天清零）｜ 📅 每个新品标注官网发布时间 ｜ <b>周一~周六 09:00 自动刷新（周日不更新）</b>
     </div>
     <div class="brand-grid" id="brandGrid"></div>
+  </div>
+
+  <!-- ============ 品牌市场动态 ============ -->
+  <div class="tab-content" id="tab-news">
+    <div class="section-title">
+      <span>品牌市场动态</span>
+      <span style="display:flex;align-items:center;gap:10px">
+        <span class="count" id="newsCount">—</span>
+        <button class="btn-refresh" id="btnRefreshNews">🔄 刷新动态</button>
+      </span>
+    </div>
+    <div style="margin-bottom:12px;font-size:12px;color:var(--text-sec)">
+      跨 <b>亚马逊 / Reddit / Instagram / Facebook / LinkedIn / 各品牌官网 / 专业新闻站</b> 抓取 10 大品牌动态（新品 / 召回 / 新闻 / 参展 / 评测等）。<b style="color:var(--red)">红色=未读置顶</b>，灰色=已读置底；点来源链接即标记已读（电脑手机云同步）。<b id="newsUpdated"></b>
+    </div>
+    <div class="news-list" id="newsList"></div>
   </div>
 
   <!-- ============ 每日复盘 ============ -->
@@ -869,9 +909,9 @@ const BRANDS = [
   {
     name:"3M PELTOR", url:"https://www.3m.com/3M/en_US/peltor-us/", status:"new", checked:"2026-08-03", region:"美国/瑞典",
     products:[
-      {name:"ComTac IX NIB", isNew:true, model:"MT14H419A", price:"官网未列价", colors:"O.D. Green等", specs:"衰减29dB；内置NIB无线队间通信(5-10m全双工,最多4讲/60听)；无蓝牙", source:"https://www.3m.com/3M/en_LB/p/d/b5005624009"},
-      {name:"ComTac VIII", isNew:true, model:"MT14H418A-90", price:"官网未列价", colors:"Charcoal Grey/Coyote Brown/O.D.Green", specs:"NRR 23dB；Hearing Defender版无麦克风/不支持电台；MAP任务音频5档", source:"https://www.3m.com/3M/en_US/p/d/b5005502016"},
-      {name:"ProTac Hunter / ProTac Shooter", isNew:true, price:"RRP £89.99", colors:"—", specs:"SNR 26/32dB；2×AA最长100h；3.5mm接口", source:"https://www.gunmart.net/shooting-accessories/safety-security/hearing-protection/you-heard-it-here-first-new-hearing-protection-from-3m-peltor"}
+      {name:"ComTac IX NIB", date:"2026-01", isNew:true, model:"MT14H419A", price:"官网未列价", colors:"O.D. Green等", specs:"衰减29dB；内置NIB无线队间通信(5-10m全双工,最多4讲/60听)；无蓝牙", source:"https://www.3m.com/3M/en_LB/p/d/b5005624009"},
+      {name:"ComTac VIII", date:"2026-01", isNew:true, model:"MT14H418A-90", price:"官网未列价", colors:"Charcoal Grey/Coyote Brown/O.D.Green", specs:"NRR 23dB；Hearing Defender版无麦克风/不支持电台；MAP任务音频5档", source:"https://www.3m.com/3M/en_US/p/d/b5005502016"},
+      {name:"ProTac Hunter / ProTac Shooter", date:"2026", isNew:true, price:"RRP £89.99", colors:"—", specs:"SNR 26/32dB；2×AA最长100h；3.5mm接口", source:"https://www.gunmart.net/shooting-accessories/safety-security/hearing-protection/you-heard-it-here-first-new-hearing-protection-from-3m-peltor"}
     ],
     social:{
       linkedin:{url:"https://www.linkedin.com/company/3m-peltor-communication-solutions",status:"found",note:"有参展帖(Eurosatory 2026/SOF Week)"},
@@ -891,8 +931,8 @@ const BRANDS = [
   {
     name:"HOWARD LEIGHT", url:"https://www.howardleightshootingsports.com/", status:"new", checked:"2026-08-03", region:"美国(Honeywell)",
     products:[
-      {name:"Impact Sport Bluetooth 5.0 Earbuds", isNew:true, price:"官网未列价", colors:"—", specs:"NRR 29dB；BT5.0；6×环境放大；双全向麦；200mAh 10h", source:"https://www.howardleightshootingsports.com/products/impact-sport-bluetooth-shooting-earbuds"},
-      {name:"Impact Sport Bluetooth 耳罩(多SKU)", isNew:true, price:"MSRP $149( Promo $159)", colors:"Brushed Bronze/OD Green/FDE/2nd Amendment等", specs:"NRR21dB(Promo19)；BT5.0；0.5ms；4×放大；锂电20h；USB-C", source:"https://www.howardleightshootingsports.com/products/impact-sport-bluetooth-earmuff-promo-pack"}
+      {name:"Impact Sport Bluetooth 5.0 Earbuds", date:"2026", isNew:true, price:"官网未列价", colors:"—", specs:"NRR 29dB；BT5.0；6×环境放大；双全向麦；200mAh 10h", source:"https://www.howardleightshootingsports.com/products/impact-sport-bluetooth-shooting-earbuds"},
+      {name:"Impact Sport Bluetooth 耳罩(多SKU)", date:"2026", isNew:true, price:"MSRP $149( Promo $159)", colors:"Brushed Bronze/OD Green/FDE/2nd Amendment等", specs:"NRR21dB(Promo19)；BT5.0；0.5ms；4×放大；锂电20h；USB-C", source:"https://www.howardleightshootingsports.com/products/impact-sport-bluetooth-earmuff-promo-pack"}
     ],
     social:{
       linkedin:{url:"",status:"none",note:"官方账号未找到"},
@@ -909,9 +949,9 @@ const BRANDS = [
   {
     name:"WALKER'S", url:"https://walkersgameear.com/", status:"new", checked:"2026-08-03", region:"美国",
     products:[
-      {name:"Razor X-TRM (MAHP Shake-Awake)", isNew:true, model:"Razor X-TRM", price:"未找到", colors:"未找到", specs:"MAHP动作激活防护(微动自动开机)；动态声压抑制；双高增益全向麦；橡胶装甲超薄机身；GEL耳垫", source:"https://huntinglife.com/walkers-reveals-all-new-shake-awake-muffs-with-patent-pending-motion-activated-hearing-protection"},
-      {name:"Suppressor Bluetooth Earbuds", isNew:true, model:"Suppressor BT", price:"$149.99(BT)/$99.99(非BT)", colors:"未找到", specs:"NRR 25dB；BT5.3 LE；IP54；每侧双麦；4模式；Walker Link 4.0 App；续航36h", source:"https://www.thefirearmblog.com/blog/walkers-launches-new-suppressor-earbuds-with-bluetooth-option-44823214"},
-      {name:"Razor Junior Muffs (青少年款)", isNew:true, model:"Razor Junior", price:"未找到", colors:"未找到", specs:"紧凑低姿态；NRR 23dB；双Hi-Gain全向麦；0.02s声激活压缩；金属丝头带", source:"https://www.thetacticalwire.com/releases/2026/05/walkers-launches-youth-sized-compact-razor-junior-muffs"}
+      {name:"Razor X-TRM (MAHP Shake-Awake)", date:"2026", isNew:true, model:"Razor X-TRM", price:"未找到", colors:"未找到", specs:"MAHP动作激活防护(微动自动开机)；动态声压抑制；双高增益全向麦；橡胶装甲超薄机身；GEL耳垫", source:"https://huntinglife.com/walkers-reveals-all-new-shake-awake-muffs-with-patent-pending-motion-activated-hearing-protection"},
+      {name:"Suppressor Bluetooth Earbuds", date:"2026", isNew:true, model:"Suppressor BT", price:"$149.99(BT)/$99.99(非BT)", colors:"未找到", specs:"NRR 25dB；BT5.3 LE；IP54；每侧双麦；4模式；Walker Link 4.0 App；续航36h", source:"https://www.thefirearmblog.com/blog/walkers-launches-new-suppressor-earbuds-with-bluetooth-option-44823214"},
+      {name:"Razor Junior Muffs (青少年款)", date:"2026-05", isNew:true, model:"Razor Junior", price:"未找到", colors:"未找到", specs:"紧凑低姿态；NRR 23dB；双Hi-Gain全向麦；0.02s声激活压缩；金属丝头带", source:"https://www.thetacticalwire.com/releases/2026/05/walkers-launches-youth-sized-compact-razor-junior-muffs"}
     ],
     social:{
       linkedin:{url:"",status:"none",note:"官方未列(母公司GSM Outdoors有帖)"},
@@ -929,7 +969,7 @@ const BRANDS = [
   {
     name:"EARMOR", url:"https://www.earmor.com/", status:"new", checked:"2026-08-03", region:"中国",
     products:[
-      {name:"M20T PRO", isNew:true, price:"$119.99", colors:"—", specs:"BT5.3入耳式电子耳塞；透明模式；多聆听模式(室内/室外/静音)；低姿态Gray Man", source:"https://www.earmor.com/"},
+      {name:"M20T PRO", date:"2026-01", isNew:true, price:"$119.99", colors:"—", specs:"BT5.3入耳式电子耳塞；透明模式；多聆听模式(室内/室外/静音)；低姿态Gray Man", source:"https://www.earmor.com/"},
       {name:"M300T", isNew:false, price:"$71.99", colors:"Black/Sand/Army Green", specs:"NRR 22dB(部分零售标23)；BT5.4；IPX5；2×AAA 60h；环境音放大；>82dB抑制", source:"https://www.earmor.com/"},
       {name:"M32 PLUS", isNew:false, price:"$119.99", colors:"8色", specs:"NRR22/SNR29；<1ms压缩；EMI/RFI屏蔽；凝胶耳垫；U-174军规接口(PTT)；盔轨兼容", source:"https://www.earmor.com/shooting-range-ear-protection-just-got-better-with-earmor-m32-plus-gel-pads"},
       {name:"M31 PLUS", isNew:false, price:"$83.99", colors:"—", specs:"NRR22；凝胶耳垫；PTT/通讯兼容", source:"https://www.earmor.com/"},
@@ -954,7 +994,7 @@ const BRANDS = [
   {
     name:"OTTO ENGINEERING", url:"https://www.otto-comm.com/", status:"new", checked:"2026-08-03", region:"美国(otto-comm.com)",
     products:[
-      {name:"NoizeBarrier TAC 2.0", isNew:true, model:"NoizeBarrier TAC 2.0", price:"官方未公开(经销商T.REX $1,199.99; MCCR $665/$825)", colors:"Black/FDE/ODG", specs:"NRR23dB(SNR29)；双线圈扬声器；360°情景；5档音量；2×AA 100h；IP68；MIL-STD-810G；美制TAA/BAA/Berry；较前代轻12%", source:"https://www.otto-comm.com/products/headsets-and-earplugs/noizebarrier-headsets-and-earplugs/noizebarrier%20tac%202"}
+      {name:"NoizeBarrier TAC 2.0", date:"2026", isNew:true, model:"NoizeBarrier TAC 2.0", price:"官方未公开(经销商T.REX $1,199.99; MCCR $665/$825)", colors:"Black/FDE/ODG", specs:"NRR23dB(SNR29)；双线圈扬声器；360°情景；5档音量；2×AA 100h；IP68；MIL-STD-810G；美制TAA/BAA/Berry；较前代轻12%", source:"https://www.otto-comm.com/products/headsets-and-earplugs/noizebarrier-headsets-and-earplugs/noizebarrier%20tac%202"}
     ],
     social:{
       linkedin:{url:"https://www.linkedin.com/showcase/ottocommunications/",status:"found",note:"有参展帖(SOF Week 2026/Eurosatory 2026)"},
@@ -972,9 +1012,9 @@ const BRANDS = [
   {
     name:"INVISIO", url:"https://www.invisio.com/", status:"new", checked:"2026-08-03", region:"丹麦",
     products:[
-      {name:"INVISIO T30 头戴", isNew:true, price:"未公开(国防渠道)", colors:"—", specs:"单重防护30dB SNR/33dB NRSA20；双重38dB SNR/39dB NRSA20；声源定位低至9°；AA 110h；2m/2h沉浸；VOX；DSEI 2025首发", source:"https://invisio.com/products/headsets/invisio-t30/"},
-      {name:"INVISIO H-Series (H4/H6)", isNew:true, price:"未公开(预计2026出货)", colors:"—", specs:"H4四口/H6六口战术智能hub；嵌入计算/数据路由/集中供电/OTA升级", source:"https://corp.invisio.com/news-and-events/press-releases/2025-09-09-invisio-announces-h-series-a-new-generation-of-tactical-smart-hubs-that-drastically-improves-battlefield-efficiency"},
-      {name:"INVISIO T30 Drone Aware", isNew:true, price:"未公开", colors:"—", specs:"被动无RF发射；防护31dB SNR/33dB NRSA20；Eurosatory 2026发布；预计Q3 2026", source:"https://invisio.com/company/news-events/news/invisio-introduces-enhanced-drone-awareness-capability-at-eurosatory-2026"}
+      {name:"INVISIO T30 头戴", date:"2025-09", isNew:true, price:"未公开(国防渠道)", colors:"—", specs:"单重防护30dB SNR/33dB NRSA20；双重38dB SNR/39dB NRSA20；声源定位低至9°；AA 110h；2m/2h沉浸；VOX；DSEI 2025首发", source:"https://invisio.com/products/headsets/invisio-t30/"},
+      {name:"INVISIO H-Series (H4/H6)", date:"2025-09", isNew:true, price:"未公开(预计2026出货)", colors:"—", specs:"H4四口/H6六口战术智能hub；嵌入计算/数据路由/集中供电/OTA升级", source:"https://corp.invisio.com/news-and-events/press-releases/2025-09-09-invisio-announces-h-series-a-new-generation-of-tactical-smart-hubs-that-drastically-improves-battlefield-efficiency"},
+      {name:"INVISIO T30 Drone Aware", date:"2026-06", isNew:true, price:"未公开", colors:"—", specs:"被动无RF发射；防护31dB SNR/33dB NRSA20；Eurosatory 2026发布；预计Q3 2026", source:"https://invisio.com/company/news-events/news/invisio-introduces-enhanced-drone-awareness-capability-at-eurosatory-2026"}
     ],
     social:{
       linkedin:{url:"https://www.linkedin.com/company/invisio-tactical-communication-systems",status:"found",note:"有参展帖(Eurosatory 2026/DSEI 2025)"},
@@ -992,9 +1032,9 @@ const BRANDS = [
   {
     name:"AXIL", url:"https://goaxil.com/", status:"new", checked:"2026-08-03", region:"美国",
     products:[
-      {name:"GS Extreme 3.0", isNew:true, price:"$119.99(原价$184.60)", colors:"Black/Desert Tan", specs:"BT5.3；21dB NRR/26dB SNR(硅胶17)；85dB压缩；续航15h(HE40/BT20)；IP65；SonicShieldX", source:"https://goaxil.com/products/gs-extreme-3-0"},
-      {name:"CRX", isNew:true, price:"$79.99(原价$123.06)", colors:"—", specs:"SonicShieldX；6×增强；20dB NRR/26dB SNR；IP65；10h；USB-C", source:"https://goaxil.com/products/crx"},
-      {name:"MXII PRO 耳罩", isNew:true, price:"$99.99(原价$153.99)", colors:"—", specs:"22dB NRR；SonicShieldX脉冲滤波；5×增强；BT5.3；60h；IP65；内置耳塞仓", source:"https://goaxil.com/products/mxii-pro"}
+      {name:"GS Extreme 3.0", date:"2026", isNew:true, price:"$119.99(原价$184.60)", colors:"Black/Desert Tan", specs:"BT5.3；21dB NRR/26dB SNR(硅胶17)；85dB压缩；续航15h(HE40/BT20)；IP65；SonicShieldX", source:"https://goaxil.com/products/gs-extreme-3-0"},
+      {name:"CRX", date:"2026", isNew:true, price:"$79.99(原价$123.06)", colors:"—", specs:"SonicShieldX；6×增强；20dB NRR/26dB SNR；IP65；10h；USB-C", source:"https://goaxil.com/products/crx"},
+      {name:"MXII PRO 耳罩", date:"2026", isNew:true, price:"$99.99(原价$153.99)", colors:"—", specs:"22dB NRR；SonicShieldX脉冲滤波；5×增强；BT5.3；60h；IP65；内置耳塞仓", source:"https://goaxil.com/products/mxii-pro"}
     ],
     social:{
       linkedin:{url:"https://www.linkedin.com/company/axilofficial",status:"found",note:"有参展帖(SHOT 2026 #14845)"},
@@ -1030,10 +1070,10 @@ const BRANDS = [
   {
     name:"OPS-CORE", url:"https://www.opscore.com/", status:"new", checked:"2026-08-03", region:"美国(Gentex)",
     products:[
-      {name:"AMP Helmet Rail Mount with Vent Mode", isNew:true, price:"$163.95", colors:"Tan499/Black/Ranger Green", specs:"三档(Deployed/Vented/Stowed)；Vent档微离耳通风；兼容NFMI耳塞；约0.25lb/对", source:"https://www.gentexcorp.com/news/gentex-corporation-announces-new-ops-core-amp-rail-mount-with-vent-mode/"},
-      {name:"FAST XP Helmet System", isNew:true, price:"未公布", colors:"—", specs:"NIJ IIIA+hG2；high/mid-cut；LockDown Liner；Head-Loc FLEX；PowerPath ARC；面向执法", source:"https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/"},
-      {name:"NOMAD System", isNew:true, price:"未公布", colors:"Black", specs:"低姿态头带式NVG/VAS挂载；无需传统头盔；Berry Compliant", source:"https://www.gentexcorp.com/news/"},
-      {name:"FAST SF Next Gen", isNew:true, price:"约$1,999.95(零售商)", colors:"—", specs:"较上代轻10-15%；NIJ IIIA；LockDown；Head-Loc FLEX；USSOCOM FTHS", source:"https://www.businesswire.com/news/home/20250505038661/en/"}
+      {name:"AMP Helmet Rail Mount with Vent Mode", date:"2026", isNew:true, price:"$163.95", colors:"Tan499/Black/Ranger Green", specs:"三档(Deployed/Vented/Stowed)；Vent档微离耳通风；兼容NFMI耳塞；约0.25lb/对", source:"https://www.gentexcorp.com/news/gentex-corporation-announces-new-ops-core-amp-rail-mount-with-vent-mode/"},
+      {name:"FAST XP Helmet System", date:"2026", isNew:true, price:"未公布", colors:"—", specs:"NIJ IIIA+hG2；high/mid-cut；LockDown Liner；Head-Loc FLEX；PowerPath ARC；面向执法", source:"https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/"},
+      {name:"NOMAD System", date:"2026", isNew:true, price:"未公布", colors:"Black", specs:"低姿态头带式NVG/VAS挂载；无需传统头盔；Berry Compliant", source:"https://www.gentexcorp.com/news/"},
+      {name:"FAST SF Next Gen", date:"2025-05", isNew:true, price:"约$1,999.95(零售商)", colors:"—", specs:"较上代轻10-15%；NIJ IIIA；LockDown；Head-Loc FLEX；USSOCOM FTHS", source:"https://www.businesswire.com/news/home/20250505038661/en/"}
     ],
     social:{
       linkedin:{url:"https://www.linkedin.com/showcase/gentex-ops-core",status:"found",note:"有参展帖(SHOT2026/DSEI2025)"},
@@ -1052,9 +1092,9 @@ const BRANDS = [
   {
     name:"SORDIN", url:"https://www.sordin.com/", status:"new", checked:"2026-08-03", region:"瑞典",
     products:[
-      {name:"Sordin Supreme X2 系列", isNew:true, price:"from €371.02(3,699 kr)", colors:"Black/Green", specs:"SordinFLEX模块化平台；防水；方向性环境音；NRR23/SNR29；AA 60h/锂电90h", source:"https://sordin.com/products/sordin-supreme-x2"},
-      {name:"Sordin Supreme X2 SFA", isNew:true, price:"3,999 kr", colors:"—", specs:"可拆SFA距离环切换SNR两档；4音频档案；3.5mm AUX", source:"https://sordin.com/products/sordin-supreme-x2-sfa"},
-      {name:"Sordin Supreme T2 (MIL)", isNew:true, price:"8,295 kr", colors:"Green/Black/Tan", specs:"SordinFLEX；三种boom mic×头带/颈带/盔用；MIL级", source:"https://sordin.com/blogs/news/sordin-supreme-t2-new-mil-classified-communication-headsets-for-tactical-operations"}
+      {name:"Sordin Supreme X2 系列", date:"2026-02", isNew:true, price:"from €371.02(3,699 kr)", colors:"Black/Green", specs:"SordinFLEX模块化平台；防水；方向性环境音；NRR23/SNR29；AA 60h/锂电90h", source:"https://sordin.com/products/sordin-supreme-x2"},
+      {name:"Sordin Supreme X2 SFA", date:"2026-02", isNew:true, price:"3,999 kr", colors:"—", specs:"可拆SFA距离环切换SNR两档；4音频档案；3.5mm AUX", source:"https://sordin.com/products/sordin-supreme-x2-sfa"},
+      {name:"Sordin Supreme T2 (MIL)", date:"2026", isNew:true, price:"8,295 kr", colors:"Green/Black/Tan", specs:"SordinFLEX；三种boom mic×头带/颈带/盔用；MIL级", source:"https://sordin.com/blogs/news/sordin-supreme-t2-new-mil-classified-communication-headsets-for-tactical-operations"}
     ],
     social:{
       linkedin:{url:"https://se.linkedin.com/company/sordin-ab",status:"found",note:"有参展帖(IWA 2026/Defence Expo)"},
@@ -1292,6 +1332,9 @@ function init(){
   safe(renderSOP,'renderSOP');
   safe(renderSalesPlan,'renderSalesPlan');
   renderFilterButtons();
+  loadBrandStatus();
+  loadNews();
+  bindNews();
   bindBrandChecks();
   bindReviewSubtabs();
   bindTaskSubtabs();
@@ -1770,42 +1813,55 @@ function bindSalesPlan(){
 }
 
 // ============ BRANDS ============
-// 品牌是否有更新：有新品的(status=new) 或 任一社媒渠道确认有动态(found)
-function hasUpdate(b){
-  if(b.status==='new')return true;
-  if(b.social){for(const k in b.social){const c=b.social[k]; if(c&&c.status==='found')return true;}}
-  return false;
+// 品牌"是否有未确认的新品发布"：取决于 data/brand-status.json 里的 releaseDate
+// （该品牌官网最近一次新品发布日），以及用户已确认的日期。
+// 只有「官网真有新品发布 且 用户尚未确认过这个发布日」才显示红色。
+const BRAND_STATUS = {};   // { 品牌名: {releaseDate, summary} }，由 loadBrandStatus() 异步填充
+function syncBase(){ return SYNC_RAW.substring(0, SYNC_RAW.lastIndexOf('/')+1); }
+function loadBrandStatus(){
+  return fetch(syncBase()+'data/brand-status.json', {cache:'no-store'})
+    .then(r=>r.ok?r.json():null)
+    .then(j=>{ if(j&&j.brands){ for(const k in j.brands) BRAND_STATUS[k]=j.brands[k]; if(typeof renderBrands==='function'){renderBrands(); renderReviewStats();} } })
+    .catch(()=>{});
 }
+// 用户已确认的发布日期（存 localStorage，跨天不清零，只与 releaseDate 对比）
 function getBrandFlags(){
-  try{
-    let o=JSON.parse(localStorage.getItem('liuye_brand_flags')||'{}');
-    if(o.date!==getToday())return{}; // 跨天自动作废：每天确认按钮统统变灰
-    return o.flags||{};
-  }catch(e){return{}}
+  try{ return JSON.parse(localStorage.getItem('liuye_brand_flags')||'{}').flags||{}; }catch(e){ return {}; }
+}
+function getBrandReadDate(name){ return getBrandFlags()[name]||''; }
+// 红色 = 官网有新品发布日 且 用户确认的日期 != 该发布日
+function hasNewRelease(b){
+  const st=BRAND_STATUS[b.name];
+  const rd = st&&st.releaseDate ? st.releaseDate : '';
+  return !!(rd && getBrandReadDate(b.name)!==rd);
 }
 function toggleBrandFlag(name){
-  let flags=getBrandFlags();
-  flags[name]=!flags[name];
-  localStorage.setItem('liuye_brand_flags',JSON.stringify({date:getToday(),flags}));
+  const st=BRAND_STATUS[name];
+  if(!st||!st.releaseDate)return;
+  const flags=getBrandFlags();
+  if(getBrandReadDate(name)===st.releaseDate) delete flags[name]; // 再次点击=取消确认
+  else flags[name]=st.releaseDate;                                // 确认这一轮发布
+  localStorage.setItem('liuye_brand_flags',JSON.stringify({flags}));
   renderBrands(); renderReviewStats();
 }
 
 function renderBrands(){
   let grid=document.getElementById('brandGrid');
-  const flags=getBrandFlags();
-  // 排序：未查品牌按原顺序排前，已查品牌沉到最底；红色"有更新"徽章保留
+  // 排序：红色(未确认有新品)排前，已确认/无新品沉底
   const idx=Object.fromEntries(BRANDS.map((b,i)=>[b.name,i]));
   const ordered=[...BRANDS].sort((a,b)=>{
-    const ca=flags[a.name]?1:0, cb=flags[b.name]?1:0;
+    const ca=hasNewRelease(a)?0:1, cb=hasNewRelease(b)?0:1;
     if(ca!==cb)return ca-cb;
     return idx[a.name]-idx[b.name];
   });
   const socialDefs=[['linkedin','LinkedIn','in'],['youtube','YouTube','YT'],['instagram','Instagram','IG'],['facebook','Facebook','FB'],['blog','官网Blog','Blog']];
   grid.innerHTML=ordered.map(b=>{
-    const s=hasUpdate(b)?['有更新','status-new']:['无更新','status-pending'];
+    const rel=BRAND_STATUS[b.name]&&BRAND_STATUS[b.name].releaseDate?BRAND_STATUS[b.name].releaseDate:'';
+    const newRel=hasNewRelease(b);
+    const s = newRel?['有新品·待确认','status-new'] : (rel?['已确认','status-done']:['无新品','status-pending']);
     const products=(b.products||[]).map(p=>`
       <div class="brand-product">
-        <div class="pname">${p.name} ${p.isNew?'<span class="new-badge">NEW</span>':''}</div>
+        <div class="pname">${p.name} ${p.isNew?'<span class="new-badge">NEW</span>':''} ${p.date?`<span class="pdate">📅 ${p.date}</span>`:''}</div>
         <div class="pmeta">
           ${p.model?`<span class="model">型号 ${p.model}</span>`:''}
           ${p.price?`<span class="price">${p.price}</span>`:''}
@@ -1829,10 +1885,11 @@ function renderBrands(){
         <div>
           <div class="brand-name"><a href="${b.url}" target="_blank">${b.name}</a></div>
           <div style="font-size:11px;color:var(--text-sec);margin-top:2px">${b.region}</div>
+          ${rel?`<div style="font-size:11px;color:var(--orange);margin-top:3px">📅 官网最近新品发布：${rel}</div>`:''}
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
           <span class="brand-status ${s[1]}">${s[0]}</span>
-          ${hasUpdate(b)?`<button class="brand-check ${flags[b.name]?'checked':''}" data-brand="${esc(b.name)}" title="点击确认已查">${flags[b.name]?'✓ 已查':'确认已查'}</button>`:''}
+          ${newRel?`<button class="brand-check alert" data-brand="${esc(b.name)}" title="点击确认已查">确认已查</button>`:(rel?`<button class="brand-check checked" data-brand="${esc(b.name)}" title="点击取消确认">✓ 已确认</button>`:'')}
           <a class="brand-visit" href="${b.url}" target="_blank">访问官网</a>
         </div>
       </div>
@@ -1845,6 +1902,73 @@ function renderBrands(){
       </div>
     </div>`;
   }).join('');
+}
+
+// ============ 品牌市场动态 (NEWS) ============
+const NEWS_KEY='liuye_news_read';           // 已读新闻 id 列表（liuye_ 前缀自动云同步）
+let NEWS_ITEMS=[];                           // 由 loadNews 填充
+function getNewsRead(){ try{return JSON.parse(localStorage.getItem(NEWS_KEY)||'[]');}catch(e){return[]} }
+function setNewsRead(id){
+  let a=getNewsRead(); if(!a.includes(id)){a.push(id); localStorage.setItem(NEWS_KEY,JSON.stringify(a));}
+}
+function loadNews(){
+  const btn=document.getElementById('btnRefreshNews'); if(btn){btn.disabled=true; btn.textContent='⏳ 刷新中…';}
+  return fetch(syncBase()+'data/brand-news.json', {cache:'no-store'})
+    .then(r=>r.ok?r.json():null)
+    .then(j=>{
+      if(j&&Array.isArray(j.items)){
+        NEWS_ITEMS=j.items;
+        const u=document.getElementById('newsUpdated');
+        if(u&&j.updatedAt) u.textContent='　更新于 '+j.updatedAt;
+      }
+    })
+    .catch(()=>{})
+    .finally(()=>{ if(btn){btn.disabled=false; btn.textContent='🔄 刷新动态';} renderNews(); });
+}
+function renderNews(){
+  const list=document.getElementById('newsList'); if(!list)return;
+  const read=getNewsRead();
+  const cnt=document.getElementById('newsCount');
+  if(!NEWS_ITEMS.length){
+    if(cnt)cnt.textContent='0';
+    list.innerHTML='<div class="news-empty">暂无动态，点「刷新动态」拉取最新抓取结果</div>';
+    return;
+  }
+  if(cnt)cnt.textContent=NEWS_ITEMS.length+'条（未读'+(NEWS_ITEMS.length-read.length)+'）';
+  const sorted=[...NEWS_ITEMS].sort((a,b)=>{
+    const ra=read.includes(a.id)?1:0, rb=read.includes(b.id)?1:0;
+    if(ra!==rb)return ra-rb;                       // 未读(0)置顶，已读(1)沉底
+    return (b.date||'').localeCompare(a.date||'');  // 同组按日期倒序
+  });
+  const catCls={recall:'recall',news:'news',expo:'expo'};
+  list.innerHTML=sorted.map(n=>{
+    const isRead=read.includes(n.id);
+    const cc=catCls[n.category]||'';
+    return `<div class="news-card ${isRead?'read':'unread'}">
+      <div class="news-top">
+        <span class="news-brand">${esc(n.brand)}</span>
+        <span class="news-cat ${cc}">${esc(n.catLabel||n.category||'动态')}</span>
+      </div>
+      <div class="news-title">${esc(n.title||'')}</div>
+      <div class="news-sum">${esc(n.summary||'')}</div>
+      <div class="news-foot">
+        <a class="news-src" href="${esc(n.url||'#')}" target="_blank" data-news="${esc(n.id)}">🔗 来源：${esc(n.source||n.url||'查看')}</a>
+        <span class="news-date">${esc(n.date||'')}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+// 点来源链接：打开新标签 + 标记已读（事件委托，renderNews 重渲染后仍有效）
+function bindNews(){
+  const list=document.getElementById('newsList');
+  if(!list)return;
+  list.addEventListener('click',function(e){
+    const a=e.target.closest('.news-src'); if(!a)return;
+    const id=a.dataset.news; if(id) setNewsRead(id);
+    renderNews();   // 立即变灰置底
+  });
+  const btn=document.getElementById('btnRefreshNews');
+  if(btn)btn.addEventListener('click',loadNews);
 }
 
 // ============ REVIEW ============
@@ -1889,8 +2013,8 @@ function renderReviewStats(){
   let pending=tasks.filter(t=>!t.done).length; // 待完成=未完成任务
   let total=done+pending;
   let pct=total>0?Math.round(done/total*100):0;
-  let updateBrands=BRANDS.filter(b=>hasUpdate(b)).length; // 有新品或社媒更新
-  let pendingBrands=BRANDS.filter(b=>hasUpdate(b) && !getBrandFlags()[b.name]).length; // 待确认已查
+  let updateBrands=BRANDS.filter(b=>hasNewRelease(b)).length; // 官网有新品且未确认
+  let pendingBrands=BRANDS.filter(b=>hasNewRelease(b)).length; // 待确认=有未确认新品
   document.getElementById('reviewStats').innerHTML=`
     <div class="stat-box"><div class="stat-num" style="color:var(--green)">${done}</div><div class="stat-label">今日已完成</div></div>
     <div class="stat-box"><div class="stat-num" style="color:var(--orange)">${pending}</div><div class="stat-label">待完成</div></div>

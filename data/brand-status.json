@@ -1,0 +1,42 @@
+{
+  "savedAt": 1785749112907,
+  "updatedAt": "2026-08-03",
+  "brands": {
+    "3M PELTOR": {
+      "releaseDate": "2026-01",
+      "summary": "ComTac IX NIB 无线队间通信耳罩、ComTac VIII、ProTac Hunter/Shooter 上市"
+    },
+    "HOWARD LEIGHT": {
+      "releaseDate": "2026",
+      "summary": "Impact Sport Bluetooth 5.0 耳塞与蓝牙耳罩多 SKU 上市"
+    },
+    "WALKER'S": {
+      "releaseDate": "2026-05",
+      "summary": "Razor X-TRM 动作激活耳罩、Suppressor 蓝牙耳塞、Razor Junior 青少年款上市"
+    },
+    "EARMOR": {
+      "releaseDate": "2026-01",
+      "summary": "M20T PRO 入耳式电子耳塞上市（SHOT Show 2026）"
+    },
+    "OTTO ENGINEERING": {
+      "releaseDate": "2026",
+      "summary": "NoizeBarrier TAC 2.0 战术降噪耳机上市"
+    },
+    "INVISIO": {
+      "releaseDate": "2026-06",
+      "summary": "T30 Drone Aware 反无人机感知型号于 Eurosatory 2026 发布"
+    },
+    "AXIL": {
+      "releaseDate": "2026",
+      "summary": "GS Extreme 3.0 / CRX / MXII PRO 上市"
+    },
+    "OPS-CORE": {
+      "releaseDate": "2026",
+      "summary": "AMP Rail Mount Vent Mode、FAST XP、NOMAD、FAST SF Next Gen 上市"
+    },
+    "SORDIN": {
+      "releaseDate": "2026-02",
+      "summary": "Supreme X2 / X2 SFA / Supreme T2 上市（IWA 2026）"
+    }
+  }
+}
