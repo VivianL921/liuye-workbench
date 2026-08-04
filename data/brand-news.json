@@ -397,6 +397,39 @@
       "url": "https://www.commgearsupply.com/products/decibullz-awareness-custom-moldable-ear-plugs-for-acoustic-tube-earpieces",
       "source": "Comm Gear Supply",
       "date": "2026-04-22"
+    },
+    {
+      "id": "n40",
+      "brand": "3M PELTOR",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "3M PELTOR ComTac IX NIB 战术通讯耳罩上市（内置无线队间通信）",
+      "summary": "3M PELTOR 发布 ComTac IX NIB（型号 MT14H419A）：在 ComTac IX 基础上内置 NIB 无线队间通信系统，5–10m 全双工、最多 4 人同时发射/60 人收听，无需外接电台即可小队通联；衰减 29dB，无蓝牙。2026 年 1 月上市。",
+      "url": "https://www.3m.com/3M/en_LB/p/d/b5005624009",
+      "source": "3M 产品页（ComTac IX NIB）",
+      "date": "2026-01"
+    },
+    {
+      "id": "n41",
+      "brand": "3M PELTOR",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "3M PELTOR ComTac VIII 通讯耳罩上市（NRR 23dB / Hearing Defender 版）",
+      "summary": "3M PELTOR 推出 ComTac VIII（型号 MT14H418A-90）：NRR 23dB，提供 Hearing Defender 无麦/不支持电台版本与标准通讯版本，MAP 任务音频 5 档可调。2026 年 1 月上市。（注：该型号后续因反馈噪音问题于 2026-07 发起全球召回，见本模块召回条目。）",
+      "url": "https://www.3m.com/3M/en_US/p/d/b5005502016",
+      "source": "3M 产品页（ComTac VIII）",
+      "date": "2026-01"
+    },
+    {
+      "id": "n43",
+      "brand": "3M PELTOR",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "3M PELTOR ProTac Hunter / ProTac Shooter 电子耳罩上市",
+      "summary": "3M PELTOR 推出 ProTac Hunter 与 ProTac Shooter 民用狩猎/射击电子耳罩：SNR 26/32dB，2×AA 供电最长 100 小时，3.5mm 音频接口；英国 RRP £89.99。2026 年上市。",
+      "url": "https://www.gunmart.net/shooting-accessories/safety-security/hearing-protection/you-heard-it-here-first-new-hearing-protection-from-3m-peltor",
+      "source": "GunMart",
+      "date": "2026"
     }
   ]
 }
