@@ -1,42 +1,46 @@
 {
-  "savedAt": 1785749112907,
-  "updatedAt": "2026-08-03",
+  "savedAt": 1785806199689,
+  "updatedAt": "2026-08-04",
   "brands": {
     "3M PELTOR": {
-      "releaseDate": "2026-01",
-      "summary": "ComTac IX NIB 无线队间通信耳罩、ComTac VIII、ProTac Hunter/Shooter 上市"
+      "releaseDate": "2026-02",
+      "summary": "ComTac IX NIB 战术耳机于 Enforce Tac 2026（2/23-25 纽伦堡）在 EMEA 首发，美国等区域随后上市：NIB 5-10m 免电台头戴互通（4讲60听全双工）、MAP 任务音频档案、双重防护达 40dB；工业侧 PELTOR WS ALERT X+（BT5.2 MultiPoint、aptX HD、68h 锂电、OTA 升级、Class 5 28dB）在售。⚠同期 ComTac VIII 部分批次全球召回（详见品牌市场动态）。"
     },
     "HOWARD LEIGHT": {
-      "releaseDate": "2026",
-      "summary": "Impact Sport Bluetooth 5.0 耳塞与蓝牙耳罩多 SKU 上市"
+      "releaseDate": "2026-06",
+      "summary": "近 30 天官网无新品发布。在售主力：Impact Sport 粉色版 R-01526P（NRR 22dB、82dB 压缩、3.5mm AUX）、Impact Sport Bolt、Impact Sport Bluetooth 5.0；Impact Sport 仍是 Amazon 电子射击耳罩长期畅销款。"
     },
     "WALKER'S": {
-      "releaseDate": "2026-05",
-      "summary": "Razor X-TRM 动作激活耳罩、Suppressor 蓝牙耳塞、Razor Junior 青少年款上市"
+      "releaseDate": "2026-07",
+      "summary": "★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。"
     },
     "EARMOR": {
-      "releaseDate": "2026-01",
-      "summary": "M20T PRO 入耳式电子耳塞上市（SHOT Show 2026）"
+      "releaseDate": "2026-06",
+      "summary": "★本轮新增：M81「蜂鸟」全双工通话器于 2026 国际警用装备及反恐技术装备展（6/4-6）首发，主打小巧便携、全双工多人通信；另补录 E10 赛级耳塞（2026-01-09 警察节献礼上市，已用于阿联酋特警赛裁判/安全员）与 M33 PRO（自适应 DSP 降噪、IPX-5，面向教官与职业操作手）。SHOT Show 2026 主力仍为 M300T / M20T PRO / M31·M32 PLUS。"
     },
     "OTTO ENGINEERING": {
       "releaseDate": "2026",
-      "summary": "NoizeBarrier TAC 2.0 战术降噪耳机上市"
+      "summary": "2026 年官网未见新品发布（新闻页最新条目为 CMMC Level 2 网络安全成熟度认证，以及 2025-08-05 的 DarkStar 发布）。在售旗舰仍为 NoizeBarrier TAC 2.0（NRR 23dB/SNR 29、IP68、MIL-STD-810G、2×AA 100h、较前代轻 12%）。"
     },
     "INVISIO": {
       "releaseDate": "2026-06",
-      "summary": "T30 Drone Aware 反无人机感知型号于 Eurosatory 2026 发布"
+      "summary": "INVISIO Drone Aware™ 反无人机感知能力于 Eurosatory 2026（6/11）发布并集成到 T30 头戴，可对来袭无人机做早期识别；Q2 财报确认该功能为季度重要事件之一。近 30 天无新硬件发布。"
     },
     "AXIL": {
       "releaseDate": "2026",
-      "summary": "GS Extreme 3.0 / CRX / MXII PRO 上市"
+      "summary": "在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波、续航翻倍，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h、$307.67）、MX PRO（30dB SNR、6X、BT5.4、可换面板）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。近 30 天官网无全新型号，但零售渠道持续扩张（Walmart 3,700 店、Sportsman's Warehouse 70 店、Home Depot 线上）。"
     },
     "OPS-CORE": {
-      "releaseDate": "2026",
-      "summary": "AMP Rail Mount Vent Mode、FAST XP、NOMAD、FAST SF Next Gen 上市"
+      "releaseDate": "2026-02",
+      "summary": "★本轮补录：Ops-Core Voice Projection Unit (VPU) 于 2026-02-17 发布，为 Special Operations Tactical Respirator 配套的语音投射附件。2026 年内其他新品：AMP Rail Mount Kit with Vent Mode（1 月 SHOT Show 首发，耳杯可微移散热且保持 NFMI 通信）、FAST XP 执法版头盔系统（1/19）。⚠另有 2026-03-09 NFMI 耳塞单独使用性能的产品通告（Product Advisory）。"
     },
     "SORDIN": {
-      "releaseDate": "2026-02",
-      "summary": "Supreme X2 / X2 SFA / Supreme T2 上市（IWA 2026）"
+      "releaseDate": "2026-08",
+      "summary": "★本轮重点：Supreme X2 SFA 官网首页已挂「New launch」，2026 年 8 月上市——通过可拆卸 SFA 距离环在更高防护与更薄耳杯轮廓之间按需切换，面向长时间靶场射手。同时更正 Supreme X2 正式发布日为 2026-05-27（旗舰取代 Pro-X，SordinFLEX 免工具切换头带/颈带/盔挂，SNR 29/NRR 23，82dB(A) 限幅；X2BT 蓝牙版仍在研发）。"
+    },
+    "DECIBULLZ": {
+      "releaseDate": "2026",
+      "summary": "★本轮首次纳入监控数据。官网主推 PRO Custom Molded Earplugs 31dB NRR Pro-Pack，随包配「ALL-NEW Decibullz 塑形工具」（THERMOFIT 可反复重塑、3 组 Max Protect 泡沫 tip + 5 组硅胶 tip、硬壳收纳盒+硅胶挂绳）；Percussive 射击滤波耳塞脉冲防护达 33dB NRR；另有 USA Edition 爱国限定与 +Awareness 声管对讲版。"
     }
   }
 }
