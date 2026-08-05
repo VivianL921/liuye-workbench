@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-08-04",
-  "note": "由 刘晔工作台 自动抓取（Amazon / Reddit / IG / FB / LinkedIn / 品牌官网 / 专业新闻站 / 各国产品安全监管机构 / SEC-EDGAR），覆盖 10 大品牌动态：召回、展会、新品、合作、订单、财报等。点击来源链接即标记已读。本轮新增 n23~n38 及 n42 共 17 条（含 DECIBULLZ 新品 n42）。",
+  "updatedAt": "2026-08-05",
+  "note": "由 刘晔工作台 自动抓取（Amazon / Reddit / IG / FB / LinkedIn / 品牌官网 / 专业新闻站 / 各国产品安全监管机构 / SEC-EDGAR），覆盖 10 大品牌动态：召回、展会、新品、合作、订单、财报等。点击来源链接即标记已读。本轮（2026-08-05）新增 n44~n50 共 7 条——重点为 EARMOR 母公司行动者科技 8/1 十周年四款新品全球首发（C53/M23T/M21/M35）与最高本安级防爆认证，以及 AXIL 的 FY2026 指引、Monster Jam 授权扩大、Reviv3 剥离铺路；同时补全 3M ComTac VIII 召回的受影响型号与生产批次。",
   "items": [
     {
       "id": "n01",
@@ -8,7 +8,7 @@
       "category": "recall",
       "catLabel": "召回",
       "title": "3M PELTOR ComTac VIII 通讯耳罩全球召回（严重听力损伤风险）",
-      "summary": "英国产品安全与标准办公室（OPSS）2026-07-29 发布召回：ComTac VIII 部分批次可能通过扬声器发出高达 106 dBA 的反馈噪音，低温环境与电量不足时发生概率上升，不符合 EU 2016/425 及 EN 352-1/4/6:2020。涉及型号 MT14H418A-02/35/38/86/87/90，生产期 2025-11-27 至 2026-02-06（瑞典产），可按耳杯外侧 9 位生产识别号或 PCBA 批次 2547/2549/2550/2552 核对。3M 英国已对经销商下发停用通知（Stop Use Notification），PSD 案号 2607-0161。",
+      "summary": "英国 OPSS 于 2026-07-29 发布产品召回（案号 2607-0161，风险等级：严重）：3M Peltor ComTac VIII 部分批次可能通过耳机扬声器发出高达 106 dBA 的啸叫反馈，在低温环境与电池电量耗尽时更易发生，存在永久性耳鸣/听力损伤风险，不符合 EU 2016/425 及 EN 352-1/-4/-6:2020。⚠受影响型号：MT14H418A-02 / -35 / -38 / -86 / -87 / -90，生产日期 2025-11-27 至 2026-02-06，原产地瑞典。3M 英国已从经销商处召回并发出停用通知（Stop Use）。渠道请立即比对库存与已售批次。",
       "url": "https://www.gov.uk/product-safety-alerts-reports-recalls/product-recall-3m-peltor-comtac-viii-headset-2607-0161",
       "source": "GOV.UK 产品安全召回",
       "date": "2026-07-29"
@@ -168,6 +168,50 @@
       "date": "2026-06-01"
     },
     {
+      "id": "n44",
+      "brand": "EARMOR",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "★行动者科技十周年庆典四款新品全球首发（C53 / M23T / M21 / M35）",
+      "summary": "2026-08-01，EARMOR 母公司广州市行动者科技在十周年庆典上集中首发四款 AI+声学新品：C53 为全球首款同时取得 IECEx Ex ia 级与 Ma 级最高防爆认证的产品，可在 0 区等高危环境实现 8 人全双工无按键通话；M23T AI 听力保护 TWS 耳机仅 21.8mm 厚，蓝牙 6.0、毫秒级压制枪声，支持 89 种语言 AI 实时翻译；M21 AI 轻量化战术通信终端采用仿生耳撑无感佩戴，动铁单元配合声学算法增强脚步声并实现 8° 辨位、降低风噪，支持双通道对讲机并行接入；M35（概念版）为首款 AI 视听感知战术终端，将搭载 1200 万像素 4K 录像与视觉语言模型。对渠道意味着 EARMOR 产品线正式从「听力防护」切入「智能个体防护」，防爆与 AI 翻译两条线可开拓工业/涉外新客群。",
+      "url": "https://www.sohu.com/a/1057763022_122135544",
+      "source": "搜狐（行动者科技十周年报道）",
+      "date": "2026-08-01"
+    },
+    {
+      "id": "n45",
+      "brand": "EARMOR",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "EARMOR 母公司拿下全国 PPE 行业首家最高本安级别防爆认证",
+      "summary": "行动者科技宣布成为全国 PPE 行业首家按最新防爆法规取得最高本安级别（Ex ia / Ma）认证的企业，为智能头戴穿戴装备进入石化、矿山、燃气等 0 区高危环境打开新空间。这是 C53 产品得以落地的资质基础，也是国内同行短期难以复制的准入壁垒——面向工业劳保客户报价时可作为核心差异点。",
+      "url": "https://www.sohu.com/a/1057763022_122135544",
+      "source": "搜狐（行动者科技十周年报道）",
+      "date": "2026-08-01"
+    },
+    {
+      "id": "n46",
+      "brand": "EARMOR",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "行动者科技十周年：覆盖 80+ 国家、泰国工厂投产、参与制定国家标准",
+      "summary": "创始人胡沛霖 2016 年入行，十年间建成花都生产基地、广州研究院与声学实验室，并在泰国布局海外工厂（有助规避关税）；拥有过百项自主专利，产品覆盖全球 80 多个国家和地区，位居国内专业听力防护第一梯队。2024 年胡沛霖作为智能个体防护装备标准化工作组专家，参与制定《个人防护装备》《听力防护装备》等国家标准。公司智能光波导 AI 眼镜与 EARMOR AI App 已于 2025 年上市。",
+      "url": "https://www.sohu.com/a/1057763022_122135544",
+      "source": "搜狐（行动者科技十周年报道）",
+      "date": "2026-08-02"
+    },
+    {
+      "id": "n47",
+      "brand": "EARMOR",
+      "category": "expo",
+      "catLabel": "展会",
+      "title": "EARMOR 亮相 IWA OutdoorClassics 2026（纽伦堡 Booth 5-338），主打十周年阵容",
+      "summary": "EARMOR 在德国纽伦堡 IWA OutdoorClassics 2026 设展位 5-338，以「十年」为主题展出 M300T（双高增益麦克风 360° 态势感知、超薄耳杯避免干扰枪托、2026 款强化防汗与加固头带）与 M20T PRO（混合降噪入耳式、蓝牙、室内/室外/静音三档模式）。官方预告本季将在自有商店推出十周年特别版配色。",
+      "url": "https://www.earmor.us/blogs/events/earmor%C2%AE-at-iwa-2026-10-years-of-innovation-the-future-of-tactical-audio",
+      "source": "EARMOR US 官网",
+      "date": "2026-02-23"
+    },
+    {
       "id": "n10",
       "brand": "OTTO ENGINEERING",
       "category": "news",
@@ -276,6 +320,39 @@
       "url": "https://www.goaxil.com/collections/shooting-hunting-hearing-protection",
       "source": "AXIL 官网产品页",
       "date": "2026-07-25"
+    },
+    {
+      "id": "n48",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "财报",
+      "title": "AXIL 给出 FY2026 Q4 及全年营收指引：全年 3020~3220 万美元（+15%~23%）",
+      "summary": "AXIL Brands 在 8-K 中给出指引：FY2026 第四财季营收 800~1000 万美元，同比增长约 39%~74%，毛利率 67%~71%；全财年营收 3020~3220 万美元，较 FY2025 增长 15%~23%。管理层称公司仍处增长早期。注意其增长主要靠零售铺货驱动，而 Q3 已出现「关税上升 + 经销商大单占比提高」压低毛利率的现象，采购议价时可关注其放量让利空间。",
+      "url": "https://www.stocktitan.net/sec-filings/AXIL/8-k-axil-brands-inc-reports-material-event-91cb7ad18f17.html",
+      "source": "StockTitan / SEC 8-K",
+      "date": "2026-04-08"
+    },
+    {
+      "id": "n49",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "合作",
+      "title": "AXIL 扩大与 Monster Jam 的品牌授权协议",
+      "summary": "AXIL 随财报同步宣布扩大与 Monster Jam（怪兽卡车赛事 IP）的授权合作，延伸至家庭与赛事观众场景的听力防护产品。这条线说明 AXIL 正把重心从纯射击圈层向大众娱乐/亲子降噪市场外扩，对同类耳罩的品类定位与包装设计有参考价值。",
+      "url": "https://longbridge.com/zh-HK/news/282036867",
+      "source": "Longbridge（8-K 摘要）",
+      "date": "2026-04-08"
+    },
+    {
+      "id": "n50",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "AXIL 将 Reviv3 ProCare 独立为子公司，为剥离美护业务铺路",
+      "summary": "AXIL 已将旗下美发护肤业务 Reviv3 ProCare 设立为独立子公司，以便未来进行战略分拆或出售交易。若剥离完成，AXIL 将成为纯听力防护标的，资源与营销预算会进一步向 GS Extreme / XCOR / MX 等耳罩耳塞产品线集中，预计新品节奏与渠道投入会加快。",
+      "url": "https://in.tradingview.com/news/tradingview%3Af743e47fdecda%3A0-axil-brands-inc-3q-2026-revenue-7-29m-eps-0-02-10-q-summary",
+      "source": "TradingView / SEC 10-Q",
+      "date": "2026-04-08"
     },
     {
       "id": "n36",

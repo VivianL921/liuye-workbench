@@ -1,6 +1,6 @@
 {
-  "savedAt": 1785806199689,
-  "updatedAt": "2026-08-04",
+  "savedAt": 1785892664723,
+  "updatedAt": "2026-08-05",
   "brands": {
     "3M PELTOR": {
       "releaseDate": "2026-02",
@@ -15,8 +15,8 @@
       "summary": "★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。"
     },
     "EARMOR": {
-      "releaseDate": "2026-06",
-      "summary": "★本轮新增：M81「蜂鸟」全双工通话器于 2026 国际警用装备及反恐技术装备展（6/4-6）首发，主打小巧便携、全双工多人通信；另补录 E10 赛级耳塞（2026-01-09 警察节献礼上市，已用于阿联酋特警赛裁判/安全员）与 M33 PRO（自适应 DSP 降噪、IPX-5，面向教官与职业操作手）。SHOT Show 2026 主力仍为 M300T / M20T PRO / M31·M32 PLUS。"
+      "releaseDate": "2026-08",
+      "summary": "★本轮重大更新：母公司广州市行动者科技于 2026-08-01 十周年庆典上「四款新品全球首发」——C53（全球首款同时获 IECEx Ex ia 级与 Ma 级最高防爆认证，可在 0 区等高危环境实现 8 人全双工无按键通话）；M23T AI 听力保护 TWS 耳机（仅 21.8mm 厚，蓝牙 6.0，毫秒级压制枪声，支持 89 种语言 AI 实时翻译）；M21 AI 轻量化战术通信终端（仿生耳撑无感佩戴，动铁单元+声学算法增强脚步声并实现 8° 辨位，降风噪，支持双通道对讲机并行接入）；M35（概念版）首款 AI 视听感知战术终端（1200 万像素 4K 录像 + 视觉语言模型，赋予个体防护装备多模态感知）。同期拿下全国 PPE 行业首家按最新防爆法规取得的最高本安级别认证。此前 2026 年新品：M81「蜂鸟」全双工通话器（6 月警用反恐展首发）、E10 赛级耳塞（1-09 上市）、M33 PRO（自适应 DSP、IPX-5）。SHOT Show / IWA 2026 主力仍为 M300T（含 Tactical Pink 新配色）/ M20T PRO / M31·M32 PLUS。"
     },
     "OTTO ENGINEERING": {
       "releaseDate": "2026",
@@ -28,7 +28,7 @@
     },
     "AXIL": {
       "releaseDate": "2026",
-      "summary": "在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波、续航翻倍，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h、$307.67）、MX PRO（30dB SNR、6X、BT5.4、可换面板）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。近 30 天官网无全新型号，但零售渠道持续扩张（Walmart 3,700 店、Sportsman's Warehouse 70 店、Home Depot 线上）。"
+      "summary": "在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4、可换面板）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。近 30 天官网无全新型号。★本轮补充经营面：公司给出 FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%）、毛利率 67%~71%，全年 3020~3220 万美元（+15%~23%）；并扩大与 Monster Jam 的品牌授权合作、将 Reviv3 ProCare 独立为子公司以便后续剥离，聚焦听力防护主业。零售渠道持续扩张（Walmart 约 3,700 店、Sportsman's Warehouse 70 店、Home Depot 线上）。"
     },
     "OPS-CORE": {
       "releaseDate": "2026-02",
@@ -36,7 +36,7 @@
     },
     "SORDIN": {
       "releaseDate": "2026-08",
-      "summary": "★本轮重点：Supreme X2 SFA 官网首页已挂「New launch」，2026 年 8 月上市——通过可拆卸 SFA 距离环在更高防护与更薄耳杯轮廓之间按需切换，面向长时间靶场射手。同时更正 Supreme X2 正式发布日为 2026-05-27（旗舰取代 Pro-X，SordinFLEX 免工具切换头带/颈带/盔挂，SNR 29/NRR 23，82dB(A) 限幅；X2BT 蓝牙版仍在研发）。"
+      "summary": "Supreme X2 SFA 官网首页曾挂「New launch」、宣称 2026 年 8 月上市——通过可拆卸 SFA 距离环在更高防护与更薄耳杯轮廓之间按需切换。⚠2026-08-05 复核：官网商店（/collections/all）尚未上架 Supreme X2 SFA 整机，目前仅见 Pro-X SFA 卫生套件配件，判断为「已预告未开售」，跟进采购需确认实际交期。在售旗舰 Supreme X2（正式发布 2026-05-27，取代 Pro-X）官网首页售价 €371.54，SordinFLEX 免工具切换头带/颈带/盔挂，SNR 29/NRR 23，82dB(A) 限幅；X2BT 蓝牙版仍在研发。"
     },
     "DECIBULLZ": {
       "releaseDate": "2026",
