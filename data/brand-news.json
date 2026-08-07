@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-08-05",
-  "note": "由 刘晔工作台 自动抓取（Amazon / Reddit / IG / FB / LinkedIn / 品牌官网 / 专业新闻站 / 各国产品安全监管机构 / SEC-EDGAR），覆盖 10 大品牌动态：召回、展会、新品、合作、订单、财报等。点击来源链接即标记已读。本轮（2026-08-05）新增 n44~n50 共 7 条——重点为 EARMOR 母公司行动者科技 8/1 十周年四款新品全球首发（C53/M23T/M21/M35）与最高本安级防爆认证，以及 AXIL 的 FY2026 指引、Monster Jam 授权扩大、Reviv3 剥离铺路；同时补全 3M ComTac VIII 召回的受影响型号与生产批次。",
+  "updatedAt": "2026-08-07",
+  "note": "每日 09:00（周一~周六）自动刷新；合并保留全部历史动态，未读新闻不会因更新而消失。",
   "items": [
     {
       "id": "n01",
@@ -507,6 +507,105 @@
       "url": "https://www.gunmart.net/shooting-accessories/safety-security/hearing-protection/you-heard-it-here-first-new-hearing-protection-from-3m-peltor",
       "source": "GunMart",
       "date": "2026"
+    },
+    {
+      "id": "n51",
+      "brand": "3M PELTOR",
+      "category": "recall",
+      "catLabel": "召回",
+      "title": "3M PELTOR ComTac VIII 新西兰召回（Product Safety NZ）",
+      "summary": "新西兰 Product Safety NZ 宣布召回 3M PELTOR ComTac VIII 头戴（产品标识 7100322593 MT14H418A-02 GREEN），2026-01-01 至 2026-05-15 期间在新西兰售出；反馈噪音最高 106 dBA，可致永久性耳鸣。购买渠道为 NZ Safety Blackwoods、SupplyMe；用户可联系 3M 新西兰（0800 252 627）安排退换。",
+      "url": "https://newswire.nz/a/ACy8avdk2TsG7A3unWlALRaeFtf/3m_is_recalling_peltor_comtac_viii_headsets_sold_in_nz_due_to_feedback_noise_up_to_106_dba_which_could_cause_permanent_tinnitus_consumers_should_contact_3m_for_credit_and_replacement.html",
+      "source": "Product Safety NZ / newswire.nz",
+      "date": "2026-07"
+    },
+    {
+      "id": "n52",
+      "brand": "3M PELTOR",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "3M PELTOR ComTac VI 头戴随 NASA Artemis II 登月任务使用",
+      "summary": "3M 新闻中心披露，NASA Artemis II 载人绕月任务中，猎户座飞船乘组使用 3M PELTOR ComTac VI 战术头戴进行舱内通信，体现 PELTOR 在航天极端场景下的可靠性。",
+      "url": "http://news.3m.com/",
+      "source": "3M News Center",
+      "date": "2026-04"
+    },
+    {
+      "id": "n53",
+      "brand": "OPS-CORE",
+      "category": "order",
+      "catLabel": "订单",
+      "title": "Gentex 获美国陆军 HGU-56/P 旋翼飞行头盔系统及保障合同",
+      "summary": "Gentex 于 2026-07-09 宣布获得美国陆军 HGU-56/P 旋翼飞行头盔系统（Rotary Wing Helmet Systems）及相关保障支持合同，延续其在军用头戴装备领域的长期供应。",
+      "url": "https://www.gentexcorp.com/news/",
+      "source": "Gentex Corporation",
+      "date": "2026-07"
+    },
+    {
+      "id": "n54",
+      "brand": "OPS-CORE",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "Lackawanna 警察局接收 Ops-Core FAST 头盔系统",
+      "summary": "2026-06-29 Gentex 披露 Lackawanna 警察局到访并接收 Ops-Core FAST 头盔系统，体现 Ops-Core 在执法（LE）市场的持续落地与本地执法部门采用。",
+      "url": "https://www.gentexcorp.com/news/",
+      "source": "Gentex Corporation",
+      "date": "2026-06"
+    },
+    {
+      "id": "n55",
+      "brand": "DECIBULLZ",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Decibullz 推限量 USA 版 + 两款对讲监听耳塞（SHOT Show 2026）",
+      "summary": "SHOT Show 2026 上 Decibullz 推出限量红白蓝 USA 版定制塑形耳塞，并发布两款用于对讲管的监听耳塞（surveillance earpieces）；原有密封/脉冲滤波耳塞保持多色供应。",
+      "url": "https://theunionpulse.com/news/range-day-roundup-reflex-sight-cooling-body-armor-pop-up-targets-and-much-more",
+      "source": "The Union Pulse（SHOT Show 盘点）",
+      "date": "2026-01"
+    },
+    {
+      "id": "n56",
+      "brand": "HOWARD LEIGHT",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "Howard Leight Impact Sport Bluetooth 5.0 评测（NRR 22，2026-06 发布）",
+      "summary": "2026-06-19 发布、2026-07-27 更新的 Howard Leight Impact Sport Bluetooth 5.0（型号 R-02524）评测：NRR 22 dB（ANSI S3.19），蓝牙 5.0 无线音频，售价低于 50 美元，适合射击/作业场景。",
+      "url": "https://wcsafety.com/blogs/product-reviews/honeywell-ademco-howard-leight-impact-sport-bluetooth-50-electronic-shooting-ear-review",
+      "source": "WC Safety",
+      "date": "2026-07"
+    },
+    {
+      "id": "n57",
+      "brand": "OTTO ENGINEERING",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "OTTO NoizeBarrier Range SA 入选 RECOIL 杂志新品栏目",
+      "summary": "OTTO Communications 的 NoizeBarrier Range SA 战术头戴（NRR 23 dB、100 小时续航、360° 环境音）获 RECOIL 杂志新品栏目评测报道，面向射击专业人士与执法市场。",
+      "url": "https://www.otto-comm.com/news/Recoil%20Magazine%20Review%20Range%20SA",
+      "source": "OTTO Communications",
+      "date": "2026"
+    },
+    {
+      "id": "n58",
+      "brand": "WALKER'S",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "Walker's Silencer 2.0 入耳式电子耳塞被战术竞技选手采用",
+      "summary": "战术竞技（The Tactical Games）选手常用 Walker's Silencer 2.0 入耳式电子耳塞（约 $200，NRR 24 dB，带充电盒），评价舒适、性价比高；少数反馈续航与户外风噪问题。",
+      "url": "https://actiongunner.com/best-hearing-protection-for-the-tactical-games-what-competitors-use/",
+      "source": "Action Gunner",
+      "date": "2026"
+    },
+    {
+      "id": "n59",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "AXIL 发布 MX II 系列耳罩（SonicShieldX，1/5 预售）",
+      "summary": "AXIL 于 2026-01-05 开启 MX II PRO 预售（2 月交付），MX II Electronic 与 MX II Passive 计划 5 月上市；搭载 SonicShieldX 技术，最高 6 倍环境音放大、85 dB 以上即时压缩。",
+      "url": "https://intellectia.ai/news/etf/axil-launches-mx-ii-series-earmuffs-with-preorders-starting-january-5-2026",
+      "source": "Intellectia / Newsfilter",
+      "date": "2026-01"
     }
   ]
 }
