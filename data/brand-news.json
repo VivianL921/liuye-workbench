@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-07",
+  "updatedAt": "2026-08-12",
   "note": "每日 09:00（周一~周六）自动刷新；合并保留全部历史动态，未读新闻不会因更新而消失。",
   "items": [
     {
@@ -606,6 +606,61 @@
       "url": "https://intellectia.ai/news/etf/axil-launches-mx-ii-series-earmuffs-with-preorders-starting-january-5-2026",
       "source": "Intellectia / Newsfilter",
       "date": "2026-01"
+    },
+    {
+      "id": "n60",
+      "brand": "3M PELTOR",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "3M PELTOR 推出模块化通讯系统套件 FL7000 / FL8000 PTT 适配器",
+      "summary": "3M PELTOR 于 2026 年发布 Modular Communication System 模块化通讯系统套件，核心为 FL7000 系列机械式多通道 PTT（含音频管理开关、可选从电台向耳机供电，2026-01 上市）与 FL8000 智能多通道 PTT（支持最多 2 台双频电台 + ICS + EUD，单/混合/环绕音频呈现，计划年内上市）。配套 ComTac VIII / ComTac IX NIB 头戴，面向军警与工业场景的跨设备互联。这是 PELTOR 从「单一头戴」向「系统级通讯方案」延伸的信号，渠道可向多设备用户主推。",
+      "url": "https://www.findglocal.com/FR/Paris/112040035498517/3M-PELTOR",
+      "source": "3M PELTOR 官方社媒 / 行业市场研究",
+      "date": "2026-05"
+    },
+    {
+      "id": "n61",
+      "brand": "OPS-CORE",
+      "category": "order",
+      "catLabel": "订单",
+      "title": "Gentex 获捷克陆军 Ops-Core 头盔与 AMP 通讯耳机订单（经 NSPA，逾 10 亿捷克克朗）",
+      "summary": "Gentex / Ops-Core 经北约保障与采购局（NSPA）框架，被捷克国防部选中交付下一代 Ops-Core 集成弹道头盔系统与 AMP® 通讯耳机（含 PTT、面罩、防护下颌与 SOTR 呼吸器），合同价值逾 10 亿捷克克朗（约 4,300 万美元），计划 2026 年 10 月前完成交付。这是 Ops-Core 在欧洲 NATO 盟友中的又一重大落地，连同加拿大 1,600 万美元订单与美军 NGC2/HGU-56/P 合同，体现 Gentex 在单兵头部系统的份额持续扩大。",
+      "url": "https://fragoutmag.com/gentex-ops-core-helmets-amp-headsets-czech-armed-forces",
+      "source": "Frag Out! Magazine / Gentex 新闻稿",
+      "date": "2026"
+    },
+    {
+      "id": "n62",
+      "brand": "WALKER'S",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Walker's Razor Slim X-TRM 电子耳罩上市（动态风噪抑制 + 凝胶耳垫）",
+      "summary": "Walker's 推出 Razor Slim X-TRM 系列电子降噪耳罩（约 $59.99–64.99），在经典 Razor Slim 基础上强化：动态风噪抑制技术 + 精准调校频响，2 只 Hi-Gain 全向麦，NRR 21 dB，0.02 秒声激活压缩；配透气网眼头带、舒适凝胶耳垫、橡胶涂层、可折叠设计、3.5mm 音频输入。面向猎人、靶场射手与户外爱好者，是 Walker's 在入门价位段对「舒适+清晰」的再打磨。",
+      "url": "https://gurmeetweb.com/walkers-razor-x-trm-electronic-muff",
+      "source": "GurmeetWeb / Walker's 产品页",
+      "date": "2026-02"
+    },
+    {
+      "id": "n63",
+      "brand": "WALKER'S",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Walker's Razor Rechargeable 可充电电子耳罩上市（USB-C，80 小时续航）",
+      "summary": "Walker's 推出 Razor Rechargeable 可充电版电子耳罩（约 $64.99）：NRR 21 dB、最高约 80 小时续航、USB-C 充电、LED 三色电量指示，电量耗尽时仍可被动防护；2 只 Hi-Gain 麦、0.02 秒声激活压缩、3.5mm 接口、可折叠。针对厌烦频繁更换 AAA 电池的用户，凭便利性与长续航在 2026 年横评中获高分推荐。",
+      "url": "https://thegoodatheist.net/best-electronic-hearing-protection-for-shooting",
+      "source": "The Good Atheist（2026 横评）",
+      "date": "2026-06"
+    },
+    {
+      "id": "n64",
+      "brand": "HOWARD LEIGHT",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Howard Leight Impact Sport Bluetooth 扩展多配色 + 凝胶耳垫促销包",
+      "summary": "Honeywell 旗下 Howard Leight 扩展 Impact Sport Bluetooth 电子耳罩 SKU：中/大号新增 Brushed Bronze / OD Green / Flat Dark Earth / 2nd Amendment 四色，青少/小号新增 Metallic Rose Gold / 2nd Amendment，并提供含额外凝胶耳垫的 Promo Pack（R-02547，MSRP $159，凝胶垫版 NRR 19 dB）。延续 NRR 21 dB、蓝牙 5.0、可充电锂电（约 20 小时）、0.5ms 压缩、4 小时自动关机。新增大尺码与多配色意在覆盖更广人群与个性化需求。",
+      "url": "https://www.outdoorsfirst.com/whitetail/article/howard-leight-improving-on-a-legend/",
+      "source": "Outdoor First（Howard Leight 新闻稿）",
+      "date": "2026"
     }
   ]
 }
