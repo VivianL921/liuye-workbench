@@ -15,38 +15,40 @@
 <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(e){console.log('SW skip',e);});});}</script>
 <style>
 :root{
-  /* 柔和低饱和活力配色 · Apple 液态玻璃风 */
-  --glass:rgba(255,255,255,.55);
-  --glass-strong:rgba(255,255,255,.72);
-  --glass-border:rgba(255,255,255,.65);
-  --bg-1:#eef1f7;
-  --bg-2:#f3eefb;
-  --bg-3:#e9f4f3;
-  --text:#2b2f36;
-  --text-sec:#7c828c;
+  /* 莫兰迪浅蓝 · iOS 质感系统配色 */
+  --glass:rgba(255,255,255,.50);
+  --glass-strong:rgba(255,255,255,.66);
+  --glass-border:rgba(255,255,255,.72);
+  --bg-1:#e1e8ef;
+  --bg-2:#e7eef4;
+  --bg-3:#dde6ee;
+  --text:#3b4350;
+  --text-sec:#8b94a2;
   --card:var(--glass-strong);
   --border:var(--glass-border);
-  --primary:#5b78e8;
-  --primary-light:rgba(91,120,232,.14);
-  --green:#37b27e; --green-bg:rgba(55,178,126,.13);
-  --orange:#e08a3c; --orange-bg:rgba(224,138,60,.13);
-  --red:#e2617a; --red-bg:rgba(226,97,122,.13);
-  --purple:#8b72d6; --purple-bg:rgba(139,114,214,.13);
-  --teal:#2fa9a0; --teal-bg:rgba(47,169,160,.13);
-  --order:#cf9b3c; --order-bg:rgba(207,155,60,.13);
-  --brand:#c06cc4; --brand-bg:rgba(192,108,196,.13);
-  --radius:18px; --radius-sm:12px;
-  --shadow:0 10px 34px rgba(31,41,72,.10);
-  --shadow-sm:0 3px 12px rgba(31,41,72,.07);
+  --primary:#6f8fb0;          /* 莫兰迪雾蓝（主色） */
+  --primary-2:#9cb4c9;        /* 浅雾蓝（渐变辅助） */
+  --primary-light:rgba(111,143,176,.16);
+  --accent-tint:#e4ebf1;      /* 雾蓝浅底（标签） */
+  --green:#7fa890; --green-2:#a9c3b2; --green-bg:rgba(127,168,144,.16);
+  --orange:#c79a6e; --orange-bg:rgba(199,154,110,.16);
+  --red:#c98a8a; --red-bg:rgba(201,138,138,.16);
+  --purple:#9b93b8; --purple-bg:rgba(155,147,184,.16);
+  --teal:#6fa39b; --teal-bg:rgba(111,163,155,.16);
+  --order:#c2a06a; --order-bg:rgba(194,160,106,.16);
+  --brand:#a98bb0; --brand-bg:rgba(169,139,176,.16);
+  --radius:20px; --radius-sm:13px;
+  --shadow:0 1px 2px rgba(43,54,80,.05), 0 10px 30px rgba(70,92,130,.10);
+  --shadow-sm:0 1px 2px rgba(43,54,80,.04), 0 4px 14px rgba(70,92,130,.07);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Rounded','Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
   color:var(--text);font-size:14px;line-height:1.65;
   background:
     radial-gradient(120% 120% at 0% 0%, var(--bg-2) 0%, transparent 55%),
     radial-gradient(120% 120% at 100% 0%, var(--bg-3) 0%, transparent 55%),
-    radial-gradient(150% 150% at 50% 120%, #f5eef9 0%, transparent 60%),
+    radial-gradient(150% 150% at 50% 120%, #eef1f6 0%, transparent 60%),
     var(--bg-1);
   background-attachment:fixed;
   min-height:100vh;
@@ -54,36 +56,59 @@ body{
 }
 .app{display:flex;align-items:flex-start;gap:20px;max-width:1440px;margin:0 auto;padding:20px}
 
-/* ============ 左侧固定导航 ============ */
+/* ============ 左侧固定导航（iOS 岛台 / Dock） ============ */
 .sidebar{
   position:sticky;top:20px;align-self:flex-start;
-  width:244px;flex-shrink:0;
+  width:248px;flex-shrink:0;
   display:flex;flex-direction:column;gap:6px;
   background:var(--glass);
-  backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
-  border:1px solid var(--glass-border);border-radius:var(--radius);
-  box-shadow:var(--shadow);
+  backdrop-filter:blur(34px) saturate(180%);-webkit-backdrop-filter:blur(34px) saturate(180%);
+  border:1px solid var(--glass-border);border-radius:26px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75), inset 0 0 0 1px rgba(255,255,255,.18), var(--shadow);
   padding:18px 14px;max-height:calc(100vh - 40px);overflow-y:auto;
 }
-.side-brand{padding:6px 12px 16px;border-bottom:1px solid var(--glass-border);margin-bottom:10px}
+.side-brand{padding:4px 12px 14px;border-bottom:1px solid rgba(255,255,255,.5);margin-bottom:8px}
 .side-brand .name{font-size:18px;font-weight:700;letter-spacing:.3px}
 .side-brand .sub{font-size:12px;color:var(--text-sec);margin-top:3px}
-.nav{display:flex;flex-direction:column;gap:5px}
+.nav{display:flex;flex-direction:column;gap:4px}
 .nav-item{
   display:flex;align-items:center;gap:12px;
-  padding:11px 14px;border-radius:14px;
+  padding:10px 13px;border-radius:14px;
   color:var(--text-sec);font-size:14px;font-weight:500;cursor:pointer;
-  border:1px solid transparent;transition:all .25s ease;
+  border:1px solid transparent;transition:all .2s ease;
   touch-action:manipulation;user-select:none;
 }
 .nav-item .ni-ico{font-size:17px;width:22px;text-align:center}
 .nav-item:hover{background:rgba(255,255,255,.5);color:var(--text)}
 .nav-item.active{
-  background:var(--glass-strong);color:var(--primary);
-  border-color:var(--glass-border);
-  box-shadow:0 6px 16px rgba(91,120,232,.18);font-weight:600;
+  background:var(--primary-light);color:var(--primary);
+  border-color:transparent;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+  font-weight:600;
 }
-.side-foot{margin-top:auto;padding:14px 12px 4px;border-top:1px solid var(--glass-border);font-size:11px;color:var(--text-sec);line-height:1.6}
+.side-foot{margin-top:auto;padding:14px 12px 4px;border-top:1px solid rgba(255,255,255,.5);font-size:11px;color:var(--text-sec);line-height:1.6}
+
+/* ============ 世界时钟（岛台组件） ============ */
+.world-clock{margin:2px 0 12px;padding:15px 14px;border-radius:18px;
+  background:rgba(255,255,255,.40);border:1px solid rgba(255,255,255,.6);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.wc-main{text-align:center}
+.wc-time{font-size:27px;font-weight:300;letter-spacing:1px;color:var(--text);
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum";line-height:1.15}
+.wc-date{font-size:11px;color:var(--text-sec);margin-top:3px}
+.wc-divider{height:1px;background:rgba(255,255,255,.6);margin:12px 0}
+.wc-list{display:flex;flex-direction:column;gap:9px}
+.wc-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.wc-city{font-size:12px;color:var(--text-sec);display:flex;align-items:center;gap:7px;min-width:0}
+.wc-city .wc-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wc-city .x{font-size:14px;color:#b7bfc9;cursor:pointer;flex-shrink:0;line-height:1;padding:2px}
+.wc-city .x:hover{color:var(--red)}
+.wc-tz{font-size:14px;font-weight:500;color:var(--text);min-width:60px;text-align:right;
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.wc-add{margin-top:12px;width:100%;padding:7px;border:1px dashed rgba(111,143,176,.4);
+  background:transparent;color:var(--primary);border-radius:11px;font-size:12px;cursor:pointer;transition:all .2s}
+.wc-add:hover{background:var(--primary-light)}
+.wc-empty{font-size:11px;color:var(--text-sec);text-align:center;padding:2px 0}
 
 /* ============ 右侧主区 ============ */
 .main{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px}
@@ -91,8 +116,8 @@ body{
   display:flex;align-items:center;justify-content:space-between;gap:16px;
   background:var(--glass);
   backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
-  border:1px solid var(--glass-border);border-radius:var(--radius);
-  box-shadow:var(--shadow-sm);padding:14px 22px;
+  border:1px solid var(--glass-border);border-radius:24px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), var(--shadow-sm);padding:14px 22px;
 }
 .topbar-info .td{font-size:13px;color:var(--text)}
 .topbar-info .ts{font-size:12px;color:var(--text-sec);margin-top:2px}
@@ -101,7 +126,7 @@ body{
 /* 进度环（复用原结构） */
 .progress-ring{width:56px;height:56px;position:relative;flex-shrink:0}
 .progress-ring svg{transform:rotate(-90deg)}
-.progress-ring .bg-circle{fill:none;stroke:rgba(91,120,232,.18);stroke-width:5}
+.progress-ring .bg-circle{fill:none;stroke:rgba(111,143,176,.18);stroke-width:5}
 .progress-ring .fg-circle{fill:none;stroke:var(--primary);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .5s}
 .progress-ring .pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;font-weight:700}
 
@@ -109,8 +134,8 @@ body{
 .tab-content{
   display:none;background:var(--glass);
   backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);
-  border:1px solid var(--glass-border);border-radius:var(--radius);
-  box-shadow:var(--shadow);padding:22px;min-height:480px;
+  border:1px solid var(--glass-border);border-radius:22px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55), var(--shadow);padding:22px;min-height:480px;
 }
 .tab-content.active{display:block;animation:panelIn .35s ease}
 @keyframes panelIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -129,7 +154,7 @@ body{
 .filter-btn{padding:6px 14px;border:1px solid var(--border);background:var(--card);border-radius:20px;font-size:12px;cursor:pointer;color:var(--text-sec);transition:all .2s}
 .filter-btn:hover,.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
 .btn-add{padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-weight:500;transition:all .2s}
-.btn-add:hover{background:#1d4ed8}
+.btn-add:hover{background:#5f7d9c}
 
 .task-list{display:flex;flex-direction:column;gap:8px}
 .task-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:10px;transition:all .2s;background:#fff}
@@ -180,9 +205,31 @@ body{
 .monthly-actions{display:flex;gap:4px;flex-shrink:0}
 .monthly-progress{margin-top:10px}
 .progress-track{height:10px;background:#eef2f7;border-radius:6px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),#60a5fa);border-radius:6px;transition:width .3s}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-2));border-radius:6px;transition:width .3s}
 .monthly-progress .progress-text{font-size:12px;color:var(--text-sec);margin-top:6px}
 .monthly-meta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center}
+/* 任务 ↔ KPI 联动 */
+.task-link{color:var(--text-sec);cursor:pointer;font-size:15px;padding:4px;opacity:.5;transition:opacity .2s;margin-right:2px}
+.task-link:hover{opacity:1;color:var(--teal)}
+.task-link.on{opacity:1;color:var(--teal)}
+.task-link-badge{font-size:11px;padding:2px 8px;border-radius:4px;background:var(--teal-bg);color:var(--teal);font-weight:500;display:inline-flex;align-items:center;gap:3px}
+.subitem-wrap{margin-top:10px;border-top:1px dashed var(--border);padding-top:8px}
+.subitem-head{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-sec);margin-bottom:6px}
+.subitem-add{font-size:12px;padding:3px 10px;background:var(--teal-bg);color:var(--teal);border:none;border-radius:6px;cursor:pointer;font-weight:500}
+.subitem-add:hover{filter:brightness(.96)}
+.subitem-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9}
+.subitem-row:last-child{border-bottom:none}
+.subitem-row.done .subitem-title{text-decoration:line-through;color:var(--text-sec)}
+.subitem-row.done{opacity:.6}
+.subitem-check{width:16px;height:16px;border:2px solid var(--border);border-radius:5px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.subitem-check.checked{background:var(--teal);border-color:var(--teal)}
+.subitem-check.checked::after{content:'';width:5px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.subitem-main{flex:1;min-width:0}
+.subitem-title{font-size:13px;font-weight:500}
+.subitem-meta{display:flex;gap:8px;margin-top:3px;flex-wrap:wrap;align-items:center}
+.subitem-step{font-size:11px;color:var(--text-sec);padding:1px 7px;border-radius:4px;background:#f1f5f9}
+.subitem-empty{font-size:12px;color:var(--text-sec);padding:6px 0}
+.form-hint{font-size:11px;color:var(--text-sec);margin-top:-4px;margin-bottom:8px;line-height:1.6}
 
 /* Add Task Modal */
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center}
@@ -222,7 +269,7 @@ body{
 .brand-check.alert{background:#fff;color:var(--red);border-color:var(--red)}
 .brand-check.alert:hover{background:var(--red);color:#fff}
 .status-done{background:var(--green-bg);color:var(--green)}
-.pdate{display:inline-block;font-size:10px;color:var(--primary);background:#eef2ff;padding:1px 6px;border-radius:10px;margin-left:4px}
+.pdate{display:inline-block;font-size:10px;color:var(--primary);background:var(--accent-tint);padding:1px 6px;border-radius:10px;margin-left:4px}
 .btn-refresh{padding:5px 14px;border:1px solid var(--primary);background:var(--primary);color:#fff;border-radius:20px;font-size:12px;cursor:pointer;transition:all .2s}
 .btn-refresh:hover{opacity:.88}
 .btn-refresh:disabled{opacity:.5;cursor:default}
@@ -232,10 +279,10 @@ body{
 .news-card.unread{border-left:4px solid var(--red)}
 .news-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
 .news-brand{font-weight:600;font-size:14px;color:var(--text)}
-.news-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:#eef2ff;color:#4f46e5;white-space:nowrap}
-.news-cat.recall{background:#fee2e2;color:#b91c1c}
-.news-cat.news{background:#fef3c7;color:#b45309}
-.news-cat.expo{background:#dcfce7;color:#15803d}
+.news-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--accent-tint);color:var(--primary);white-space:nowrap}
+.news-cat.recall{background:var(--red-bg);color:var(--red)}
+.news-cat.news{background:var(--orange-bg);color:var(--orange)}
+.news-cat.expo{background:var(--green-bg);color:var(--green)}
 .news-title{font-weight:600;font-size:14px;margin-bottom:4px;color:var(--text)}
 .news-sum{font-size:13px;color:var(--text-sec);line-height:1.6;margin-bottom:8px}
 .news-foot{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-sec);gap:10px}
@@ -252,6 +299,53 @@ body{
 .pmeta .model{background:#f1f5f9;color:#334155}
 .pspec{font-size:12px;color:#475569;margin-top:3px;line-height:1.5}
 .psource{font-size:10px;color:#9ca3af;margin-top:3px}
+/* 品牌监控 - 顶部监控条 / 更新时间线 / 卡内要点 */
+.monitor-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:2px 0 14px}
+.monitor-stats{font-size:12px;color:var(--text-sec);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.monitor-stats b{color:var(--primary);font-weight:600}
+.monitor-filter{margin-left:auto;display:flex;gap:6px}
+.monitor-filter .mf{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:#fff;color:var(--text-sec);cursor:pointer;transition:all .2s}
+.monitor-filter .mf.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.monitor-filter .mf.alert.active{background:var(--red);border-color:var(--red)}
+.btn-refresh-m{font-size:12px;padding:5px 14px;border:1px solid var(--primary);background:var(--primary);color:#fff;border-radius:20px;cursor:pointer;transition:all .2s}
+.btn-refresh-m:hover{opacity:.9}
+.btn-refresh-m:disabled{opacity:.5;cursor:default}
+.timeline-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(31,41,55,.04)}
+.timeline-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+.timeline-head h4{font-size:14px;margin:0;color:var(--text)}
+.timeline-toggle{font-size:12px;color:var(--text-sec);flex:none;margin-left:10px}
+.timeline{margin-top:10px;display:flex;flex-direction:column;position:relative;padding-left:14px}
+.timeline:before{content:"";position:absolute;left:4px;top:6px;bottom:6px;width:2px;background:var(--border)}
+.tl-item{position:relative;padding:8px 0 8px 14px;border-bottom:1px dashed var(--border)}
+.tl-item:last-child{border-bottom:none}
+.tl-item:before{content:"";position:absolute;left:-14px;top:12px;width:9px;height:9px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 3px #fff}
+.tl-item.is-new:before{background:var(--red)}
+.tl-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tl-date{font-size:11px;color:var(--text-sec);font-variant-numeric:tabular-nums;flex:none}
+.tl-tag{font-size:10px;padding:1px 7px;border-radius:10px;font-weight:500;flex:none}
+.tl-tag.t-new{background:var(--red-bg);color:var(--red)}
+.tl-tag.t-spec{background:var(--orange-bg);color:var(--orange)}
+.tl-tag.t-fix{background:#eef2ff;color:#3b4a63}
+.tl-tag.t-recall{background:var(--red-bg);color:var(--red)}
+.tl-tag.t-biz{background:var(--green-bg);color:var(--green)}
+.tl-tag.t-note{background:#f3f4f6;color:var(--text-sec)}
+.tl-brand{font-size:13px;font-weight:600;color:var(--primary)}
+.tl-head{font-size:12.5px;color:var(--text);margin-top:3px;line-height:1.5}
+.brand-update{display:flex;align-items:flex-start;gap:8px;margin-top:8px;font-size:12px;color:var(--text);background:#f8fafc;border:1px solid var(--border);border-left:3px solid var(--primary);padding:7px 10px;border-radius:8px;line-height:1.55}
+.brand-update .utag{font-size:10px;padding:1px 7px;border-radius:10px;font-weight:500;white-space:nowrap;flex:none;margin-top:1px;color:#fff}
+.brand-update .utag.t-new,.brand-update .utag.t-recall{background:var(--red)}
+.brand-update .utag.t-spec{background:var(--orange)}
+.brand-update .utag.t-fix{background:#64748b}
+.brand-update .utag.t-biz{background:var(--green)}
+.brand-update .utag.t-note{background:#9ca3af}
+.brand-update .udate{color:var(--text-sec);font-variant-numeric:tabular-nums;flex:none;margin-top:1px}
+.brand-summary{margin-top:10px;border-top:1px dashed var(--border);padding-top:10px}
+.brand-summary summary{cursor:pointer;font-size:12px;color:var(--primary);font-weight:500;list-style:none;user-select:none}
+.brand-summary summary::-webkit-details-marker{display:none}
+.brand-summary summary:before{content:"▸ ";}
+.brand-summary[open] summary:before{content:"▾ ";}
+.brand-summary .bs-body{margin-top:8px;font-size:12.5px;color:#475569;line-height:1.7;white-space:pre-wrap}
+.bs-star{color:var(--red);font-weight:700}
 .psource a{color:var(--primary);text-decoration:none}
 .psource a:hover{text-decoration:underline}
 .brand-exhib{margin-top:10px;border-top:1px dashed var(--border);padding-top:8px}
@@ -386,8 +480,8 @@ body{
 .sales-legend{display:flex;gap:18px;align-items:center;font-size:13px}
 .sales-legend .lg{display:flex;align-items:center;gap:6px;color:var(--text-sec)}
 .sales-legend .sw{width:14px;height:14px;border-radius:4px;display:inline-block}
-.sales-legend .sw.target{background:linear-gradient(180deg,#60a5fa,#2563eb)}
-.sales-legend .sw.achieved{background:linear-gradient(180deg,#4ade80,#16a34a)}
+.sales-legend .sw.target{background:linear-gradient(180deg,var(--primary-2),var(--primary))}
+.sales-legend .sw.achieved{background:linear-gradient(180deg,var(--green-2),var(--green))}
 .sales-chart{display:flex;gap:10px;align-items:flex-start;overflow-x:auto;margin-top:4px}
 .sales-yaxis{width:46px;height:240px;position:relative;flex-shrink:0}
 .sales-yaxis .tick{position:absolute;right:8px;transform:translateY(-50%);font-size:10px;color:var(--text-sec);white-space:nowrap}
@@ -397,11 +491,11 @@ body{
 .sales-bars{height:240px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:5px;position:relative;border-bottom:2px solid var(--border)}
 .sales-bars:hover{background:rgba(37,99,235,.05)}
 .sales-bar{width:40%;border-radius:5px 5px 0 0;position:relative;transition:height .45s ease;min-height:2px}
-.sales-bar.target{background:linear-gradient(180deg,#60a5fa,#2563eb)}
-.sales-bar.achieved{background:linear-gradient(180deg,#4ade80,#16a34a)}
+.sales-bar.target{background:linear-gradient(180deg,var(--primary-2),var(--primary))}
+.sales-bar.achieved{background:linear-gradient(180deg,var(--green-2),var(--green))}
 .sales-val{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;white-space:nowrap}
-.sales-val.target{color:#2563eb}
-.sales-val.achieved{color:#16a34a}
+.sales-val.target{color:var(--primary)}
+.sales-val.achieved{color:var(--green)}
 .sales-month{font-size:12px;color:var(--text-sec)}
 .sales-col:hover .sales-month{color:var(--primary);font-weight:600}
 .sales-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px}
@@ -453,14 +547,16 @@ body{
 .sales-bars:hover{background:rgba(91,120,232,.05)}
 .modal{background:var(--glass-strong);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border:1px solid var(--glass-border);box-shadow:0 24px 60px rgba(31,41,72,.25)}
 .modal-overlay{background:rgba(40,44,60,.32);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.btn-add,.btn-view,.btn-save{background:var(--primary);box-shadow:0 4px 12px rgba(91,120,232,.28)}
-.btn-add:hover,.btn-view:hover,.btn-save:hover{background:#4a68de;transform:translateY(-1px)}
+.btn-add,.btn-view,.btn-save{background:var(--primary);box-shadow:0 4px 12px rgba(111,143,176,.28)}
+.btn-add:hover,.btn-view:hover,.btn-save:hover{background:#5f7d9c;transform:translateY(-1px)}
 .btn-cancel,.btn-dl{background:rgba(255,255,255,.55);border:1px solid var(--glass-border);color:var(--text);transition:all .2s}
 .btn-cancel:hover,.btn-dl:hover{background:rgba(255,255,255,.8)}
-.week-export,.sop-sync{background:var(--green);box-shadow:0 4px 12px rgba(55,178,126,.25);border:none}
+.week-export,.sop-sync{background:var(--green);box-shadow:0 4px 12px rgba(127,168,144,.25);border:none}
 .sales-settings-btn{background:rgba(255,255,255,.55);border:1px solid var(--glass-border);color:var(--text-sec);transition:all .2s}
 .sales-settings-btn:hover{color:var(--primary);border-color:var(--primary)}
 .sync-btn{margin-left:10px;padding:6px 14px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.25);color:var(--text);border-radius:20px;font-size:12px;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);touch-action:manipulation;font-weight:500}
+.export-btn{background:linear-gradient(135deg,var(--primary),#86a6c4);color:#fff;border-color:rgba(255,255,255,.7);font-weight:600}
+.export-btn:hover{filter:brightness(1.05)}
 .sync-btn:active{transform:scale(.95)}
 .form-group input,.form-group select,.form-group textarea,.review-textarea,.followup-box,.report-box,.sop-notes-box,.hist-text,.task-notes,.brand-product,.sales-settings-btn{
   background:rgba(255,255,255,.55);border:1px solid var(--glass-border);
@@ -474,7 +570,7 @@ body{
 @media(max-width:860px){
   .app{flex-direction:column;padding:12px;gap:12px}
   .sidebar{position:fixed;bottom:0;left:0;right:0;top:auto;width:100%;flex-direction:row;max-height:none;border-radius:18px 18px 0 0;padding:8px 6px;justify-content:space-around;z-index:50;gap:0}
-  .side-brand,.side-foot{display:none}
+  .side-brand,.side-foot,.world-clock{display:none}
   .nav{flex-direction:row;gap:2px;width:100%;justify-content:space-around}
   .nav-item{flex-direction:column;gap:3px;padding:7px 4px;font-size:10px;flex:1;border-radius:12px}
   .nav-item .ni-ico{font-size:18px}
@@ -498,6 +594,15 @@ body{
       <div class="name">刘晔工作台</div>
       <div class="sub">战术听力防护 / 渠道开发</div>
     </div>
+    <div class="world-clock">
+      <div class="wc-main">
+        <div class="wc-time" id="wcLocalTime">--:--:--</div>
+        <div class="wc-date" id="wcLocalDate">本地</div>
+      </div>
+      <div class="wc-divider"></div>
+      <div class="wc-list" id="wcList"></div>
+      <button class="wc-add" id="btnAddZone">+ 添加时区</button>
+    </div>
     <nav class="nav">
       <div class="nav-item active" data-tab="tasks"><span class="ni-ico">✅</span><span>今日任务</span></div>
       <div class="nav-item" data-tab="brands"><span class="ni-ico">🔍</span><span>品牌新品监控</span></div>
@@ -520,6 +625,9 @@ body{
       </div>
       <div class="topbar-actions">
         <button id="btnSync" class="sync-btn" title="云同步：电脑与手机共用一份数据">☁️ <span id="syncState">未配置</span></button>
+        <button id="btnExport" class="sync-btn export-btn" title="导出全部「今日任务 + 历史归档 + 每日复盘 + 月度KPI」为 Markdown 文件">⤓ 导出</button>
+        <button id="btnImport" class="sync-btn export-btn" title="从备份文件导入任务与复盘（合并，不丢失现有数据）">⤒ 导入</button>
+        <input type="file" id="importFile" accept=".json,application/json" style="display:none">
         <div class="progress-ring">
           <svg width="56" height="56">
             <circle class="bg-circle" cx="28" cy="28" r="24"/>
@@ -568,8 +676,23 @@ body{
       <span>品牌新品监控</span>
       <span class="count" id="brandCount">10个品牌</span>
     </div>
+    <div class="monitor-bar">
+      <div class="monitor-stats" id="brandMonitorStats"></div>
+      <div class="monitor-filter">
+        <button class="mf active" data-filter="all">全部</button>
+        <button class="mf alert" data-filter="new">🔴 只看有新品</button>
+      </div>
+      <button class="btn-refresh-m" id="btnRefreshBrands">🔄 刷新监控</button>
+    </div>
+    <div class="timeline-wrap">
+      <div class="timeline-head" id="tlHead">
+        <h4>📌 更新时间线（持续累积，每次刷新自动并入最新动态）</h4>
+        <span class="timeline-toggle" id="tlToggle">收起 ▾</span>
+      </div>
+      <div class="timeline" id="brandTimeline"></div>
+    </div>
     <div style="margin-bottom:12px;font-size:12px;color:var(--text-sec)">
-      <b style="color:var(--red)">红</b>=官网有新品发布且你未确认该发布 ｜ <b style="color:var(--text-sec)">灰</b>=已确认或官网暂无新品 ｜ 仅红色品牌显示「确认已查」，点后变灰，<b>直到该品牌官网再次发布新品才重新变红</b>（不再每天清零）｜ 📅 每个新品标注官网发布时间 ｜ <b>周一~周六 09:00 自动刷新（周日不更新）</b>
+      <b style="color:var(--red)">红</b>=官网有新品发布且你未确认该发布 ｜ <b style="color:var(--text-sec)">灰</b>=已确认或官网暂无新品 ｜ 仅红色品牌显示「确认已查」，点后变灰，<b>直到该品牌官网再次发布新品才重新变红</b>（不再每天清零）｜ 每张品牌卡点「监控要点 ▾」可看本轮完整核查记录 ｜ <b>周一~周六 09:00 自动刷新（周日不更新）</b>
     </div>
     <div class="brand-grid" id="brandGrid"></div>
   </div>
@@ -793,6 +916,78 @@ body{
     <div class="form-actions">
       <button class="btn-cancel" id="btnCancelMonthly">取消</button>
       <button class="btn-save" id="btnSaveMonthly">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 任务联动月度KPI弹窗 ============ -->
+<div class="modal-overlay" id="linkModal">
+  <div class="modal">
+    <h3>🔗 联动月度 KPI</h3>
+    <div class="form-group">
+      <label>选择月度 KPI</label>
+      <select id="linkKpi"></select>
+    </div>
+    <div class="form-group">
+      <label>指定子项目（可选）</label>
+      <select id="linkSub"></select>
+    </div>
+    <div class="form-group" id="linkStepWrap">
+      <label>贡献值（完成任务时为该 KPI 当前值 +N，默认 1；如"录入10个经销商"可填 10）</label>
+      <input type="number" id="linkStep" value="1" min="0" step="any">
+    </div>
+    <div class="form-hint">未指定子项目：完成任务直接累加到 KPI 的"当前值"，进度条随之增长。指定子项目：完成任务即自动勾选该子项目，由子项目完成度驱动进度条。两种都是可选的——不联动的任务照常独立运行。</div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnUnlink" style="display:none;margin-right:auto;background:#fef2f2;color:var(--red)">解除联动</button>
+      <button class="btn-cancel" id="btnCancelLink">取消</button>
+      <button class="btn-save" id="btnSaveLink">保存联动</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 月度KPI子项目弹窗 ============ -->
+<div class="modal-overlay" id="subItemModal">
+  <div class="modal">
+    <h3 id="subItemModalTitle">新增子项目</h3>
+    <div class="form-group">
+      <label>子项目名称</label>
+      <input type="text" id="subItemTitle" placeholder="如：录入 A 经销商 / 完成渠道回款方案">
+    </div>
+    <div class="form-group">
+      <label>权重（完成该子项目对 KPI 进度的贡献，默认 1；如代表 10 个经销商可填 10）</label>
+      <input type="number" id="subItemStep" value="1" min="0" step="any">
+    </div>
+    <div class="form-group">
+      <label>联动今日任务（可选）</label>
+      <select id="subItemTaskLink"></select>
+    </div>
+    <div class="form-hint">子项目是月度 KPI 的细分项，可勾选完成；也可联动某个今日任务——完成任务即自动勾选该子项目。月度 KPI 的进度条会随子项目完成度同步更新。</div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnCancelSubItem">取消</button>
+      <button class="btn-save" id="btnSaveSubItem">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 世界时钟：添加时区弹窗 ============ -->
+<div class="modal-overlay" id="zoneModal">
+  <div class="modal" style="max-width:420px">
+    <h3>🌐 添加世界时钟</h3>
+    <div class="form-group">
+      <label>选择城市 / 时区</label>
+      <select id="zoneSelect" class="wc-zone-select"></select>
+    </div>
+    <div class="form-group">
+      <label>自定义时区（可选，填 IANA 如 Europe/Berlin，或城市名如 慕尼黑）</label>
+      <input id="zoneTz" type="text" placeholder="留空则使用上方预设城市" maxlength="40">
+    </div>
+    <div class="form-group">
+      <label>显示名称（可选）</label>
+      <input id="zoneName" type="text" placeholder="留空则用城市名" maxlength="12">
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnCancelZone">取消</button>
+      <button class="btn-save" id="btnSaveZone">添加</button>
     </div>
   </div>
 </div>
@@ -1331,6 +1526,115 @@ function setupSyncUI(){
   Storage.prototype.setItem=function(k,v){ _set.call(this,k,v); if(typeof k==='string' && k.indexOf('liuye_')===0 && k!=='liuye_last_sync' && k!=='liuye_sync_token'){ try{ schedulePush(); }catch(e){} } };
 })();
 
+// ============ 世界时钟（左侧岛台） ============
+const ZONE_PRESETS = [
+  {city:'北京', tz:'Asia/Shanghai'},
+  {city:'香港', tz:'Asia/Hong_Kong'},
+  {city:'东京', tz:'Asia/Tokyo'},
+  {city:'首尔', tz:'Asia/Seoul'},
+  {city:'新加坡', tz:'Asia/Singapore'},
+  {city:'台北', tz:'Asia/Taipei'},
+  {city:'曼谷', tz:'Asia/Bangkok'},
+  {city:'迪拜', tz:'Asia/Dubai'},
+  {city:'莫斯科', tz:'Europe/Moscow'},
+  {city:'巴黎', tz:'Europe/Paris'},
+  {city:'柏林', tz:'Europe/Berlin'},
+  {city:'伦敦', tz:'Europe/London'},
+  {city:'纽约', tz:'America/New_York'},
+  {city:'洛杉矶', tz:'America/Los_Angeles'},
+  {city:'圣保罗', tz:'America/Sao_Paulo'},
+  {city:'悉尼', tz:'Australia/Sydney'}
+];
+const ZONE_KEY='liuye_world_zones';
+function loadZones(){ try{return JSON.parse(localStorage.getItem(ZONE_KEY)||'[]');}catch(e){return [];} }
+function saveZones(z){ try{localStorage.setItem(ZONE_KEY,JSON.stringify(z));}catch(e){} }
+// 城市名（中/英）→ IANA 时区 映射，覆盖常见城市，便于自定义输入
+const CITY_MAP={
+  '慕尼黑':'Europe/Berlin','munich':'Europe/Berlin','柏林':'Europe/Berlin','berlin':'Europe/Berlin','法兰克福':'Europe/Berlin','frankfurt':'Europe/Berlin',
+  '巴黎':'Europe/Paris','paris':'Europe/Paris','伦敦':'Europe/London','london':'Europe/London',
+  '纽约':'America/New_York','new york':'America/New_York','洛杉矶':'America/Los_Angeles','la':'America/Los_Angeles','旧金山':'America/Los_Angeles','san francisco':'America/Los_Angeles',
+  '芝加哥':'America/Chicago','chicago':'America/Chicago','多伦多':'America/Toronto','toronto':'America/Toronto','温哥华':'America/Vancouver','vancouver':'America/Vancouver',
+  '东京':'Asia/Tokyo','tokyo':'Asia/Tokyo','首尔':'Asia/Seoul','seoul':'Asia/Seoul',
+  '北京':'Asia/Shanghai','上海':'Asia/Shanghai','beijing':'Asia/Shanghai','shanghai':'Asia/Shanghai',
+  '香港':'Asia/Hong_Kong','hong kong':'Asia/Hong_Kong','台北':'Asia/Taipei','taipei':'Asia/Taipei',
+  '新加坡':'Asia/Singapore','singapore':'Asia/Singapore','曼谷':'Asia/Bangkok','bangkok':'Asia/Bangkok',
+  '悉尼':'Australia/Sydney','sydney':'Australia/Sydney','迪拜':'Asia/Dubai','dubai':'Asia/Dubai',
+  '莫斯科':'Europe/Moscow','moscow':'Europe/Moscow','圣保罗':'America/Sao_Paulo','sao paulo':'America/Sao_Paulo',
+  '罗马':'Europe/Rome','rome':'Europe/Rome','米兰':'Europe/Rome','milan':'Europe/Rome','马德里':'Europe/Madrid','madrid':'Europe/Madrid',
+  '苏黎世':'Europe/Zurich','zurich':'Europe/Zurich','日内瓦':'Europe/Zurich','geneva':'Europe/Zurich','维也纳':'Europe/Vienna','vienna':'Europe/Vienna',
+  '孟买':'Asia/Kolkata','mumbai':'Asia/Kolkata','雅加达':'Asia/Jakarta','jakarta':'Asia/Jakarta'
+};
+function resolveTz(input){
+  const s=(input||'').trim(); const low=s.toLowerCase();
+  if(CITY_MAP[low]) return CITY_MAP[low];
+  if(CITY_MAP[s]) return CITY_MAP[s];
+  if(/^[A-Za-z_]+\/[A-Za-z_]+(?:\/[A-Za-z_]+)?$/.test(s)) return s; // 已是 IANA 时区
+  return s; // 交给校验
+}
+function isValidTz(tz){ try{ new Intl.DateTimeFormat('en-US',{timeZone:tz}); return true; }catch(e){ return false; } }
+function zonedParts(tz){
+  try{
+    const p=new Intl.DateTimeFormat('zh-CN',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date());
+    const m={}; p.forEach(x=>m[x.type]=x.value);
+    return {h:m.hour||'00',m:m.minute||'00',s:m.second||'00'};
+  }catch(e){ return {h:'--',m:'--',s:'--'}; }
+}
+function zonedDateLabel(tz){
+  try{
+    const p=new Intl.DateTimeFormat('zh-CN',{timeZone:tz,month:'long',day:'numeric',weekday:'short'}).formatToParts(new Date());
+    const m={}; p.forEach(x=>m[x.type]=x.value);
+    return (m.month||'')+(m.day||'')+' '+(m.weekday||'');
+  }catch(e){ return ''; }
+}
+function pad2(n){return String(n).padStart(2,'0');}
+function localParts(){const d=new Date();return {h:pad2(d.getHours()),m:pad2(d.getMinutes()),s:pad2(d.getSeconds())};}
+function localDateLabel(){const d=new Date();const wk=['周日','周一','周二','周三','周四','周五','周六'][d.getDay()];return (d.getMonth()+1)+'月'+d.getDate()+'日 '+wk;}
+function renderWorldClock(){
+  const lt=document.getElementById('wcLocalTime'); if(lt){const p=localParts();lt.textContent=p.h+':'+p.m+':'+p.s;}
+  const ld=document.getElementById('wcLocalDate'); if(ld)ld.textContent='本地 · '+localDateLabel();
+  const list=document.getElementById('wcList'); if(!list)return;
+  const zones=loadZones();
+  if(!zones.length){ list.innerHTML='<div class="wc-empty">点击「+ 添加时区」添加城市</div>'; return; }
+  list.innerHTML=zones.map((z,i)=>{
+    const p=zonedParts(z.tz);
+    return '<div class="wc-row" data-zi="'+i+'">'
+      +'<div class="wc-city"><span class="wc-name">'+esc(z.city)+'</span><span class="x" data-zdel="'+i+'" title="删除">×</span></div>'
+      +'<div class="wc-tz">'+p.h+':'+p.m+':'+p.s+'</div></div>';
+  }).join('');
+}
+function initWorldClock(){
+  renderWorldClock();
+  setInterval(renderWorldClock,1000);
+  const addBtn=document.getElementById('btnAddZone');
+  const modal=document.getElementById('zoneModal');
+  const sel=document.getElementById('zoneSelect');
+  if(sel)sel.innerHTML=ZONE_PRESETS.map(z=>'<option value="'+z.tz+'">'+z.city+'（'+z.tz.split('/').pop().replace(/_/g,' ')+'）</option>').join('');
+  if(addBtn)addBtn.onclick=function(){ const nm=document.getElementById('zoneName'); if(nm)nm.value=''; if(modal)modal.classList.add('show'); };
+  const cancel=document.getElementById('btnCancelZone'); if(cancel)cancel.onclick=function(){ if(modal)modal.classList.remove('show'); };
+  if(modal)modal.onclick=function(e){ if(e.target===modal)modal.classList.remove('show'); };
+  const save=document.getElementById('btnSaveZone');
+  if(save)save.onclick=function(){
+    const customTz=(document.getElementById('zoneTz').value||'').trim();
+    let tz, preset=null, srcLabel='';
+    if(customTz){
+      tz=resolveTz(customTz); srcLabel=customTz;
+      if(!isValidTz(tz)){ alert('无法识别时区「'+customTz+'」\n请用标准 IANA 时区（如 Europe/Berlin）或支持的城市名（如 慕尼黑、纽约、东京）。'); return; }
+    } else {
+      tz=sel.value; preset=ZONE_PRESETS.find(z=>z.tz===tz);
+    }
+    let name=(document.getElementById('zoneName').value||'').trim();
+    if(!name) name = preset ? preset.city : (srcLabel||tz);
+    const zones=loadZones();
+    if(!zones.some(z=>z.tz===tz)){ zones.push({city:name,tz}); saveZones(zones); }
+    if(modal)modal.classList.remove('show'); renderWorldClock();
+  };
+  const list=document.getElementById('wcList');
+  if(list)list.addEventListener('click',function(e){
+    const x=e.target.closest('[data-zdel]'); if(!x)return;
+    const i=Number(x.dataset.zdel); const zones=loadZones(); zones.splice(i,1); saveZones(zones); renderWorldClock();
+  });
+}
+
 function init(){
   // 优先绑定模块切换：即使后续某个模块在移动端渲染异常，导航也不受影响
   bindTabs();
@@ -1352,7 +1656,9 @@ function init(){
   bindReviewSubtabs();
   bindTaskSubtabs();
   bindMonthly();
+  bindLinkModals();
   bindSalesPlan();
+  initWorldClock();
   bindStatic(); bindTaskList(); bindSopList();
   // 跨天守护：标签页一直开着时，到零点自动归档当日统计、清空已完成(已入历史)、重置品牌确认(变灰)
   let _watchDate=getToday();
@@ -1386,6 +1692,80 @@ function bindBrandChecks(){
 }
 
 // 静态按钮：统一用 addEventListener 绑定（避免内联 onclick 在受限环境下被禁用）
+// 一键导出：从浏览器本地实时收集全部任务/归档/复盘/KPI，生成 Markdown 下载
+function exportAll(){
+  try{
+    const st={};
+    for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i); if(k&&k.indexOf('liuye_')===0) st[k]=localStorage.getItem(k);}
+    const parse=s=>{try{return JSON.parse(s);}catch(e){return null;}};
+    const tasks=parse(st.liuye_tasks)||[];
+    const archive=parse(st.liuye_done_archive)||{};
+    const monthly=parse(st.liuye_monthly_tasks)||[];
+    const reviews=[];
+    for(const k in st){const m=k.match(/^liuye_review_(\d{4}-\d{2}-\d{2})$/); if(m){const r=parse(st[k])||{}; reviews.push({date:m[1],pending:r.pending||'',learn:r.learn||'',diary:r.diary||''});}}
+    reviews.sort((a,b)=>b.date.localeCompare(a.date));
+    const archDates=Object.keys(archive).sort((a,b)=>b.localeCompare(a));
+    const priN=p=>(PRI_MAP[p]&&PRI_MAP[p].label)||(p||'');
+    const catN=c=>catName(c)||(c||'');
+    const fmtDL=d=>{ if(!d)return ''; if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d; const n=Number(d); if(!isNaN(n)&&String(d).length>=10)return new Date(n).toLocaleString('zh-CN'); return String(d); };
+    let md='';
+    md+='# 刘晔工作台 · 任务与复盘导出\n\n';
+    md+='> 导出时间：'+new Date().toLocaleString('zh-CN')+'  \n';
+    md+='> 数据来源：本机浏览器实时存储（含已完成的全部历史）\n\n';
+    md+='## 📊 数据概览\n\n';
+    md+='- 当前今日任务：**'+tasks.length+'** 条\n';
+    md+='- 历史已完成任务（按天归档）：**'+archDates.reduce((s,d)=>s+archive[d].length,0)+'** 项，覆盖 **'+archDates.length+'** 天\n';
+    md+='- 每日复盘记录：**'+reviews.length+'** 天\n';
+    md+='- 月度 KPI：**'+monthly.length+'** 条\n\n---\n\n';
+    md+='## 📌 一、今日任务（当前列表）\n\n';
+    if(tasks.length){tasks.forEach((t,i)=>{md+='### '+(i+1)+'. '+t.title+(t.done?' ✅（已完成）':'')+'\n'; md+='- 分类：'+catN(t.cat)+'　优先级：'+priN(t.pri)+'\n'; if(t.deadline)md+='- 截止：'+fmtDL(t.deadline)+'\n'; if(t.doneDate)md+='- 完成日期：'+t.doneDate+'\n'; if(t.notes)md+='- 备注：'+t.notes+'\n'; if(t.link)md+='- 联动月度KPI：KPI#'+t.link.kpiId+(t.link.subItemId?(' / 子项目#'+t.link.subItemId):'')+(t.link.delta?('（贡献 '+t.link.delta+'）'):'')+'\n'; md+='\n';});}else md+='_（暂无）_\n\n';
+    md+='---\n\n## ✅ 二、历史已完成任务（按天归档）\n\n';
+    if(archDates.length){archDates.forEach(d=>{const list=archive[d]; md+='### '+d+'（'+list.length+' 项）\n\n'; list.forEach(t=>{md+='- **'+t.title+'**　〔'+catN(t.cat)+'·'+priN(t.pri)+'］'; if(t.notes)md+='　📝'+t.notes; md+='\n';}); md+='\n';});}else md+='_（暂无归档记录）_\n\n';
+    md+='---\n\n## 📖 三、每日复盘记录\n\n';
+    if(reviews.length){reviews.forEach(r=>{md+='### '+r.date+'\n'; if(r.pending.trim())md+='**⚠️ 未完成及原因**\n> '+r.pending.trim().replace(/\n/g,'\n> ')+'\n\n'; if(r.learn.trim())md+='**💡 关键收获**\n> '+r.learn.trim().replace(/\n/g,'\n> ')+'\n\n'; if(r.diary.trim())md+='**📔 工作日记**\n> '+r.diary.trim().replace(/\n/g,'\n> ')+'\n\n'; if(!r.pending.trim()&&!r.learn.trim()&&!r.diary.trim())md+='_（当天无文字记录）_\n\n';});}else md+='_（暂无复盘记录）_\n\n';
+    md+='---\n\n## 🎯 四、月度 KPI\n\n';
+    if(monthly.length){monthly.forEach((m,i)=>{md+='### '+(i+1)+'. '+m.title+'\n'; md+='- 进度：'+m.current+' / '+m.target+' '+(m.unit||'')+'（'+(m.target>0?Math.round(m.current/m.target*100):0)+'%）\n'; md+='- 优先级：'+priN(m.pri)+'　截止：'+fmtDL(m.deadline)+'\n'; if(m.subItems&&m.subItems.length){md+='- 子项目：\n'; m.subItems.forEach(s=>{md+='  - '+(s.done?'✅':'○')+' '+s.title+(s.weight?('（权重 '+s.weight+'）'):'')+(s.link?('　🔗任务#'+s.link.taskId):'')+'\n';});} md+='\n';});}else md+='_（暂无）_\n\n';
+    const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='刘晔工作台_导出_'+new Date().toISOString().slice(0,10)+'.md';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
+    alert('✅ 已导出全部任务与复盘（Markdown 文件已下载）');
+  }catch(e){ console.error(e); alert('导出失败：'+(e&&e.message?e.message:e)); }
+}
+
+// 一键导入：从备份文件（导出格式或云同步格式）合并写入浏览器本地，不丢失现有数据
+function importAll(file){
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(){
+    try{
+      const data=JSON.parse(reader.result);
+      const parseSafe=s=>{try{return JSON.parse(s);}catch(e){return null;}};
+      let tasks, archive, reviews, monthly, customCats;
+      if(data && data.state){ // 云同步格式 {state:{liuye_*}}
+        const st=data.state;
+        tasks=parseSafe(st.liuye_tasks)||[]; archive=parseSafe(st.liuye_done_archive)||{}; monthly=parseSafe(st.liuye_monthly_tasks)||[]; customCats=parseSafe(st.liuye_custom_cats)||[];
+        reviews=[]; for(const k in st){const m=k.match(/^liuye_review_(\d{4}-\d{2}-\d{2})$/); if(m){const r=parseSafe(st[k])||{}; reviews.push({date:m[1],pending:r.pending||'',learn:r.learn||'',diary:r.diary||''});}}
+      }else{ // 本工作台导出格式
+        tasks=data.currentTasks||[]; archive=data.archivedTasks||{}; reviews=data.reviews||[]; monthly=data.monthlyKPI||[]; customCats=data.customCats||[];
+      }
+      mergeAndSave(tasks, archive, reviews, monthly, customCats);
+      try{ rerenderAll(); }catch(e){}
+      alert('✅ 导入完成：今日任务 '+tasks.length+' 条 · 归档 '+Object.keys(archive).length+' 天 · 复盘 '+reviews.length+' 天 · 月度KPI '+monthly.length+' 条（已与本地合并，不会丢失现有数据）');
+    }catch(e){ console.error(e); alert('导入失败：文件格式不正确（'+(e&&e.message?e.message:e)+'）'); }
+  };
+  reader.onerror=function(){ alert('读取文件失败'); };
+  reader.readAsText(file);
+}
+function mergeAndSave(tasks, archive, reviews, monthly, customCats){
+  const parseSafe=s=>{try{return JSON.parse(s);}catch(e){return null;}};
+  const cur=parseSafe(localStorage.getItem('liuye_tasks'))||[]; const map={}; cur.forEach(t=>{if(t&&t.id!=null)map[t.id]=t;}); (tasks||[]).forEach(t=>{if(t&&t.id!=null)map[t.id]=t;}); localStorage.setItem('liuye_tasks',JSON.stringify(Object.values(map)));
+  const curA=parseSafe(localStorage.getItem('liuye_done_archive'))||{}; for(const d in (archive||{})){ const arr=archive[d]||[]; const seen=new Set((curA[d]||[]).map(t=>(t.title||'')+'|'+(t.cat||''))); if(!curA[d])curA[d]=[]; arr.forEach(t=>{const k=(t.title||'')+'|'+(t.cat||''); if(!seen.has(k)){seen.add(k); curA[d].push(t);}}); } localStorage.setItem('liuye_done_archive',JSON.stringify(curA));
+  (reviews||[]).forEach(r=>{ if(r&&r.date) localStorage.setItem('liuye_review_'+r.date, JSON.stringify({pending:r.pending||'',learn:r.learn||'',diary:r.diary||''})); });
+  const curM=parseSafe(localStorage.getItem('liuye_monthly_tasks'))||[]; const mm={}; curM.forEach(m=>{if(m&&m.id!=null)mm[m.id]=m;}); (monthly||[]).forEach(m=>{if(m&&m.id!=null)mm[m.id]=m;}); localStorage.setItem('liuye_monthly_tasks',JSON.stringify(Object.values(mm)));
+  if(customCats&&customCats.length){ const curC=parseSafe(localStorage.getItem('liuye_custom_cats'))||[]; const cv=new Set(curC.map(c=>c.value)); customCats.forEach(c=>{if(c&&c.value&&!cv.has(c.value)){curC.push(c); cv.add(c.value);}}); localStorage.setItem('liuye_custom_cats',JSON.stringify(curC)); }
+}
+
 function bindStatic(){
   const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
   on('btnAdd',openTaskModal);
@@ -1397,6 +1777,9 @@ function bindStatic(){
   on('btnAddCat',addCustomCat);
   on('btnCancelDayDiary',()=>document.getElementById('dayDiaryModal').classList.remove('show'));
   on('btnSaveDayDiary',saveDayDiary);
+  on('btnExport',exportAll);
+  const imp=document.getElementById('btnImport'); if(imp)imp.addEventListener('click',function(){const f=document.getElementById('importFile'); if(f)f.click();});
+  const impFile=document.getElementById('importFile'); if(impFile)impFile.addEventListener('change',function(e){ const f=e.target.files&&e.target.files[0]; if(f)importAll(f); if(e.target)e.target.value=''; });
   on('btnDownloadReport',downloadReport);
   on('btnCopyReport',copyReport);
   const cat=document.getElementById('taskCatInput');
@@ -1724,7 +2107,7 @@ function saveMonthlyTask(){
     let m=monthlyTasks.find(x=>x.id===editingMonthlyId);
     if(m){m.title=title;m.current=current;m.target=target;m.unit=unit;m.pri=pri;m.deadline=deadline;}
   }else{
-    monthlyTasks.push({id:Date.now(),title,current,target,unit,pri,deadline});
+    monthlyTasks.push({id:Date.now(),title,current,target,unit,pri,deadline,subItems:[]});
   }
   closeMonthlyModal(); renderMonthly(); saveMonthly();
 }
@@ -1755,6 +2138,209 @@ function bindMonthly(){
   });
   const modal=document.getElementById('monthlyModal');
   if(modal)modal.onclick=function(e){if(e.target===this)closeMonthlyModal()};
+}
+
+// ============ 今日任务 ↔ 月度KPI 联动 ============
+let linkingTaskId=null, editingSub=null;
+
+function getKpi(id){ return monthlyTasks.find(m=>m.id===id); }
+function linkedKpiTitle(link){ const k=getKpi(link.kpiId); return k?k.title:''; }
+// KPI 进度：有子项目→清单模式(子项目完成度驱动)；无子项目→数值模式(当前/目标)
+function kpiProgress(kpi){
+  const subs=kpi.subItems||[];
+  if(subs.length>0){
+    let cur=0,tgt=0;
+    subs.forEach(s=>{ const st=Number(s.step)||1; tgt+=st; if(s.done)cur+=st; });
+    return {cur,tgt,pct:tgt>0?Math.round(cur/tgt*100):0, mode:'checklist', done:subs.filter(s=>s.done).length, total:subs.length};
+  }
+  let cur=Number(kpi.current)||0, tgt=Number(kpi.target)||0;
+  return {cur,tgt,pct:tgt>0?Math.max(0,Math.min(100,Math.round(cur/tgt*100))):0, mode:'count'};
+}
+
+// 任务勾选状态变化 → 联动 KPI（数值累加 / 子项目勾选）
+function applyTaskLinkDelta(task, doneVal){
+  if(!task.link)return;
+  const kpi=getKpi(task.link.kpiId); if(!kpi)return;
+  if(task.link.subId){
+    const sub=(kpi.subItems||[]).find(s=>s.id===task.link.subId);
+    if(sub && sub.done!==doneVal){ sub.done=doneVal; saveMonthly(); }
+  }else{
+    const step=task.link.step||1;
+    if(doneVal) kpi.current=(Number(kpi.current)||0)+step;
+    else kpi.current=Math.max(0,(Number(kpi.current)||0)-step);
+    saveMonthly();
+  }
+}
+
+// 设定/解除任务的 KPI 联动（保持 task.link 与 subItem.linkedTaskId 双向一致）
+function setTaskLink(taskId, kpiId, subId, step){
+  const task=tasks.find(t=>t.id===taskId); if(!task)return;
+  // 解绑旧的（含反向清理）
+  if(task.link){
+    const oldK=getKpi(task.link.kpiId);
+    if(task.link.subId && oldK){ const os=(oldK.subItems||[]).find(s=>s.id===task.link.subId); if(os)os.linkedTaskId=null; }
+    else if(oldK && task.done){ oldK.current=Math.max(0,(Number(oldK.current)||0)-(task.link.step||1)); }
+  }
+  task.link={kpiId, subId:subId||null, step:step||1};
+  const kpi=getKpi(kpiId);
+  if(!kpi){ task.link=null; return; }
+  if(subId){
+    const sub=(kpi.subItems||[]).find(s=>s.id===subId);
+    if(sub){ sub.linkedTaskId=taskId; if(sub.done!==task.done)sub.done=task.done; }
+  }else{
+    if(task.done) kpi.current=(Number(kpi.current)||0)+(step||1);
+  }
+  saveMonthly(); saveTasks();
+}
+function clearTaskLink(task){
+  if(!task.link)return;
+  const kpi=getKpi(task.link.kpiId);
+  if(task.link.subId){
+    if(kpi){ const sub=(kpi.subItems||[]).find(s=>s.id===task.link.subId); if(sub)sub.linkedTaskId=null; }
+  }else{
+    if(kpi && task.done){ kpi.current=Math.max(0,(Number(kpi.current)||0)-(task.link.step||1)); }
+  }
+  task.link=null;
+}
+
+// 子项目勾选 → 联动今日任务（双向同步）
+function toggleSubItem(kpiId, subId, doneVal){
+  const kpi=getKpi(kpiId); if(!kpi)return;
+  const sub=(kpi.subItems||[]).find(s=>s.id===subId); if(!sub)return;
+  sub.done=doneVal;
+  if(sub.linkedTaskId){
+    const tk=tasks.find(t=>t.id===sub.linkedTaskId);
+    if(tk && tk.done!==doneVal){
+      tk.done=doneVal;
+      if(doneVal){tk.doneDate=getToday(); archiveTask(tk,tk.doneDate);} else {tk.doneDate=null; unarchiveTask(tk.id);}
+      saveTasks();
+    }
+  }
+  saveMonthly();
+  renderMonthly(); renderTasks();
+}
+// 设定子项目联动的今日任务（保持与 task.link 一致）
+function setSubLink(kpiId, subId, taskId){
+  const kpi=getKpi(kpiId); if(!kpi)return;
+  const sub=(kpi.subItems||[]).find(s=>s.id===subId); if(!sub)return;
+  if(sub.linkedTaskId){
+    const ot=tasks.find(t=>t.id===sub.linkedTaskId);
+    if(ot && ot.link && ot.link.kpiId===kpiId && ot.link.subId===subId) ot.link=null;
+  }
+  sub.linkedTaskId=taskId||null;
+  if(taskId){
+    const tk=tasks.find(t=>t.id===taskId);
+    if(tk){ if(tk.done!==sub.done)sub.done=tk.done; tk.link={kpiId, subId, step:1}; saveTasks(); }
+  }
+  saveMonthly();
+  renderMonthly(); renderTasks();
+}
+
+// ---- 子项目 CRUD ----
+function addSubItem(kpiId){ editingSub={kpiId, subId:null}; document.getElementById('subItemTitle').value=''; document.getElementById('subItemStep').value='1'; renderSubTaskOptions(null); document.getElementById('subItemModalTitle').textContent='新增子项目'; document.getElementById('subItemModal').classList.add('show'); }
+function editSubItem(kpiId, subId){
+  const kpi=getKpi(kpiId); if(!kpi)return;
+  const sub=(kpi.subItems||[]).find(s=>s.id===subId); if(!sub)return;
+  editingSub={kpiId, subId};
+  document.getElementById('subItemTitle').value=sub.title;
+  document.getElementById('subItemStep').value=sub.step||1;
+  renderSubTaskOptions(sub.linkedTaskId||null);
+  document.getElementById('subItemModalTitle').textContent='编辑子项目';
+  document.getElementById('subItemModal').classList.add('show');
+}
+function saveSubItem(){
+  if(!editingSub)return;
+  const kpi=getKpi(editingSub.kpiId); if(!kpi)return;
+  if(!kpi.subItems)kpi.subItems=[];
+  let title=document.getElementById('subItemTitle').value.trim(); if(!title)return;
+  let step=Math.max(0,parseFloat(document.getElementById('subItemStep').value)||1);
+  let taskId=document.getElementById('subItemTaskLink').value?Number(document.getElementById('subItemTaskLink').value):null;
+  if(editingSub.subId){
+    const sub=kpi.subItems.find(s=>s.id===editingSub.subId);
+    if(sub){ sub.title=title; sub.step=step; }
+  }else{
+    const sub={id:Date.now(), title, step, done:false, linkedTaskId:null};
+    kpi.subItems.push(sub); editingSub.subId=sub.id;
+  }
+  setSubLink(editingSub.kpiId, editingSub.subId, taskId);
+  closeSubItemModal(); renderMonthly();
+}
+function delSubItem(kpiId, subId){
+  const kpi=getKpi(kpiId); if(!kpi||!kpi.subItems)return;
+  const sub=kpi.subItems.find(s=>s.id===subId); if(!sub)return;
+  if(!confirm('确定删除该子项目？'))return;
+  if(sub.linkedTaskId){ const tk=tasks.find(t=>t.id===sub.linkedTaskId); if(tk&&tk.link&&tk.link.subId===subId)tk.link=null; }
+  kpi.subItems=kpi.subItems.filter(s=>s.id!==subId);
+  saveMonthly(); renderMonthly();
+}
+function closeSubItemModal(){ editingSub=null; document.getElementById('subItemModal').classList.remove('show'); }
+function renderSubTaskOptions(selId){
+  const sel=document.getElementById('subItemTaskLink');
+  sel.innerHTML='<option value="">不联动今日任务</option>'+tasks.map(t=>`<option value="${t.id}">${esc(t.title)}</option>`).join('');
+  if(selId)sel.value=selId;
+}
+
+// ---- 任务联动弹窗 ----
+function openLinkModal(taskId){
+  const task=tasks.find(t=>t.id===taskId); if(!task)return;
+  linkingTaskId=taskId;
+  renderLinkKpiOptions(task.link?task.link.kpiId:null);
+  renderLinkSubOptions(task.link?task.link.subId:null);
+  document.getElementById('linkStep').value=(task.link&&task.link.step)?task.link.step:1;
+  document.getElementById('btnUnlink').style.display=task.link?'inline-block':'none';
+  document.getElementById('linkModal').classList.add('show');
+  updateLinkStepVisibility();
+}
+function renderLinkKpiOptions(selId){
+  const sel=document.getElementById('linkKpi');
+  sel.innerHTML='<option value="">— 请选择月度KPI —</option>'+monthlyTasks.map(m=>`<option value="${m.id}">${esc(m.title)}</option>`).join('');
+  if(selId)sel.value=selId;
+}
+function renderLinkSubOptions(selId){
+  const kpiId=document.getElementById('linkKpi').value;
+  const sel=document.getElementById('linkSub');
+  const kpi=getKpi(Number(kpiId));
+  if(kpi && (kpi.subItems||[]).length){
+    sel.style.display='';
+    sel.innerHTML='<option value="">不指定（直接累加到KPI数值）</option>'+kpi.subItems.map(s=>`<option value="${s.id}">${esc(s.title)}</option>`).join('');
+    if(selId)sel.value=selId;
+  }else{
+    sel.style.display='none'; sel.innerHTML='';
+  }
+  updateLinkStepVisibility();
+}
+function updateLinkStepVisibility(){
+  const subSel=document.getElementById('linkSub');
+  const showStep = !subSel.value; // 未指定子项目→数值累加模式，显示贡献值
+  document.getElementById('linkStepWrap').style.display = showStep?'':'none';
+}
+function saveLink(){
+  const kpiId=Number(document.getElementById('linkKpi').value);
+  if(!kpiId){ alert('请选择要联动的月度KPI'); return; }
+  const subSel=document.getElementById('linkSub');
+  const subId=subSel.value?Number(subSel.value):null;
+  const step=Math.max(0,parseFloat(document.getElementById('linkStep').value)||1);
+  setTaskLink(linkingTaskId, kpiId, subId, step);
+  closeLinkModal(); renderTasks(); renderMonthly();
+}
+function removeLink(){
+  const task=tasks.find(t=>t.id===linkingTaskId);
+  if(task){ clearTaskLink(task); saveMonthly(); saveTasks(); }
+  closeLinkModal(); renderTasks(); renderMonthly();
+}
+function closeLinkModal(){ linkingTaskId=null; document.getElementById('linkModal').classList.remove('show'); }
+
+function bindLinkModals(){
+  const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
+  on('btnSaveLink',saveLink);
+  on('btnCancelLink',closeLinkModal);
+  on('btnUnlink',removeLink);
+  on('btnSaveSubItem',saveSubItem);
+  on('btnCancelSubItem',closeSubItemModal);
+  const kpiSel=document.getElementById('linkKpi'); if(kpiSel)kpiSel.addEventListener('change',()=>renderLinkSubOptions(null));
+  const subSel=document.getElementById('linkSub'); if(subSel)subSel.addEventListener('change',updateLinkStepVisibility);
+  const lm=document.getElementById('linkModal'); if(lm)lm.onclick=function(e){if(e.target===this)closeLinkModal()};
+  const sm=document.getElementById('subItemModal'); if(sm)sm.onclick=function(e){if(e.target===this)closeSubItemModal()};
 }
 
 // ============ 年度销售计划 ============
@@ -1876,9 +2462,12 @@ function bindSalesPlan(){
 // 品牌"是否有未确认的新品发布"：取决于 data/brand-status.json 里的 releaseDate
 // （该品牌官网最近一次新品发布日），以及用户已确认的日期。
 // 只有「官网真有新品发布 且 用户尚未确认过这个发布日」才显示红色。
-const BRAND_STATUS = {};   // { 品牌名: {releaseDate, summary} }，由 loadBrandStatus() 异步填充（声明后先用兜底同步预填，见下）
+const BRAND_STATUS = {};   // { 品牌名: {releaseDate, summary, updates} }，由 loadBrandStatus() 异步填充（声明后先用兜底同步预填，见下）
+let brandFilter='all';     // 'all' | 'new'（只看有未确认新品的品牌）
+const TAG_CLS={'新品':'t-new','参数':'t-spec','状态更正':'t-fix','召回':'t-recall','经营':'t-biz','渠道':'t-biz','通告':'t-note'};
+function tagCls(t){return TAG_CLS[t]||'t-note';}
 // 内联兜底：双击以 file:// 打开时 fetch 本地 json 会被浏览器拦截，用此数据保证按钮/新品/新闻正常显示
-const BRAND_STATUS_FALLBACK = {"savedAt":1785892664723,"updatedAt":"2026-08-13","brands":{"3M PELTOR":{"releaseDate":"2026-02","summary":"ComTac IX NIB 战术耳机于 Enforce Tac 2026（2/23-25 纽伦堡）在 EMEA 首发，美国等区域随后上市：NIB 5-10m 免电台头戴互通（4讲60听全双工）、MAP 任务音频档案、双重防护达 40dB；工业侧 PELTOR WS ALERT X+（BT5.2 MultiPoint、aptX HD、68h 锂电、OTA 升级、Class 5 28dB）在售。在售 NIB 队间通信头戴涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力一代，见品牌市场动态 n71）。⚠同期 ComTac VIII 部分批次全球召回（详见品牌市场动态）。"},"HOWARD LEIGHT":{"releaseDate":"2026-06","summary":"近 30 天官网无新品发布。在售主力：Impact Sport 粉色版 R-01526P（NRR 22dB、82dB 压缩、3.5mm AUX）、Impact Sport Bolt、Impact Sport Bluetooth 5.0；Impact Sport 仍是 Amazon 电子射击耳罩长期畅销款。"},"WALKER'S":{"releaseDate":"2026-07","summary":"★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。★本轮补录：Razor X-TRM Digital Muffs 首发行业首创 MAHP「Shake Awake」运动激活听力保护（专利待审，微动自动开机预载压制，含蓝牙+凝胶耳垫，约 $80，SHOT Show 2026），见 n69。"},"EARMOR":{"releaseDate":"2026-08","summary":"★本轮重大更新：母公司广州市行动者科技于 2026-08-01 十周年庆典上「四款新品全球首发」——C53（全球首款同时获 IECEx Ex ia 级与 Ma 级最高防爆认证，可在 0 区等高危环境实现 8 人全双工无按键通话）；M23T AI 听力保护 TWS 耳机（仅 21.8mm 厚，蓝牙 6.0，毫秒级压制枪声，支持 89 种语言 AI 实时翻译）；M21 AI 轻量化战术通信终端（仿生耳撑无感佩戴，动铁单元+声学算法增强脚步声并实现 8° 辨位，降风噪，支持双通道对讲机并行接入）；M35（概念版）首款 AI 视听感知战术终端（1200 万像素 4K 录像 + 视觉语言模型，赋予个体防护装备多模态感知）。同期拿下全国 PPE 行业首家按最新防爆法规取得的最高本安级别认证。此前 2026 年新品：M81「蜂鸟」全双工通话器（6 月警用反恐展首发）、E10 赛级耳塞（1-09 上市）、M33 PRO（自适应 DSP、IPX-5）。另 IWA 2026 十周年旗舰 M32 Mark 4 正式亮相（Adaptive Sound Tracking 增强低频语音、标配 Silicon Gel Seals、NRR 22，见 n68），补齐「可靠有线+高舒适」主力线。SHOT Show / IWA 2026 主力仍为 M300T（含 Tactical Pink 新配色）/ M20T PRO / M31·M32 PLUS。"},"OTTO ENGINEERING":{"releaseDate":"2026","summary":"2026 年官网未见新品发布（新闻页最新条目为 CMMC Level 2 网络安全成熟度认证，以及 2025-08-05 的 DarkStar 发布）。在售旗舰仍为 NoizeBarrier TAC 2.0（NRR 23dB/SNR 29、IP68、MIL-STD-810G、2×AA 100h、较前代轻 12%）。"},"INVISIO":{"releaseDate":"2026-06","summary":"INVISIO Drone Aware™ 反无人机感知能力于 Eurosatory 2026（6/11）预览首发并计划 Q3 2026 正式集成到 T30 头戴（官方确认 Q3 上市），可对来袭无人机做早期识别；Q2 财报确认该功能为季度重要事件之一。近 30 天无新硬件发布。"},"AXIL":{"releaseDate":"2026","summary":"在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4、可换面板）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。近 30 天官网无全新型号。★本轮补充经营面：公司给出 FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%）、毛利率 67%~71%，全年 3020~3220 万美元（+15%~23%）；并扩大与 Monster Jam 的品牌授权合作、将 Reviv3 ProCare 独立为子公司以便后续剥离，聚焦听力防护主业。零售渠道持续扩张（Walmart 约 3,700 店、Sportsman's Warehouse 70 店、Home Depot 线上）。"},"OPS-CORE":{"releaseDate":"2026-02","summary":"★本轮补录：Ops-Core Voice Projection Unit (VPU) 于 2026-02-17 发布，为 Special Operations Tactical Respirator 配套的语音投射附件。2026 年内其他新品：AMP Rail Mount Kit with Vent Mode（1 月 SHOT Show 首发，耳杯可微移散热且保持 NFMI 通信）、FAST XP 执法版头盔系统（1/19）。⚠另有 2026-03-09 NFMI 耳塞单独使用性能的产品通告（Product Advisory）。"},"SORDIN":{"releaseDate":"2026-08","summary":"Sordin Supreme X2 SFA（X2 系列最高防护成员）已于 2026-08 正式开售，官网产品页显示 In stock、$493，NRR 25/SNR 31（较基础 X2 的 23/29 更高），401g，AA 60h/可充 90h，SFA 可拆卸距离环两档衰减切换、SordinHEAR2 四档、3.5mm AUX、可折叠（见 n70）。在售旗舰 Supreme X2（2026-05-27 发布，取代 Pro-X）官网 €371.54，SordinFLEX 免工具切换头带/颈带/盔挂，SNR 29/NRR 23，82dB(A) 限幅；X2BT 蓝牙版仍在研发。"},"DECIBULLZ":{"releaseDate":"2026","summary":"★本轮首次纳入监控数据。官网主推 PRO Custom Molded Earplugs 31dB NRR Pro-Pack，随包配「ALL-NEW Decibullz 塑形工具」（THERMOFIT 可反复重塑、3 组 Max Protect 泡沫 tip + 5 组硅胶 tip、硬壳收纳盒+硅胶挂绳）；Percussive 射击滤波耳塞（2026 Edition 年度更新款，已补全塑形工具套件）脉冲防护达 33dB NRR、ANSI IPIL 认证；另有 USA Edition 爱国限定与 +Awareness 声管对讲版。"}}};
+const BRAND_STATUS_FALLBACK = {"savedAt":1786593912287,"updatedAt":"2026-08-13","brands":{"3M PELTOR":{"releaseDate":"2026-02","summary":"ComTac IX NIB 战术耳机于 Enforce Tac 2026（2/23-25 纽伦堡）在 EMEA 首发，美国等区域随后上市：NIB 5-10m 免电台头戴互通（4讲60听全双工）、MAP 任务音频档案、双重防护达 40dB；工业侧 PELTOR WS ALERT X+（BT5.2 MultiPoint、aptX HD、68h 锂电、OTA 升级、Class 5 28dB）在售。在售 NIB 队间通信头戴涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力一代，见品牌市场动态 n71）。⚠同期 ComTac VIII 部分批次全球召回（详见品牌市场动态）。","updates":[{"date":"2026-07","tag":"召回","headline":"ComTac VIII 部分批次全球召回（啸叫高达 106 dBA 风险，英国 OPSS/澳洲 ACCC 同步）"},{"date":"2026-02","tag":"新品","headline":"ComTac IX NIB 战术耳机 EMEA 首发（NIB 免电台 5-10m 全双工）"},{"date":"2026","tag":"参数","headline":"在售 NIB 队间通信涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力）"}]},"HOWARD LEIGHT":{"releaseDate":"2026-06","summary":"近 30 天官网无新品发布。在售主力：Impact Sport 粉色版 R-01526P（NRR 22dB、82dB 压缩、3.5mm AUX）、Impact Sport Bolt、Impact Sport Bluetooth 5.0；Impact Sport 仍是 Amazon 电子射击耳罩长期畅销款。","updates":[{"date":"2026-06","tag":"新品","headline":"Impact Sport 粉色版 R-01526P / Bolt / Bluetooth 5.0 在售主推"}]},"WALKER'S":{"releaseDate":"2026-07","summary":"★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。★本轮补录：Razor X-TRM Digital Muffs 首发行业首创 MAHP「Shake Awake」运动激活听力保护（专利待审，微动自动开机预载压制，含蓝牙+凝胶耳垫，约 $80，SHOT Show 2026），见 n69。","updates":[{"date":"2026-07","tag":"新品","headline":"SHOTSYNC 计时器 / Recon BT / Cloak 上架官网 New Products"},{"date":"2026-07","tag":"新品","headline":"Razor Junior 青少年耳罩全美零售全渠道铺货"},{"date":"2026","tag":"新品","headline":"Razor X-TRM MAHP「Shake Awake」运动激活防护首发（行业首创）"}]},"EARMOR":{"releaseDate":"2026-08","summary":"★本轮重大更新：母公司广州市行动者科技于 2026-08-01 十周年庆典上「四款新品全球首发」——C53（全球首款同时获 IECEx Ex ia 级与 Ma 级最高防爆认证，可在 0 区等高危环境实现 8 人全双工无按键通话）；M23T AI 听力保护 TWS 耳机（仅 21.8mm 厚，蓝牙 6.0，毫秒级压制枪声，支持 89 种语言 AI 实时翻译）；M21 AI 轻量化战术通信终端（仿生耳撑无感佩戴，动铁单元+声学算法增强脚步声并实现 8° 辨位，降风噪，支持双通道对讲机并行接入）；M35（概念版）首款 AI 视听感知战术终端（1200 万像素 4K 录像 + 视觉语言模型，赋予个体防护装备多模态感知）。同期拿下全国 PPE 行业首家按最新防爆法规取得的最高本安级别认证。此前 2026 年新品：M81「蜂鸟」全双工通话器（6 月警用反恐展首发）、E10 赛级耳塞（1-09 上市）、M33 PRO（自适应 DSP、IPX-5）。另 IWA 2026 十周年旗舰 M32 Mark 4 正式亮相（Adaptive Sound Tracking 增强低频语音、标配 Silicon Gel Seals、NRR 22，见 n68），补齐「可靠有线+高舒适」主力线。SHOT Show / IWA 2026 主力仍为 M300T（含 Tactical Pink 新配色）/ M20T PRO / M31·M32 PLUS。","updates":[{"date":"2026-08","tag":"新品","headline":"十周年四款 AI 新品全球首发：C53 防爆 / M23T TWS / M21 通信 / M35 概念"},{"date":"2026","tag":"新品","headline":"M32 Mark 4 十周年旗舰亮相（Adaptive Sound Tracking + 标配凝胶耳垫）"},{"date":"2026-06","tag":"新品","headline":"M81 蜂鸟全双工通话器警用反恐展首发"},{"date":"2026-01","tag":"新品","headline":"E10 赛级耳塞上市 / M33 PRO 新 DSP 自适应降噪"}]},"OTTO ENGINEERING":{"releaseDate":"2026","summary":"2026 年官网未见新品发布（新闻页最新条目为 CMMC Level 2 网络安全成熟度认证，以及 2025-08-05 的 DarkStar 发布）。在售旗舰仍为 NoizeBarrier TAC 2.0（NRR 23dB/SNR 29、IP68、MIL-STD-810G、2×AA 100h、较前代轻 12%）。","updates":[{"date":"2026","tag":"经营","headline":"2026 官网无新品；在售旗舰仍 NoizeBarrier TAC 2.0"}]},"INVISIO":{"releaseDate":"2026-06","summary":"INVISIO Drone Aware™ 反无人机感知能力于 Eurosatory 2026（6/11）预览首发并计划 Q3 2026 正式集成到 T30 头戴（官方确认 Q3 上市），可对来袭无人机做早期识别；Q2 财报确认该功能为季度重要事件之一。近 30 天无新硬件发布。","updates":[{"date":"2026-06","tag":"新品","headline":"Drone Aware 反无人机感知 Eurosatory 预览（计划 Q3 2026 集成 T30）"}]},"AXIL":{"releaseDate":"2026","summary":"在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4、可换面板）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。近 30 天官网无全新型号。★本轮补充经营面：公司给出 FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%）、毛利率 67%~71%，全年 3020~3220 万美元（+15%~23%）；并扩大与 Monster Jam 的品牌授权合作、将 Reviv3 ProCare 独立为子公司以便后续剥离，聚焦听力防护主业。零售渠道持续扩张（Walmart 约 3,700 店、Sportsman's Warehouse 70 店、Home Depot 线上）。","updates":[{"date":"2026","tag":"经营","headline":"FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%），毛利率 67%~71%"},{"date":"2026","tag":"渠道","headline":"零售扩张 Walmart 3700 店 / Sportsman's Warehouse 70 店 / Home Depot 线上"}]},"OPS-CORE":{"releaseDate":"2026-02","summary":"★本轮补录：Ops-Core Voice Projection Unit (VPU) 于 2026-02-17 发布，为 Special Operations Tactical Respirator 配套的语音投射附件。2026 年内其他新品：AMP Rail Mount Kit with Vent Mode（1 月 SHOT Show 首发，耳杯可微移散热且保持 NFMI 通信）、FAST XP 执法版头盔系统（1/19）。⚠另有 2026-03-09 NFMI 耳塞单独使用性能的产品通告（Product Advisory）。","updates":[{"date":"2026-03","tag":"通告","headline":"NFMI 耳塞单独使用性能 Product Advisory（3/9）"},{"date":"2026-02","tag":"新品","headline":"VPU 语音投射附件发布（2/17，配套战术呼吸面罩）"},{"date":"2026-01","tag":"新品","headline":"AMP Rail Mount Vent Mode / FAST XP 执法版头盔系统"}]},"SORDIN":{"releaseDate":"2026-08","summary":"Sordin Supreme X2 SFA（X2 系列最高防护成员）已于 2026-08 正式开售，官网产品页显示 In stock、$493，NRR 25/SNR 31（较基础 X2 的 23/29 更高），401g，AA 60h/可充 90h，SFA 可拆卸距离环两档衰减切换、SordinHEAR2 四档、3.5mm AUX、可折叠（见 n70）。在售旗舰 Supreme X2（2026-05-27 发布，取代 Pro-X）官网 €371.54，SordinFLEX 免工具切换头带/颈带/盔挂，SNR 29/NRR 23，82dB(A) 限幅；X2BT 蓝牙版仍在研发。","updates":[{"date":"2026-08","tag":"状态更正","headline":"Supreme X2 SFA 已正式开售（此前误判未开售，官网 In stock $493）"},{"date":"2026-05","tag":"新品","headline":"Supreme X2 发布取代 Pro-X（SNR 29/NRR 23，SordinFLEX 平台）"}]},"DECIBULLZ":{"releaseDate":"2026","summary":"★本轮首次纳入监控数据。官网主推 PRO Custom Molded Earplugs 31dB NRR Pro-Pack，随包配「ALL-NEW Decibullz 塑形工具」（THERMOFIT 可反复重塑、3 组 Max Protect 泡沫 tip + 5 组硅胶 tip、硬壳收纳盒+硅胶挂绳）；Percussive 射击滤波耳塞（2026 Edition 年度更新款，已补全塑形工具套件）脉冲防护达 33dB NRR、ANSI IPIL 认证；另有 USA Edition 爱国限定与 +Awareness 声管对讲版。","updates":[{"date":"2026","tag":"新品","headline":"PRO Custom Molded 31dB / Percussive 2026 Edition 年度更新款"}]}}};
 // 同步预填：即使 fetch 失败（如 file:// 双击打开）也能立即显示品牌状态与「确认已查」按钮
 (function prefillBS(){ if(BRAND_STATUS_FALLBACK&&BRAND_STATUS_FALLBACK.brands){ for(const k in BRAND_STATUS_FALLBACK.brands) BRAND_STATUS[k]=BRAND_STATUS_FALLBACK.brands[k]; } })();
 function syncBase(){ return SYNC_RAW.substring(0, SYNC_RAW.lastIndexOf('/')+1); }
@@ -1914,14 +2503,16 @@ function renderBrands(){
   let grid=document.getElementById('brandGrid');
   // 排序：红色(未确认有新品)排前，已确认/无新品沉底
   const idx=Object.fromEntries(BRANDS.map((b,i)=>[b.name,i]));
-  const ordered=[...BRANDS].sort((a,b)=>{
+  let list=BRANDS.filter(b=> brandFilter!=='new' || hasNewRelease(b));
+  const ordered=list.sort((a,b)=>{
     const ca=hasNewRelease(a)?0:1, cb=hasNewRelease(b)?0:1;
     if(ca!==cb)return ca-cb;
     return idx[a.name]-idx[b.name];
   });
   const socialDefs=[['linkedin','LinkedIn','in'],['youtube','YouTube','YT'],['instagram','Instagram','IG'],['facebook','Facebook','FB'],['blog','官网Blog','Blog']];
   grid.innerHTML=ordered.map(b=>{
-    const rel=BRAND_STATUS[b.name]&&BRAND_STATUS[b.name].releaseDate?BRAND_STATUS[b.name].releaseDate:'';
+    const st=BRAND_STATUS[b.name]||{};
+    const rel=st.releaseDate?st.releaseDate:'';
     const newRel=hasNewRelease(b);
     const s = newRel?['有新品·待确认','status-new'] : (rel?['已确认','status-done']:['无新品','status-pending']);
     const products=(b.products||[]).map(p=>`
@@ -1945,6 +2536,10 @@ function renderBrands(){
     }).join('');
     const exhib=(b.exhibitions||[]).map(e=>`
       <div class="exhib-item"><b>${e.show}</b>${e.date?` · ${e.date}`:''}${e.booth?` · 展位 ${e.booth}`:''}${e.channel?` · ${e.channel}`:''}${e.url?` · <a href="${e.url}" target="_blank">来源链接</a>`:''}</div>`).join('');
+    // 卡内「最新动态」一行 + 「监控要点」完整核查记录（此前 summary 一直未被展示，这里补上）
+    const latest=(st.updates&&st.updates[0])||null;
+    const latestHtml = latest?`<div class="brand-update"><span class="utag ${tagCls(latest.tag)}">${latest.tag||'新品'}</span><span class="udate">${latest.date||''}</span><span>${esc(latest.headline||'')}</span></div>`:'';
+    const sumHtml = st.summary?`<details class="brand-summary"><summary>监控要点（本轮完整核查记录）</summary><div class="bs-body">${esc(st.summary).replace(/★/g,'<span class="bs-star">★</span>')}</div></details>`:'';
     return `<div class="brand-card">
       <div class="brand-head">
         <div>
@@ -1958,16 +2553,62 @@ function renderBrands(){
           <a class="brand-visit" href="${b.url}" target="_blank">访问官网</a>
         </div>
       </div>
+      ${latestHtml}
       <div class="brand-products">${products}</div>
       ${exhib?`<div class="brand-exhib"><div class="exhib-title">参展 / 展会动态</div>${exhib}</div>`:''}
       <div class="social-row"><span class="social-label">社媒参展动态:</span>${social}</div>
+      ${sumHtml}
       <div class="brand-foot">
         <span>检查: ${b.checked}</span>
         <div class="brand-tags">${(b.tags||[]).map(t=>`<span class="brand-tag">${t}</span>`).join('')}</div>
       </div>
     </div>`;
   }).join('');
+  renderTimeline();
 }
+// 更新时间线：汇总所有品牌的 updates，按日期倒序（最新在上），持续累积
+function brandUpdatesAll(){
+  const out=[];
+  for(const b of BRANDS){
+    const st=BRAND_STATUS[b.name]; if(!st||!st.updates)continue;
+    for(const u of st.updates) out.push(Object.assign({brand:b.name},u));
+  }
+  const key=d=>{ const m=/^(\d{4})(?:-(\d{2}))?/.exec(d||''); return m?(+m[1])*100+(+(m[2]||0)):0; };
+  out.sort((a,b)=>key(b.date)-key(a.date));
+  return out;
+}
+function renderTimeline(){
+  const el=document.getElementById('brandTimeline'); if(!el)return;
+  const ups=brandUpdatesAll();
+  el.innerHTML=ups.map(u=>{
+    const isNew=hasNewRelease({name:u.brand})?' is-new':'';
+    return `<div class="tl-item${isNew}">
+      <div class="tl-row"><span class="tl-date">${u.date||'—'}</span><span class="tl-tag ${tagCls(u.tag)}">${u.tag||'新品'}</span><span class="tl-brand">${esc(u.brand)}</span></div>
+      <div class="tl-head">${esc(u.headline||'')}</div>
+    </div>`;
+  }).join('');
+  if(!ups.length) el.innerHTML='<div class="tl-head" style="color:var(--text-sec)">暂无更新记录</div>';
+  const se=document.getElementById('brandMonitorStats');
+  if(se){
+    const red=BRANDS.filter(b=>hasNewRelease(b)).length;
+    const dt=(BRAND_STATUS_FALLBACK&&BRAND_STATUS_FALLBACK.updatedAt)||'';
+    se.innerHTML=`本轮监控更新 <b>${ups.length}</b> 条动态 ｜ <b style="color:var(--red)">${red}</b> 个品牌有待确认新品 ｜ 最近刷新 <b>${dt}</b> ｜ 周一~周六 09:00 自动刷新`;
+  }
+}
+// 品牌监控交互：筛选 / 手动刷新 / 时间线折叠
+(function(){
+  const fbar=document.querySelector('.monitor-filter');
+  if(fbar){ fbar.querySelectorAll('.mf').forEach(btn=>btn.addEventListener('click',()=>{
+    brandFilter=btn.getAttribute('data-filter');
+    fbar.querySelectorAll('.mf').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+    renderBrands();
+  })); }
+  const rb=document.getElementById('btnRefreshBrands');
+  if(rb){ rb.addEventListener('click',()=>{ rb.disabled=true; rb.textContent='⏳ 刷新中…'; loadBrandStatus(); setTimeout(()=>{rb.disabled=false; rb.textContent='🔄 刷新监控';},1200); }); }
+  const th=document.getElementById('tlHead'), tl=document.getElementById('brandTimeline'), tg=document.getElementById('tlToggle');
+  if(th&&tl){ th.addEventListener('click',()=>{ const open=tl.style.display!=='none'; tl.style.display=open?'none':'flex'; if(tg)tg.textContent=open?'展开 ▸':'收起 ▾'; }); }
+})();
 
 // ============ 品牌市场动态 (NEWS) ============
 const NEWS_KEY='liuye_news_read';           // 已读新闻 id 列表（liuye_ 前缀自动云同步）
