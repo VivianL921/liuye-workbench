@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-12",
+  "updatedAt": "2026-08-13",
   "note": "每日 09:00（周一~周六）自动刷新；合并保留全部历史动态，未读新闻不会因更新而消失。",
   "items": [
     {
@@ -661,6 +661,39 @@
       "url": "https://www.outdoorsfirst.com/whitetail/article/howard-leight-improving-on-a-legend/",
       "source": "Outdoor First（Howard Leight 新闻稿）",
       "date": "2026"
+    },
+    {
+      "id": "n65",
+      "brand": "DECIBULLZ",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Decibullz Percussive Shooting Filters 2026 Edition 脉冲射击滤波耳塞上市（ANSI IPIL 认证，33dB 脉冲防护）",
+      "summary": "Decibullz 推出 Percussive Shooting Filters 2026 Edition（SKU FLTR-SHO-BLK-NEW）：THERMOFIT 可重塑定制耳件 + 脉冲滤波技术，ANSI IPIL 认证，最高可承受 166 dB、最大 33dB 脉冲防护，无需电池即可即时压制枪声/炮声，同时保留声音方向感与态势感知；随包含 2 只脉冲滤波器、ALL-NEW Decibullz 塑形工具、3 组 Max Protect 泡沫 tip（S/M/L）、5 组硅胶 tip（XXS~L）、带弹簧扣硬壳收纳盒与硅胶挂绳。相较旧版，2026 Edition 补全了定制塑形工具套件，降低自塑形门槛。对做射击/猎人渠道是可推的「电池无关」高防护备选，并能贴合在通讯耳罩/耳塞之下。",
+      "url": "https://www.decibullz.co.uk/product-page/decibullz-percussive-shooting-filters-2026-edition",
+      "source": "Decibullz UK 官网产品页",
+      "date": "2026"
+    },
+    {
+      "id": "n66",
+      "brand": "OTTO ENGINEERING",
+      "category": "expo",
+      "catLabel": "展会",
+      "title": "OTTO 亮相 SOF Week 2026（Tampa 5/18-21, Booth 2419）：展出 NoizeBarrier TAC 2.0 与全新 CRTL-RKR Dual PTT",
+      "summary": "OTTO Engineering 于 SOF Week 2026（5/18-21，坦帕会展中心，Booth 2419）展示其任务关键通信方案：DARKSTAR 移动指挥系统、WedgeX 战术电源数据管理、NoizeBarrier TAC 2.0 头戴、Lynq PRO 离线定位导航、OTTO Connect 无线对讲，以及全新 CRTL-RKR Dual PTT 与 E.S.P 系列。这是 OTTO 在特种作战社区的年度核心亮相，显示其从单一头戴向「指挥+电源+通信」系统级方案延伸——对做军警渠道的同业有对标意义。注：OTTO 2026 年官网新闻页仍无全新头戴发布，在售旗舰仍为 NoizeBarrier TAC 2.0。",
+      "url": "https://www.linkedin.com/posts/ottocommunications_heading-to-sof-week-2026-in-tampa-so-are-activity-7460761363737661441-NXKa",
+      "source": "OTTO Engineering 官方 LinkedIn",
+      "date": "2026-05-18"
+    },
+    {
+      "id": "n67",
+      "brand": "INVISIO",
+      "category": "order",
+      "catLabel": "订单",
+      "title": "INVISIO 获欧洲老客户 SEK 1.9 亿 Intercom + Dismounted Soldier 系统订单（2026 Q1 前交付）",
+      "summary": "INVISIO 于 2025-11-06 宣布获欧洲现有客户 SEK 1.9 亿（约 1,900 万欧元/2,000 万美元）订单，涵盖 Intercom（车载互联）与 Dismounted Soldier（单兵）通信系统，面向乘载与下车作战人员提供无缝通信，预计即时启动、2026 Q1 前完成交付。CEO Lars Højgård Hansen 强调其「短周期内交付大单」的能力源于均衡库存与客户协作，是同业少有的竞争优势。该订单是 INVISIO 2025-2026 在手订单的重要支撑，与其 Q2 财报「订单因美国政府停摆延后、但需求未失」的口径相互印证。",
+      "url": "https://www.invisio.com/company/news-events/news/06-11-25-invisio-secures-sek-190-million-order-for-intercom-and-dismounted-soldier-systems/",
+      "source": "INVISIO 官网新闻稿",
+      "date": "2025-11-06"
     }
   ]
 }
