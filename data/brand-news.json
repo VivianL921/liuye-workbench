@@ -261,7 +261,7 @@
       "category": "expo",
       "catLabel": "展会",
       "title": "INVISIO 在 Eurosatory 2026 发布 T30 的 Drone Aware 反无人机感知能力",
-      "summary": "INVISIO 于 2026-06-11 在巴黎 Eurosatory 展会发布 INVISIO Drone Aware™，该能力集成于 T30 头戴，可实现对来袭无人机的早期识别，把听力防护耳机变成战场态势感知节点。这是当前军用头戴品类最值得关注的技术方向之一。",
+      "summary": "INVISIO 于 2026-06-11 在巴黎 Eurosatory 展会预览首发 INVISIO Drone Aware™（官方确认 Q3 2026 起正式集成上市），该能力集成于 T30 头戴，可实现对来袭无人机的早期识别，把听力防护耳机变成战场态势感知节点。这是当前军用头戴品类最值得关注的技术方向之一。",
       "url": "https://corp.invisio.com/news-and-events/press-releases/?page=1",
       "source": "INVISIO 官网新闻稿列表",
       "date": "2026-06-11"
@@ -415,7 +415,7 @@
       "category": "news",
       "catLabel": "新品",
       "title": "★Sordin Supreme X2 SFA 本月（2026-08）上市，官网首页已挂 New launch",
-      "summary": "Sordin 官网首页当前头条即为「New launch – Sordin Supreme X2 SFA」，为 X2 系列最新成员，本轮监测确认其 8 月正式上市。SFA（Sordin Flexible Attenuation）通过可拆卸距离环，让用户在「更高衰减」与「更薄耳杯轮廓」之间按当次训练需求切换，配合 SordinFLEX 模块化平台、清晰环境音与全天佩戴舒适度，明确面向长时间靶场射手。此前 Sordin 官方 LinkedIn 已预告「Available this August」。",
+      "summary": "Sordin 官网首页当前头条即为「New launch – Sordin Supreme X2 SFA」，为 X2 系列最新成员，本轮监测确认其 8 月正式上市（现已开售，见 n70 更正条目）。SFA（Sordin Flexible Attenuation）通过可拆卸距离环，让用户在「更高衰减」与「更薄耳杯轮廓」之间按当次训练需求切换，配合 SordinFLEX 模块化平台、清晰环境音与全天佩戴舒适度，明确面向长时间靶场射手。此前 Sordin 官方 LinkedIn 已预告「Available this August」。",
       "url": "https://sordin.com/",
       "source": "Sordin 官网首页 / LinkedIn",
       "date": "2026-08-01"
@@ -694,6 +694,50 @@
       "url": "https://www.invisio.com/company/news-events/news/06-11-25-invisio-secures-sek-190-million-order-for-intercom-and-dismounted-soldier-systems/",
       "source": "INVISIO 官网新闻稿",
       "date": "2025-11-06"
+    },
+    {
+      "id": "n68",
+      "brand": "EARMOR",
+      "category": "expo",
+      "catLabel": "新品",
+      "title": "EARMOR M32 Mark 4 十周年旗舰登陆 IWA 2026（Adaptive Sound Tracking + 标配凝胶耳垫）",
+      "summary": "在 IWA OutdoorClassics 2026（纽伦堡，EARMOR 十周年主题展）上，M32 Mark 4 作为「十周年旗舰」正式亮相：主打 Adaptive Sound Tracking（自适应声场追踪），较 Mark 3 进一步增强低频语音增强，使 RSO/教官在嘈杂靶场听清指令更轻松；舒适升级，出厂标配 Silicon Gel Seals 凝胶耳垫；官网产品页（earmor.com/m32）确认认证 NRR 22dB，提供战术黑/丛林绿/狼棕三色，定位 MILPRO & Tactical 有线通讯头戴。这是 EARMOR 在 M300T/M20T PRO 之外、面向「可靠有线+高舒适」刚需人群的主力补强型号，对做警用/训练渠道有对标价值。",
+      "url": "https://www.earmor.com/m32/",
+      "source": "EARMOR 官网 / IWA 2026 展报",
+      "date": "2026-02-23"
+    },
+    {
+      "id": "n69",
+      "brand": "WALKER'S",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "★Walker's Razor X-TRM Digital Muffs 首发 MAHP「Shake Awake」运动激活听力保护（行业首创）",
+      "summary": "Walker's 于 2026-01 在 SHOT Show（GSM Outdoors 展位 #12669）发布 Razor X-TRM Digital Muffs，引入专利待审的 MAHP™（Motion Activated Hearing Protection）「Shake Awake」运动激活听力保护：检测到微动即自动开机并预载压制电路，抢在枪响前完成保护，消除手动开机延迟并闲置省电；射击时 Active Dynamic Sound Suppression 按脉冲强度自动压缩，配合风噪抑制算法与零延迟 DSP、双 Hi-Gain 全向麦；超薄外壳+全橡胶装甲、透气网眼头带、GEL 凝胶耳垫、闲置自动关机；含蓝牙。定价约 $80。这是电子耳罩品类首次出现「运动激活」防护机制，直接对标「忘开机/耗电」痛点——是国内做电子耳罩研发可借鉴的差异化方向。注：此前已记录的 Razor Slim X-TRM（n62）为同系列散热头带版，二者并列在售。",
+      "url": "https://huntinglife.com/walkers-reveals-all-new-shake-awake-muffs-with-patent-pending-motion-activated-hearing-protection",
+      "source": "Hunting Life / Walker's 新闻稿（SHOT Show 2026）",
+      "date": "2026-01-20"
+    },
+    {
+      "id": "n70",
+      "brand": "SORDIN",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "更正：Sordin Supreme X2 SFA 现已正式开售（官网 in stock，$493，NRR 25/SNR 31）",
+      "summary": "本轮复核更正此前「已预告未开售」的判断：Sordin 官网 X2 SFA 产品页（sordin.com/products/sordin-supreme-x2-sfa）现已显示「In stock, ready to ship」，售价 $493，确认 2026-08 正式开售。完整参数：NRR 25dB / SNR 31dB（较基础版 X2 的 23/29 更高），重 401g，AA 电池最长 60h / Sordin Power 可充 90h，SFA 可拆卸距离环在两档衰减间切换（更高防护↔更薄耳杯），SordinHEAR2 四档音频（Hunter/Focus/Shooter/Ambient off），3.5mm AUX，可折叠，2 年质保。X2 SFA 是 X2 系列最高防护成员，明确面向长时间靶场射手与教官——对做高端射击防护渠道是可上架的新旗舰选品。注：X2BT 蓝牙版仍未发售。",
+      "url": "https://sordin.com/products/sordin-supreme-x2-sfa",
+      "source": "Sordin 官网产品页 / LinkedIn",
+      "date": "2026-08-13"
+    },
+    {
+      "id": "n71",
+      "brand": "3M PELTOR",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "3M PELTOR ComTac VI NIB 现役主力 NIB 头戴在售（新鹅颈麦/IP68、MI 输入、可折叠）",
+      "summary": "3M PELTOR 当前在售的 NIB 队间通信头戴除已记录的 ComTac IX NIB（n40）外，ComTac VI NIB 仍是广泛可采购的主力一代：新全向麦 + 高保真扬声器 + 新 DSP 带来更自然音质；NIB 5–10m 免电台全双工（4 讲 60 听）；新 IP68 防水鹅颈动圈麦可在左/右耳杯间免 relocation 切换；MI（磁感应）输入、可折叠设计、单/双引线、NATO U174 接口；MAP 任务音频 5 档。DISCO32 在售页显示美军限用双频版（915.5+864MHz）与民用单频 915.5MHz 版。对渠道含义：ComTac VI/VIII/IX 三代 NIB 并存，采购交期与批次需逐一核对（尤其 ComTac VIII 涉全球召回，见本模块召回条目）。",
+      "url": "https://disco32.com/products/comtacvi",
+      "source": "3M 官网 / DISCO32 在售页",
+      "date": "2026"
     }
   ]
 }
