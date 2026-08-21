@@ -15,38 +15,40 @@
 <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(e){console.log('SW skip',e);});});}</script>
 <style>
 :root{
-  /* 柔和低饱和活力配色 · Apple 液态玻璃风 */
-  --glass:rgba(255,255,255,.55);
-  --glass-strong:rgba(255,255,255,.72);
-  --glass-border:rgba(255,255,255,.65);
-  --bg-1:#eef1f7;
-  --bg-2:#f3eefb;
-  --bg-3:#e9f4f3;
-  --text:#2b2f36;
-  --text-sec:#7c828c;
+  /* 莫兰迪浅蓝 · iOS 质感系统配色 */
+  --glass:rgba(255,255,255,.50);
+  --glass-strong:rgba(255,255,255,.66);
+  --glass-border:rgba(255,255,255,.72);
+  --bg-1:#e1e8ef;
+  --bg-2:#e7eef4;
+  --bg-3:#dde6ee;
+  --text:#3b4350;
+  --text-sec:#8b94a2;
   --card:var(--glass-strong);
   --border:var(--glass-border);
-  --primary:#5b78e8;
-  --primary-light:rgba(91,120,232,.14);
-  --green:#37b27e; --green-bg:rgba(55,178,126,.13);
-  --orange:#e08a3c; --orange-bg:rgba(224,138,60,.13);
-  --red:#e2617a; --red-bg:rgba(226,97,122,.13);
-  --purple:#8b72d6; --purple-bg:rgba(139,114,214,.13);
-  --teal:#2fa9a0; --teal-bg:rgba(47,169,160,.13);
-  --order:#cf9b3c; --order-bg:rgba(207,155,60,.13);
-  --brand:#c06cc4; --brand-bg:rgba(192,108,196,.13);
-  --radius:18px; --radius-sm:12px;
-  --shadow:0 10px 34px rgba(31,41,72,.10);
-  --shadow-sm:0 3px 12px rgba(31,41,72,.07);
+  --primary:#6f8fb0;          /* 莫兰迪雾蓝（主色） */
+  --primary-2:#9cb4c9;        /* 浅雾蓝（渐变辅助） */
+  --primary-light:rgba(111,143,176,.16);
+  --accent-tint:#e4ebf1;      /* 雾蓝浅底（标签） */
+  --green:#7fa890; --green-2:#a9c3b2; --green-bg:rgba(127,168,144,.16);
+  --orange:#c79a6e; --orange-bg:rgba(199,154,110,.16);
+  --red:#c98a8a; --red-bg:rgba(201,138,138,.16);
+  --purple:#9b93b8; --purple-bg:rgba(155,147,184,.16);
+  --teal:#6fa39b; --teal-bg:rgba(111,163,155,.16);
+  --order:#c2a06a; --order-bg:rgba(194,160,106,.16);
+  --brand:#a98bb0; --brand-bg:rgba(169,139,176,.16);
+  --radius:20px; --radius-sm:13px;
+  --shadow:0 1px 2px rgba(43,54,80,.05), 0 10px 30px rgba(70,92,130,.10);
+  --shadow-sm:0 1px 2px rgba(43,54,80,.04), 0 4px 14px rgba(70,92,130,.07);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Rounded','Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
   color:var(--text);font-size:14px;line-height:1.65;
   background:
     radial-gradient(120% 120% at 0% 0%, var(--bg-2) 0%, transparent 55%),
     radial-gradient(120% 120% at 100% 0%, var(--bg-3) 0%, transparent 55%),
-    radial-gradient(150% 150% at 50% 120%, #f5eef9 0%, transparent 60%),
+    radial-gradient(150% 150% at 50% 120%, #eef1f6 0%, transparent 60%),
     var(--bg-1);
   background-attachment:fixed;
   min-height:100vh;
@@ -54,36 +56,59 @@ body{
 }
 .app{display:flex;align-items:flex-start;gap:20px;max-width:1440px;margin:0 auto;padding:20px}
 
-/* ============ 左侧固定导航 ============ */
+/* ============ 左侧固定导航（iOS 岛台 / Dock） ============ */
 .sidebar{
   position:sticky;top:20px;align-self:flex-start;
-  width:244px;flex-shrink:0;
+  width:248px;flex-shrink:0;
   display:flex;flex-direction:column;gap:6px;
   background:var(--glass);
-  backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
-  border:1px solid var(--glass-border);border-radius:var(--radius);
-  box-shadow:var(--shadow);
+  backdrop-filter:blur(34px) saturate(180%);-webkit-backdrop-filter:blur(34px) saturate(180%);
+  border:1px solid var(--glass-border);border-radius:26px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75), inset 0 0 0 1px rgba(255,255,255,.18), var(--shadow);
   padding:18px 14px;max-height:calc(100vh - 40px);overflow-y:auto;
 }
-.side-brand{padding:6px 12px 16px;border-bottom:1px solid var(--glass-border);margin-bottom:10px}
+.side-brand{padding:4px 12px 14px;border-bottom:1px solid rgba(255,255,255,.5);margin-bottom:8px}
 .side-brand .name{font-size:18px;font-weight:700;letter-spacing:.3px}
 .side-brand .sub{font-size:12px;color:var(--text-sec);margin-top:3px}
-.nav{display:flex;flex-direction:column;gap:5px}
+.nav{display:flex;flex-direction:column;gap:4px}
 .nav-item{
   display:flex;align-items:center;gap:12px;
-  padding:11px 14px;border-radius:14px;
+  padding:10px 13px;border-radius:14px;
   color:var(--text-sec);font-size:14px;font-weight:500;cursor:pointer;
-  border:1px solid transparent;transition:all .25s ease;
+  border:1px solid transparent;transition:all .2s ease;
   touch-action:manipulation;user-select:none;
 }
 .nav-item .ni-ico{font-size:17px;width:22px;text-align:center}
 .nav-item:hover{background:rgba(255,255,255,.5);color:var(--text)}
 .nav-item.active{
-  background:var(--glass-strong);color:var(--primary);
-  border-color:var(--glass-border);
-  box-shadow:0 6px 16px rgba(91,120,232,.18);font-weight:600;
+  background:var(--primary-light);color:var(--primary);
+  border-color:transparent;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+  font-weight:600;
 }
-.side-foot{margin-top:auto;padding:14px 12px 4px;border-top:1px solid var(--glass-border);font-size:11px;color:var(--text-sec);line-height:1.6}
+.side-foot{margin-top:auto;padding:14px 12px 4px;border-top:1px solid rgba(255,255,255,.5);font-size:11px;color:var(--text-sec);line-height:1.6}
+
+/* ============ 世界时钟（岛台组件） ============ */
+.world-clock{margin:2px 0 12px;padding:15px 14px;border-radius:18px;
+  background:rgba(255,255,255,.40);border:1px solid rgba(255,255,255,.6);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.wc-main{text-align:center}
+.wc-time{font-size:27px;font-weight:300;letter-spacing:1px;color:var(--text);
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum";line-height:1.15}
+.wc-date{font-size:11px;color:var(--text-sec);margin-top:3px}
+.wc-divider{height:1px;background:rgba(255,255,255,.6);margin:12px 0}
+.wc-list{display:flex;flex-direction:column;gap:9px}
+.wc-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.wc-city{font-size:12px;color:var(--text-sec);display:flex;align-items:center;gap:7px;min-width:0}
+.wc-city .wc-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wc-city .x{font-size:14px;color:#b7bfc9;cursor:pointer;flex-shrink:0;line-height:1;padding:2px}
+.wc-city .x:hover{color:var(--red)}
+.wc-tz{font-size:14px;font-weight:500;color:var(--text);min-width:60px;text-align:right;
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.wc-add{margin-top:12px;width:100%;padding:7px;border:1px dashed rgba(111,143,176,.4);
+  background:transparent;color:var(--primary);border-radius:11px;font-size:12px;cursor:pointer;transition:all .2s}
+.wc-add:hover{background:var(--primary-light)}
+.wc-empty{font-size:11px;color:var(--text-sec);text-align:center;padding:2px 0}
 
 /* ============ 右侧主区 ============ */
 .main{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px}
@@ -91,8 +116,8 @@ body{
   display:flex;align-items:center;justify-content:space-between;gap:16px;
   background:var(--glass);
   backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
-  border:1px solid var(--glass-border);border-radius:var(--radius);
-  box-shadow:var(--shadow-sm);padding:14px 22px;
+  border:1px solid var(--glass-border);border-radius:24px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), var(--shadow-sm);padding:14px 22px;
 }
 .topbar-info .td{font-size:13px;color:var(--text)}
 .topbar-info .ts{font-size:12px;color:var(--text-sec);margin-top:2px}
@@ -101,7 +126,7 @@ body{
 /* 进度环（复用原结构） */
 .progress-ring{width:56px;height:56px;position:relative;flex-shrink:0}
 .progress-ring svg{transform:rotate(-90deg)}
-.progress-ring .bg-circle{fill:none;stroke:rgba(91,120,232,.18);stroke-width:5}
+.progress-ring .bg-circle{fill:none;stroke:rgba(111,143,176,.18);stroke-width:5}
 .progress-ring .fg-circle{fill:none;stroke:var(--primary);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .5s}
 .progress-ring .pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;font-weight:700}
 
@@ -109,8 +134,8 @@ body{
 .tab-content{
   display:none;background:var(--glass);
   backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);
-  border:1px solid var(--glass-border);border-radius:var(--radius);
-  box-shadow:var(--shadow);padding:22px;min-height:480px;
+  border:1px solid var(--glass-border);border-radius:22px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55), var(--shadow);padding:22px;min-height:480px;
 }
 .tab-content.active{display:block;animation:panelIn .35s ease}
 @keyframes panelIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -129,7 +154,7 @@ body{
 .filter-btn{padding:6px 14px;border:1px solid var(--border);background:var(--card);border-radius:20px;font-size:12px;cursor:pointer;color:var(--text-sec);transition:all .2s}
 .filter-btn:hover,.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
 .btn-add{padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-weight:500;transition:all .2s}
-.btn-add:hover{background:#1d4ed8}
+.btn-add:hover{background:#5f7d9c}
 
 .task-list{display:flex;flex-direction:column;gap:8px}
 .task-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:10px;transition:all .2s;background:#fff}
@@ -180,9 +205,64 @@ body{
 .monthly-actions{display:flex;gap:4px;flex-shrink:0}
 .monthly-progress{margin-top:10px}
 .progress-track{height:10px;background:#eef2f7;border-radius:6px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),#60a5fa);border-radius:6px;transition:width .3s}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-2));border-radius:6px;transition:width .3s}
 .monthly-progress .progress-text{font-size:12px;color:var(--text-sec);margin-top:6px}
 .monthly-meta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center}
+/* 任务 ↔ KPI 联动 */
+.task-link{color:var(--text-sec);cursor:pointer;font-size:15px;padding:4px;opacity:.5;transition:opacity .2s;margin-right:2px}
+.task-link:hover{opacity:1;color:var(--teal)}
+.task-link.on{opacity:1;color:var(--teal)}
+.task-link-badge{font-size:11px;padding:2px 8px;border-radius:4px;background:var(--teal-bg);color:var(--teal);font-weight:500;display:inline-flex;align-items:center;gap:3px}
+.subitem-wrap{margin-top:10px;border-top:1px dashed var(--border);padding-top:8px}
+.subitem-head{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-sec);margin-bottom:6px}
+.subitem-add{font-size:12px;padding:3px 10px;background:var(--teal-bg);color:var(--teal);border:none;border-radius:6px;cursor:pointer;font-weight:500}
+.subitem-add:hover{filter:brightness(.96)}
+.subitem-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9}
+.subitem-row:last-child{border-bottom:none}
+.subitem-row.done .subitem-title{text-decoration:line-through;color:var(--text-sec)}
+.subitem-row.done{opacity:.6}
+.subitem-check{width:16px;height:16px;border:2px solid var(--border);border-radius:5px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.subitem-check.checked{background:var(--teal);border-color:var(--teal)}
+.subitem-check.checked::after{content:'';width:5px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.subitem-main{flex:1;min-width:0}
+.subitem-title{font-size:13px;font-weight:500}
+.subitem-meta{display:flex;gap:8px;margin-top:3px;flex-wrap:wrap;align-items:center}
+.subitem-step{font-size:11px;color:var(--text-sec);padding:1px 7px;border-radius:4px;background:#f1f5f9}
+.subitem-empty{font-size:12px;color:var(--text-sec);padding:6px 0}
+.form-hint{font-size:11px;color:var(--text-sec);margin-top:-4px;margin-bottom:8px;line-height:1.6}
+
+/* 月度KPI 套组总进度卡 */
+.suite-total{border:1px solid var(--border);border-radius:14px;padding:16px;background:linear-gradient(135deg,var(--primary-light),rgba(255,255,255,.35));margin-bottom:14px}
+.suite-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.suite-title{font-weight:600;font-size:15px}
+.suite-pct{font-size:28px;font-weight:800;color:var(--primary)}
+.suite-sub{font-size:11px;color:var(--text-sec);margin-top:6px}
+.suite-set{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--text-sec)}
+.suite-set input{width:64px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px}
+/* 细分KPI 分组分隔 + 计入总进度切换 */
+.kpi-group-sep{display:flex;align-items:center;gap:10px;margin:16px 0 10px;font-size:12px;font-weight:700;color:var(--text-sec);letter-spacing:.3px}
+.kpi-group-sep::before,.kpi-group-sep::after{content:'';flex:1;height:1px;background:var(--border)}
+.monthly-toggle-row{margin:9px 0 2px}
+.kpi-excluded{opacity:.82}
+.task-toggle{cursor:pointer;user-select:none;font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--border);display:inline-flex;align-items:center;gap:4px;transition:.15s;font-weight:600}
+.task-toggle.on{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+.task-toggle.off{background:transparent;color:var(--text-sec)}
+.form-check{display:flex;align-items:center;gap:8px;margin-top:4px}
+.form-check input{width:16px;height:16px;accent-color:var(--primary)}
+.form-check label{font-size:13px;color:var(--text);cursor:pointer}
+/* 首页：任务区 + 本周工作状态右栏 */
+.home-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
+.home-side{position:sticky;top:20px;display:flex;flex-direction:column;gap:12px}
+.wstatus-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm)}
+.wstatus-title{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.wstatus-metric{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.5)}
+.wstatus-metric:last-child{border-bottom:none}
+.ws-label{font-size:12px;color:var(--text-sec)}
+.ws-big{font-size:26px;font-weight:700;line-height:1.15;margin-top:2px}
+.ws-big.up{color:var(--green)}
+.ws-cmp{font-size:11px;margin-top:3px;display:flex;align-items:center;gap:3px;font-weight:500}
+.ws-cmp.up{color:var(--green)} .ws-cmp.down{color:var(--red)} .ws-cmp.flat{color:var(--text-sec)}
+.ws-sub{font-size:11px;color:var(--text-sec);margin-top:3px}
 
 /* Add Task Modal */
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center}
@@ -222,7 +302,7 @@ body{
 .brand-check.alert{background:#fff;color:var(--red);border-color:var(--red)}
 .brand-check.alert:hover{background:var(--red);color:#fff}
 .status-done{background:var(--green-bg);color:var(--green)}
-.pdate{display:inline-block;font-size:10px;color:var(--primary);background:#eef2ff;padding:1px 6px;border-radius:10px;margin-left:4px}
+.pdate{display:inline-block;font-size:10px;color:var(--primary);background:var(--accent-tint);padding:1px 6px;border-radius:10px;margin-left:4px}
 .btn-refresh{padding:5px 14px;border:1px solid var(--primary);background:var(--primary);color:#fff;border-radius:20px;font-size:12px;cursor:pointer;transition:all .2s}
 .btn-refresh:hover{opacity:.88}
 .btn-refresh:disabled{opacity:.5;cursor:default}
@@ -232,10 +312,10 @@ body{
 .news-card.unread{border-left:4px solid var(--red)}
 .news-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
 .news-brand{font-weight:600;font-size:14px;color:var(--text)}
-.news-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:#eef2ff;color:#4f46e5;white-space:nowrap}
-.news-cat.recall{background:#fee2e2;color:#b91c1c}
-.news-cat.news{background:#fef3c7;color:#b45309}
-.news-cat.expo{background:#dcfce7;color:#15803d}
+.news-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--accent-tint);color:var(--primary);white-space:nowrap}
+.news-cat.recall{background:var(--red-bg);color:var(--red)}
+.news-cat.news{background:var(--orange-bg);color:var(--orange)}
+.news-cat.expo{background:var(--green-bg);color:var(--green)}
 .news-title{font-weight:600;font-size:14px;margin-bottom:4px;color:var(--text)}
 .news-sum{font-size:13px;color:var(--text-sec);line-height:1.6;margin-bottom:8px}
 .news-foot{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-sec);gap:10px}
@@ -252,6 +332,53 @@ body{
 .pmeta .model{background:#f1f5f9;color:#334155}
 .pspec{font-size:12px;color:#475569;margin-top:3px;line-height:1.5}
 .psource{font-size:10px;color:#9ca3af;margin-top:3px}
+/* 品牌监控 - 顶部监控条 / 更新时间线 / 卡内要点 */
+.monitor-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:2px 0 14px}
+.monitor-stats{font-size:12px;color:var(--text-sec);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.monitor-stats b{color:var(--primary);font-weight:600}
+.monitor-filter{margin-left:auto;display:flex;gap:6px}
+.monitor-filter .mf{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:#fff;color:var(--text-sec);cursor:pointer;transition:all .2s}
+.monitor-filter .mf.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.monitor-filter .mf.alert.active{background:var(--red);border-color:var(--red)}
+.btn-refresh-m{font-size:12px;padding:5px 14px;border:1px solid var(--primary);background:var(--primary);color:#fff;border-radius:20px;cursor:pointer;transition:all .2s}
+.btn-refresh-m:hover{opacity:.9}
+.btn-refresh-m:disabled{opacity:.5;cursor:default}
+.timeline-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(31,41,55,.04)}
+.timeline-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+.timeline-head h4{font-size:14px;margin:0;color:var(--text)}
+.timeline-toggle{font-size:12px;color:var(--text-sec);flex:none;margin-left:10px}
+.timeline{margin-top:10px;display:flex;flex-direction:column;position:relative;padding-left:14px}
+.timeline:before{content:"";position:absolute;left:4px;top:6px;bottom:6px;width:2px;background:var(--border)}
+.tl-item{position:relative;padding:8px 0 8px 14px;border-bottom:1px dashed var(--border)}
+.tl-item:last-child{border-bottom:none}
+.tl-item:before{content:"";position:absolute;left:-14px;top:12px;width:9px;height:9px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 3px #fff}
+.tl-item.is-new:before{background:var(--red)}
+.tl-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tl-date{font-size:11px;color:var(--text-sec);font-variant-numeric:tabular-nums;flex:none}
+.tl-tag{font-size:10px;padding:1px 7px;border-radius:10px;font-weight:500;flex:none}
+.tl-tag.t-new{background:var(--red-bg);color:var(--red)}
+.tl-tag.t-spec{background:var(--orange-bg);color:var(--orange)}
+.tl-tag.t-fix{background:#eef2ff;color:#3b4a63}
+.tl-tag.t-recall{background:var(--red-bg);color:var(--red)}
+.tl-tag.t-biz{background:var(--green-bg);color:var(--green)}
+.tl-tag.t-note{background:#f3f4f6;color:var(--text-sec)}
+.tl-brand{font-size:13px;font-weight:600;color:var(--primary)}
+.tl-head{font-size:12.5px;color:var(--text);margin-top:3px;line-height:1.5}
+.brand-update{display:flex;align-items:flex-start;gap:8px;margin-top:8px;font-size:12px;color:var(--text);background:#f8fafc;border:1px solid var(--border);border-left:3px solid var(--primary);padding:7px 10px;border-radius:8px;line-height:1.55}
+.brand-update .utag{font-size:10px;padding:1px 7px;border-radius:10px;font-weight:500;white-space:nowrap;flex:none;margin-top:1px;color:#fff}
+.brand-update .utag.t-new,.brand-update .utag.t-recall{background:var(--red)}
+.brand-update .utag.t-spec{background:var(--orange)}
+.brand-update .utag.t-fix{background:#64748b}
+.brand-update .utag.t-biz{background:var(--green)}
+.brand-update .utag.t-note{background:#9ca3af}
+.brand-update .udate{color:var(--text-sec);font-variant-numeric:tabular-nums;flex:none;margin-top:1px}
+.brand-summary{margin-top:10px;border-top:1px dashed var(--border);padding-top:10px}
+.brand-summary summary{cursor:pointer;font-size:12px;color:var(--primary);font-weight:500;list-style:none;user-select:none}
+.brand-summary summary::-webkit-details-marker{display:none}
+.brand-summary summary:before{content:"▸ ";}
+.brand-summary[open] summary:before{content:"▾ ";}
+.brand-summary .bs-body{margin-top:8px;font-size:12.5px;color:#475569;line-height:1.7;white-space:pre-wrap}
+.bs-star{color:var(--red);font-weight:700}
 .psource a{color:var(--primary);text-decoration:none}
 .psource a:hover{text-decoration:underline}
 .brand-exhib{margin-top:10px;border-top:1px dashed var(--border);padding-top:8px}
@@ -386,8 +513,8 @@ body{
 .sales-legend{display:flex;gap:18px;align-items:center;font-size:13px}
 .sales-legend .lg{display:flex;align-items:center;gap:6px;color:var(--text-sec)}
 .sales-legend .sw{width:14px;height:14px;border-radius:4px;display:inline-block}
-.sales-legend .sw.target{background:linear-gradient(180deg,#60a5fa,#2563eb)}
-.sales-legend .sw.achieved{background:linear-gradient(180deg,#4ade80,#16a34a)}
+.sales-legend .sw.target{background:linear-gradient(180deg,var(--primary-2),var(--primary))}
+.sales-legend .sw.achieved{background:linear-gradient(180deg,var(--green-2),var(--green))}
 .sales-chart{display:flex;gap:10px;align-items:flex-start;overflow-x:auto;margin-top:4px}
 .sales-yaxis{width:46px;height:240px;position:relative;flex-shrink:0}
 .sales-yaxis .tick{position:absolute;right:8px;transform:translateY(-50%);font-size:10px;color:var(--text-sec);white-space:nowrap}
@@ -397,11 +524,11 @@ body{
 .sales-bars{height:240px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:5px;position:relative;border-bottom:2px solid var(--border)}
 .sales-bars:hover{background:rgba(37,99,235,.05)}
 .sales-bar{width:40%;border-radius:5px 5px 0 0;position:relative;transition:height .45s ease;min-height:2px}
-.sales-bar.target{background:linear-gradient(180deg,#60a5fa,#2563eb)}
-.sales-bar.achieved{background:linear-gradient(180deg,#4ade80,#16a34a)}
+.sales-bar.target{background:linear-gradient(180deg,var(--primary-2),var(--primary))}
+.sales-bar.achieved{background:linear-gradient(180deg,var(--green-2),var(--green))}
 .sales-val{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;white-space:nowrap}
-.sales-val.target{color:#2563eb}
-.sales-val.achieved{color:#16a34a}
+.sales-val.target{color:var(--primary)}
+.sales-val.achieved{color:var(--green)}
 .sales-month{font-size:12px;color:var(--text-sec)}
 .sales-col:hover .sales-month{color:var(--primary);font-weight:600}
 .sales-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px}
@@ -453,14 +580,16 @@ body{
 .sales-bars:hover{background:rgba(91,120,232,.05)}
 .modal{background:var(--glass-strong);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border:1px solid var(--glass-border);box-shadow:0 24px 60px rgba(31,41,72,.25)}
 .modal-overlay{background:rgba(40,44,60,.32);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.btn-add,.btn-view,.btn-save{background:var(--primary);box-shadow:0 4px 12px rgba(91,120,232,.28)}
-.btn-add:hover,.btn-view:hover,.btn-save:hover{background:#4a68de;transform:translateY(-1px)}
+.btn-add,.btn-view,.btn-save{background:var(--primary);box-shadow:0 4px 12px rgba(111,143,176,.28)}
+.btn-add:hover,.btn-view:hover,.btn-save:hover{background:#5f7d9c;transform:translateY(-1px)}
 .btn-cancel,.btn-dl{background:rgba(255,255,255,.55);border:1px solid var(--glass-border);color:var(--text);transition:all .2s}
 .btn-cancel:hover,.btn-dl:hover{background:rgba(255,255,255,.8)}
-.week-export,.sop-sync{background:var(--green);box-shadow:0 4px 12px rgba(55,178,126,.25);border:none}
+.week-export,.sop-sync{background:var(--green);box-shadow:0 4px 12px rgba(127,168,144,.25);border:none}
 .sales-settings-btn{background:rgba(255,255,255,.55);border:1px solid var(--glass-border);color:var(--text-sec);transition:all .2s}
 .sales-settings-btn:hover{color:var(--primary);border-color:var(--primary)}
 .sync-btn{margin-left:10px;padding:6px 14px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.25);color:var(--text);border-radius:20px;font-size:12px;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);touch-action:manipulation;font-weight:500}
+.export-btn{background:linear-gradient(135deg,var(--primary),#86a6c4);color:#fff;border-color:rgba(255,255,255,.7);font-weight:600}
+.export-btn:hover{filter:brightness(1.05)}
 .sync-btn:active{transform:scale(.95)}
 .form-group input,.form-group select,.form-group textarea,.review-textarea,.followup-box,.report-box,.sop-notes-box,.hist-text,.task-notes,.brand-product,.sales-settings-btn{
   background:rgba(255,255,255,.55);border:1px solid var(--glass-border);
@@ -474,11 +603,13 @@ body{
 @media(max-width:860px){
   .app{flex-direction:column;padding:12px;gap:12px}
   .sidebar{position:fixed;bottom:0;left:0;right:0;top:auto;width:100%;flex-direction:row;max-height:none;border-radius:18px 18px 0 0;padding:8px 6px;justify-content:space-around;z-index:50;gap:0}
-  .side-brand,.side-foot{display:none}
+  .side-brand,.side-foot,.world-clock{display:none}
   .nav{flex-direction:row;gap:2px;width:100%;justify-content:space-around}
   .nav-item{flex-direction:column;gap:3px;padding:7px 4px;font-size:10px;flex:1;border-radius:12px}
   .nav-item .ni-ico{font-size:18px}
   .main{padding-bottom:76px}
+  .home-grid{grid-template-columns:1fr}
+  .home-side{position:static}
   .topbar .ts{display:none}
 }
 @media(max-width:768px){.brand-grid{grid-template-columns:1fr}}
@@ -497,6 +628,15 @@ body{
     <div class="side-brand">
       <div class="name">刘晔工作台</div>
       <div class="sub">战术听力防护 / 渠道开发</div>
+    </div>
+    <div class="world-clock">
+      <div class="wc-main">
+        <div class="wc-time" id="wcLocalTime">--:--:--</div>
+        <div class="wc-date" id="wcLocalDate">本地</div>
+      </div>
+      <div class="wc-divider"></div>
+      <div class="wc-list" id="wcList"></div>
+      <button class="wc-add" id="btnAddZone">+ 添加时区</button>
     </div>
     <nav class="nav">
       <div class="nav-item active" data-tab="tasks"><span class="ni-ico">✅</span><span>今日任务</span></div>
@@ -520,6 +660,9 @@ body{
       </div>
       <div class="topbar-actions">
         <button id="btnSync" class="sync-btn" title="云同步：电脑与手机共用一份数据">☁️ <span id="syncState">未配置</span></button>
+        <button id="btnExport" class="sync-btn export-btn" title="导出全部「今日任务 + 历史归档 + 每日复盘 + 月度KPI」为 Markdown 文件">⤓ 导出</button>
+        <button id="btnImport" class="sync-btn export-btn" title="从备份文件导入任务与复盘（合并，不丢失现有数据）">⤒ 导入</button>
+        <input type="file" id="importFile" accept=".json,application/json" style="display:none">
         <div class="progress-ring">
           <svg width="56" height="56">
             <circle class="bg-circle" cx="28" cy="28" r="24"/>
@@ -532,6 +675,8 @@ body{
 
   <!-- ============ 今日任务 ============ -->
   <div class="tab-content active" id="tab-tasks">
+   <div class="home-grid">
+    <div class="home-main">
     <div class="subtabs">
       <button class="subtab active" data-sub="daily">📅 今日任务</button>
       <button class="subtab" data-sub="monthly">📊 月度KPI</button>
@@ -560,6 +705,28 @@ body{
       <button class="btn-add" id="btnAddMonthly" style="margin-bottom:14px">+ 新增月度KPI</button>
       <div class="monthly-list" id="monthlyList"></div>
     </div>
+   </div><!-- /home-main -->
+   <aside class="home-side">
+     <div class="wstatus-card">
+       <div class="wstatus-title">📊 本周工作状态</div>
+       <div class="wstatus-metric">
+         <div class="ws-label">本周完成率</div>
+         <div class="ws-big" id="wsRate">--</div>
+         <div class="ws-cmp" id="wsRateCmp"></div>
+       </div>
+       <div class="wstatus-metric">
+         <div class="ws-label">本周任务量</div>
+         <div class="ws-big" id="wsVol">--</div>
+         <div class="ws-cmp" id="wsVolCmp"></div>
+       </div>
+       <div class="wstatus-metric">
+         <div class="ws-label">本月目标</div>
+         <div class="ws-big" id="wsGoal">--</div>
+         <div class="ws-sub" id="wsGoalSub"></div>
+       </div>
+     </div>
+   </aside>
+  </div><!-- /home-grid -->
   </div>
 
   <!-- ============ 品牌新品监控 ============ -->
@@ -568,8 +735,23 @@ body{
       <span>品牌新品监控</span>
       <span class="count" id="brandCount">10个品牌</span>
     </div>
+    <div class="monitor-bar">
+      <div class="monitor-stats" id="brandMonitorStats"></div>
+      <div class="monitor-filter">
+        <button class="mf active" data-filter="all">全部</button>
+        <button class="mf alert" data-filter="new">🔴 只看有新品</button>
+      </div>
+      <button class="btn-refresh-m" id="btnRefreshBrands">🔄 刷新监控</button>
+    </div>
+    <div class="timeline-wrap">
+      <div class="timeline-head" id="tlHead">
+        <h4>📌 更新时间线（持续累积，每次刷新自动并入最新动态）</h4>
+        <span class="timeline-toggle" id="tlToggle">收起 ▾</span>
+      </div>
+      <div class="timeline" id="brandTimeline"></div>
+    </div>
     <div style="margin-bottom:12px;font-size:12px;color:var(--text-sec)">
-      <b style="color:var(--red)">红</b>=官网有新品发布且你未确认该发布 ｜ <b style="color:var(--text-sec)">灰</b>=已确认或官网暂无新品 ｜ 仅红色品牌显示「确认已查」，点后变灰，<b>直到该品牌官网再次发布新品才重新变红</b>（不再每天清零）｜ 📅 每个新品标注官网发布时间 ｜ <b>周一~周六 09:00 自动刷新（周日不更新）</b>
+      <b style="color:var(--red)">红</b>=官网有新品发布且你未确认该发布 ｜ <b style="color:var(--text-sec)">灰</b>=已确认或官网暂无新品 ｜ 仅红色品牌显示「确认已查」，点后变灰，<b>直到该品牌官网再次发布新品才重新变红</b>（不再每天清零）｜ 每张品牌卡点「监控要点 ▾」可看本轮完整核查记录 ｜ <b>周一~周六 09:00 自动刷新（周日不更新）</b>
     </div>
     <div class="brand-grid" id="brandGrid"></div>
   </div>
@@ -718,7 +900,6 @@ body{
         <option value="order">订单管理</option>
         <option value="brand">品牌活动</option>
         <option value="bizdev">业务开发</option>
-        <option value="meeting-internal">项目会议·内部周会</option>
         <option value="meeting-customer">项目会议·客户会议</option>
         <option value="meeting-distributor">项目会议·经销商会议</option>
       </select>
@@ -790,9 +971,85 @@ body{
       <label>截止时间（精确到秒，默认本月最后一天）</label>
       <input type="datetime-local" id="monthlyDeadline" step="1">
     </div>
+    <div class="form-group form-check">
+      <input type="checkbox" id="monthlyInTotal" checked>
+      <label for="monthlyInTotal">计入套组总进度（参与月度总进度条的计算）</label>
+    </div>
     <div class="form-actions">
       <button class="btn-cancel" id="btnCancelMonthly">取消</button>
       <button class="btn-save" id="btnSaveMonthly">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 任务联动月度KPI弹窗 ============ -->
+<div class="modal-overlay" id="linkModal">
+  <div class="modal">
+    <h3>🔗 联动月度 KPI</h3>
+    <div class="form-group">
+      <label>选择月度 KPI</label>
+      <select id="linkKpi"></select>
+    </div>
+    <div class="form-group">
+      <label>指定子项目（可选）</label>
+      <select id="linkSub"></select>
+    </div>
+    <div class="form-group" id="linkStepWrap">
+      <label>贡献值（完成任务时为该 KPI 当前值 +N，默认 1；如"录入10个经销商"可填 10）</label>
+      <input type="number" id="linkStep" value="1" min="0" step="any">
+    </div>
+    <div class="form-hint">未指定子项目：完成任务直接累加到 KPI 的"当前值"，进度条随之增长。指定子项目：完成任务即自动勾选该子项目，由子项目完成度驱动进度条。两种都是可选的——不联动的任务照常独立运行。</div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnUnlink" style="display:none;margin-right:auto;background:#fef2f2;color:var(--red)">解除联动</button>
+      <button class="btn-cancel" id="btnCancelLink">取消</button>
+      <button class="btn-save" id="btnSaveLink">保存联动</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 月度KPI子项目弹窗 ============ -->
+<div class="modal-overlay" id="subItemModal">
+  <div class="modal">
+    <h3 id="subItemModalTitle">新增子项目</h3>
+    <div class="form-group">
+      <label>子项目名称</label>
+      <input type="text" id="subItemTitle" placeholder="如：录入 A 经销商 / 完成渠道回款方案">
+    </div>
+    <div class="form-group">
+      <label>权重（完成该子项目对 KPI 进度的贡献，默认 1；如代表 10 个经销商可填 10）</label>
+      <input type="number" id="subItemStep" value="1" min="0" step="any">
+    </div>
+    <div class="form-group">
+      <label>联动今日任务（可选）</label>
+      <select id="subItemTaskLink"></select>
+    </div>
+    <div class="form-hint">子项目是月度 KPI 的细分项，可勾选完成；也可联动某个今日任务——完成任务即自动勾选该子项目。月度 KPI 的进度条会随子项目完成度同步更新。</div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnCancelSubItem">取消</button>
+      <button class="btn-save" id="btnSaveSubItem">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 世界时钟：添加时区弹窗 ============ -->
+<div class="modal-overlay" id="zoneModal">
+  <div class="modal" style="max-width:420px">
+    <h3>🌐 添加世界时钟</h3>
+    <div class="form-group">
+      <label>选择城市 / 时区</label>
+      <select id="zoneSelect" class="wc-zone-select"></select>
+    </div>
+    <div class="form-group">
+      <label>自定义时区（可选，填 IANA 如 Europe/Berlin，或城市名如 慕尼黑）</label>
+      <input id="zoneTz" type="text" placeholder="留空则使用上方预设城市" maxlength="40">
+    </div>
+    <div class="form-group">
+      <label>显示名称（可选）</label>
+      <input id="zoneName" type="text" placeholder="留空则用城市名" maxlength="12">
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="btnCancelZone">取消</button>
+      <button class="btn-save" id="btnSaveZone">添加</button>
     </div>
   </div>
 </div>
@@ -1190,10 +1447,10 @@ function normalizeSalesPlan(){
 let tasks = JSON.parse(localStorage.getItem('liuye_tasks') || 'null') || DEFAULT_TASKS;
 // ============ 月度KPI 默认数据 ============
 const DEFAULT_MONTHLY = [
-  {id:1,title:'本月新开发经销商',current:3,target:8,unit:'家',pri:'iu'},
-  {id:2,title:'本月渠道回款',current:62,target:120,unit:'万元',pri:'inu'},
-  {id:3,title:'本月重点客户拜访',current:12,target:20,unit:'家',pri:'inu'},
-  {id:4,title:'本月竞品动态情报沉淀',current:5,target:10,unit:'条',pri:'nnu'}
+  {id:1,title:'本月新开发经销商',current:3,target:8,unit:'家',pri:'iu',subItems:[]},
+  {id:2,title:'本月渠道回款',current:62,target:120,unit:'万元',pri:'inu',subItems:[]},
+  {id:3,title:'本月重点客户拜访',current:12,target:20,unit:'家',pri:'inu',subItems:[]},
+  {id:4,title:'本月竞品动态情报沉淀',current:5,target:10,unit:'条',pri:'nnu',subItems:[]}
 ];
 let monthlyTasks = JSON.parse(localStorage.getItem('liuye_monthly_tasks') || 'null') || DEFAULT_MONTHLY;
 // 优先级映射：4 象限（重要·紧急 最高优先）
@@ -1219,8 +1476,11 @@ function migrateTasks(){
   monthlyTasks=monthlyTasks.map(m=>{
     if(!m.pri || ['high','mid','low'].includes(m.pri)) m.pri=m.pri==='high'?'iu':m.pri==='low'?'nnu':'inu';
     if(!m.deadline) m.deadline=defaultMonthlyDeadline();
+    if(!Array.isArray(m.subItems)) m.subItems=[];
+    m.subItems.forEach(s=>{ if(typeof s.step!=='number') s.step=1; if(typeof s.done!=='boolean') s.done=false; });
     return m;
   });
+  tasks.forEach(t=>{ if(!t.link) t.link=null; });
 }
 // 每日重置：已完成且非当天的任务归档清除（次日「今日任务」不再显示，复盘「今日完成」仅记当天）
 tasks = tasks.filter(t=> !(t.done && t.doneDate && t.doneDate!==getToday()));
@@ -1298,7 +1558,7 @@ function pullSync(){
     return false;
   }).catch(e=>{ console.error('pullSync 失败', e); return false; });
 }
-function rerenderAll(){ renderTasks(); renderMonthly(); renderBrands(); renderReview(); renderSOP(); renderSalesPlan(); }
+function rerenderAll(){ renderTasks(); renderMonthly(); renderBrands(); renderReview(); renderSOP(); renderSalesPlan(); renderWeekStatus(); }
 function setupSyncUI(){
   const btn=document.getElementById('btnSync');
   if(btn) btn.onclick=()=>{ const m=document.getElementById('syncModal'); if(m) m.classList.add('show'); };
@@ -1328,6 +1588,115 @@ function setupSyncUI(){
   Storage.prototype.setItem=function(k,v){ _set.call(this,k,v); if(typeof k==='string' && k.indexOf('liuye_')===0 && k!=='liuye_last_sync' && k!=='liuye_sync_token'){ try{ schedulePush(); }catch(e){} } };
 })();
 
+// ============ 世界时钟（左侧岛台） ============
+const ZONE_PRESETS = [
+  {city:'北京', tz:'Asia/Shanghai'},
+  {city:'香港', tz:'Asia/Hong_Kong'},
+  {city:'东京', tz:'Asia/Tokyo'},
+  {city:'首尔', tz:'Asia/Seoul'},
+  {city:'新加坡', tz:'Asia/Singapore'},
+  {city:'台北', tz:'Asia/Taipei'},
+  {city:'曼谷', tz:'Asia/Bangkok'},
+  {city:'迪拜', tz:'Asia/Dubai'},
+  {city:'莫斯科', tz:'Europe/Moscow'},
+  {city:'巴黎', tz:'Europe/Paris'},
+  {city:'柏林', tz:'Europe/Berlin'},
+  {city:'伦敦', tz:'Europe/London'},
+  {city:'纽约', tz:'America/New_York'},
+  {city:'洛杉矶', tz:'America/Los_Angeles'},
+  {city:'圣保罗', tz:'America/Sao_Paulo'},
+  {city:'悉尼', tz:'Australia/Sydney'}
+];
+const ZONE_KEY='liuye_world_zones';
+function loadZones(){ try{return JSON.parse(localStorage.getItem(ZONE_KEY)||'[]');}catch(e){return [];} }
+function saveZones(z){ try{localStorage.setItem(ZONE_KEY,JSON.stringify(z));}catch(e){} }
+// 城市名（中/英）→ IANA 时区 映射，覆盖常见城市，便于自定义输入
+const CITY_MAP={
+  '慕尼黑':'Europe/Berlin','munich':'Europe/Berlin','柏林':'Europe/Berlin','berlin':'Europe/Berlin','法兰克福':'Europe/Berlin','frankfurt':'Europe/Berlin',
+  '巴黎':'Europe/Paris','paris':'Europe/Paris','伦敦':'Europe/London','london':'Europe/London',
+  '纽约':'America/New_York','new york':'America/New_York','洛杉矶':'America/Los_Angeles','la':'America/Los_Angeles','旧金山':'America/Los_Angeles','san francisco':'America/Los_Angeles',
+  '芝加哥':'America/Chicago','chicago':'America/Chicago','多伦多':'America/Toronto','toronto':'America/Toronto','温哥华':'America/Vancouver','vancouver':'America/Vancouver',
+  '东京':'Asia/Tokyo','tokyo':'Asia/Tokyo','首尔':'Asia/Seoul','seoul':'Asia/Seoul',
+  '北京':'Asia/Shanghai','上海':'Asia/Shanghai','beijing':'Asia/Shanghai','shanghai':'Asia/Shanghai',
+  '香港':'Asia/Hong_Kong','hong kong':'Asia/Hong_Kong','台北':'Asia/Taipei','taipei':'Asia/Taipei',
+  '新加坡':'Asia/Singapore','singapore':'Asia/Singapore','曼谷':'Asia/Bangkok','bangkok':'Asia/Bangkok',
+  '悉尼':'Australia/Sydney','sydney':'Australia/Sydney','迪拜':'Asia/Dubai','dubai':'Asia/Dubai',
+  '莫斯科':'Europe/Moscow','moscow':'Europe/Moscow','圣保罗':'America/Sao_Paulo','sao paulo':'America/Sao_Paulo',
+  '罗马':'Europe/Rome','rome':'Europe/Rome','米兰':'Europe/Rome','milan':'Europe/Rome','马德里':'Europe/Madrid','madrid':'Europe/Madrid',
+  '苏黎世':'Europe/Zurich','zurich':'Europe/Zurich','日内瓦':'Europe/Zurich','geneva':'Europe/Zurich','维也纳':'Europe/Vienna','vienna':'Europe/Vienna',
+  '孟买':'Asia/Kolkata','mumbai':'Asia/Kolkata','雅加达':'Asia/Jakarta','jakarta':'Asia/Jakarta'
+};
+function resolveTz(input){
+  const s=(input||'').trim(); const low=s.toLowerCase();
+  if(CITY_MAP[low]) return CITY_MAP[low];
+  if(CITY_MAP[s]) return CITY_MAP[s];
+  if(/^[A-Za-z_]+\/[A-Za-z_]+(?:\/[A-Za-z_]+)?$/.test(s)) return s; // 已是 IANA 时区
+  return s; // 交给校验
+}
+function isValidTz(tz){ try{ new Intl.DateTimeFormat('en-US',{timeZone:tz}); return true; }catch(e){ return false; } }
+function zonedParts(tz){
+  try{
+    const p=new Intl.DateTimeFormat('zh-CN',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date());
+    const m={}; p.forEach(x=>m[x.type]=x.value);
+    return {h:m.hour||'00',m:m.minute||'00',s:m.second||'00'};
+  }catch(e){ return {h:'--',m:'--',s:'--'}; }
+}
+function zonedDateLabel(tz){
+  try{
+    const p=new Intl.DateTimeFormat('zh-CN',{timeZone:tz,month:'long',day:'numeric',weekday:'short'}).formatToParts(new Date());
+    const m={}; p.forEach(x=>m[x.type]=x.value);
+    return (m.month||'')+(m.day||'')+' '+(m.weekday||'');
+  }catch(e){ return ''; }
+}
+function pad2(n){return String(n).padStart(2,'0');}
+function localParts(){const d=new Date();return {h:pad2(d.getHours()),m:pad2(d.getMinutes()),s:pad2(d.getSeconds())};}
+function localDateLabel(){const d=new Date();const wk=['周日','周一','周二','周三','周四','周五','周六'][d.getDay()];return (d.getMonth()+1)+'月'+d.getDate()+'日 '+wk;}
+function renderWorldClock(){
+  const lt=document.getElementById('wcLocalTime'); if(lt){const p=localParts();lt.textContent=p.h+':'+p.m+':'+p.s;}
+  const ld=document.getElementById('wcLocalDate'); if(ld)ld.textContent='本地 · '+localDateLabel();
+  const list=document.getElementById('wcList'); if(!list)return;
+  const zones=loadZones();
+  if(!zones.length){ list.innerHTML='<div class="wc-empty">点击「+ 添加时区」添加城市</div>'; return; }
+  list.innerHTML=zones.map((z,i)=>{
+    const p=zonedParts(z.tz);
+    return '<div class="wc-row" data-zi="'+i+'">'
+      +'<div class="wc-city"><span class="wc-name">'+esc(z.city)+'</span><span class="x" data-zdel="'+i+'" title="删除">×</span></div>'
+      +'<div class="wc-tz">'+p.h+':'+p.m+':'+p.s+'</div></div>';
+  }).join('');
+}
+function initWorldClock(){
+  renderWorldClock();
+  setInterval(renderWorldClock,1000);
+  const addBtn=document.getElementById('btnAddZone');
+  const modal=document.getElementById('zoneModal');
+  const sel=document.getElementById('zoneSelect');
+  if(sel)sel.innerHTML=ZONE_PRESETS.map(z=>'<option value="'+z.tz+'">'+z.city+'（'+z.tz.split('/').pop().replace(/_/g,' ')+'）</option>').join('');
+  if(addBtn)addBtn.onclick=function(){ const nm=document.getElementById('zoneName'); if(nm)nm.value=''; if(modal)modal.classList.add('show'); };
+  const cancel=document.getElementById('btnCancelZone'); if(cancel)cancel.onclick=function(){ if(modal)modal.classList.remove('show'); };
+  if(modal)modal.onclick=function(e){ if(e.target===modal)modal.classList.remove('show'); };
+  const save=document.getElementById('btnSaveZone');
+  if(save)save.onclick=function(){
+    const customTz=(document.getElementById('zoneTz').value||'').trim();
+    let tz, preset=null, srcLabel='';
+    if(customTz){
+      tz=resolveTz(customTz); srcLabel=customTz;
+      if(!isValidTz(tz)){ alert('无法识别时区「'+customTz+'」\n请用标准 IANA 时区（如 Europe/Berlin）或支持的城市名（如 慕尼黑、纽约、东京）。'); return; }
+    } else {
+      tz=sel.value; preset=ZONE_PRESETS.find(z=>z.tz===tz);
+    }
+    let name=(document.getElementById('zoneName').value||'').trim();
+    if(!name) name = preset ? preset.city : (srcLabel||tz);
+    const zones=loadZones();
+    if(!zones.some(z=>z.tz===tz)){ zones.push({city:name,tz}); saveZones(zones); }
+    if(modal)modal.classList.remove('show'); renderWorldClock();
+  };
+  const list=document.getElementById('wcList');
+  if(list)list.addEventListener('click',function(e){
+    const x=e.target.closest('[data-zdel]'); if(!x)return;
+    const i=Number(x.dataset.zdel); const zones=loadZones(); zones.splice(i,1); saveZones(zones); renderWorldClock();
+  });
+}
+
 function init(){
   // 优先绑定模块切换：即使后续某个模块在移动端渲染异常，导航也不受影响
   bindTabs();
@@ -1349,7 +1718,9 @@ function init(){
   bindReviewSubtabs();
   bindTaskSubtabs();
   bindMonthly();
+  bindLinkModals();
   bindSalesPlan();
+  initWorldClock();
   bindStatic(); bindTaskList(); bindSopList();
   // 跨天守护：标签页一直开着时，到零点自动归档当日统计、清空已完成(已入历史)、重置品牌确认(变灰)
   let _watchDate=getToday();
@@ -1383,6 +1754,80 @@ function bindBrandChecks(){
 }
 
 // 静态按钮：统一用 addEventListener 绑定（避免内联 onclick 在受限环境下被禁用）
+// 一键导出：从浏览器本地实时收集全部任务/归档/复盘/KPI，生成 Markdown 下载
+function exportAll(){
+  try{
+    const st={};
+    for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i); if(k&&k.indexOf('liuye_')===0) st[k]=localStorage.getItem(k);}
+    const parse=s=>{try{return JSON.parse(s);}catch(e){return null;}};
+    const tasks=parse(st.liuye_tasks)||[];
+    const archive=parse(st.liuye_done_archive)||{};
+    const monthly=parse(st.liuye_monthly_tasks)||[];
+    const reviews=[];
+    for(const k in st){const m=k.match(/^liuye_review_(\d{4}-\d{2}-\d{2})$/); if(m){const r=parse(st[k])||{}; reviews.push({date:m[1],pending:r.pending||'',learn:r.learn||'',diary:r.diary||''});}}
+    reviews.sort((a,b)=>b.date.localeCompare(a.date));
+    const archDates=Object.keys(archive).sort((a,b)=>b.localeCompare(a));
+    const priN=p=>(PRI_MAP[p]&&PRI_MAP[p].label)||(p||'');
+    const catN=c=>catName(c)||(c||'');
+    const fmtDL=d=>{ if(!d)return ''; if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d; const n=Number(d); if(!isNaN(n)&&String(d).length>=10)return new Date(n).toLocaleString('zh-CN'); return String(d); };
+    let md='';
+    md+='# 刘晔工作台 · 任务与复盘导出\n\n';
+    md+='> 导出时间：'+new Date().toLocaleString('zh-CN')+'  \n';
+    md+='> 数据来源：本机浏览器实时存储（含已完成的全部历史）\n\n';
+    md+='## 📊 数据概览\n\n';
+    md+='- 当前今日任务：**'+tasks.length+'** 条\n';
+    md+='- 历史已完成任务（按天归档）：**'+archDates.reduce((s,d)=>s+archive[d].length,0)+'** 项，覆盖 **'+archDates.length+'** 天\n';
+    md+='- 每日复盘记录：**'+reviews.length+'** 天\n';
+    md+='- 月度 KPI：**'+monthly.length+'** 条\n\n---\n\n';
+    md+='## 📌 一、今日任务（当前列表）\n\n';
+    if(tasks.length){tasks.forEach((t,i)=>{md+='### '+(i+1)+'. '+t.title+(t.done?' ✅（已完成）':'')+'\n'; md+='- 分类：'+catN(t.cat)+'　优先级：'+priN(t.pri)+'\n'; if(t.deadline)md+='- 截止：'+fmtDL(t.deadline)+'\n'; if(t.doneDate)md+='- 完成日期：'+t.doneDate+'\n'; if(t.notes)md+='- 备注：'+t.notes+'\n'; if(t.link)md+='- 联动月度KPI：KPI#'+t.link.kpiId+(t.link.subItemId?(' / 子项目#'+t.link.subItemId):'')+(t.link.delta?('（贡献 '+t.link.delta+'）'):'')+'\n'; md+='\n';});}else md+='_（暂无）_\n\n';
+    md+='---\n\n## ✅ 二、历史已完成任务（按天归档）\n\n';
+    if(archDates.length){archDates.forEach(d=>{const list=archive[d]; md+='### '+d+'（'+list.length+' 项）\n\n'; list.forEach(t=>{md+='- **'+t.title+'**　〔'+catN(t.cat)+'·'+priN(t.pri)+'］'; if(t.notes)md+='　📝'+t.notes; md+='\n';}); md+='\n';});}else md+='_（暂无归档记录）_\n\n';
+    md+='---\n\n## 📖 三、每日复盘记录\n\n';
+    if(reviews.length){reviews.forEach(r=>{md+='### '+r.date+'\n'; if(r.pending.trim())md+='**⚠️ 未完成及原因**\n> '+r.pending.trim().replace(/\n/g,'\n> ')+'\n\n'; if(r.learn.trim())md+='**💡 关键收获**\n> '+r.learn.trim().replace(/\n/g,'\n> ')+'\n\n'; if(r.diary.trim())md+='**📔 工作日记**\n> '+r.diary.trim().replace(/\n/g,'\n> ')+'\n\n'; if(!r.pending.trim()&&!r.learn.trim()&&!r.diary.trim())md+='_（当天无文字记录）_\n\n';});}else md+='_（暂无复盘记录）_\n\n';
+    md+='---\n\n## 🎯 四、月度 KPI\n\n';
+    if(monthly.length){monthly.forEach((m,i)=>{md+='### '+(i+1)+'. '+m.title+'\n'; md+='- 进度：'+m.current+' / '+m.target+' '+(m.unit||'')+'（'+(m.target>0?Math.round(m.current/m.target*100):0)+'%）\n'; md+='- 优先级：'+priN(m.pri)+'　截止：'+fmtDL(m.deadline)+'\n'; if(m.subItems&&m.subItems.length){md+='- 子项目：\n'; m.subItems.forEach(s=>{md+='  - '+(s.done?'✅':'○')+' '+s.title+(s.weight?('（权重 '+s.weight+'）'):'')+(s.link?('　🔗任务#'+s.link.taskId):'')+'\n';});} md+='\n';});}else md+='_（暂无）_\n\n';
+    const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='刘晔工作台_导出_'+new Date().toISOString().slice(0,10)+'.md';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
+    alert('✅ 已导出全部任务与复盘（Markdown 文件已下载）');
+  }catch(e){ console.error(e); alert('导出失败：'+(e&&e.message?e.message:e)); }
+}
+
+// 一键导入：从备份文件（导出格式或云同步格式）合并写入浏览器本地，不丢失现有数据
+function importAll(file){
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(){
+    try{
+      const data=JSON.parse(reader.result);
+      const parseSafe=s=>{try{return JSON.parse(s);}catch(e){return null;}};
+      let tasks, archive, reviews, monthly, customCats;
+      if(data && data.state){ // 云同步格式 {state:{liuye_*}}
+        const st=data.state;
+        tasks=parseSafe(st.liuye_tasks)||[]; archive=parseSafe(st.liuye_done_archive)||{}; monthly=parseSafe(st.liuye_monthly_tasks)||[]; customCats=parseSafe(st.liuye_custom_cats)||[];
+        reviews=[]; for(const k in st){const m=k.match(/^liuye_review_(\d{4}-\d{2}-\d{2})$/); if(m){const r=parseSafe(st[k])||{}; reviews.push({date:m[1],pending:r.pending||'',learn:r.learn||'',diary:r.diary||''});}}
+      }else{ // 本工作台导出格式
+        tasks=data.currentTasks||[]; archive=data.archivedTasks||{}; reviews=data.reviews||[]; monthly=data.monthlyKPI||[]; customCats=data.customCats||[];
+      }
+      mergeAndSave(tasks, archive, reviews, monthly, customCats);
+      try{ rerenderAll(); }catch(e){}
+      alert('✅ 导入完成：今日任务 '+tasks.length+' 条 · 归档 '+Object.keys(archive).length+' 天 · 复盘 '+reviews.length+' 天 · 月度KPI '+monthly.length+' 条（已与本地合并，不会丢失现有数据）');
+    }catch(e){ console.error(e); alert('导入失败：文件格式不正确（'+(e&&e.message?e.message:e)+'）'); }
+  };
+  reader.onerror=function(){ alert('读取文件失败'); };
+  reader.readAsText(file);
+}
+function mergeAndSave(tasks, archive, reviews, monthly, customCats){
+  const parseSafe=s=>{try{return JSON.parse(s);}catch(e){return null;}};
+  const cur=parseSafe(localStorage.getItem('liuye_tasks'))||[]; const map={}; cur.forEach(t=>{if(t&&t.id!=null)map[t.id]=t;}); (tasks||[]).forEach(t=>{if(t&&t.id!=null)map[t.id]=t;}); localStorage.setItem('liuye_tasks',JSON.stringify(Object.values(map)));
+  const curA=parseSafe(localStorage.getItem('liuye_done_archive'))||{}; for(const d in (archive||{})){ const arr=archive[d]||[]; const seen=new Set((curA[d]||[]).map(t=>(t.title||'')+'|'+(t.cat||''))); if(!curA[d])curA[d]=[]; arr.forEach(t=>{const k=(t.title||'')+'|'+(t.cat||''); if(!seen.has(k)){seen.add(k); curA[d].push(t);}}); } localStorage.setItem('liuye_done_archive',JSON.stringify(curA));
+  (reviews||[]).forEach(r=>{ if(r&&r.date) localStorage.setItem('liuye_review_'+r.date, JSON.stringify({pending:r.pending||'',learn:r.learn||'',diary:r.diary||''})); });
+  const curM=parseSafe(localStorage.getItem('liuye_monthly_tasks'))||[]; const mm={}; curM.forEach(m=>{if(m&&m.id!=null)mm[m.id]=m;}); (monthly||[]).forEach(m=>{if(m&&m.id!=null)mm[m.id]=m;}); localStorage.setItem('liuye_monthly_tasks',JSON.stringify(Object.values(mm)));
+  if(customCats&&customCats.length){ const curC=parseSafe(localStorage.getItem('liuye_custom_cats'))||[]; const cv=new Set(curC.map(c=>c.value)); customCats.forEach(c=>{if(c&&c.value&&!cv.has(c.value)){curC.push(c); cv.add(c.value);}}); localStorage.setItem('liuye_custom_cats',JSON.stringify(curC)); }
+}
+
 function bindStatic(){
   const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
   on('btnAdd',openTaskModal);
@@ -1394,6 +1839,9 @@ function bindStatic(){
   on('btnAddCat',addCustomCat);
   on('btnCancelDayDiary',()=>document.getElementById('dayDiaryModal').classList.remove('show'));
   on('btnSaveDayDiary',saveDayDiary);
+  on('btnExport',exportAll);
+  const imp=document.getElementById('btnImport'); if(imp)imp.addEventListener('click',function(){const f=document.getElementById('importFile'); if(f)f.click();});
+  const impFile=document.getElementById('importFile'); if(impFile)impFile.addEventListener('change',function(e){ const f=e.target.files&&e.target.files[0]; if(f)importAll(f); if(e.target)e.target.value=''; });
   on('btnDownloadReport',downloadReport);
   on('btnCopyReport',copyReport);
   const cat=document.getElementById('taskCatInput');
@@ -1411,6 +1859,7 @@ function bindTaskList(){
     if(act==='toggle')toggleTask(id);
     else if(act==='edit')editTask(id);
     else if(act==='del')delTask(id);
+    else if(act==='link')openLinkModal(id);
   });
 }
 
@@ -1494,6 +1943,8 @@ function renderTasks(){
     const c=catMap[t.cat]||['其他',''];
     const p=PRI_MAP[t.pri]||PRI_MAP.inu;
     const ddl=ddlInfo(t.deadline);
+    const linkBadge=t.link?`<span class="task-link-badge" title="已联动月度KPI">🔗 ${esc(linkedKpiTitle(t.link))}</span>`:'';
+    const linkBtn=t.link?'<span class="task-link on" data-act="link" data-id="'+t.id+'" title="已联动：点击修改/解除">🔗</span>':'<span class="task-link" data-act="link" data-id="'+t.id+'" title="联动月度KPI">🔗</span>';
     return `<div class="task-item ${t.done?'done':''}">
       <div class="task-check ${t.done?'checked':''}" data-act="toggle" data-id="${t.id}"></div>
       <div class="task-body">
@@ -1503,9 +1954,11 @@ function renderTasks(){
           <span class="task-priority ${p.cls}">${p.label}</span>
           <span class="task-time">📅 ${fmtDeadline(t.deadline)}</span>
           <span class="${ddl.cls}">⏳ ${ddl.text}</span>
+          ${linkBadge}
         </div>
         ${t.notes?`<div class="task-notes">📝 <b>纪要：</b>${t.notes}</div>`:''}
       </div>
+      ${linkBtn}
       <span class="task-edit" data-act="edit" data-id="${t.id}" title="编辑">✎</span>
       <span class="task-del" data-act="del" data-id="${t.id}" title="删除">×</span>
     </div>`;
@@ -1519,14 +1972,27 @@ function toggleTask(id){
     t.done=!t.done;
     if(t.done){t.doneDate=getToday(); archiveTask(t,t.doneDate);}
     else {t.doneDate=null; unarchiveTask(id);}
+    applyTaskLinkDelta(t, t.done);
   }
-  renderTasks(); renderReviewStats(); renderReviewTasks();
+  renderTasks(); renderReviewStats(); renderReviewTasks(); renderMonthly();
 }
 
 function delTask(id){
+  const t=tasks.find(x=>x.id===id);
+  if(t){
+    // 反向清理联动：若任务已完成且联动的是数值型KPI，回退其当前值；解除子项目指向
+    if(t.done && t.link && t.link.kpiId){
+      const kpi=getKpi(t.link.kpiId);
+      if(kpi && !t.link.subId){ kpi.current=Math.max(0,(Number(kpi.current)||0)-(t.link.step||1)); saveMonthly(); }
+    }
+    if(t.link && t.link.kpiId){
+      const kpi=getKpi(t.link.kpiId);
+      if(kpi){(kpi.subItems||[]).forEach(s=>{ if(s.linkedTaskId===id) s.linkedTaskId=null; }); saveMonthly();}
+    }
+  }
   unarchiveTask(id);
   tasks=tasks.filter(x=>x.id!==id);
-  renderTasks(); renderReviewStats(); renderReviewTasks();
+  renderTasks(); renderReviewStats(); renderReviewTasks(); renderMonthly();
 }
 
 // 完成的任务按日期归档（用于历史查看与周复盘）
@@ -1604,43 +2070,158 @@ function updateProgress(){
   circ.style.strokeDashoffset=150.8*(1-pct/100);
 }
 
+// ============ 月度KPI 套组：总进度 + 本周工作状态 ============
+function suiteIncludedCount(){ return monthlyTasks.filter(m=>m.inTotal!==false).length; }
+// 总进度只统计「计入总进度」的细分KPI（inTotal!==false）
+function suiteTotalPct(){
+  const inc=monthlyTasks.filter(m=>m.inTotal!==false);
+  if(!inc.length) return 0;
+  let sum=0; inc.forEach(m=>sum+=kpiProgress(m).pct);
+  return Math.round(sum/inc.length);
+}
+// 把单个 KPI 的完成度设定为 pct%（用于总进度反向联动到各细分）
+function setKpiProgressTo(kpi,pct){
+  const subs=kpi.subItems||[];
+  if(subs.length){
+    const n=Math.round(subs.length*pct/100);
+    subs.forEach((s,i)=>{
+      const want=i<n;
+      if(s.done!==want){
+        s.done=want;
+        if(s.linkedTaskId){
+          const tk=tasks.find(t=>t.id===s.linkedTaskId);
+          if(tk){ tk.done=want; if(want){tk.doneDate=getToday();archiveTask(tk,tk.doneDate);}else{tk.doneDate=null;unarchiveTask(tk.id);} saveTasks(); }
+        }
+      }
+    });
+  }else{
+    const tgt=Number(kpi.target)||0;
+    kpi.current=Math.max(0,Math.min(tgt,Math.round(tgt*pct/100)));
+  }
+}
+// 设定套组总进度 → 仅「计入总进度」的细分目标同步到该完成度（不计入项保持不变）
+function setSuiteTotal(pct){
+  const inc=monthlyTasks.filter(m=>m.inTotal!==false);
+  if(!inc.length)return;
+  inc.forEach(m=>setKpiProgressTo(m,pct));
+  saveMonthly(); renderMonthly();
+}
+// 计算某一周（周一 mon 起）的完成统计
+function computeWeekStats(mon){
+  const today=getToday();
+  let done=0,total=0;
+  for(let i=0;i<7;i++){
+    const d=new Date(mon); d.setDate(mon.getDate()+i); const ds=fmtDate(d);
+    let cd,ct;
+    if(ds===today){ cd=tasks.filter(t=>t.done&&t.doneDate===today).length; ct=tasks.length; }
+    else { const a=getArchive()[ds]||[]; cd=a.length; const st=JSON.parse(localStorage.getItem('liuye_day_stats')||'{}')[ds]; ct=(st&&st.total)?st.total:a.length; }
+    done+=cd; total+=ct;
+  }
+  return {done,total,pct:total>0?Math.round(done/total*100):0};
+}
+// 本周工作状态：完成率/任务量环比上周 + 本月目标（=套组总进度）
+function renderWeekStatus(){
+  const elRate=document.getElementById('wsRate'); if(!elRate)return;
+  const {mon}=getWeekRange();
+  const lastMon=new Date(mon); lastMon.setDate(mon.getDate()-7);
+  const cur=computeWeekStats(mon), prev=computeWeekStats(lastMon);
+  elRate.textContent=cur.pct+'%';
+  const rc=document.getElementById('wsRateCmp');
+  if(prev.total>0){ const d=cur.pct-prev.pct; rc.className='ws-cmp '+(d>0?'up':d<0?'down':'flat'); rc.textContent=(d>0?'▲ 较上周 +':d<0?'▼ 较上周 ':'— 与上周持平 ')+Math.abs(d)+'pp'; }
+  else { rc.className='ws-cmp flat'; rc.textContent='— 上周无数据'; }
+  const elVol=document.getElementById('wsVol'); elVol.textContent=cur.total+' 项';
+  const vc=document.getElementById('wsVolCmp');
+  if(prev.total>0){ const d=cur.total-prev.total; const pc=prev.total>0?Math.round(d/prev.total*100):0; vc.className='ws-cmp '+(d>0?'up':d<0?'down':'flat'); vc.textContent=(d>0?'▲ 较上周 +':d<0?'▼ 较上周 ':'— 与上周持平 ')+Math.abs(pc)+'%'; }
+  else { vc.className='ws-cmp flat'; vc.textContent='— 上周无数据'; }
+  const goal=suiteTotalPct();
+  const elGoal=document.getElementById('wsGoal'); elGoal.textContent=goal+'%'; elGoal.className='ws-big'+(goal>=100?' up':'');
+  document.getElementById('wsGoalSub').textContent='月度套组目标（'+suiteIncludedCount()+' 项细分计入）';
+}
+
 // ============ 月度KPI ============
 function saveMonthly(){localStorage.setItem('liuye_monthly_tasks',JSON.stringify(monthlyTasks))}
+
+// 单个细分KPI 卡片（counted=是否计入总进度，控制卡片切换按钮状态）
+function monthlyCard(m){
+  const p=PRI_MAP[m.pri]||PRI_MAP.inu;
+  const prog=kpiProgress(m);
+  const ddl=ddlInfo(m.deadline);
+  const counted=m.inTotal!==false;
+  let fillColor = prog.pct>=100?'var(--green)':'linear-gradient(90deg,var(--primary),#60a5fa)';
+  let subHtml='';
+  if(prog.mode==='checklist'){
+    const subs=m.subItems||[];
+    subHtml=`<div class="subitem-wrap">
+      <div class="subitem-head"><span>子项目（${prog.done}/${prog.total}）</span><button class="subitem-add" data-kact="addsub" data-id="${m.id}">+ 子项目</button></div>
+      ${subs.length?subs.map(s=>`<div class="subitem-row ${s.done?'done':''}">
+        <div class="subitem-check ${s.done?'checked':''}" data-kact="togglesub" data-kid="${m.id}" data-sid="${s.id}"></div>
+        <div class="subitem-main">
+          <div class="subitem-title">${esc(s.title)}</div>
+          <div class="subitem-meta">
+            <span class="subitem-step">权重 ${s.step||1}</span>
+            ${s.linkedTaskId?`<span class="task-link-badge" title="已联动今日任务">🔗 今日任务</span>`:''}
+          </div>
+        </div>
+        <span class="task-link" data-kact="linksub" data-kid="${m.id}" data-sid="${s.id}" title="联动今日任务">🔗</span>
+        <span class="task-edit" data-kact="editsub" data-kid="${m.id}" data-sid="${s.id}" title="编辑子项目">✎</span>
+        <span class="task-del" data-kact="delsub" data-kid="${m.id}" data-sid="${s.id}" title="删除子项目">×</span>
+      </div>`).join(''):'<div class="subitem-empty">暂无子项目，点「+ 子项目」把该 KPI 拆成可勾选的细分项</div>'}
+    </div>`;
+  }
+  return `<div class="monthly-item ${counted?'':'kpi-excluded'}">
+    <div class="monthly-head">
+      <div class="monthly-title">${esc(m.title)}</div>
+      <div class="monthly-actions">
+        <span class="task-edit" data-mact="edit" data-id="${m.id}" title="二次修改">✎</span>
+        <span class="task-del" data-mact="del" data-id="${m.id}" title="删除">×</span>
+      </div>
+    </div>
+    <div class="monthly-toggle-row">
+      <span class="task-toggle ${counted?'on':'off'}" data-mact="toggleTotal" data-id="${m.id}" title="切换是否计入套组总进度（计入则参与总进度条计算）">${counted?'✓ 计入总进度':'○ 不计入总进度'}</span>
+    </div>
+    <div class="monthly-progress">
+      <div class="progress-track"><div class="progress-fill" style="width:${prog.pct}%;background:${fillColor}"></div></div>
+      <div class="progress-text">${prog.mode==='checklist'?`已完成 ${prog.done}/${prog.total} 项子目标 · 完成度 ${prog.pct}%`:`${prog.cur} / ${prog.tgt} ${esc(m.unit||'')} · 完成度 ${prog.pct}%`}</div>
+    </div>
+    ${subHtml}
+    <div class="monthly-meta">
+      <span class="task-priority ${p.cls}">${p.label}</span>
+      <span class="task-time">📅 ${fmtDeadline(m.deadline)}</span>
+      <span class="${ddl.cls}">⏳ ${ddl.text}</span>
+    </div>
+  </div>`;
+}
 
 function renderMonthly(){
   let list=document.getElementById('monthlyList');
   if(!list)return;
+  renderWeekStatus();
   if(monthlyTasks.length===0){
     list.innerHTML='<div class="empty"><p>暂无月度KPI，点击「+ 新增月度KPI」添加</p></div>';
     updateMonthlySummary(); return;
   }
-  // 排序：优先级权重升序（重要·紧急 最前）
-  let arr=[...monthlyTasks].sort((a,b)=>(PRI_MAP[a.pri]||PRI_MAP.inu).w-(PRI_MAP[b.pri]||PRI_MAP.inu).w);
-  list.innerHTML=arr.map(m=>{
-    const p=PRI_MAP[m.pri]||PRI_MAP.inu;
-    let target=Number(m.target)||0, cur=Number(m.current)||0;
-    let pct=target>0?Math.max(0,Math.min(100,Math.round(cur/target*100))):0;
-    const ddl=ddlInfo(m.deadline);
-    let fillColor = pct>=100?'var(--green)':'linear-gradient(90deg,var(--primary),#60a5fa)';
-    return `<div class="monthly-item">
-      <div class="monthly-head">
-        <div class="monthly-title">${esc(m.title)}</div>
-        <div class="monthly-actions">
-          <span class="task-edit" data-mact="edit" data-id="${m.id}" title="二次修改">✎</span>
-          <span class="task-del" data-mact="del" data-id="${m.id}" title="删除">×</span>
-        </div>
-      </div>
-      <div class="monthly-progress">
-        <div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${fillColor}"></div></div>
-        <div class="progress-text">${cur} / ${target} ${esc(m.unit||'')} · 完成度 ${pct}%</div>
-      </div>
-      <div class="monthly-meta">
-        <span class="task-priority ${p.cls}">${p.label}</span>
-        <span class="task-time">📅 ${fmtDeadline(m.deadline)}</span>
-        <span class="${ddl.cls}">⏳ ${ddl.text}</span>
-      </div>
+  // 分组排序：
+  // ① 计入总进度的细分在「上层」；组内 进度<100 的未完成项顶到最前，进度=100% 的已完成项沉到计入组底部
+  // ② 不计入总进度的细分（inTotal===false）整体放在「下层」
+  const byPri=(a,b)=>(PRI_MAP[a.pri]||PRI_MAP.inu).w-(PRI_MAP[b.pri]||PRI_MAP.inu).w;
+  const inc=monthlyTasks.filter(m=>m.inTotal!==false).slice().sort((a,b)=>{
+    const d=(kpiProgress(a).pct>=100?1:0)-(kpiProgress(b).pct>=100?1:0);
+    return d!==0?d:byPri(a,b);
+  });
+  const exc=monthlyTasks.filter(m=>m.inTotal===false).slice().sort(byPri);
+  const total=suiteTotalPct();
+  const tFill=total>=100?'var(--green)':'linear-gradient(90deg,var(--primary),#60a5fa)';
+  const incCount=inc.length;
+  const totalCard=`<div class="suite-total">
+      <div class="suite-head"><div class="suite-title">🎯 月度KPI 套组总进度</div><div class="suite-pct">${total}%</div></div>
+      <div class="progress-track"><div class="progress-fill" style="width:${total}%;background:${tFill}"></div></div>
+      <div class="suite-sub">${incCount} 项细分计入总进度 · 平均完成度（任一计入项变动，总进度同步联动；卡片可切换计入/不计入）</div>
+      <div class="suite-set"><label>设定总进度</label><input type="number" id="suiteTotalInput" min="0" max="100" value="${total}"> %<button class="btn-add" data-mact="settotal" style="padding:5px 12px;font-size:12px">应用</button></div>
     </div>`;
-  }).join('');
+  let html=totalCard;
+  if(inc.length){ html+='<div class="kpi-group-sep">计入总进度（'+inc.length+'）</div>'+inc.map(m=>monthlyCard(m)).join(''); }
+  if(exc.length){ html+='<div class="kpi-group-sep">不计入总进度（'+exc.length+'）</div>'+exc.map(m=>monthlyCard(m)).join(''); }
+  list.innerHTML=html;
   updateMonthlySummary();
 }
 
@@ -1660,6 +2241,7 @@ function editMonthly(id){
   document.getElementById('monthlyUnit').value=m.unit||'';
   document.getElementById('monthlyPri').value=m.pri;
   document.getElementById('monthlyDeadline').value=m.deadline;
+  document.getElementById('monthlyInTotal').checked = m.inTotal!==false;
   document.getElementById('monthlyModal').classList.add('show');
 }
 function resetMonthlyFields(){
@@ -1669,6 +2251,7 @@ function resetMonthlyFields(){
   document.getElementById('monthlyUnit').value='';
   document.getElementById('monthlyPri').value='inu';
   document.getElementById('monthlyDeadline').value=defaultMonthlyDeadline();
+  document.getElementById('monthlyInTotal').checked=true;
 }
 function closeMonthlyModal(){editingMonthlyId=null;document.getElementById('monthlyModal').classList.remove('show');resetMonthlyFields()}
 function saveMonthlyTask(){
@@ -1679,11 +2262,12 @@ function saveMonthlyTask(){
   let unit=document.getElementById('monthlyUnit').value.trim();
   let pri=document.getElementById('monthlyPri').value;
   let deadline=document.getElementById('monthlyDeadline').value||defaultMonthlyDeadline();
+  let inTotal=document.getElementById('monthlyInTotal').checked;
   if(editingMonthlyId){
     let m=monthlyTasks.find(x=>x.id===editingMonthlyId);
-    if(m){m.title=title;m.current=current;m.target=target;m.unit=unit;m.pri=pri;m.deadline=deadline;}
+    if(m){m.title=title;m.current=current;m.target=target;m.unit=unit;m.pri=pri;m.deadline=deadline;m.inTotal=inTotal;}
   }else{
-    monthlyTasks.push({id:Date.now(),title,current,target,unit,pri,deadline});
+    monthlyTasks.push({id:Date.now(),title,current,target,unit,pri,deadline,subItems:[],inTotal});
   }
   closeMonthlyModal(); renderMonthly(); saveMonthly();
 }
@@ -1701,10 +2285,222 @@ function bindMonthly(){
   if(list)list.addEventListener('click',function(e){
     const el=e.target.closest('[data-mact]'); if(!el)return;
     const id=Number(el.dataset.id), act=el.dataset.mact;
-    if(act==='edit')editMonthly(id); else if(act==='del')delMonthly(id);
+    if(act==='edit')editMonthly(id); else if(act==='del')delMonthly(id); else if(act==='toggleTotal'){ const m=monthlyTasks.find(x=>x.id===id); if(m){ m.inTotal = m.inTotal===false; saveMonthly(); renderMonthly(); } } else if(act==='settotal'){ const v=parseFloat(document.getElementById('suiteTotalInput').value); if(!isNaN(v))setSuiteTotal(Math.max(0,Math.min(100,v))); }
+  });
+  if(list)list.addEventListener('click',function(e){
+    const k=e.target.closest('[data-kact]'); if(!k)return;
+    const kid=Number(k.dataset.kid), sid=k.dataset.sid?Number(k.dataset.sid):null, act=k.dataset.kact;
+    if(act==='addsub')addSubItem(kid);
+    else if(act==='togglesub'){ const sub=getKpi(kid); const s=sub&&(sub.subItems||[]).find(x=>x.id===sid); if(s)toggleSubItem(kid,sid,!s.done); }
+    else if(act==='linksub')editSubItem(kid,sid);
+    else if(act==='editsub')editSubItem(kid,sid);
+    else if(act==='delsub')delSubItem(kid,sid);
   });
   const modal=document.getElementById('monthlyModal');
   if(modal)modal.onclick=function(e){if(e.target===this)closeMonthlyModal()};
+}
+
+// ============ 今日任务 ↔ 月度KPI 联动 ============
+let linkingTaskId=null, editingSub=null;
+
+function getKpi(id){ return monthlyTasks.find(m=>m.id===id); }
+function linkedKpiTitle(link){ const k=getKpi(link.kpiId); return k?k.title:''; }
+// KPI 进度：有子项目→清单模式(子项目完成度驱动)；无子项目→数值模式(当前/目标)
+function kpiProgress(kpi){
+  const subs=kpi.subItems||[];
+  if(subs.length>0){
+    let cur=0,tgt=0;
+    subs.forEach(s=>{ const st=Number(s.step)||1; tgt+=st; if(s.done)cur+=st; });
+    return {cur,tgt,pct:tgt>0?Math.round(cur/tgt*100):0, mode:'checklist', done:subs.filter(s=>s.done).length, total:subs.length};
+  }
+  let cur=Number(kpi.current)||0, tgt=Number(kpi.target)||0;
+  return {cur,tgt,pct:tgt>0?Math.max(0,Math.min(100,Math.round(cur/tgt*100))):0, mode:'count'};
+}
+
+// 任务勾选状态变化 → 联动 KPI（数值累加 / 子项目勾选）
+function applyTaskLinkDelta(task, doneVal){
+  if(!task.link)return;
+  const kpi=getKpi(task.link.kpiId); if(!kpi)return;
+  if(task.link.subId){
+    const sub=(kpi.subItems||[]).find(s=>s.id===task.link.subId);
+    if(sub && sub.done!==doneVal){ sub.done=doneVal; saveMonthly(); }
+  }else{
+    const step=task.link.step||1;
+    if(doneVal) kpi.current=(Number(kpi.current)||0)+step;
+    else kpi.current=Math.max(0,(Number(kpi.current)||0)-step);
+    saveMonthly();
+  }
+}
+
+// 设定/解除任务的 KPI 联动（保持 task.link 与 subItem.linkedTaskId 双向一致）
+function setTaskLink(taskId, kpiId, subId, step){
+  const task=tasks.find(t=>t.id===taskId); if(!task)return;
+  // 解绑旧的（含反向清理）
+  if(task.link){
+    const oldK=getKpi(task.link.kpiId);
+    if(task.link.subId && oldK){ const os=(oldK.subItems||[]).find(s=>s.id===task.link.subId); if(os)os.linkedTaskId=null; }
+    else if(oldK && task.done){ oldK.current=Math.max(0,(Number(oldK.current)||0)-(task.link.step||1)); }
+  }
+  task.link={kpiId, subId:subId||null, step:step||1};
+  const kpi=getKpi(kpiId);
+  if(!kpi){ task.link=null; return; }
+  if(subId){
+    const sub=(kpi.subItems||[]).find(s=>s.id===subId);
+    if(sub){ sub.linkedTaskId=taskId; if(sub.done!==task.done)sub.done=task.done; }
+  }else{
+    if(task.done) kpi.current=(Number(kpi.current)||0)+(step||1);
+  }
+  saveMonthly(); saveTasks();
+}
+function clearTaskLink(task){
+  if(!task.link)return;
+  const kpi=getKpi(task.link.kpiId);
+  if(task.link.subId){
+    if(kpi){ const sub=(kpi.subItems||[]).find(s=>s.id===task.link.subId); if(sub)sub.linkedTaskId=null; }
+  }else{
+    if(kpi && task.done){ kpi.current=Math.max(0,(Number(kpi.current)||0)-(task.link.step||1)); }
+  }
+  task.link=null;
+}
+
+// 子项目勾选 → 联动今日任务（双向同步）
+function toggleSubItem(kpiId, subId, doneVal){
+  const kpi=getKpi(kpiId); if(!kpi)return;
+  const sub=(kpi.subItems||[]).find(s=>s.id===subId); if(!sub)return;
+  sub.done=doneVal;
+  if(sub.linkedTaskId){
+    const tk=tasks.find(t=>t.id===sub.linkedTaskId);
+    if(tk && tk.done!==doneVal){
+      tk.done=doneVal;
+      if(doneVal){tk.doneDate=getToday(); archiveTask(tk,tk.doneDate);} else {tk.doneDate=null; unarchiveTask(tk.id);}
+      saveTasks();
+    }
+  }
+  saveMonthly();
+  renderMonthly(); renderTasks();
+}
+// 设定子项目联动的今日任务（保持与 task.link 一致）
+function setSubLink(kpiId, subId, taskId){
+  const kpi=getKpi(kpiId); if(!kpi)return;
+  const sub=(kpi.subItems||[]).find(s=>s.id===subId); if(!sub)return;
+  if(sub.linkedTaskId){
+    const ot=tasks.find(t=>t.id===sub.linkedTaskId);
+    if(ot && ot.link && ot.link.kpiId===kpiId && ot.link.subId===subId) ot.link=null;
+  }
+  sub.linkedTaskId=taskId||null;
+  if(taskId){
+    const tk=tasks.find(t=>t.id===taskId);
+    if(tk){ if(tk.done!==sub.done)sub.done=tk.done; tk.link={kpiId, subId, step:1}; saveTasks(); }
+  }
+  saveMonthly();
+  renderMonthly(); renderTasks();
+}
+
+// ---- 子项目 CRUD ----
+function addSubItem(kpiId){ editingSub={kpiId, subId:null}; document.getElementById('subItemTitle').value=''; document.getElementById('subItemStep').value='1'; renderSubTaskOptions(null); document.getElementById('subItemModalTitle').textContent='新增子项目'; document.getElementById('subItemModal').classList.add('show'); }
+function editSubItem(kpiId, subId){
+  const kpi=getKpi(kpiId); if(!kpi)return;
+  const sub=(kpi.subItems||[]).find(s=>s.id===subId); if(!sub)return;
+  editingSub={kpiId, subId};
+  document.getElementById('subItemTitle').value=sub.title;
+  document.getElementById('subItemStep').value=sub.step||1;
+  renderSubTaskOptions(sub.linkedTaskId||null);
+  document.getElementById('subItemModalTitle').textContent='编辑子项目';
+  document.getElementById('subItemModal').classList.add('show');
+}
+function saveSubItem(){
+  if(!editingSub)return;
+  const kpi=getKpi(editingSub.kpiId); if(!kpi)return;
+  if(!kpi.subItems)kpi.subItems=[];
+  let title=document.getElementById('subItemTitle').value.trim(); if(!title)return;
+  let step=Math.max(0,parseFloat(document.getElementById('subItemStep').value)||1);
+  let taskId=document.getElementById('subItemTaskLink').value?Number(document.getElementById('subItemTaskLink').value):null;
+  if(editingSub.subId){
+    const sub=kpi.subItems.find(s=>s.id===editingSub.subId);
+    if(sub){ sub.title=title; sub.step=step; }
+  }else{
+    const sub={id:Date.now(), title, step, done:false, linkedTaskId:null};
+    kpi.subItems.push(sub); editingSub.subId=sub.id;
+  }
+  setSubLink(editingSub.kpiId, editingSub.subId, taskId);
+  closeSubItemModal(); renderMonthly();
+}
+function delSubItem(kpiId, subId){
+  const kpi=getKpi(kpiId); if(!kpi||!kpi.subItems)return;
+  const sub=kpi.subItems.find(s=>s.id===subId); if(!sub)return;
+  if(!confirm('确定删除该子项目？'))return;
+  if(sub.linkedTaskId){ const tk=tasks.find(t=>t.id===sub.linkedTaskId); if(tk&&tk.link&&tk.link.subId===subId)tk.link=null; }
+  kpi.subItems=kpi.subItems.filter(s=>s.id!==subId);
+  saveMonthly(); renderMonthly();
+}
+function closeSubItemModal(){ editingSub=null; document.getElementById('subItemModal').classList.remove('show'); }
+function renderSubTaskOptions(selId){
+  const sel=document.getElementById('subItemTaskLink');
+  sel.innerHTML='<option value="">不联动今日任务</option>'+tasks.map(t=>`<option value="${t.id}">${esc(t.title)}</option>`).join('');
+  if(selId)sel.value=selId;
+}
+
+// ---- 任务联动弹窗 ----
+function openLinkModal(taskId){
+  const task=tasks.find(t=>t.id===taskId); if(!task)return;
+  linkingTaskId=taskId;
+  renderLinkKpiOptions(task.link?task.link.kpiId:null);
+  renderLinkSubOptions(task.link?task.link.subId:null);
+  document.getElementById('linkStep').value=(task.link&&task.link.step)?task.link.step:1;
+  document.getElementById('btnUnlink').style.display=task.link?'inline-block':'none';
+  document.getElementById('linkModal').classList.add('show');
+  updateLinkStepVisibility();
+}
+function renderLinkKpiOptions(selId){
+  const sel=document.getElementById('linkKpi');
+  sel.innerHTML='<option value="">— 请选择月度KPI —</option>'+monthlyTasks.map(m=>`<option value="${m.id}">${esc(m.title)}</option>`).join('');
+  if(selId)sel.value=selId;
+}
+function renderLinkSubOptions(selId){
+  const kpiId=document.getElementById('linkKpi').value;
+  const sel=document.getElementById('linkSub');
+  const kpi=getKpi(Number(kpiId));
+  if(kpi && (kpi.subItems||[]).length){
+    sel.style.display='';
+    sel.innerHTML='<option value="">不指定（直接累加到KPI数值）</option>'+kpi.subItems.map(s=>`<option value="${s.id}">${esc(s.title)}</option>`).join('');
+    if(selId)sel.value=selId;
+  }else{
+    sel.style.display='none'; sel.innerHTML='';
+  }
+  updateLinkStepVisibility();
+}
+function updateLinkStepVisibility(){
+  const subSel=document.getElementById('linkSub');
+  const showStep = !subSel.value; // 未指定子项目→数值累加模式，显示贡献值
+  document.getElementById('linkStepWrap').style.display = showStep?'':'none';
+}
+function saveLink(){
+  const kpiId=Number(document.getElementById('linkKpi').value);
+  if(!kpiId){ alert('请选择要联动的月度KPI'); return; }
+  const subSel=document.getElementById('linkSub');
+  const subId=subSel.value?Number(subSel.value):null;
+  const step=Math.max(0,parseFloat(document.getElementById('linkStep').value)||1);
+  setTaskLink(linkingTaskId, kpiId, subId, step);
+  closeLinkModal(); renderTasks(); renderMonthly();
+}
+function removeLink(){
+  const task=tasks.find(t=>t.id===linkingTaskId);
+  if(task){ clearTaskLink(task); saveMonthly(); saveTasks(); }
+  closeLinkModal(); renderTasks(); renderMonthly();
+}
+function closeLinkModal(){ linkingTaskId=null; document.getElementById('linkModal').classList.remove('show'); }
+
+function bindLinkModals(){
+  const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
+  on('btnSaveLink',saveLink);
+  on('btnCancelLink',closeLinkModal);
+  on('btnUnlink',removeLink);
+  on('btnSaveSubItem',saveSubItem);
+  on('btnCancelSubItem',closeSubItemModal);
+  const kpiSel=document.getElementById('linkKpi'); if(kpiSel)kpiSel.addEventListener('change',()=>renderLinkSubOptions(null));
+  const subSel=document.getElementById('linkSub'); if(subSel)subSel.addEventListener('change',updateLinkStepVisibility);
+  const lm=document.getElementById('linkModal'); if(lm)lm.onclick=function(e){if(e.target===this)closeLinkModal()};
+  const sm=document.getElementById('subItemModal'); if(sm)sm.onclick=function(e){if(e.target===this)closeSubItemModal()};
 }
 
 // ============ 年度销售计划 ============
@@ -1826,9 +2622,12 @@ function bindSalesPlan(){
 // 品牌"是否有未确认的新品发布"：取决于 data/brand-status.json 里的 releaseDate
 // （该品牌官网最近一次新品发布日），以及用户已确认的日期。
 // 只有「官网真有新品发布 且 用户尚未确认过这个发布日」才显示红色。
-const BRAND_STATUS = {};   // { 品牌名: {releaseDate, summary} }，由 loadBrandStatus() 异步填充（声明后先用兜底同步预填，见下）
+const BRAND_STATUS = {};   // { 品牌名: {releaseDate, summary, updates} }，由 loadBrandStatus() 异步填充（声明后先用兜底同步预填，见下）
+let brandFilter='all';     // 'all' | 'new'（只看有未确认新品的品牌）
+const TAG_CLS={'新品':'t-new','参数':'t-spec','状态更正':'t-fix','召回':'t-recall','经营':'t-biz','渠道':'t-biz','通告':'t-note'};
+function tagCls(t){return TAG_CLS[t]||'t-note';}
 // 内联兜底：双击以 file:// 打开时 fetch 本地 json 会被浏览器拦截，用此数据保证按钮/新品/新闻正常显示
-const BRAND_STATUS_FALLBACK = {"savedAt":1785806199689,"updatedAt":"2026-08-04","brands":{"3M PELTOR":{"releaseDate":"2026-02","summary":"ComTac IX NIB 战术耳机于 Enforce Tac 2026（2/23-25 纽伦堡）在 EMEA 首发，美国等区域随后上市：NIB 5-10m 免电台头戴互通（4讲60听全双工）、MAP 任务音频档案、双重防护达 40dB；工业侧 PELTOR WS ALERT X+（BT5.2 MultiPoint、aptX HD、68h 锂电、OTA 升级、Class 5 28dB）在售。⚠同期 ComTac VIII 部分批次全球召回（详见品牌市场动态）。"},"HOWARD LEIGHT":{"releaseDate":"2026-06","summary":"近 30 天官网无新品发布。在售主力：Impact Sport 粉色版 R-01526P（NRR 22dB、82dB 压缩、3.5mm AUX）、Impact Sport Bolt、Impact Sport Bluetooth 5.0；Impact Sport 仍是 Amazon 电子射击耳罩长期畅销款。"},"WALKER'S":{"releaseDate":"2026-07","summary":"★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。"},"EARMOR":{"releaseDate":"2026-06","summary":"★本轮新增：M81「蜂鸟」全双工通话器于 2026 国际警用装备及反恐技术装备展（6/4-6）首发，主打小巧便携、全双工多人通信；另补录 E10 赛级耳塞（2026-01-09 警察节献礼上市，已用于阿联酋特警赛裁判/安全员）与 M33 PRO（自适应 DSP 降噪、IPX-5，面向教官与职业操作手）。SHOT Show 2026 主力仍为 M300T / M20T PRO / M31·M32 PLUS。"},"OTTO ENGINEERING":{"releaseDate":"2026","summary":"2026 年官网未见新品发布（新闻页最新条目为 CMMC Level 2 网络安全成熟度认证，以及 2025-08-05 的 DarkStar 发布）。在售旗舰仍为 NoizeBarrier TAC 2.0（NRR 23dB/SNR 29、IP68、MIL-STD-810G、2×AA 100h、较前代轻 12%）。"},"INVISIO":{"releaseDate":"2026-06","summary":"INVISIO Drone Aware™ 反无人机感知能力于 Eurosatory 2026（6/11）发布并集成到 T30 头戴，可对来袭无人机做早期识别；Q2 财报确认该功能为季度重要事件之一。近 30 天无新硬件发布。"},"AXIL":{"releaseDate":"2026","summary":"在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波、续航翻倍，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h、$307.67）、MX PRO（30dB SNR、6X、BT5.4、可换面板）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。近 30 天官网无全新型号，但零售渠道持续扩张（Walmart 3,700 店、Sportsman's Warehouse 70 店、Home Depot 线上）。"},"OPS-CORE":{"releaseDate":"2026-02","summary":"★本轮补录：Ops-Core Voice Projection Unit (VPU) 于 2026-02-17 发布，为 Special Operations Tactical Respirator 配套的语音投射附件。2026 年内其他新品：AMP Rail Mount Kit with Vent Mode（1 月 SHOT Show 首发，耳杯可微移散热且保持 NFMI 通信）、FAST XP 执法版头盔系统（1/19）。⚠另有 2026-03-09 NFMI 耳塞单独使用性能的产品通告（Product Advisory）。"},"SORDIN":{"releaseDate":"2026-08","summary":"★本轮重点：Supreme X2 SFA 官网首页已挂「New launch」，2026 年 8 月上市——通过可拆卸 SFA 距离环在更高防护与更薄耳杯轮廓之间按需切换，面向长时间靶场射手。同时更正 Supreme X2 正式发布日为 2026-05-27（旗舰取代 Pro-X，SordinFLEX 免工具切换头带/颈带/盔挂，SNR 29/NRR 23，82dB(A) 限幅；X2BT 蓝牙版仍在研发）。"},"DECIBULLZ":{"releaseDate":"2026","summary":"★本轮首次纳入监控数据。官网主推 PRO Custom Molded Earplugs 31dB NRR Pro-Pack，随包配「ALL-NEW Decibullz 塑形工具」（THERMOFIT 可反复重塑、3 组 Max Protect 泡沫 tip + 5 组硅胶 tip、硬壳收纳盒+硅胶挂绳）；Percussive 射击滤波耳塞脉冲防护达 33dB NRR；另有 USA Edition 爱国限定与 +Awareness 声管对讲版。"}}};
+const BRAND_STATUS_FALLBACK = {"savedAt":1787284228662,"updatedAt":"2026-08-21","brands":{"3M PELTOR":{"releaseDate":"2026-02","summary":"ComTac IX NIB 战术耳机于 Enforce Tac 2026（2/23-25 纽伦堡）在 EMEA 首发，美国等区域随后上市：NIB 5-10m 免电台头戴互通（4讲60听全双工）、MAP 任务音频档案、双重防护达 40dB；工业侧 PELTOR WS ALERT X+（BT5.2 MultiPoint、aptX HD、68h 锂电、OTA 升级、Class 5 28dB）在售。在售 NIB 队间通信头戴涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力一代，见品牌市场动态 n71）。⚠同期 ComTac VIII 部分批次全球召回（详见品牌市场动态）。","updates":[{"date":"2026-07","tag":"召回","headline":"ComTac VIII 部分批次全球召回（啸叫高达 106 dBA 风险，英国 OPSS/澳洲 ACCC 同步）"},{"date":"2026-02","tag":"新品","headline":"ComTac IX NIB 战术耳机 EMEA 首发（NIB 免电台 5-10m 全双工）"},{"date":"2026","tag":"参数","headline":"在售 NIB 队间通信涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力）"}]},"HOWARD LEIGHT":{"releaseDate":"2026-06","summary":"近 30 天官网无新品发布。在售主力：Impact Sport 粉色版 R-01526P（NRR 22dB、82dB 压缩、3.5mm AUX）、Impact Sport Bolt、Impact Sport Bluetooth 5.0；Impact Sport 仍是 Amazon 电子射击耳罩长期畅销款。","updates":[{"date":"2026-06","tag":"新品","headline":"Impact Sport 粉色版 R-01526P / Bolt / Bluetooth 5.0 在售主推"}]},"WALKER'S":{"releaseDate":"2026-07","summary":"★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。★本轮补录：Razor X-TRM Digital Muffs 首发行业首创 MAHP「Shake Awake」运动激活听力保护（专利待审，微动自动开机预载压制，含蓝牙+凝胶耳垫，约 $80，SHOT Show 2026），见 n69。","updates":[{"date":"2026-07","tag":"新品","headline":"SHOTSYNC 计时器 / Recon BT / Cloak 上架官网 New Products"},{"date":"2026-07","tag":"新品","headline":"Razor Junior 青少年耳罩全美零售全渠道铺货"},{"date":"2026","tag":"新品","headline":"Razor X-TRM MAHP「Shake Awake」运动激活防护首发（行业首创）"}]},"EARMOR":{"releaseDate":"2026-08","summary":"★本轮重大更新：母公司广州市行动者科技于 2026-08-01 十周年庆典上「四款新品全球首发」——C53（全球首款同时获 IECEx Ex ia 级与 Ma 级最高防爆认证，可在 0 区等高危环境实现 8 人全双工无按键通话）；M23T AI 听力保护 TWS 耳机（仅 21.8mm 厚，蓝牙 6.0，毫秒级压制枪声，支持 89 种语言 AI 实时翻译）；M21 AI 轻量化战术通信终端（仿生耳撑无感佩戴，动铁单元+声学算法增强脚步声并实现 8° 辨位，降风噪，支持双通道对讲机并行接入）；M35（概念版）首款 AI 视听感知战术终端（1200 万像素 4K 录像 + 视觉语言模型，赋予个体防护装备多模态感知）。同期拿下全国 PPE 行业首家按最新防爆法规取得的最高本安级别认证。此前 2026 年新品：M81「蜂鸟」全双工通话器（6 月警用反恐展首发）、E10 赛级耳塞（1-09 上市）、M33 PRO（自适应 DSP、IPX-5）。另 IWA 2026 十周年旗舰 M32 Mark 4 正式亮相（Adaptive Sound Tracking 增强低频语音、标配 Silicon Gel Seals、NRR 22，见 n68），补齐「可靠有线+高舒适」主力线。SHOT Show / IWA 2026 主力仍为 M300T（含 Tactical Pink 新配色）/ M20T PRO / M31·M32 PLUS。","updates":[{"date":"2026-08","tag":"新品","headline":"十周年四款 AI 新品全球首发：C53 防爆 / M23T TWS / M21 通信 / M35 概念"},{"date":"2026","tag":"新品","headline":"M32 Mark 4 十周年旗舰亮相（Adaptive Sound Tracking + 标配凝胶耳垫）"},{"date":"2026-06","tag":"新品","headline":"M81 蜂鸟全双工通话器警用反恐展首发"},{"date":"2026-01","tag":"新品","headline":"E10 赛级耳塞上市 / M33 PRO 新 DSP 自适应降噪"}]},"OTTO ENGINEERING":{"releaseDate":"2026","summary":"2026 年官网未见新品发布（新闻页最新条目为 CMMC Level 2 网络安全成熟度认证，以及 2025-08-05 的 DarkStar 发布）。在售旗舰仍为 NoizeBarrier TAC 2.0（NRR 23dB/SNR 29、IP68、MIL-STD-810G、2×AA 100h、较前代轻 12%）。","updates":[{"date":"2026","tag":"经营","headline":"2026 官网无新品；在售旗舰仍 NoizeBarrier TAC 2.0"}]},"INVISIO":{"releaseDate":"2026-08","summary":"INVISIO Drone Aware™ 反无人机感知能力于 Eurosatory 2026（6/11）预览并计划 Q3 2026 正式集成到 T30 头戴；截至本轮核查 T30 产品页已将其列为内置功能，可判断已在 Q3 进入市场。★8/14 重大订单：加拿大武装部队（经 Simex Defence）授予最高 4.5 亿瑞典克朗（约 4,300 万美元）框架协议，覆盖全军种 Racal Acoustics RA5100/RA71 等（不含 T30/Drone Aware）。近 30 天无新硬件发布。","updates":[{"date":"2026-08","tag":"订单","headline":"加拿大武装部队框架协议最高 SEK 450M（约 $43M，RA5100/RA71）"},{"date":"2026-06","tag":"新品","headline":"Drone Aware 反无人机感知 Eurosatory 预览（计划 Q3 2026 集成 T30）"}]},"AXIL":{"releaseDate":"2026","summary":"在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。★8/18 FY2026+Q4 财报：Q4 营收创纪录 +48.9% 至 860 万美元、毛利率 72%、门店扩至约 6,000 家；★8/19 预告 X-Core 2 次世代无线耳塞 9 月上市（本年度最重要新品）。零售渠道持续扩张（Walmart 约 1,250 店、Sportsman's Warehouse 70 店、Home Depot 线上、MCX 全线上架）。","updates":[{"date":"2026-08","tag":"财报","headline":"FY2026+Q4 财报：Q4 营收 +48.9% 创纪录、毛利率 72%、门店扩至约 6000 家"},{"date":"2026-08","tag":"新品","headline":"预告 X-Core 2 次世代无线耳塞 9 月上市"},{"date":"2026","tag":"经营","headline":"FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%），毛利率 67%~71%"},{"date":"2026","tag":"渠道","headline":"零售扩张 Walmart 3700 店 / Sportsman's Warehouse 70 店 / Home Depot 线上"}]},"OPS-CORE":{"releaseDate":"2026-02","summary":"★本轮补录：Ops-Core Voice Projection Unit (VPU) 于 2026-02-17 发布，为 Special Operations Tactical Respirator 配套的语音投射附件。2026 年内其他新品：AMP Rail Mount Kit with Vent Mode（1 月 SHOT Show 首发，耳杯可微移散热且保持 NFMI 通信）、FAST XP 执法版头盔系统（1/19）。⚠另有 2026-03-09 NFMI 耳塞单独使用性能的产品通告（Product Advisory）。","updates":[{"date":"2026-03","tag":"通告","headline":"NFMI 耳塞单独使用性能 Product Advisory（3/9）"},{"date":"2026-02","tag":"新品","headline":"VPU 语音投射附件发布（2/17，配套战术呼吸面罩）"},{"date":"2026-01","tag":"新品","headline":"AMP Rail Mount Vent Mode / FAST XP 执法版头盔系统"}]},"SORDIN":{"releaseDate":"2026-08","summary":"Sordin Supreme X2 SFA（X2 系列最高防护成员）已于 2026-08 正式开售，官网产品页显示 In stock、$493，NRR 25/SNR 31（较基础 X2 的 23/29 更高），401g，AA 60h/可充 90h，SFA 可拆卸距离环两档衰减切换、SordinHEAR2 四档、3.5mm AUX、可折叠（见 n70）。在售旗舰 Supreme X2（2026-05-27 发布，取代 Pro-X）官网 €371.54，SordinFLEX 免工具切换头带/颈带/盔挂，SNR 29/NRR 23，82dB(A) 限幅；X2BT 蓝牙版仍在研发。","updates":[{"date":"2026-08","tag":"状态更正","headline":"Supreme X2 SFA 已正式开售（此前误判未开售，官网 In stock $493）"},{"date":"2026-05","tag":"新品","headline":"Supreme X2 发布取代 Pro-X（SNR 29/NRR 23，SordinFLEX 平台）"}]},"DECIBULLZ":{"releaseDate":"2026","summary":"★本轮首次纳入监控数据。官网主推 PRO Custom Molded Earplugs 31dB NRR Pro-Pack，随包配「ALL-NEW Decibullz 塑形工具」（THERMOFIT 可反复重塑、3 组 Max Protect 泡沫 tip + 5 组硅胶 tip、硬壳收纳盒+硅胶挂绳）；Percussive 射击滤波耳塞（2026 Edition 年度更新款，已补全塑形工具套件）脉冲防护达 33dB NRR、ANSI IPIL 认证；另有 USA Edition 爱国限定与 +Awareness 声管对讲版。","updates":[{"date":"2026","tag":"新品","headline":"PRO Custom Molded 31dB / Percussive 2026 Edition 年度更新款"}]}}};
 // 同步预填：即使 fetch 失败（如 file:// 双击打开）也能立即显示品牌状态与「确认已查」按钮
 (function prefillBS(){ if(BRAND_STATUS_FALLBACK&&BRAND_STATUS_FALLBACK.brands){ for(const k in BRAND_STATUS_FALLBACK.brands) BRAND_STATUS[k]=BRAND_STATUS_FALLBACK.brands[k]; } })();
 function syncBase(){ return SYNC_RAW.substring(0, SYNC_RAW.lastIndexOf('/')+1); }
@@ -1864,14 +2663,16 @@ function renderBrands(){
   let grid=document.getElementById('brandGrid');
   // 排序：红色(未确认有新品)排前，已确认/无新品沉底
   const idx=Object.fromEntries(BRANDS.map((b,i)=>[b.name,i]));
-  const ordered=[...BRANDS].sort((a,b)=>{
+  let list=BRANDS.filter(b=> brandFilter!=='new' || hasNewRelease(b));
+  const ordered=list.sort((a,b)=>{
     const ca=hasNewRelease(a)?0:1, cb=hasNewRelease(b)?0:1;
     if(ca!==cb)return ca-cb;
     return idx[a.name]-idx[b.name];
   });
   const socialDefs=[['linkedin','LinkedIn','in'],['youtube','YouTube','YT'],['instagram','Instagram','IG'],['facebook','Facebook','FB'],['blog','官网Blog','Blog']];
   grid.innerHTML=ordered.map(b=>{
-    const rel=BRAND_STATUS[b.name]&&BRAND_STATUS[b.name].releaseDate?BRAND_STATUS[b.name].releaseDate:'';
+    const st=BRAND_STATUS[b.name]||{};
+    const rel=st.releaseDate?st.releaseDate:'';
     const newRel=hasNewRelease(b);
     const s = newRel?['有新品·待确认','status-new'] : (rel?['已确认','status-done']:['无新品','status-pending']);
     const products=(b.products||[]).map(p=>`
@@ -1895,6 +2696,10 @@ function renderBrands(){
     }).join('');
     const exhib=(b.exhibitions||[]).map(e=>`
       <div class="exhib-item"><b>${e.show}</b>${e.date?` · ${e.date}`:''}${e.booth?` · 展位 ${e.booth}`:''}${e.channel?` · ${e.channel}`:''}${e.url?` · <a href="${e.url}" target="_blank">来源链接</a>`:''}</div>`).join('');
+    // 卡内「最新动态」一行 + 「监控要点」完整核查记录（此前 summary 一直未被展示，这里补上）
+    const latest=(st.updates&&st.updates[0])||null;
+    const latestHtml = latest?`<div class="brand-update"><span class="utag ${tagCls(latest.tag)}">${latest.tag||'新品'}</span><span class="udate">${latest.date||''}</span><span>${esc(latest.headline||'')}</span></div>`:'';
+    const sumHtml = st.summary?`<details class="brand-summary"><summary>监控要点（本轮完整核查记录）</summary><div class="bs-body">${esc(st.summary).replace(/★/g,'<span class="bs-star">★</span>')}</div></details>`:'';
     return `<div class="brand-card">
       <div class="brand-head">
         <div>
@@ -1908,22 +2713,68 @@ function renderBrands(){
           <a class="brand-visit" href="${b.url}" target="_blank">访问官网</a>
         </div>
       </div>
+      ${latestHtml}
       <div class="brand-products">${products}</div>
       ${exhib?`<div class="brand-exhib"><div class="exhib-title">参展 / 展会动态</div>${exhib}</div>`:''}
       <div class="social-row"><span class="social-label">社媒参展动态:</span>${social}</div>
+      ${sumHtml}
       <div class="brand-foot">
         <span>检查: ${b.checked}</span>
         <div class="brand-tags">${(b.tags||[]).map(t=>`<span class="brand-tag">${t}</span>`).join('')}</div>
       </div>
     </div>`;
   }).join('');
+  renderTimeline();
 }
+// 更新时间线：汇总所有品牌的 updates，按日期倒序（最新在上），持续累积
+function brandUpdatesAll(){
+  const out=[];
+  for(const b of BRANDS){
+    const st=BRAND_STATUS[b.name]; if(!st||!st.updates)continue;
+    for(const u of st.updates) out.push(Object.assign({brand:b.name},u));
+  }
+  const key=d=>{ const m=/^(\d{4})(?:-(\d{2}))?/.exec(d||''); return m?(+m[1])*100+(+(m[2]||0)):0; };
+  out.sort((a,b)=>key(b.date)-key(a.date));
+  return out;
+}
+function renderTimeline(){
+  const el=document.getElementById('brandTimeline'); if(!el)return;
+  const ups=brandUpdatesAll();
+  el.innerHTML=ups.map(u=>{
+    const isNew=hasNewRelease({name:u.brand})?' is-new':'';
+    return `<div class="tl-item${isNew}">
+      <div class="tl-row"><span class="tl-date">${u.date||'—'}</span><span class="tl-tag ${tagCls(u.tag)}">${u.tag||'新品'}</span><span class="tl-brand">${esc(u.brand)}</span></div>
+      <div class="tl-head">${esc(u.headline||'')}</div>
+    </div>`;
+  }).join('');
+  if(!ups.length) el.innerHTML='<div class="tl-head" style="color:var(--text-sec)">暂无更新记录</div>';
+  const se=document.getElementById('brandMonitorStats');
+  if(se){
+    const red=BRANDS.filter(b=>hasNewRelease(b)).length;
+    const dt=(BRAND_STATUS_FALLBACK&&BRAND_STATUS_FALLBACK.updatedAt)||'';
+    se.innerHTML=`本轮监控更新 <b>${ups.length}</b> 条动态 ｜ <b style="color:var(--red)">${red}</b> 个品牌有待确认新品 ｜ 最近刷新 <b>${dt}</b> ｜ 周一~周六 09:00 自动刷新`;
+  }
+}
+// 品牌监控交互：筛选 / 手动刷新 / 时间线折叠
+(function(){
+  const fbar=document.querySelector('.monitor-filter');
+  if(fbar){ fbar.querySelectorAll('.mf').forEach(btn=>btn.addEventListener('click',()=>{
+    brandFilter=btn.getAttribute('data-filter');
+    fbar.querySelectorAll('.mf').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+    renderBrands();
+  })); }
+  const rb=document.getElementById('btnRefreshBrands');
+  if(rb){ rb.addEventListener('click',()=>{ rb.disabled=true; rb.textContent='⏳ 刷新中…'; loadBrandStatus(); setTimeout(()=>{rb.disabled=false; rb.textContent='🔄 刷新监控';},1200); }); }
+  const th=document.getElementById('tlHead'), tl=document.getElementById('brandTimeline'), tg=document.getElementById('tlToggle');
+  if(th&&tl){ th.addEventListener('click',()=>{ const open=tl.style.display!=='none'; tl.style.display=open?'none':'flex'; if(tg)tg.textContent=open?'展开 ▸':'收起 ▾'; }); }
+})();
 
 // ============ 品牌市场动态 (NEWS) ============
 const NEWS_KEY='liuye_news_read';           // 已读新闻 id 列表（liuye_ 前缀自动云同步）
 let NEWS_ITEMS=[];                           // 由 loadNews 填充
 // 内联兜底：双击以 file:// 打开时 fetch 本地 json 会被浏览器拦截，用此数据保证市场动态正常显示
-const NEWS_FALLBACK = {"updatedAt":"2026-08-04","note":"由 刘晔工作台 自动抓取（Amazon / Reddit / IG / FB / LinkedIn / 品牌官网 / 专业新闻站 / 各国产品安全监管机构 / SEC-EDGAR），覆盖 10 大品牌动态：召回、展会、新品、合作、订单、财报等。点击来源链接即标记已读。本轮新增 n23~n38 及 n42 共 17 条（含 DECIBULLZ 新品 n42）。","items":[{"id":"n01","brand":"3M PELTOR","category":"recall","catLabel":"召回","title":"3M PELTOR ComTac VIII 通讯耳罩全球召回（严重听力损伤风险）","summary":"英国产品安全与标准办公室（OPSS）2026-07-29 发布召回：ComTac VIII 部分批次可能通过扬声器发出高达 106 dBA 的反馈噪音，低温环境与电量不足时发生概率上升，不符合 EU 2016/425 及 EN 352-1/4/6:2020。涉及型号 MT14H418A-02/35/38/86/87/90，生产期 2025-11-27 至 2026-02-06（瑞典产），可按耳杯外侧 9 位生产识别号或 PCBA 批次 2547/2549/2550/2552 核对。3M 英国已对经销商下发停用通知（Stop Use Notification），PSD 案号 2607-0161。","url":"https://www.gov.uk/product-safety-alerts-reports-recalls/product-recall-3m-peltor-comtac-viii-headset-2607-0161","source":"GOV.UK 产品安全召回","date":"2026-07-29"},{"id":"n23","brand":"3M PELTOR","category":"recall","catLabel":"召回","title":"澳大利亚 ACCC / 新西兰 MBIE 同步召回 ComTac VIII（PRA 2026/20920）","summary":"澳大利亚竞争与消费者委员会 2026-05-25 公布 3M 澳洲发起的 ComTac VIII 召回，SKU 含 7100322593 / 7100321396 / 7100322310 / 7100321460 / 7100321461 / 7100320872，销售期 2026-01-01 至 2026-05-15，渠道包括 Blackwoods、Heightech、Frontline Safety、Amare Safety 等；新西兰经 NZ Safety Blackwoods 与 SupplyMe 售出的同款亦同步召回。风险为永久性耳鸣，要求立即停用并联系经销商退款/换货。对做军警渠道的经销商而言，需主动排查在库与已交付批次。","url":"https://www.productsafety.gov.au/node/33506","source":"澳大利亚 Product Safety（ACCC）","date":"2026-05-25"},{"id":"n24","brand":"3M PELTOR","category":"expo","catLabel":"新品","title":"ComTac IX NIB 战术耳机在 Enforce Tac 2026 面向 EMEA 首发","summary":"3M PELTOR 官方 LinkedIn 宣布最新一代 ComTac IX NIB 战术耳机在 EMEA 上市，并于 2026-02-23~25 德国纽伦堡 Enforce Tac（Hall 7A / Booth 4040）现场演示，美国及其他地区随后数月陆续上市。核心卖点：NIB（Natural Interaction Behavior）5-10 米范围内耳机对耳机免电台全双工互通，支持 4 人同时讲话 / 60 人收听；MAP 任务音频档案 5 种场景增益与频响；Mix/Single/Surround 三种电台音频呈现；配合耳塞可达 40 dB 双重防护。","url":"https://www.linkedin.com/posts/3m-peltor-communication-solutions_3mpeltor-comtac-enforcetac-activity-7430739071934607360-jKia","source":"3M PELTOR 官方 LinkedIn","date":"2026-02-23"},{"id":"n25","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"PELTOR WS ALERT X+ 工业蓝牙耳罩上市（68 小时续航 + OTA 升级）","summary":"面向工地/农业/工程机械场景的 WS ALERT X+ 上市：符合 AS/NZS 1270:2002 Class 5（28 dB SLC80），蓝牙 5.2 MultiPoint 可同时连两台设备（手机或兼容对讲机），Qualcomm aptX HD 自适应音频，降噪吊杆麦；内置锂电 USB-C 充电、续航最高 68 小时、4 小时无操作自动关机；娱乐音频限幅 82 dB(A)，支持 OTA 固件升级与 3M Connected Equipment App；头带/盔挂两版，重 366-385g，卫生套件与麦克风可更换。对工业听力防护渠道是一款高毛利可推的换代款。","url":"https://blog.blackwoods.com.au/clear-communication-on-site-without-compromising-hearing","source":"Blackwoods（3M 澳洲渠道技术稿）","date":"2026-06-20"},{"id":"n02","brand":"HOWARD LEIGHT","category":"news","catLabel":"新品","title":"Howard Leight Impact Sport Pink 粉色新配色上市","summary":"Honeywell 旗下 Howard Leight 推出 Impact Sport 电子降噪耳罩粉色版（R-01526P），延续 NRR 22 dB、82 dB 压缩阈值、3.5mm AUX 输入，主打射击运动与狩猎人群的个性化选择。专业测评于 2026-06 发布，街价低于 $80。","url":"https://wcsafety.com/blogs/product-reviews/howard-leight-impact-sport-pink-electronic-ear-review","source":"WC Safety 专业测评","date":"2026-06-15"},{"id":"n03","brand":"HOWARD LEIGHT","category":"news","catLabel":"动态","title":"Impact Sport 稳居 2026 各大横评「最佳性价比电子耳罩」","summary":"Howard Leight Impact Sport（R-01526）在 Amazon 维持 4.7★ / 约 51,725 条评价；2026 年 powderandlead、shooterdeals 等多家射击护耳横评仍将其列为「Best Value」入门首选，理由是 350 小时 AAA 续航、方向性立体声麦、0.02s / 82dB 压缩与 4 小时自动关机。短板被普遍指出为 NRR 22 偏低（室内靶场需叠戴耳塞）与耳垫年损耗。","url":"https://powderandlead.net/best-hearing-protection-for-shooting","source":"Powder & Lead 2026 横评","date":"2026-07-10"},{"id":"n04","brand":"WALKER'S","category":"news","catLabel":"动态","title":"Walker's Razor Slim 长期霸榜 Amazon 射击耳罩类目第一","summary":"Walker's Razor Slim 电子折叠耳罩在 Amazon 维持 4.8★ / 约 84,601 条评价，位列 Hunting & Shooting Earmuffs 类目第 1，NRR 23 dB、0.02 秒声激活压缩，是北美最畅销的薄型电子耳罩之一；被动版 Razor Slim（NRR 27）街价约 $22，常被推荐作为叠戴外层。","url":"https://www.amazon.com/dp/B01AAH8CRU","source":"Amazon 商品页","date":"2026-07-12"},{"id":"n26","brand":"WALKER'S","category":"news","catLabel":"新品","title":"★官网 New Products 新增三款：SHOTSYNC 射击计时器 / Recon 蓝牙数字耳罩 / Cloak 双麦耳罩","summary":"本轮监测在 Walker's 官网 New Products 页发现三款此前未记录的新上架产品：① SHOTSYNC 可穿戴射击计时器（$49.99），麦克风+加速度计双传感器精确计枪数与分段时间，蓝牙 5.2 低功耗，App 可自定义 par 时间、起始信号、击发灵敏度并留存训练历史，可按不同枪型校准——这是 Walker's 从「听力防护」向「射击训练配件」扩品类的信号；② Recon Bluetooth Digital Ear Muffs（$149.99），Recon 系列蓝牙数字版；③ Cloak Dual Mic Electronic Ear Muff（$49.99），双麦电子耳罩下探入门价位段。","url":"https://www.walkersgameear.com/new-products/","source":"Walker's 官网 New Products","date":"2026-08-04"},{"id":"n27","brand":"WALKER'S","category":"news","catLabel":"新品","title":"Razor Junior 青少年耳罩 2026-07 全渠道铺货","summary":"Walker's 于 2026 年 7 月发稿宣布 Razor Junior 系列（含多种儿童配色）已在官网与全美零售商全面上市。产品针对小头围设计，超薄低姿态保证密封，双 Hi-Gain 全向麦 + 全动态 HD 扬声器，0.02 秒声激活压缩，NRR 23 dB，配下沉式音量旋钮防误调与金属丝加强头带。母公司 GSM Outdoors 借暑期户外季主推青少年细分市场——是国内做家庭/青少年射击场景渠道值得跟的一条产品线。","url":"https://huntinglife.com/walkers-new-razor-junior-muffs-specifically-safeguard-the-hearing-of-youth-shooters","source":"Hunting Life（Walker's 新闻稿）","date":"2026-07-15"},{"id":"n06","brand":"EARMOR","category":"expo","catLabel":"展会","title":"SHOT Show 2026：EARMOR 发布 M300T 与 M20T PRO","summary":"EARMOR 在 2026 拉斯维加斯 SHOT Show（1/20-23，展位 #60310）展出 M300T 战术版与 M20T PRO 入耳式电子耳塞。展后官方复盘披露细节：M300T 升级蓝牙 5.3、<1ms 压缩、3 种拾音模式（Natural/Clear Voice/Focus），并首发哑光 Tactical Pink 配色主攻女性射手；M20T PRO 升级蓝牙 5.4（抗干扰信号稳定性 +40%）、NRR 30dB、充电盒共 50 小时续航。","url":"https://www.earmor.us/blogs/news/shot-show-2026-recap-the-next-generation-of-earmor%C2%AE-tactical-audio-is-here","source":"EARMOR US 官方展后复盘","date":"2026-01-20"},{"id":"n28","brand":"EARMOR","category":"expo","catLabel":"新品","title":"★EARMOR M81「蜂鸟」全双工通话器在 2026 警用反恐展首发","summary":"在 2026 年国际警用装备及反恐技术装备展览会（6/4-6）上，EARMOR 耳魔发布 M81 蜂鸟全双工通话器，主打小巧便携、全双工多人通信、安全可靠，为战术小队提供免 PTT 的实时协同通信方案。这是 EARMOR 从听力防护向「小队短距通信」延伸的关键新品，对国内警用/特勤渠道有直接对标意义。","url":"https://opsmen.tezhongzhuangbei.com/gsdt.html","source":"广州行动者科技（EARMOR）公司动态","date":"2026-06-08"},{"id":"n29","brand":"EARMOR","category":"news","catLabel":"新品","title":"EARMOR E10「赛级耳塞」上市，切入竞技射击细分","summary":"EARMOR 于 2026-01-09（中国人民警察节前夕）推出 E10 赛级耳塞。该产品随后在 2026 阿联酋特警挑战赛狙击科目中被裁判员与安全员采用——官方口径强调站在射手两侧的裁判/安全员实际承受的噪声冲击大于射手本人，E10 提供「双重防护」。同期 M80 全双工通信产品护航「尖刀·使命」全国特警挑战赛。","url":"https://opsmen.tezhongzhuangbei.com/gsdt.html","source":"广州行动者科技（EARMOR）公司动态","date":"2026-01-09"},{"id":"n07","brand":"EARMOR","category":"news","catLabel":"合作","title":"EARMOR 成为 IPSC 官方头部装备主要合作伙伴","summary":"EARMOR 宣布成为国际实用射击联合会（IPSC）在耳机/听力保护品类的首位主要合作伙伴（Major Partner），为运动员安全与表现设定新标准，并赞助 2026 欧洲手枪锦标赛。","url":"https://www.earmor.com/headline-shatter-the-silence-earmors-revolutionary-m300t-m20t-pro-igniting-shot-show-2026","source":"EARMOR 官网","date":"2026-01-22"},{"id":"n30","brand":"EARMOR","category":"news","catLabel":"合作","title":"IROA 与 EARMOR 达成全球听力防护合作","summary":"EARMOR 官网新闻栏披露与 IROA（国际靶场官协会）建立全球合作伙伴关系，切入「靶场官/裁判长期暴露于枪声却缺乏系统听力防护」这一痛点。叠加此前的 IPSC Major Partner 身份，EARMOR 正以赛事组织为杠杆做品牌背书——是国产品牌走出海外专业市场的典型打法，值得在客户沟通中引用。","url":"https://www.earmor.com/","source":"EARMOR 官网 Latest","date":"2026-07-01"},{"id":"n09","brand":"EARMOR","category":"expo","catLabel":"展会","title":"EARMOR 赞助 2026 IPSC 欧洲手枪锦标赛（匈牙利 Buzsák）","summary":"EARMOR 作为区域赞助商参与 2026 IPSC 欧洲手枪锦标赛（匈牙利 Buzsák），品牌大使 Pavol Zencar 参赛，现场以 M300T 展示实射场景下的听力保护与情景感知表现，官网连发多篇 EHC 2026 现场内容。","url":"https://www.earmor.com/earmor-2026-european-handgun-championship/","source":"EARMOR 官网","date":"2026-06-01"},{"id":"n10","brand":"OTTO ENGINEERING","category":"news","catLabel":"新品","title":"OTTO NoizeBarrier TAC 2.0 战术降噪通讯耳机在售","summary":"OTTO 的 NoizeBarrier TAC 2.0——业界首款全模块化战术通讯耳机，NRR 23 dB / SNR 29 dB，增强风噪抑制、可换防水电池门、较上代轻 12%+，IP68 / MIL-STD-810G，2×AA 约 100 小时，兼容 Ops-Core / Team Wendy 头盔导轨，面向军/执法市场；美制 TAA/BAA/Berry 合规。","url":"https://www.otto-comm.com/products/headsets-and-earplugs/noizebarrier-headsets-and-earplugs/noizebarrier%20tac%202","source":"OTTO Communications 官网","date":"2026-02-10"},{"id":"n31","brand":"OTTO ENGINEERING","category":"news","catLabel":"动态","title":"OTTO 通过 CMMC Level 2 网络安全认证（官网最新一条新闻）","summary":"OTTO Engineering 通过第三方评估取得美国国防部 CMMC（网络安全成熟度模型认证）Level 2 合规，用于保护受控非密信息（CUI）与 ITAR 管制的军用技术数据。总裁 Dan Stanek 表示这是作为国防与航空供应商的必要投入；业内估计需达标的 8 万家国防承包商中目前不足 3% 完成 Level 2。本轮核查确认：OTTO 官网新闻页 2026 年内未发布任何新产品（上一条产品新闻为 2025-08-05 的 DarkStar），该品牌本期归为「无新品」。","url":"http://www.otto-comm.com/news/CMMC%20Certification","source":"OTTO Engineering 官网新闻","date":"2026-07-20"},{"id":"n13","brand":"INVISIO","category":"news","catLabel":"财报","title":"INVISIO 2026 上半年报：Q2 营收 5.128 亿瑞典克朗、同比 +20%，但订单量因美国政府停摆推迟","summary":"INVISIO 2026-07-17 发布中期报告。Q2：营收 SEK 512.8m（去年同期 426.9m，+20.1%），毛利 271.8m、毛利率 53.0%（下滑自 56.7%），EBITDA 95.8m（margin 18.7%），净利 57.9m，EPS 1.25。上半年营收 943.3m。关键风险信号：Q2 订单量仅 278.5m（去年同期 401.3m），在手订单 497.5m（去年 705.3m）——CEO Lars Højgård Hansen 归因于美国政府部分停摆与美国国防部重组，判断「订单只是延后未丢失」，预计下半年逐步恢复。季度重要事件：英国国防部批准 INVISIO 为直接供应商、发布 T30 的 Drone Aware 功能。","url":"https://corp.invisio.com/news-and-events/pressrelease/invisio-interim-report-january-june-2026-strong-revenue-and-significant-strategic-progress","source":"INVISIO 官网 Q2 财报","date":"2026-07-17"},{"id":"n32","brand":"INVISIO","category":"news","catLabel":"合作","title":"英国国防部批准 INVISIO 为战术通信系统框架下的直接供应商","summary":"INVISIO 在 Q2 内获英国国防部（UK MoD）批准，成为其 Tactical Communications Systems Framework 下的直接供应商。该框架不含保证订单量与合同金额，但公司定性为重要战略里程碑——意味着 INVISIO 可绕开中间商直接对英军供货。对同业而言，这是欧洲军用听力防护/通信供应格局变化的重要一步。","url":"https://corp.invisio.com/news-and-events/pressrelease/invisio-interim-report-january-june-2026-strong-revenue-and-significant-strategic-progress","source":"INVISIO Q2 报告（重要事件）","date":"2026-06-30"},{"id":"n12","brand":"INVISIO","category":"expo","catLabel":"展会","title":"INVISIO 在 Eurosatory 2026 发布 T30 的 Drone Aware 反无人机感知能力","summary":"INVISIO 于 2026-06-11 在巴黎 Eurosatory 展会发布 INVISIO Drone Aware™，该能力集成于 T30 头戴，可实现对来袭无人机的早期识别，把听力防护耳机变成战场态势感知节点。这是当前军用头戴品类最值得关注的技术方向之一。","url":"https://corp.invisio.com/news-and-events/press-releases/?page=1","source":"INVISIO 官网新闻稿列表","date":"2026-06-11"},{"id":"n11","brand":"INVISIO","category":"news","catLabel":"订单","title":"INVISIO 与荷兰国防部框架协议（最高 SEK 365M，含 T30/X7），订单自 2026 年起下达","summary":"INVISIO 与荷兰国防部签署五年期（可再延两年）框架协议，估值最高约 3.65 亿瑞典克朗，涵盖个人通讯系统，含 T30 与 X7 耳机、多型控制单元与智能线缆；协议于 2025-10-09 公告，具体订单预计自 2026 年起陆续下达，是其 2026 在手订单的重要支撑之一。","url":"https://corp.invisio.com/news-and-events/press-releases/2025-10-09-invisio-signs-framework-agreement-worth-up-to-sek-365-million-with-netherlands-mod","source":"INVISIO 官网新闻稿","date":"2026-01-05"},{"id":"n33","brand":"AXIL","category":"news","catLabel":"财报","title":"AXIL Brands FY2026 Q3 财报：营收 730 万美元 +5.4%，但关税压缩毛利率至 69.1%","summary":"AXIL Brands（NYSE American: AXIL）2026-04-08 发布截至 2026-02-28 的第三财季业绩：净销售额 $7.29M（+5.4%），毛利 $5.04M、毛利率 69.1%（去年同期 71.7%，下滑主因关税与清关成本上升），营业费用 $4.83M 占营收 66.2%，净利仅 $0.20M / 摊薄 EPS $0.02（去年 $0.58M / $0.07），调整后 EBITDA $0.5M（去年 $0.9M）；期末现金 $5.5M。渠道进展：Home Depot 线上三款产品新订单、Sportsman's Warehouse 70 店铺 GSX 3 与 XCor Pro、Walmart 3,700 店铺货、Monster Jam 授权扩展。要点：AXIL 靠渠道扩张顶住营收，但关税正在实质吞噬利润——对同做美国市场的听力防护出口商是明确的成本预警。","url":"https://www.sec.gov/Archives/edgar/data/1718500/000152013826000105/axil-20260408_8kex99z1.htm","source":"SEC EDGAR 8-K（AXIL Brands）","date":"2026-04-08"},{"id":"n34","brand":"AXIL","category":"news","catLabel":"合作","title":"AXIL GSX 3.0 与 XCOR Pro 进驻 Sportsman's Warehouse 全美门店","summary":"AXIL 于 2026-03-30 宣布将两款旗舰电子听力防护产品 GSX 3.0 与 XCOR Pro 铺入 Sportsman's Warehouse 全美门店及线上。GSX 3.0：最高 26 dB SNR、语音清晰度提升、续航最高 15 小时、Smart Sound Balance 自动环境适配；XCOR Pro：29 dB SNR、HearPRO 技术、最高 6 倍听力增强、蓝牙通话与串流。全球销售负责人 Tyler Smith 表示此举显著提升可及性。","url":"https://www.globenewswire.com/news-release/2026/03/30/3264560/0/en/axil-brands-to-introduce-gsx-3-0-and-xcor-pro-hearing-protection-products-nationwide-at-sportsman-s-warehouse.html","source":"GlobeNewswire（AXIL 新闻稿）","date":"2026-03-30"},{"id":"n35","brand":"AXIL","category":"news","catLabel":"合作","title":"AXIL 与 Walmart 达成全国分销：X30i LT 铺入约 3,700 家门店","summary":"AXIL 在 FY2026 Q2 财报（2026-01-08）中宣布与全球最大零售商 Walmart 达成 X30i LT 的全国分销协议，首批约 3,700 家美国门店于 2026 年初开始铺货，主打新一代入耳式听力防护（先进声控、双模防护、全天佩戴舒适）。同季营收 $8.1M（+5.2%）、净利 $70.5 万、调整后 EBITDA $1.2M（+13.9%）；并推出旗舰战术耳塞 GS Extreme 3.0（专有声音滤波、更强防水、续航为上代两倍以上）。","url":"https://goldenstatenewswire.com/article/881506246-axil-brands-inc-reports-second-quarter-fiscal-year-2026-financial-results","source":"AXIL Brands FY26 Q2 财报稿","date":"2026-01-08"},{"id":"n14","brand":"AXIL","category":"news","catLabel":"新品","title":"AXIL 产品矩阵刷新：MX PRO（30dB SNR/BT5.4）与 X30i 耳塞上架","summary":"AXIL 官网当前在售矩阵已扩至：GS Extreme 3.0（26dB SNR、5X 增强、IP64、BT5.3、$184.60）、XCOR PRO（29dB SNR、5X、12 小时、$307.67）、MX PRO（最高 30dB SNR、6X 增强、BT5.4、可换面板、Sonic Shield X 滤波+Filter-on-Mic 技术）、MXII PRO（22dB SNR、面板可换即将上线）、X30i 耳塞（25dB SNR、Open Mode、可定制贴合）。全线覆盖 $24.99~$307.67 价位带，是目前 10 大品牌中 SKU 迭代最快的一家。","url":"https://www.goaxil.com/collections/shooting-hunting-hearing-protection","source":"AXIL 官网产品页","date":"2026-07-25"},{"id":"n36","brand":"OPS-CORE","category":"news","catLabel":"订单","title":"Ops-Core 获加拿大陆军 1,600 万美元订单（AMP 耳机 + NFMI 耳塞 + U94 PTT）","summary":"Gentex 旗下 Ops-Core 于 2026-05-18 宣布获得加拿大陆军士兵系统项目管理局 1,600 万美元订单，交付 AMP 通讯耳机（配 AMP Rail Mount Kit with Vent Mode）、NFMI 近场磁感应耳塞、U94 PTT 与 AMP U174 下引线，构成一体化听力防护+通信方案。Vent Mode 为 1 月 SHOT Show 首发能力，允许耳杯微移改善散热同时借 NFMI 保持通信与防护——上市 4 个月即拿下大额军单，验证了「用户反馈驱动改良」的产品路线。","url":"https://www.newswire.ca/en/releases/archive/May2026/18/c5566.html","source":"PR Newswire（Gentex 新闻稿）","date":"2026-05-18"},{"id":"n37","brand":"OPS-CORE","category":"recall","catLabel":"通告","title":"⚠Ops-Core 发布 NFMI 耳塞单独使用性能产品通告（Product Advisory）","summary":"Gentex / Ops-Core 于 2026-03-09 发布产品通告：针对 NFMI 耳塞在「单独使用（Stand-Alone Use）」情形下的性能作出说明与提示。虽非正式召回，但属官方安全性能通告，凡采购或转售 Ops-Core AMP + NFMI 组合方案的渠道应向终端客户同步该通告，避免用户以为耳塞可脱离耳机独立提供标称防护。","url":"https://gentexcorp.com/blog/","source":"Gentex 官网 Product Advisory","date":"2026-03-09"},{"id":"n38","brand":"OPS-CORE","category":"news","catLabel":"订单","title":"Gentex 获美国陆军 HGU-56/P 旋翼机头盔五年 IDIQ 合同","summary":"2026-07-09，Gentex 宣布获美国陆军合同司令部（Redstone）授予五年期 IDIQ（不定期不定量）合同，采购 HGU-56/P 旋翼机头盔系统、Apache 头盔组件（AHA）、备件与升级套件。这是继 6 月入选陆军 NGC2 项目（提供 Ops-Core AMP 通讯耳机）后的又一大单，显示 Gentex 在美军单兵/机组头部系统的份额仍在扩大。","url":"https://www.gentexcorp.com/news/page/1/","source":"Gentex 官网新闻","date":"2026-07-09"},{"id":"n17","brand":"OPS-CORE","category":"news","catLabel":"订单","title":"Gentex 入选美国陆军 NGC2 项目，提供 Ops-Core AMP 通讯耳机","summary":"Gentex 于 2026-06-15 宣布被选入美国陆军 NGC2（下一代指挥控制）原型验证项目，提供 Ops-Core AMP 通讯耳机及集成解决方案，进一步巩固其在单兵头部系统与战术通讯领域的地位。","url":"https://gentexcorp.com/blog/","source":"Gentex 官网","date":"2026-06-15"},{"id":"n16","brand":"OPS-CORE","category":"news","catLabel":"新品","title":"Ops-Core 2026 执法产品线：FAST XP 头盔系统 + Voice Projection Unit","summary":"Gentex 2026-01-19 发布重新设计的 Ops-Core FAST XP 弹道头盔系统（执法版，NIJ IIIA / HG2，高切/中切可选，LockDown 内衬、Occ-Dial 悬挂、PowerPath ARC 导轨）；2026-02-17 又发布 Ops-Core Voice Projection Unit（VPU），为 Special Operations Tactical Respirator 配套的语音投射附件，解决戴呼吸器时的通话可懂度问题。同年 2 月宣布赞助俄亥俄州 Alliance 警察训练基地。","url":"https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/","source":"Gentex 官网","date":"2026-02-17"},{"id":"n19","brand":"SORDIN","category":"news","catLabel":"新品","title":"★Sordin Supreme X2 SFA 本月（2026-08）上市，官网首页已挂 New launch","summary":"Sordin 官网首页当前头条即为「New launch – Sordin Supreme X2 SFA」，为 X2 系列最新成员，本轮监测确认其 8 月正式上市。SFA（Sordin Flexible Attenuation）通过可拆卸距离环，让用户在「更高衰减」与「更薄耳杯轮廓」之间按当次训练需求切换，配合 SordinFLEX 模块化平台、清晰环境音与全天佩戴舒适度，明确面向长时间靶场射手。此前 Sordin 官方 LinkedIn 已预告「Available this August」。","url":"https://sordin.com/","source":"Sordin 官网首页 / LinkedIn","date":"2026-08-01"},{"id":"n20","brand":"SORDIN","category":"news","catLabel":"新品","title":"更正：Sordin Supreme X2 正式发布日为 2026-05-27（取代 Pro-X 成新旗舰）","summary":"本轮核查更正此前记录：Supreme X2 于 2026-05-27 正式发布，是 X2 系列首款产品，定位取代 Supreme Pro-X 成为狩猎/射击旗舰。SNR 29 dB（高频 31 / 中频 27 / 低频 22）、NRR 23，重放声限幅 82 dB(A)，较 Pro-X 提升 2 dB；首创 SordinFLEX 卡口系统，同一耳杯可免工具在头带 / 颈带 / 盔挂之间切换（Pro-X 时代需买不同 SKU）；SordinHEAR2 四档音频（Hunter / Focus / Shooter / Ambient off）；单电池供电 + 4 小时自动关机；防水结构、2 年质保。官网 3,999 kr / $399，美国经销价约 $349。蓝牙版 X2BT 在 SHOT Show 2026 亮相但仍在研发，暂无发售日。","url":"https://www.rifleconfigurator.com/articles/sordin-supreme-x2-launch","source":"Rifle Configurator 产品档案","date":"2026-05-27"},{"id":"n18","brand":"SORDIN","category":"expo","catLabel":"展会","title":"Sordin Supreme X2 亮相 SHOT Show 2026（最热门扫描新品之一）","summary":"Sordin Supreme X2 在 2026 SHOT Show 新品中心被列为第三天被扫描最多的新品之一。该等级依赖型听力保护器专为狩猎与射击设计，紧凑耳杯实现高衰减（NRR 23 dB / SNR 29 dB），配 SordinHEAR2 四种声学模式。","url":"https://shotshow.org/most-scanned-new-products-during-day-3-of-2026-shot-show/","source":"SHOT Show 官方","date":"2026-01-23"},{"id":"n42","brand":"DECIBULLZ","category":"news","catLabel":"新品","title":"★Decibullz PRO 定制可塑耳塞 Pro-Pack 随包配「全新塑形工具」","summary":"本轮监测发现 Decibullz 官网主推 PRO Custom Molded Earplugs 31dB NRR Pro-Pack，最大变化是随包附赠「ALL-NEW Decibullz Molding Tool」，让沸水塑形过程更快更精准。包内含 THERMOFIT 左右耳塞、3 组 Max Protect 泡沫 tip（S/M/L）、5 组硅胶 tip（XXS~L）、带弹簧扣硬壳收纳盒与硅胶挂绳；符合 ANSI S3.19，独立测试 NRR 31（配泡沫 tip）/ 25（单法兰硅胶 tip）。产品页明确对标「过耳耳罩会顶枪托」的痛点，主打低姿态贴面颊依托。","url":"https://decibullz.com/products/pro-custom-molded-earplugs-31db-nrr-pro-pack","source":"Decibullz 官网","date":"2026-07-20"},{"id":"n21","brand":"DECIBULLZ","category":"news","catLabel":"新品","title":"Decibullz 推出 USA Edition 定制可塑耳塞（爱国限定配色）","summary":"Decibullz 推出 USA Edition 定制可塑耳塞，首次采用白色可塑耳件与红白蓝主题背塞/挂绳，沸水 5 分钟加热塑形、可反复重塑，NRR 31 dB，覆盖射击、狩猎、工业、烟火与现场活动等高噪场景。","url":"https://www.decibullz.com/decibullz-custom-moldable-earplugs-usa-edition/","source":"Decibullz 官网","date":"2026-03-18"},{"id":"n22","brand":"DECIBULLZ","category":"news","catLabel":"新品","title":"Decibullz +Awareness 定制耳塞适配声管对讲机（执法/消防）","summary":"Decibullz 推出 +Awareness 定制可塑耳塞，专为声管对讲机（acoustic tube）设计，在监控无线电通讯的同时保持环境态势感知，面向警察、消防、EMS、军方等任务关键场景，可沸水重塑贴合。","url":"https://www.commgearsupply.com/products/decibullz-awareness-custom-moldable-ear-plugs-for-acoustic-tube-earpieces","source":"Comm Gear Supply","date":"2026-04-22"},{"id":"n40","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"3M PELTOR ComTac IX NIB 战术通讯耳罩上市（内置无线队间通信）","summary":"3M PELTOR 发布 ComTac IX NIB（型号 MT14H419A）：在 ComTac IX 基础上内置 NIB 无线队间通信系统，5–10m 全双工、最多 4 人同时发射/60 人收听，无需外接电台即可小队通联；衰减 29dB，无蓝牙。2026 年 1 月上市。","url":"https://www.3m.com/3M/en_LB/p/d/b5005624009","source":"3M 产品页（ComTac IX NIB）","date":"2026-01"},{"id":"n41","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"3M PELTOR ComTac VIII 通讯耳罩上市（NRR 23dB / Hearing Defender 版）","summary":"3M PELTOR 推出 ComTac VIII（型号 MT14H418A-90）：NRR 23dB，提供 Hearing Defender 无麦/不支持电台版本与标准通讯版本，MAP 任务音频 5 档可调。2026 年 1 月上市。（注：该型号后续因反馈噪音问题于 2026-07 发起全球召回，见本模块召回条目。）","url":"https://www.3m.com/3M/en_US/p/d/b5005502016","source":"3M 产品页（ComTac VIII）","date":"2026-01"},{"id":"n43","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"3M PELTOR ProTac Hunter / ProTac Shooter 电子耳罩上市","summary":"3M PELTOR 推出 ProTac Hunter 与 ProTac Shooter 民用狩猎/射击电子耳罩：SNR 26/32dB，2×AA 供电最长 100 小时，3.5mm 音频接口；英国 RRP £89.99。2026 年上市。","url":"https://www.gunmart.net/shooting-accessories/safety-security/hearing-protection/you-heard-it-here-first-new-hearing-protection-from-3m-peltor","source":"GunMart","date":"2026"}]};
+const NEWS_FALLBACK = {"updatedAt":"2026-08-21","note":"每日 09:00 自动刷新（含周日）；合并保留全部历史动态，未读新闻不会因更新而消失。","items":[{"id":"n01","brand":"3M PELTOR","category":"recall","catLabel":"召回","title":"3M PELTOR ComTac VIII 通讯耳罩全球召回（严重听力损伤风险）","summary":"英国 OPSS 于 2026-07-29 发布产品召回（案号 2607-0161，风险等级：严重）：3M Peltor ComTac VIII 部分批次可能通过耳机扬声器发出高达 106 dBA 的啸叫反馈，在低温环境与电池电量耗尽时更易发生，存在永久性耳鸣/听力损伤风险，不符合 EU 2016/425 及 EN 352-1/-4/-6:2020。⚠受影响型号：MT14H418A-02 / -35 / -38 / -86 / -87 / -90，生产日期 2025-11-27 至 2026-02-06，原产地瑞典。3M 英国已从经销商处召回并发出停用通知（Stop Use）。渠道请立即比对库存与已售批次。","url":"https://www.gov.uk/product-safety-alerts-reports-recalls/product-recall-3m-peltor-comtac-viii-headset-2607-0161","source":"GOV.UK 产品安全召回","date":"2026-07-29"},{"id":"n23","brand":"3M PELTOR","category":"recall","catLabel":"召回","title":"澳大利亚 ACCC / 新西兰 MBIE 同步召回 ComTac VIII（PRA 2026/20920）","summary":"澳大利亚竞争与消费者委员会 2026-05-25 公布 3M 澳洲发起的 ComTac VIII 召回，SKU 含 7100322593 / 7100321396 / 7100322310 / 7100321460 / 7100321461 / 7100320872，销售期 2026-01-01 至 2026-05-15，渠道包括 Blackwoods、Heightech、Frontline Safety、Amare Safety 等；新西兰经 NZ Safety Blackwoods 与 SupplyMe 售出的同款亦同步召回。风险为永久性耳鸣，要求立即停用并联系经销商退款/换货。对做军警渠道的经销商而言，需主动排查在库与已交付批次。","url":"https://www.productsafety.gov.au/node/33506","source":"澳大利亚 Product Safety（ACCC）","date":"2026-05-25"},{"id":"n24","brand":"3M PELTOR","category":"expo","catLabel":"新品","title":"ComTac IX NIB 战术耳机在 Enforce Tac 2026 面向 EMEA 首发","summary":"3M PELTOR 官方 LinkedIn 宣布最新一代 ComTac IX NIB 战术耳机在 EMEA 上市，并于 2026-02-23~25 德国纽伦堡 Enforce Tac（Hall 7A / Booth 4040）现场演示，美国及其他地区随后数月陆续上市。核心卖点：NIB（Natural Interaction Behavior）5-10 米范围内耳机对耳机免电台全双工互通，支持 4 人同时讲话 / 60 人收听；MAP 任务音频档案 5 种场景增益与频响；Mix/Single/Surround 三种电台音频呈现；配合耳塞可达 40 dB 双重防护。","url":"https://www.linkedin.com/posts/3m-peltor-communication-solutions_3mpeltor-comtac-enforcetac-activity-7430739071934607360-jKia","source":"3M PELTOR 官方 LinkedIn","date":"2026-02-23"},{"id":"n25","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"PELTOR WS ALERT X+ 工业蓝牙耳罩上市（68 小时续航 + OTA 升级）","summary":"面向工地/农业/工程机械场景的 WS ALERT X+ 上市：符合 AS/NZS 1270:2002 Class 5（28 dB SLC80），蓝牙 5.2 MultiPoint 可同时连两台设备（手机或兼容对讲机），Qualcomm aptX HD 自适应音频，降噪吊杆麦；内置锂电 USB-C 充电、续航最高 68 小时、4 小时无操作自动关机；娱乐音频限幅 82 dB(A)，支持 OTA 固件升级与 3M Connected Equipment App；头带/盔挂两版，重 366-385g，卫生套件与麦克风可更换。对工业听力防护渠道是一款高毛利可推的换代款。","url":"https://blog.blackwoods.com.au/clear-communication-on-site-without-compromising-hearing","source":"Blackwoods（3M 澳洲渠道技术稿）","date":"2026-06-20"},{"id":"n02","brand":"HOWARD LEIGHT","category":"news","catLabel":"新品","title":"Howard Leight Impact Sport Pink 粉色新配色上市","summary":"Honeywell 旗下 Howard Leight 推出 Impact Sport 电子降噪耳罩粉色版（R-01526P），延续 NRR 22 dB、82 dB 压缩阈值、3.5mm AUX 输入，主打射击运动与狩猎人群的个性化选择。专业测评于 2026-06 发布，街价低于 $80。","url":"https://wcsafety.com/blogs/product-reviews/howard-leight-impact-sport-pink-electronic-ear-review","source":"WC Safety 专业测评","date":"2026-06-15"},{"id":"n03","brand":"HOWARD LEIGHT","category":"news","catLabel":"动态","title":"Impact Sport 稳居 2026 各大横评「最佳性价比电子耳罩」","summary":"Howard Leight Impact Sport（R-01526）在 Amazon 维持 4.7★ / 约 51,725 条评价；2026 年 powderandlead、shooterdeals 等多家射击护耳横评仍将其列为「Best Value」入门首选，理由是 350 小时 AAA 续航、方向性立体声麦、0.02s / 82dB 压缩与 4 小时自动关机。短板被普遍指出为 NRR 22 偏低（室内靶场需叠戴耳塞）与耳垫年损耗。","url":"https://powderandlead.net/best-hearing-protection-for-shooting","source":"Powder & Lead 2026 横评","date":"2026-07-10"},{"id":"n04","brand":"WALKER'S","category":"news","catLabel":"动态","title":"Walker's Razor Slim 长期霸榜 Amazon 射击耳罩类目第一","summary":"Walker's Razor Slim 电子折叠耳罩在 Amazon 维持 4.8★ / 约 84,601 条评价，位列 Hunting & Shooting Earmuffs 类目第 1，NRR 23 dB、0.02 秒声激活压缩，是北美最畅销的薄型电子耳罩之一；被动版 Razor Slim（NRR 27）街价约 $22，常被推荐作为叠戴外层。","url":"https://www.amazon.com/dp/B01AAH8CRU","source":"Amazon 商品页","date":"2026-07-12"},{"id":"n26","brand":"WALKER'S","category":"news","catLabel":"新品","title":"★官网 New Products 新增三款：SHOTSYNC 射击计时器 / Recon 蓝牙数字耳罩 / Cloak 双麦耳罩","summary":"本轮监测在 Walker's 官网 New Products 页发现三款此前未记录的新上架产品：① SHOTSYNC 可穿戴射击计时器（$49.99），麦克风+加速度计双传感器精确计枪数与分段时间，蓝牙 5.2 低功耗，App 可自定义 par 时间、起始信号、击发灵敏度并留存训练历史，可按不同枪型校准——这是 Walker's 从「听力防护」向「射击训练配件」扩品类的信号；② Recon Bluetooth Digital Ear Muffs（$149.99），Recon 系列蓝牙数字版；③ Cloak Dual Mic Electronic Ear Muff（$49.99），双麦电子耳罩下探入门价位段。","url":"https://www.walkersgameear.com/new-products/","source":"Walker's 官网 New Products","date":"2026-08-04"},{"id":"n27","brand":"WALKER'S","category":"news","catLabel":"新品","title":"Razor Junior 青少年耳罩 2026-07 全渠道铺货","summary":"Walker's 于 2026 年 7 月发稿宣布 Razor Junior 系列（含多种儿童配色）已在官网与全美零售商全面上市。产品针对小头围设计，超薄低姿态保证密封，双 Hi-Gain 全向麦 + 全动态 HD 扬声器，0.02 秒声激活压缩，NRR 23 dB，配下沉式音量旋钮防误调与金属丝加强头带。母公司 GSM Outdoors 借暑期户外季主推青少年细分市场——是国内做家庭/青少年射击场景渠道值得跟的一条产品线。","url":"https://huntinglife.com/walkers-new-razor-junior-muffs-specifically-safeguard-the-hearing-of-youth-shooters","source":"Hunting Life（Walker's 新闻稿）","date":"2026-07-15"},{"id":"n06","brand":"EARMOR","category":"expo","catLabel":"展会","title":"SHOT Show 2026：EARMOR 发布 M300T 与 M20T PRO","summary":"EARMOR 在 2026 拉斯维加斯 SHOT Show（1/20-23，展位 #60310）展出 M300T 战术版与 M20T PRO 入耳式电子耳塞。展后官方复盘披露细节：M300T 升级蓝牙 5.3、<1ms 压缩、3 种拾音模式（Natural/Clear Voice/Focus），并首发哑光 Tactical Pink 配色主攻女性射手；M20T PRO 升级蓝牙 5.4（抗干扰信号稳定性 +40%）、NRR 30dB、充电盒共 50 小时续航。","url":"https://www.earmor.us/blogs/news/shot-show-2026-recap-the-next-generation-of-earmor%C2%AE-tactical-audio-is-here","source":"EARMOR US 官方展后复盘","date":"2026-01-20"},{"id":"n28","brand":"EARMOR","category":"expo","catLabel":"新品","title":"★EARMOR M81「蜂鸟」全双工通话器在 2026 警用反恐展首发","summary":"在 2026 年国际警用装备及反恐技术装备展览会（6/4-6）上，EARMOR 耳魔发布 M81 蜂鸟全双工通话器，主打小巧便携、全双工多人通信、安全可靠，为战术小队提供免 PTT 的实时协同通信方案。这是 EARMOR 从听力防护向「小队短距通信」延伸的关键新品，对国内警用/特勤渠道有直接对标意义。","url":"https://opsmen.tezhongzhuangbei.com/gsdt.html","source":"广州行动者科技（EARMOR）公司动态","date":"2026-06-08"},{"id":"n29","brand":"EARMOR","category":"news","catLabel":"新品","title":"EARMOR E10「赛级耳塞」上市，切入竞技射击细分","summary":"EARMOR 于 2026-01-09（中国人民警察节前夕）推出 E10 赛级耳塞。该产品随后在 2026 阿联酋特警挑战赛狙击科目中被裁判员与安全员采用——官方口径强调站在射手两侧的裁判/安全员实际承受的噪声冲击大于射手本人，E10 提供「双重防护」。同期 M80 全双工通信产品护航「尖刀·使命」全国特警挑战赛。","url":"https://opsmen.tezhongzhuangbei.com/gsdt.html","source":"广州行动者科技（EARMOR）公司动态","date":"2026-01-09"},{"id":"n07","brand":"EARMOR","category":"news","catLabel":"合作","title":"EARMOR 成为 IPSC 官方头部装备主要合作伙伴","summary":"EARMOR 宣布成为国际实用射击联合会（IPSC）在耳机/听力保护品类的首位主要合作伙伴（Major Partner），为运动员安全与表现设定新标准，并赞助 2026 欧洲手枪锦标赛。","url":"https://www.earmor.com/headline-shatter-the-silence-earmors-revolutionary-m300t-m20t-pro-igniting-shot-show-2026","source":"EARMOR 官网","date":"2026-01-22"},{"id":"n30","brand":"EARMOR","category":"news","catLabel":"合作","title":"IROA 与 EARMOR 达成全球听力防护合作","summary":"EARMOR 官网新闻栏披露与 IROA（国际靶场官协会）建立全球合作伙伴关系，切入「靶场官/裁判长期暴露于枪声却缺乏系统听力防护」这一痛点。叠加此前的 IPSC Major Partner 身份，EARMOR 正以赛事组织为杠杆做品牌背书——是国产品牌走出海外专业市场的典型打法，值得在客户沟通中引用。","url":"https://www.earmor.com/","source":"EARMOR 官网 Latest","date":"2026-07-01"},{"id":"n09","brand":"EARMOR","category":"expo","catLabel":"展会","title":"EARMOR 赞助 2026 IPSC 欧洲手枪锦标赛（匈牙利 Buzsák）","summary":"EARMOR 作为区域赞助商参与 2026 IPSC 欧洲手枪锦标赛（匈牙利 Buzsák），品牌大使 Pavol Zencar 参赛，现场以 M300T 展示实射场景下的听力保护与情景感知表现，官网连发多篇 EHC 2026 现场内容。","url":"https://www.earmor.com/earmor-2026-european-handgun-championship/","source":"EARMOR 官网","date":"2026-06-01"},{"id":"n44","brand":"EARMOR","category":"news","catLabel":"新品","title":"★行动者科技十周年庆典四款新品全球首发（C53 / M23T / M21 / M35）","summary":"2026-08-01，EARMOR 母公司广州市行动者科技在十周年庆典上集中首发四款 AI+声学新品：C53 为全球首款同时取得 IECEx Ex ia 级与 Ma 级最高防爆认证的产品，可在 0 区等高危环境实现 8 人全双工无按键通话；M23T AI 听力保护 TWS 耳机仅 21.8mm 厚，蓝牙 6.0、毫秒级压制枪声，支持 89 种语言 AI 实时翻译；M21 AI 轻量化战术通信终端采用仿生耳撑无感佩戴，动铁单元配合声学算法增强脚步声并实现 8° 辨位、降低风噪，支持双通道对讲机并行接入；M35（概念版）为首款 AI 视听感知战术终端，将搭载 1200 万像素 4K 录像与视觉语言模型。对渠道意味着 EARMOR 产品线正式从「听力防护」切入「智能个体防护」，防爆与 AI 翻译两条线可开拓工业/涉外新客群。","url":"https://www.sohu.com/a/1057763022_122135544","source":"搜狐（行动者科技十周年报道）","date":"2026-08-01"},{"id":"n45","brand":"EARMOR","category":"news","catLabel":"动态","title":"EARMOR 母公司拿下全国 PPE 行业首家最高本安级别防爆认证","summary":"行动者科技宣布成为全国 PPE 行业首家按最新防爆法规取得最高本安级别（Ex ia / Ma）认证的企业，为智能头戴穿戴装备进入石化、矿山、燃气等 0 区高危环境打开新空间。这是 C53 产品得以落地的资质基础，也是国内同行短期难以复制的准入壁垒——面向工业劳保客户报价时可作为核心差异点。","url":"https://www.sohu.com/a/1057763022_122135544","source":"搜狐（行动者科技十周年报道）","date":"2026-08-01"},{"id":"n46","brand":"EARMOR","category":"news","catLabel":"动态","title":"行动者科技十周年：覆盖 80+ 国家、泰国工厂投产、参与制定国家标准","summary":"创始人胡沛霖 2016 年入行，十年间建成花都生产基地、广州研究院与声学实验室，并在泰国布局海外工厂（有助规避关税）；拥有过百项自主专利，产品覆盖全球 80 多个国家和地区，位居国内专业听力防护第一梯队。2024 年胡沛霖作为智能个体防护装备标准化工作组专家，参与制定《个人防护装备》《听力防护装备》等国家标准。公司智能光波导 AI 眼镜与 EARMOR AI App 已于 2025 年上市。","url":"https://www.sohu.com/a/1057763022_122135544","source":"搜狐（行动者科技十周年报道）","date":"2026-08-02"},{"id":"n47","brand":"EARMOR","category":"expo","catLabel":"展会","title":"EARMOR 亮相 IWA OutdoorClassics 2026（纽伦堡 Booth 5-338），主打十周年阵容","summary":"EARMOR 在德国纽伦堡 IWA OutdoorClassics 2026 设展位 5-338，以「十年」为主题展出 M300T（双高增益麦克风 360° 态势感知、超薄耳杯避免干扰枪托、2026 款强化防汗与加固头带）与 M20T PRO（混合降噪入耳式、蓝牙、室内/室外/静音三档模式）。官方预告本季将在自有商店推出十周年特别版配色。","url":"https://www.earmor.us/blogs/events/earmor%C2%AE-at-iwa-2026-10-years-of-innovation-the-future-of-tactical-audio","source":"EARMOR US 官网","date":"2026-02-23"},{"id":"n10","brand":"OTTO ENGINEERING","category":"news","catLabel":"新品","title":"OTTO NoizeBarrier TAC 2.0 战术降噪通讯耳机在售","summary":"OTTO 的 NoizeBarrier TAC 2.0——业界首款全模块化战术通讯耳机，NRR 23 dB / SNR 29 dB，增强风噪抑制、可换防水电池门、较上代轻 12%+，IP68 / MIL-STD-810G，2×AA 约 100 小时，兼容 Ops-Core / Team Wendy 头盔导轨，面向军/执法市场；美制 TAA/BAA/Berry 合规。","url":"https://www.otto-comm.com/products/headsets-and-earplugs/noizebarrier-headsets-and-earplugs/noizebarrier%20tac%202","source":"OTTO Communications 官网","date":"2026-02-10"},{"id":"n31","brand":"OTTO ENGINEERING","category":"news","catLabel":"动态","title":"OTTO 通过 CMMC Level 2 网络安全认证（官网最新一条新闻）","summary":"OTTO Engineering 通过第三方评估取得美国国防部 CMMC（网络安全成熟度模型认证）Level 2 合规，用于保护受控非密信息（CUI）与 ITAR 管制的军用技术数据。总裁 Dan Stanek 表示这是作为国防与航空供应商的必要投入；业内估计需达标的 8 万家国防承包商中目前不足 3% 完成 Level 2。本轮核查确认：OTTO 官网新闻页 2026 年内未发布任何新产品（上一条产品新闻为 2025-08-05 的 DarkStar），该品牌本期归为「无新品」。","url":"http://www.otto-comm.com/news/CMMC%20Certification","source":"OTTO Engineering 官网新闻","date":"2026-07-20"},{"id":"n13","brand":"INVISIO","category":"news","catLabel":"财报","title":"INVISIO 2026 上半年报：Q2 营收 5.128 亿瑞典克朗、同比 +20%，但订单量因美国政府停摆推迟","summary":"INVISIO 2026-07-17 发布中期报告。Q2：营收 SEK 512.8m（去年同期 426.9m，+20.1%），毛利 271.8m、毛利率 53.0%（下滑自 56.7%），EBITDA 95.8m（margin 18.7%），净利 57.9m，EPS 1.25。上半年营收 943.3m。关键风险信号：Q2 订单量仅 278.5m（去年同期 401.3m），在手订单 497.5m（去年 705.3m）——CEO Lars Højgård Hansen 归因于美国政府部分停摆与美国国防部重组，判断「订单只是延后未丢失」，预计下半年逐步恢复。季度重要事件：英国国防部批准 INVISIO 为直接供应商、发布 T30 的 Drone Aware 功能。","url":"https://corp.invisio.com/news-and-events/pressrelease/invisio-interim-report-january-june-2026-strong-revenue-and-significant-strategic-progress","source":"INVISIO 官网 Q2 财报","date":"2026-07-17"},{"id":"n32","brand":"INVISIO","category":"news","catLabel":"合作","title":"英国国防部批准 INVISIO 为战术通信系统框架下的直接供应商","summary":"INVISIO 在 Q2 内获英国国防部（UK MoD）批准，成为其 Tactical Communications Systems Framework 下的直接供应商。该框架不含保证订单量与合同金额，但公司定性为重要战略里程碑——意味着 INVISIO 可绕开中间商直接对英军供货。对同业而言，这是欧洲军用听力防护/通信供应格局变化的重要一步。","url":"https://corp.invisio.com/news-and-events/pressrelease/invisio-interim-report-january-june-2026-strong-revenue-and-significant-strategic-progress","source":"INVISIO Q2 报告（重要事件）","date":"2026-06-30"},{"id":"n12","brand":"INVISIO","category":"expo","catLabel":"展会","title":"INVISIO 在 Eurosatory 2026 发布 T30 的 Drone Aware 反无人机感知能力","summary":"INVISIO 于 2026-06-11 在巴黎 Eurosatory 展会预览首发 INVISIO Drone Aware™（官方确认 Q3 2026 起正式集成上市），该能力集成于 T30 头戴，可实现对来袭无人机的早期识别，把听力防护耳机变成战场态势感知节点。这是当前军用头戴品类最值得关注的技术方向之一。","url":"https://corp.invisio.com/news-and-events/press-releases/?page=1","source":"INVISIO 官网新闻稿列表","date":"2026-06-11"},{"id":"n11","brand":"INVISIO","category":"news","catLabel":"订单","title":"INVISIO 与荷兰国防部框架协议（最高 SEK 365M，含 T30/X7），订单自 2026 年起下达","summary":"INVISIO 与荷兰国防部签署五年期（可再延两年）框架协议，估值最高约 3.65 亿瑞典克朗，涵盖个人通讯系统，含 T30 与 X7 耳机、多型控制单元与智能线缆；协议于 2025-10-09 公告，具体订单预计自 2026 年起陆续下达，是其 2026 在手订单的重要支撑之一。","url":"https://corp.invisio.com/news-and-events/press-releases/2025-10-09-invisio-signs-framework-agreement-worth-up-to-sek-365-million-with-netherlands-mod","source":"INVISIO 官网新闻稿","date":"2026-01-05"},{"id":"n33","brand":"AXIL","category":"news","catLabel":"财报","title":"AXIL Brands FY2026 Q3 财报：营收 730 万美元 +5.4%，但关税压缩毛利率至 69.1%","summary":"AXIL Brands（NYSE American: AXIL）2026-04-08 发布截至 2026-02-28 的第三财季业绩：净销售额 $7.29M（+5.4%），毛利 $5.04M、毛利率 69.1%（去年同期 71.7%，下滑主因关税与清关成本上升），营业费用 $4.83M 占营收 66.2%，净利仅 $0.20M / 摊薄 EPS $0.02（去年 $0.58M / $0.07），调整后 EBITDA $0.5M（去年 $0.9M）；期末现金 $5.5M。渠道进展：Home Depot 线上三款产品新订单、Sportsman's Warehouse 70 店铺 GSX 3 与 XCor Pro、Walmart 3,700 店铺货、Monster Jam 授权扩展。要点：AXIL 靠渠道扩张顶住营收，但关税正在实质吞噬利润——对同做美国市场的听力防护出口商是明确的成本预警。","url":"https://www.sec.gov/Archives/edgar/data/1718500/000152013826000105/axil-20260408_8kex99z1.htm","source":"SEC EDGAR 8-K（AXIL Brands）","date":"2026-04-08"},{"id":"n34","brand":"AXIL","category":"news","catLabel":"合作","title":"AXIL GSX 3.0 与 XCOR Pro 进驻 Sportsman's Warehouse 全美门店","summary":"AXIL 于 2026-03-30 宣布将两款旗舰电子听力防护产品 GSX 3.0 与 XCOR Pro 铺入 Sportsman's Warehouse 全美门店及线上。GSX 3.0：最高 26 dB SNR、语音清晰度提升、续航最高 15 小时、Smart Sound Balance 自动环境适配；XCOR Pro：29 dB SNR、HearPRO 技术、最高 6 倍听力增强、蓝牙通话与串流。全球销售负责人 Tyler Smith 表示此举显著提升可及性。","url":"https://www.globenewswire.com/news-release/2026/03/30/3264560/0/en/axil-brands-to-introduce-gsx-3-0-and-xcor-pro-hearing-protection-products-nationwide-at-sportsman-s-warehouse.html","source":"GlobeNewswire（AXIL 新闻稿）","date":"2026-03-30"},{"id":"n35","brand":"AXIL","category":"news","catLabel":"合作","title":"AXIL 与 Walmart 达成全国分销：X30i LT 铺入约 3,700 家门店","summary":"AXIL 在 FY2026 Q2 财报（2026-01-08）中宣布与全球最大零售商 Walmart 达成 X30i LT 的全国分销协议，首批约 3,700 家美国门店于 2026 年初开始铺货，主打新一代入耳式听力防护（先进声控、双模防护、全天佩戴舒适）。同季营收 $8.1M（+5.2%）、净利 $70.5 万、调整后 EBITDA $1.2M（+13.9%）；并推出旗舰战术耳塞 GS Extreme 3.0（专有声音滤波、更强防水、续航为上代两倍以上）。","url":"https://goldenstatenewswire.com/article/881506246-axil-brands-inc-reports-second-quarter-fiscal-year-2026-financial-results","source":"AXIL Brands FY26 Q2 财报稿","date":"2026-01-08"},{"id":"n14","brand":"AXIL","category":"news","catLabel":"新品","title":"AXIL 产品矩阵刷新：MX PRO（30dB SNR/BT5.4）与 X30i 耳塞上架","summary":"AXIL 官网当前在售矩阵已扩至：GS Extreme 3.0（26dB SNR、5X 增强、IP64、BT5.3、$184.60）、XCOR PRO（29dB SNR、5X、12 小时、$307.67）、MX PRO（最高 30dB SNR、6X 增强、BT5.4、可换面板、Sonic Shield X 滤波+Filter-on-Mic 技术）、MXII PRO（22dB SNR、面板可换即将上线）、X30i 耳塞（25dB SNR、Open Mode、可定制贴合）。全线覆盖 $24.99~$307.67 价位带，是目前 10 大品牌中 SKU 迭代最快的一家。","url":"https://www.goaxil.com/collections/shooting-hunting-hearing-protection","source":"AXIL 官网产品页","date":"2026-07-25"},{"id":"n48","brand":"AXIL","category":"news","catLabel":"财报","title":"AXIL 给出 FY2026 Q4 及全年营收指引：全年 3020~3220 万美元（+15%~23%）","summary":"AXIL Brands 在 8-K 中给出指引：FY2026 第四财季营收 800~1000 万美元，同比增长约 39%~74%，毛利率 67%~71%；全财年营收 3020~3220 万美元，较 FY2025 增长 15%~23%。管理层称公司仍处增长早期。注意其增长主要靠零售铺货驱动，而 Q3 已出现「关税上升 + 经销商大单占比提高」压低毛利率的现象，采购议价时可关注其放量让利空间。","url":"https://www.stocktitan.net/sec-filings/AXIL/8-k-axil-brands-inc-reports-material-event-91cb7ad18f17.html","source":"StockTitan / SEC 8-K","date":"2026-04-08"},{"id":"n49","brand":"AXIL","category":"news","catLabel":"合作","title":"AXIL 扩大与 Monster Jam 的品牌授权协议","summary":"AXIL 随财报同步宣布扩大与 Monster Jam（怪兽卡车赛事 IP）的授权合作，延伸至家庭与赛事观众场景的听力防护产品。这条线说明 AXIL 正把重心从纯射击圈层向大众娱乐/亲子降噪市场外扩，对同类耳罩的品类定位与包装设计有参考价值。","url":"https://longbridge.com/zh-HK/news/282036867","source":"Longbridge（8-K 摘要）","date":"2026-04-08"},{"id":"n50","brand":"AXIL","category":"news","catLabel":"动态","title":"AXIL 将 Reviv3 ProCare 独立为子公司，为剥离美护业务铺路","summary":"AXIL 已将旗下美发护肤业务 Reviv3 ProCare 设立为独立子公司，以便未来进行战略分拆或出售交易。若剥离完成，AXIL 将成为纯听力防护标的，资源与营销预算会进一步向 GS Extreme / XCOR / MX 等耳罩耳塞产品线集中，预计新品节奏与渠道投入会加快。","url":"https://in.tradingview.com/news/tradingview%3Af743e47fdecda%3A0-axil-brands-inc-3q-2026-revenue-7-29m-eps-0-02-10-q-summary","source":"TradingView / SEC 10-Q","date":"2026-04-08"},{"id":"n36","brand":"OPS-CORE","category":"news","catLabel":"订单","title":"Ops-Core 获加拿大陆军 1,600 万美元订单（AMP 耳机 + NFMI 耳塞 + U94 PTT）","summary":"Gentex 旗下 Ops-Core 于 2026-05-18 宣布获得加拿大陆军士兵系统项目管理局 1,600 万美元订单，交付 AMP 通讯耳机（配 AMP Rail Mount Kit with Vent Mode）、NFMI 近场磁感应耳塞、U94 PTT 与 AMP U174 下引线，构成一体化听力防护+通信方案。Vent Mode 为 1 月 SHOT Show 首发能力，允许耳杯微移改善散热同时借 NFMI 保持通信与防护——上市 4 个月即拿下大额军单，验证了「用户反馈驱动改良」的产品路线。","url":"https://www.newswire.ca/en/releases/archive/May2026/18/c5566.html","source":"PR Newswire（Gentex 新闻稿）","date":"2026-05-18"},{"id":"n37","brand":"OPS-CORE","category":"recall","catLabel":"通告","title":"⚠Ops-Core 发布 NFMI 耳塞单独使用性能产品通告（Product Advisory）","summary":"Gentex / Ops-Core 于 2026-03-09 发布产品通告：针对 NFMI 耳塞在「单独使用（Stand-Alone Use）」情形下的性能作出说明与提示。虽非正式召回，但属官方安全性能通告，凡采购或转售 Ops-Core AMP + NFMI 组合方案的渠道应向终端客户同步该通告，避免用户以为耳塞可脱离耳机独立提供标称防护。","url":"https://gentexcorp.com/blog/","source":"Gentex 官网 Product Advisory","date":"2026-03-09"},{"id":"n38","brand":"OPS-CORE","category":"news","catLabel":"订单","title":"Gentex 获美国陆军 HGU-56/P 旋翼机头盔五年 IDIQ 合同","summary":"2026-07-09，Gentex 宣布获美国陆军合同司令部（Redstone）授予五年期 IDIQ（不定期不定量）合同，采购 HGU-56/P 旋翼机头盔系统、Apache 头盔组件（AHA）、备件与升级套件。这是继 6 月入选陆军 NGC2 项目（提供 Ops-Core AMP 通讯耳机）后的又一大单，显示 Gentex 在美军单兵/机组头部系统的份额仍在扩大。","url":"https://www.gentexcorp.com/news/page/1/","source":"Gentex 官网新闻","date":"2026-07-09"},{"id":"n17","brand":"OPS-CORE","category":"news","catLabel":"订单","title":"Gentex 入选美国陆军 NGC2 项目，提供 Ops-Core AMP 通讯耳机","summary":"Gentex 于 2026-06-15 宣布被选入美国陆军 NGC2（下一代指挥控制）原型验证项目，提供 Ops-Core AMP 通讯耳机及集成解决方案，进一步巩固其在单兵头部系统与战术通讯领域的地位。","url":"https://gentexcorp.com/blog/","source":"Gentex 官网","date":"2026-06-15"},{"id":"n16","brand":"OPS-CORE","category":"news","catLabel":"新品","title":"Ops-Core 2026 执法产品线：FAST XP 头盔系统 + Voice Projection Unit","summary":"Gentex 2026-01-19 发布重新设计的 Ops-Core FAST XP 弹道头盔系统（执法版，NIJ IIIA / HG2，高切/中切可选，LockDown 内衬、Occ-Dial 悬挂、PowerPath ARC 导轨）；2026-02-17 又发布 Ops-Core Voice Projection Unit（VPU），为 Special Operations Tactical Respirator 配套的语音投射附件，解决戴呼吸器时的通话可懂度问题。同年 2 月宣布赞助俄亥俄州 Alliance 警察训练基地。","url":"https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/","source":"Gentex 官网","date":"2026-02-17"},{"id":"n19","brand":"SORDIN","category":"news","catLabel":"新品","title":"★Sordin Supreme X2 SFA 本月（2026-08）上市，官网首页已挂 New launch","summary":"Sordin 官网首页当前头条即为「New launch – Sordin Supreme X2 SFA」，为 X2 系列最新成员，本轮监测确认其 8 月正式上市（现已开售，见 n70 更正条目）。SFA（Sordin Flexible Attenuation）通过可拆卸距离环，让用户在「更高衰减」与「更薄耳杯轮廓」之间按当次训练需求切换，配合 SordinFLEX 模块化平台、清晰环境音与全天佩戴舒适度，明确面向长时间靶场射手。此前 Sordin 官方 LinkedIn 已预告「Available this August」。","url":"https://sordin.com/","source":"Sordin 官网首页 / LinkedIn","date":"2026-08-01"},{"id":"n20","brand":"SORDIN","category":"news","catLabel":"新品","title":"更正：Sordin Supreme X2 正式发布日为 2026-05-27（取代 Pro-X 成新旗舰）","summary":"本轮核查更正此前记录：Supreme X2 于 2026-05-27 正式发布，是 X2 系列首款产品，定位取代 Supreme Pro-X 成为狩猎/射击旗舰。SNR 29 dB（高频 31 / 中频 27 / 低频 22）、NRR 23，重放声限幅 82 dB(A)，较 Pro-X 提升 2 dB；首创 SordinFLEX 卡口系统，同一耳杯可免工具在头带 / 颈带 / 盔挂之间切换（Pro-X 时代需买不同 SKU）；SordinHEAR2 四档音频（Hunter / Focus / Shooter / Ambient off）；单电池供电 + 4 小时自动关机；防水结构、2 年质保。官网 3,999 kr / $399，美国经销价约 $349。蓝牙版 X2BT 在 SHOT Show 2026 亮相但仍在研发，暂无发售日。","url":"https://www.rifleconfigurator.com/articles/sordin-supreme-x2-launch","source":"Rifle Configurator 产品档案","date":"2026-05-27"},{"id":"n18","brand":"SORDIN","category":"expo","catLabel":"展会","title":"Sordin Supreme X2 亮相 SHOT Show 2026（最热门扫描新品之一）","summary":"Sordin Supreme X2 在 2026 SHOT Show 新品中心被列为第三天被扫描最多的新品之一。该等级依赖型听力保护器专为狩猎与射击设计，紧凑耳杯实现高衰减（NRR 23 dB / SNR 29 dB），配 SordinHEAR2 四种声学模式。","url":"https://shotshow.org/most-scanned-new-products-during-day-3-of-2026-shot-show/","source":"SHOT Show 官方","date":"2026-01-23"},{"id":"n42","brand":"DECIBULLZ","category":"news","catLabel":"新品","title":"★Decibullz PRO 定制可塑耳塞 Pro-Pack 随包配「全新塑形工具」","summary":"本轮监测发现 Decibullz 官网主推 PRO Custom Molded Earplugs 31dB NRR Pro-Pack，最大变化是随包附赠「ALL-NEW Decibullz Molding Tool」，让沸水塑形过程更快更精准。包内含 THERMOFIT 左右耳塞、3 组 Max Protect 泡沫 tip（S/M/L）、5 组硅胶 tip（XXS~L）、带弹簧扣硬壳收纳盒与硅胶挂绳；符合 ANSI S3.19，独立测试 NRR 31（配泡沫 tip）/ 25（单法兰硅胶 tip）。产品页明确对标「过耳耳罩会顶枪托」的痛点，主打低姿态贴面颊依托。","url":"https://decibullz.com/products/pro-custom-molded-earplugs-31db-nrr-pro-pack","source":"Decibullz 官网","date":"2026-07-20"},{"id":"n21","brand":"DECIBULLZ","category":"news","catLabel":"新品","title":"Decibullz 推出 USA Edition 定制可塑耳塞（爱国限定配色）","summary":"Decibullz 推出 USA Edition 定制可塑耳塞，首次采用白色可塑耳件与红白蓝主题背塞/挂绳，沸水 5 分钟加热塑形、可反复重塑，NRR 31 dB，覆盖射击、狩猎、工业、烟火与现场活动等高噪场景。","url":"https://www.decibullz.com/decibullz-custom-moldable-earplugs-usa-edition/","source":"Decibullz 官网","date":"2026-03-18"},{"id":"n22","brand":"DECIBULLZ","category":"news","catLabel":"新品","title":"Decibullz +Awareness 定制耳塞适配声管对讲机（执法/消防）","summary":"Decibullz 推出 +Awareness 定制可塑耳塞，专为声管对讲机（acoustic tube）设计，在监控无线电通讯的同时保持环境态势感知，面向警察、消防、EMS、军方等任务关键场景，可沸水重塑贴合。","url":"https://www.commgearsupply.com/products/decibullz-awareness-custom-moldable-ear-plugs-for-acoustic-tube-earpieces","source":"Comm Gear Supply","date":"2026-04-22"},{"id":"n40","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"3M PELTOR ComTac IX NIB 战术通讯耳罩上市（内置无线队间通信）","summary":"3M PELTOR 发布 ComTac IX NIB（型号 MT14H419A）：在 ComTac IX 基础上内置 NIB 无线队间通信系统，5–10m 全双工、最多 4 人同时发射/60 人收听，无需外接电台即可小队通联；衰减 29dB，无蓝牙。2026 年 1 月上市。","url":"https://www.3m.com/3M/en_LB/p/d/b5005624009","source":"3M 产品页（ComTac IX NIB）","date":"2026-01"},{"id":"n41","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"3M PELTOR ComTac VIII 通讯耳罩上市（NRR 23dB / Hearing Defender 版）","summary":"3M PELTOR 推出 ComTac VIII（型号 MT14H418A-90）：NRR 23dB，提供 Hearing Defender 无麦/不支持电台版本与标准通讯版本，MAP 任务音频 5 档可调。2026 年 1 月上市。（注：该型号后续因反馈噪音问题于 2026-07 发起全球召回，见本模块召回条目。）","url":"https://www.3m.com/3M/en_US/p/d/b5005502016","source":"3M 产品页（ComTac VIII）","date":"2026-01"},{"id":"n43","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"3M PELTOR ProTac Hunter / ProTac Shooter 电子耳罩上市","summary":"3M PELTOR 推出 ProTac Hunter 与 ProTac Shooter 民用狩猎/射击电子耳罩：SNR 26/32dB，2×AA 供电最长 100 小时，3.5mm 音频接口；英国 RRP £89.99。2026 年上市。","url":"https://www.gunmart.net/shooting-accessories/safety-security/hearing-protection/you-heard-it-here-first-new-hearing-protection-from-3m-peltor","source":"GunMart","date":"2026"},{"id":"n51","brand":"3M PELTOR","category":"recall","catLabel":"召回","title":"3M PELTOR ComTac VIII 新西兰召回（Product Safety NZ）","summary":"新西兰 Product Safety NZ 宣布召回 3M PELTOR ComTac VIII 头戴（产品标识 7100322593 MT14H418A-02 GREEN），2026-01-01 至 2026-05-15 期间在新西兰售出；反馈噪音最高 106 dBA，可致永久性耳鸣。购买渠道为 NZ Safety Blackwoods、SupplyMe；用户可联系 3M 新西兰（0800 252 627）安排退换。","url":"https://newswire.nz/a/ACy8avdk2TsG7A3unWlALRaeFtf/3m_is_recalling_peltor_comtac_viii_headsets_sold_in_nz_due_to_feedback_noise_up_to_106_dba_which_could_cause_permanent_tinnitus_consumers_should_contact_3m_for_credit_and_replacement.html","source":"Product Safety NZ / newswire.nz","date":"2026-07"},{"id":"n52","brand":"3M PELTOR","category":"news","catLabel":"动态","title":"3M PELTOR ComTac VI 头戴随 NASA Artemis II 登月任务使用","summary":"3M 新闻中心披露，NASA Artemis II 载人绕月任务中，猎户座飞船乘组使用 3M PELTOR ComTac VI 战术头戴进行舱内通信，体现 PELTOR 在航天极端场景下的可靠性。","url":"http://news.3m.com/","source":"3M News Center","date":"2026-04"},{"id":"n53","brand":"OPS-CORE","category":"order","catLabel":"订单","title":"Gentex 获美国陆军 HGU-56/P 旋翼飞行头盔系统及保障合同","summary":"Gentex 于 2026-07-09 宣布获得美国陆军 HGU-56/P 旋翼飞行头盔系统（Rotary Wing Helmet Systems）及相关保障支持合同，延续其在军用头戴装备领域的长期供应。","url":"https://www.gentexcorp.com/news/","source":"Gentex Corporation","date":"2026-07"},{"id":"n54","brand":"OPS-CORE","category":"news","catLabel":"动态","title":"Lackawanna 警察局接收 Ops-Core FAST 头盔系统","summary":"2026-06-29 Gentex 披露 Lackawanna 警察局到访并接收 Ops-Core FAST 头盔系统，体现 Ops-Core 在执法（LE）市场的持续落地与本地执法部门采用。","url":"https://www.gentexcorp.com/news/","source":"Gentex Corporation","date":"2026-06"},{"id":"n55","brand":"DECIBULLZ","category":"news","catLabel":"新品","title":"Decibullz 推限量 USA 版 + 两款对讲监听耳塞（SHOT Show 2026）","summary":"SHOT Show 2026 上 Decibullz 推出限量红白蓝 USA 版定制塑形耳塞，并发布两款用于对讲管的监听耳塞（surveillance earpieces）；原有密封/脉冲滤波耳塞保持多色供应。","url":"https://theunionpulse.com/news/range-day-roundup-reflex-sight-cooling-body-armor-pop-up-targets-and-much-more","source":"The Union Pulse（SHOT Show 盘点）","date":"2026-01"},{"id":"n56","brand":"HOWARD LEIGHT","category":"news","catLabel":"动态","title":"Howard Leight Impact Sport Bluetooth 5.0 评测（NRR 22，2026-06 发布）","summary":"2026-06-19 发布、2026-07-27 更新的 Howard Leight Impact Sport Bluetooth 5.0（型号 R-02524）评测：NRR 22 dB（ANSI S3.19），蓝牙 5.0 无线音频，售价低于 50 美元，适合射击/作业场景。","url":"https://wcsafety.com/blogs/product-reviews/honeywell-ademco-howard-leight-impact-sport-bluetooth-50-electronic-shooting-ear-review","source":"WC Safety","date":"2026-07"},{"id":"n57","brand":"OTTO ENGINEERING","category":"news","catLabel":"动态","title":"OTTO NoizeBarrier Range SA 入选 RECOIL 杂志新品栏目","summary":"OTTO Communications 的 NoizeBarrier Range SA 战术头戴（NRR 23 dB、100 小时续航、360° 环境音）获 RECOIL 杂志新品栏目评测报道，面向射击专业人士与执法市场。","url":"https://www.otto-comm.com/news/Recoil%20Magazine%20Review%20Range%20SA","source":"OTTO Communications","date":"2026"},{"id":"n58","brand":"WALKER'S","category":"news","catLabel":"动态","title":"Walker's Silencer 2.0 入耳式电子耳塞被战术竞技选手采用","summary":"战术竞技（The Tactical Games）选手常用 Walker's Silencer 2.0 入耳式电子耳塞（约 $200，NRR 24 dB，带充电盒），评价舒适、性价比高；少数反馈续航与户外风噪问题。","url":"https://actiongunner.com/best-hearing-protection-for-the-tactical-games-what-competitors-use/","source":"Action Gunner","date":"2026"},{"id":"n59","brand":"AXIL","category":"news","catLabel":"新品","title":"AXIL 发布 MX II 系列耳罩（SonicShieldX，1/5 预售）","summary":"AXIL 于 2026-01-05 开启 MX II PRO 预售（2 月交付），MX II Electronic 与 MX II Passive 计划 5 月上市；搭载 SonicShieldX 技术，最高 6 倍环境音放大、85 dB 以上即时压缩。","url":"https://intellectia.ai/news/etf/axil-launches-mx-ii-series-earmuffs-with-preorders-starting-january-5-2026","source":"Intellectia / Newsfilter","date":"2026-01"},{"id":"n60","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"3M PELTOR 推出模块化通讯系统套件 FL7000 / FL8000 PTT 适配器","summary":"3M PELTOR 于 2026 年发布 Modular Communication System 模块化通讯系统套件，核心为 FL7000 系列机械式多通道 PTT（含音频管理开关、可选从电台向耳机供电，2026-01 上市）与 FL8000 智能多通道 PTT（支持最多 2 台双频电台 + ICS + EUD，单/混合/环绕音频呈现，计划年内上市）。配套 ComTac VIII / ComTac IX NIB 头戴，面向军警与工业场景的跨设备互联。这是 PELTOR 从「单一头戴」向「系统级通讯方案」延伸的信号，渠道可向多设备用户主推。","url":"https://www.findglocal.com/FR/Paris/112040035498517/3M-PELTOR","source":"3M PELTOR 官方社媒 / 行业市场研究","date":"2026-05"},{"id":"n61","brand":"OPS-CORE","category":"order","catLabel":"订单","title":"Gentex 获捷克陆军 Ops-Core 头盔与 AMP 通讯耳机订单（经 NSPA，逾 10 亿捷克克朗）","summary":"Gentex / Ops-Core 经北约保障与采购局（NSPA）框架，被捷克国防部选中交付下一代 Ops-Core 集成弹道头盔系统与 AMP® 通讯耳机（含 PTT、面罩、防护下颌与 SOTR 呼吸器），合同价值逾 10 亿捷克克朗（约 4,300 万美元），计划 2026 年 10 月前完成交付。这是 Ops-Core 在欧洲 NATO 盟友中的又一重大落地，连同加拿大 1,600 万美元订单与美军 NGC2/HGU-56/P 合同，体现 Gentex 在单兵头部系统的份额持续扩大。","url":"https://fragoutmag.com/gentex-ops-core-helmets-amp-headsets-czech-armed-forces","source":"Frag Out! Magazine / Gentex 新闻稿","date":"2026"},{"id":"n62","brand":"WALKER'S","category":"news","catLabel":"新品","title":"Walker's Razor Slim X-TRM 电子耳罩上市（动态风噪抑制 + 凝胶耳垫）","summary":"Walker's 推出 Razor Slim X-TRM 系列电子降噪耳罩（约 $59.99–64.99），在经典 Razor Slim 基础上强化：动态风噪抑制技术 + 精准调校频响，2 只 Hi-Gain 全向麦，NRR 21 dB，0.02 秒声激活压缩；配透气网眼头带、舒适凝胶耳垫、橡胶涂层、可折叠设计、3.5mm 音频输入。面向猎人、靶场射手与户外爱好者，是 Walker's 在入门价位段对「舒适+清晰」的再打磨。","url":"https://gurmeetweb.com/walkers-razor-x-trm-electronic-muff","source":"GurmeetWeb / Walker's 产品页","date":"2026-02"},{"id":"n63","brand":"WALKER'S","category":"news","catLabel":"新品","title":"Walker's Razor Rechargeable 可充电电子耳罩上市（USB-C，80 小时续航）","summary":"Walker's 推出 Razor Rechargeable 可充电版电子耳罩（约 $64.99）：NRR 21 dB、最高约 80 小时续航、USB-C 充电、LED 三色电量指示，电量耗尽时仍可被动防护；2 只 Hi-Gain 麦、0.02 秒声激活压缩、3.5mm 接口、可折叠。针对厌烦频繁更换 AAA 电池的用户，凭便利性与长续航在 2026 年横评中获高分推荐。","url":"https://thegoodatheist.net/best-electronic-hearing-protection-for-shooting","source":"The Good Atheist（2026 横评）","date":"2026-06"},{"id":"n64","brand":"HOWARD LEIGHT","category":"news","catLabel":"新品","title":"Howard Leight Impact Sport Bluetooth 扩展多配色 + 凝胶耳垫促销包","summary":"Honeywell 旗下 Howard Leight 扩展 Impact Sport Bluetooth 电子耳罩 SKU：中/大号新增 Brushed Bronze / OD Green / Flat Dark Earth / 2nd Amendment 四色，青少/小号新增 Metallic Rose Gold / 2nd Amendment，并提供含额外凝胶耳垫的 Promo Pack（R-02547，MSRP $159，凝胶垫版 NRR 19 dB）。延续 NRR 21 dB、蓝牙 5.0、可充电锂电（约 20 小时）、0.5ms 压缩、4 小时自动关机。新增大尺码与多配色意在覆盖更广人群与个性化需求。","url":"https://www.outdoorsfirst.com/whitetail/article/howard-leight-improving-on-a-legend/","source":"Outdoor First（Howard Leight 新闻稿）","date":"2026"},{"id":"n65","brand":"DECIBULLZ","category":"news","catLabel":"新品","title":"Decibullz Percussive Shooting Filters 2026 Edition 脉冲射击滤波耳塞上市（ANSI IPIL 认证，33dB 脉冲防护）","summary":"Decibullz 推出 Percussive Shooting Filters 2026 Edition（SKU FLTR-SHO-BLK-NEW）：THERMOFIT 可重塑定制耳件 + 脉冲滤波技术，ANSI IPIL 认证，最高可承受 166 dB、最大 33dB 脉冲防护，无需电池即可即时压制枪声/炮声，同时保留声音方向感与态势感知；随包含 2 只脉冲滤波器、ALL-NEW Decibullz 塑形工具、3 组 Max Protect 泡沫 tip（S/M/L）、5 组硅胶 tip（XXS~L）、带弹簧扣硬壳收纳盒与硅胶挂绳。相较旧版，2026 Edition 补全了定制塑形工具套件，降低自塑形门槛。对做射击/猎人渠道是可推的「电池无关」高防护备选，并能贴合在通讯耳罩/耳塞之下。","url":"https://www.decibullz.co.uk/product-page/decibullz-percussive-shooting-filters-2026-edition","source":"Decibullz UK 官网产品页","date":"2026"},{"id":"n66","brand":"OTTO ENGINEERING","category":"expo","catLabel":"展会","title":"OTTO 亮相 SOF Week 2026（Tampa 5/18-21, Booth 2419）：展出 NoizeBarrier TAC 2.0 与全新 CRTL-RKR Dual PTT","summary":"OTTO Engineering 于 SOF Week 2026（5/18-21，坦帕会展中心，Booth 2419）展示其任务关键通信方案：DARKSTAR 移动指挥系统、WedgeX 战术电源数据管理、NoizeBarrier TAC 2.0 头戴、Lynq PRO 离线定位导航、OTTO Connect 无线对讲，以及全新 CRTL-RKR Dual PTT 与 E.S.P 系列。这是 OTTO 在特种作战社区的年度核心亮相，显示其从单一头戴向「指挥+电源+通信」系统级方案延伸——对做军警渠道的同业有对标意义。注：OTTO 2026 年官网新闻页仍无全新头戴发布，在售旗舰仍为 NoizeBarrier TAC 2.0。","url":"https://www.linkedin.com/posts/ottocommunications_heading-to-sof-week-2026-in-tampa-so-are-activity-7460761363737661441-NXKa","source":"OTTO Engineering 官方 LinkedIn","date":"2026-05-18"},{"id":"n67","brand":"INVISIO","category":"order","catLabel":"订单","title":"INVISIO 获欧洲老客户 SEK 1.9 亿 Intercom + Dismounted Soldier 系统订单（2026 Q1 前交付）","summary":"INVISIO 于 2025-11-06 宣布获欧洲现有客户 SEK 1.9 亿（约 1,900 万欧元/2,000 万美元）订单，涵盖 Intercom（车载互联）与 Dismounted Soldier（单兵）通信系统，面向乘载与下车作战人员提供无缝通信，预计即时启动、2026 Q1 前完成交付。CEO Lars Højgård Hansen 强调其「短周期内交付大单」的能力源于均衡库存与客户协作，是同业少有的竞争优势。该订单是 INVISIO 2025-2026 在手订单的重要支撑，与其 Q2 财报「订单因美国政府停摆延后、但需求未失」的口径相互印证。","url":"https://www.invisio.com/company/news-events/news/06-11-25-invisio-secures-sek-190-million-order-for-intercom-and-dismounted-soldier-systems/","source":"INVISIO 官网新闻稿","date":"2025-11-06"},{"id":"n68","brand":"EARMOR","category":"expo","catLabel":"新品","title":"EARMOR M32 Mark 4 十周年旗舰登陆 IWA 2026（Adaptive Sound Tracking + 标配凝胶耳垫）","summary":"在 IWA OutdoorClassics 2026（纽伦堡，EARMOR 十周年主题展）上，M32 Mark 4 作为「十周年旗舰」正式亮相：主打 Adaptive Sound Tracking（自适应声场追踪），较 Mark 3 进一步增强低频语音增强，使 RSO/教官在嘈杂靶场听清指令更轻松；舒适升级，出厂标配 Silicon Gel Seals 凝胶耳垫；官网产品页（earmor.com/m32）确认认证 NRR 22dB，提供战术黑/丛林绿/狼棕三色，定位 MILPRO & Tactical 有线通讯头戴。这是 EARMOR 在 M300T/M20T PRO 之外、面向「可靠有线+高舒适」刚需人群的主力补强型号，对做警用/训练渠道有对标价值。","url":"https://www.earmor.com/m32/","source":"EARMOR 官网 / IWA 2026 展报","date":"2026-02-23"},{"id":"n69","brand":"WALKER'S","category":"news","catLabel":"新品","title":"★Walker's Razor X-TRM Digital Muffs 首发 MAHP「Shake Awake」运动激活听力保护（行业首创）","summary":"Walker's 于 2026-01 在 SHOT Show（GSM Outdoors 展位 #12669）发布 Razor X-TRM Digital Muffs，引入专利待审的 MAHP™（Motion Activated Hearing Protection）「Shake Awake」运动激活听力保护：检测到微动即自动开机并预载压制电路，抢在枪响前完成保护，消除手动开机延迟并闲置省电；射击时 Active Dynamic Sound Suppression 按脉冲强度自动压缩，配合风噪抑制算法与零延迟 DSP、双 Hi-Gain 全向麦；超薄外壳+全橡胶装甲、透气网眼头带、GEL 凝胶耳垫、闲置自动关机；含蓝牙。定价约 $80。这是电子耳罩品类首次出现「运动激活」防护机制，直接对标「忘开机/耗电」痛点——是国内做电子耳罩研发可借鉴的差异化方向。注：此前已记录的 Razor Slim X-TRM（n62）为同系列散热头带版，二者并列在售。","url":"https://huntinglife.com/walkers-reveals-all-new-shake-awake-muffs-with-patent-pending-motion-activated-hearing-protection","source":"Hunting Life / Walker's 新闻稿（SHOT Show 2026）","date":"2026-01-20"},{"id":"n70","brand":"SORDIN","category":"news","catLabel":"动态","title":"更正：Sordin Supreme X2 SFA 现已正式开售（官网 in stock，$493，NRR 25/SNR 31）","summary":"本轮复核更正此前「已预告未开售」的判断：Sordin 官网 X2 SFA 产品页（sordin.com/products/sordin-supreme-x2-sfa）现已显示「In stock, ready to ship」，售价 $493，确认 2026-08 正式开售。完整参数：NRR 25dB / SNR 31dB（较基础版 X2 的 23/29 更高），重 401g，AA 电池最长 60h / Sordin Power 可充 90h，SFA 可拆卸距离环在两档衰减间切换（更高防护↔更薄耳杯），SordinHEAR2 四档音频（Hunter/Focus/Shooter/Ambient off），3.5mm AUX，可折叠，2 年质保。X2 SFA 是 X2 系列最高防护成员，明确面向长时间靶场射手与教官——对做高端射击防护渠道是可上架的新旗舰选品。注：X2BT 蓝牙版仍未发售。","url":"https://sordin.com/products/sordin-supreme-x2-sfa","source":"Sordin 官网产品页 / LinkedIn","date":"2026-08-13"},{"id":"n71","brand":"3M PELTOR","category":"news","catLabel":"新品","title":"3M PELTOR ComTac VI NIB 现役主力 NIB 头戴在售（新鹅颈麦/IP68、MI 输入、可折叠）","summary":"3M PELTOR 当前在售的 NIB 队间通信头戴除已记录的 ComTac IX NIB（n40）外，ComTac VI NIB 仍是广泛可采购的主力一代：新全向麦 + 高保真扬声器 + 新 DSP 带来更自然音质；NIB 5–10m 免电台全双工（4 讲 60 听）；新 IP68 防水鹅颈动圈麦可在左/右耳杯间免 relocation 切换；MI（磁感应）输入、可折叠设计、单/双引线、NATO U174 接口；MAP 任务音频 5 档。DISCO32 在售页显示美军限用双频版（915.5+864MHz）与民用单频 915.5MHz 版。对渠道含义：ComTac VI/VIII/IX 三代 NIB 并存，采购交期与批次需逐一核对（尤其 ComTac VIII 涉全球召回，见本模块召回条目）。","url":"https://disco32.com/products/comtacvi","source":"3M 官网 / DISCO32 在售页","date":"2026"},{"id":"n72","brand":"INVISIO","category":"news","catLabel":"订单","title":"加拿大武装部队授予 INVISIO 最高 4.5 亿瑞典克朗框架协议","summary":"加拿大武装部队（CAF）经本土合作伙伴 Simex Defence 授予 INVISIO 一份 Standing Offer（类框架协议），初始 2 年、可续约 3 年，潜在总价值最高 4.5 亿瑞典克朗（约 4,300 万美元），不保证最低采购量、按需求下发订单；覆盖全军的陆军/空军/海军/特种作战，产品为 Racal Acoustics RA5100 战术头戴、RA71 控制单元、线缆、备件及保障服务（不含 T30 / Drone Aware）。这是 INVISIO 在北美军警市场的重要斩获。","url":"https://corp.invisio.com/news-and-events/pressrelease/canadian-armed-forces-award-invisio-framework-agreement-with-potential-value-up-to-sek-450-million","source":"INVISIO 官方新闻稿","date":"2026-08-14"},{"id":"n73","brand":"AXIL","category":"news","catLabel":"财报","title":"AXIL Brands 发布 FY2026 全年及 Q4 财报：Q4 营收创纪录 +48.9%","summary":"AXIL Brands（NYSE American: AXIL）8/18 提交 8-K 与 10-K：Q4（截至 2026-05-31）营收同比 +48.9% 至创纪录 860 万美元、净利润 150 万美元（稀释 EPS 0.18 美元），毛利率 72.0%（高于此前指引 67%~71% 上限）；全年营收 3,080 万美元（+17.5%）。零售扩张已从约 1,800 店增至约 6,000 店（Walmart 约 1,250 店、Sportsman's Warehouse 70 店、海军陆战队交易所 MCX 全线上架）。财年结束后收到约 91 万美元 CBP 关税退税，计入 FY2027。财报后股价当日涨约 5%。","url":"https://goaxil.com/blogs/press-releases/axil-brands-inc-reports-fiscal-2026-and-fourth-quarter-financial-results","source":"AXIL 官方 / SEC 8-K","date":"2026-08-18"},{"id":"n74","brand":"AXIL","category":"news","catLabel":"新品","title":"AXIL 预告 X-Core 2 次世代无线耳塞将于 2026 年 9 月发布","summary":"AXIL 在 8/19 Q4 业绩电话会上称 X-Core 2 是「本年度最重要的产品发布」，针对用户反馈升级，定于 2026 年 9 月上市，为既有 GSX3.0 / XCOR Pro / MX II 之外的新品。管理层同时披露截至 8/14 现金头寸升至 740 万美元（5/31 为 450 万美元）；因大客户订单时点波动，未给出 FY2027 Q1 指引。9 月 X-Core 2 上市与营销动作值得在战术听力防护品类重点盯防。","url":"https://www.sahmcapital.com/en-us/news/content/full-transcript-axil-brands-q4-2026-earnings-call-2026-08-19","source":"AXIL Q4 业绩电话会实录","date":"2026-08-19"}]};
 function getNewsRead(){ try{return JSON.parse(localStorage.getItem(NEWS_KEY)||'[]');}catch(e){return[]} }
 function setNewsRead(id){
   let a=getNewsRead(); if(!a.includes(id)){a.push(id); localStorage.setItem(NEWS_KEY,JSON.stringify(a));}
@@ -1990,7 +2841,7 @@ function bindNews(){
 }
 
 // ============ REVIEW ============
-const CAT_MAP={'distributor':['经销商对接','cat-distributor'],'newproduct':['新品跟进','cat-newproduct'],competitor:['竞品监控','cat-competitor'],customer:['客户跟进','cat-customer'],'order':['订单管理','cat-order'],brand:['品牌活动','cat-brand'],'meeting-internal':['内部周会','cat-meeting-internal'],'meeting-customer':['客户会议','cat-meeting-customer'],'meeting-distributor':['经销商会议','cat-meeting-distributor']};
+const CAT_MAP={'distributor':['经销商对接','cat-distributor'],'newproduct':['新品跟进','cat-newproduct'],competitor:['竞品监控','cat-competitor'],customer:['客户跟进','cat-customer'],'order':['订单管理','cat-order'],brand:['品牌活动','cat-brand'],'meeting-customer':['客户会议','cat-meeting-customer'],'meeting-distributor':['经销商会议','cat-meeting-distributor']};
 // 自定义任务分类（持久化、自动同步到云）
 function getCustomCats(){try{return JSON.parse(localStorage.getItem('liuye_custom_cats')||'[]')}catch(e){return[]}}
 function getUserCats(){const m=Object.assign({},CAT_MAP);getCustomCats().forEach(c=>{m[c.value]=[c.label,'']});return m}
