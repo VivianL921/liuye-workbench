@@ -239,6 +239,17 @@ body{
 .suite-sub{font-size:11px;color:var(--text-sec);margin-top:6px}
 .suite-set{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--text-sec)}
 .suite-set input{width:64px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px}
+/* 细分KPI 分组分隔 + 计入总进度切换 */
+.kpi-group-sep{display:flex;align-items:center;gap:10px;margin:16px 0 10px;font-size:12px;font-weight:700;color:var(--text-sec);letter-spacing:.3px}
+.kpi-group-sep::before,.kpi-group-sep::after{content:'';flex:1;height:1px;background:var(--border)}
+.monthly-toggle-row{margin:9px 0 2px}
+.kpi-excluded{opacity:.82}
+.task-toggle{cursor:pointer;user-select:none;font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--border);display:inline-flex;align-items:center;gap:4px;transition:.15s;font-weight:600}
+.task-toggle.on{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+.task-toggle.off{background:transparent;color:var(--text-sec)}
+.form-check{display:flex;align-items:center;gap:8px;margin-top:4px}
+.form-check input{width:16px;height:16px;accent-color:var(--primary)}
+.form-check label{font-size:13px;color:var(--text);cursor:pointer}
 /* 首页：任务区 + 本周工作状态右栏 */
 .home-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
 .home-side{position:sticky;top:20px;display:flex;flex-direction:column;gap:12px}
@@ -959,6 +970,10 @@ body{
     <div class="form-group">
       <label>截止时间（精确到秒，默认本月最后一天）</label>
       <input type="datetime-local" id="monthlyDeadline" step="1">
+    </div>
+    <div class="form-group form-check">
+      <input type="checkbox" id="monthlyInTotal" checked>
+      <label for="monthlyInTotal">计入套组总进度（参与月度总进度条的计算）</label>
     </div>
     <div class="form-actions">
       <button class="btn-cancel" id="btnCancelMonthly">取消</button>
@@ -2056,10 +2071,13 @@ function updateProgress(){
 }
 
 // ============ 月度KPI 套组：总进度 + 本周工作状态 ============
+function suiteIncludedCount(){ return monthlyTasks.filter(m=>m.inTotal!==false).length; }
+// 总进度只统计「计入总进度」的细分KPI（inTotal!==false）
 function suiteTotalPct(){
-  if(!monthlyTasks.length) return 0;
-  let sum=0; monthlyTasks.forEach(m=>sum+=kpiProgress(m).pct);
-  return Math.round(sum/monthlyTasks.length);
+  const inc=monthlyTasks.filter(m=>m.inTotal!==false);
+  if(!inc.length) return 0;
+  let sum=0; inc.forEach(m=>sum+=kpiProgress(m).pct);
+  return Math.round(sum/inc.length);
 }
 // 把单个 KPI 的完成度设定为 pct%（用于总进度反向联动到各细分）
 function setKpiProgressTo(kpi,pct){
@@ -2081,10 +2099,11 @@ function setKpiProgressTo(kpi,pct){
     kpi.current=Math.max(0,Math.min(tgt,Math.round(tgt*pct/100)));
   }
 }
-// 设定套组总进度 → 所有细分目标同步到该完成度（同步后退）
+// 设定套组总进度 → 仅「计入总进度」的细分目标同步到该完成度（不计入项保持不变）
 function setSuiteTotal(pct){
-  if(!monthlyTasks.length)return;
-  monthlyTasks.forEach(m=>setKpiProgressTo(m,pct));
+  const inc=monthlyTasks.filter(m=>m.inTotal!==false);
+  if(!inc.length)return;
+  inc.forEach(m=>setKpiProgressTo(m,pct));
   saveMonthly(); renderMonthly();
 }
 // 计算某一周（周一 mon 起）的完成统计
@@ -2116,11 +2135,62 @@ function renderWeekStatus(){
   else { vc.className='ws-cmp flat'; vc.textContent='— 上周无数据'; }
   const goal=suiteTotalPct();
   const elGoal=document.getElementById('wsGoal'); elGoal.textContent=goal+'%'; elGoal.className='ws-big'+(goal>=100?' up':'');
-  document.getElementById('wsGoalSub').textContent='月度套组目标（'+monthlyTasks.length+' 项细分平均）';
+  document.getElementById('wsGoalSub').textContent='月度套组目标（'+suiteIncludedCount()+' 项细分计入）';
 }
 
 // ============ 月度KPI ============
 function saveMonthly(){localStorage.setItem('liuye_monthly_tasks',JSON.stringify(monthlyTasks))}
+
+// 单个细分KPI 卡片（counted=是否计入总进度，控制卡片切换按钮状态）
+function monthlyCard(m){
+  const p=PRI_MAP[m.pri]||PRI_MAP.inu;
+  const prog=kpiProgress(m);
+  const ddl=ddlInfo(m.deadline);
+  const counted=m.inTotal!==false;
+  let fillColor = prog.pct>=100?'var(--green)':'linear-gradient(90deg,var(--primary),#60a5fa)';
+  let subHtml='';
+  if(prog.mode==='checklist'){
+    const subs=m.subItems||[];
+    subHtml=`<div class="subitem-wrap">
+      <div class="subitem-head"><span>子项目（${prog.done}/${prog.total}）</span><button class="subitem-add" data-kact="addsub" data-id="${m.id}">+ 子项目</button></div>
+      ${subs.length?subs.map(s=>`<div class="subitem-row ${s.done?'done':''}">
+        <div class="subitem-check ${s.done?'checked':''}" data-kact="togglesub" data-kid="${m.id}" data-sid="${s.id}"></div>
+        <div class="subitem-main">
+          <div class="subitem-title">${esc(s.title)}</div>
+          <div class="subitem-meta">
+            <span class="subitem-step">权重 ${s.step||1}</span>
+            ${s.linkedTaskId?`<span class="task-link-badge" title="已联动今日任务">🔗 今日任务</span>`:''}
+          </div>
+        </div>
+        <span class="task-link" data-kact="linksub" data-kid="${m.id}" data-sid="${s.id}" title="联动今日任务">🔗</span>
+        <span class="task-edit" data-kact="editsub" data-kid="${m.id}" data-sid="${s.id}" title="编辑子项目">✎</span>
+        <span class="task-del" data-kact="delsub" data-kid="${m.id}" data-sid="${s.id}" title="删除子项目">×</span>
+      </div>`).join(''):'<div class="subitem-empty">暂无子项目，点「+ 子项目」把该 KPI 拆成可勾选的细分项</div>'}
+    </div>`;
+  }
+  return `<div class="monthly-item ${counted?'':'kpi-excluded'}">
+    <div class="monthly-head">
+      <div class="monthly-title">${esc(m.title)}</div>
+      <div class="monthly-actions">
+        <span class="task-edit" data-mact="edit" data-id="${m.id}" title="二次修改">✎</span>
+        <span class="task-del" data-mact="del" data-id="${m.id}" title="删除">×</span>
+      </div>
+    </div>
+    <div class="monthly-toggle-row">
+      <span class="task-toggle ${counted?'on':'off'}" data-mact="toggleTotal" data-id="${m.id}" title="切换是否计入套组总进度（计入则参与总进度条计算）">${counted?'✓ 计入总进度':'○ 不计入总进度'}</span>
+    </div>
+    <div class="monthly-progress">
+      <div class="progress-track"><div class="progress-fill" style="width:${prog.pct}%;background:${fillColor}"></div></div>
+      <div class="progress-text">${prog.mode==='checklist'?`已完成 ${prog.done}/${prog.total} 项子目标 · 完成度 ${prog.pct}%`:`${prog.cur} / ${prog.tgt} ${esc(m.unit||'')} · 完成度 ${prog.pct}%`}</div>
+    </div>
+    ${subHtml}
+    <div class="monthly-meta">
+      <span class="task-priority ${p.cls}">${p.label}</span>
+      <span class="task-time">📅 ${fmtDeadline(m.deadline)}</span>
+      <span class="${ddl.cls}">⏳ ${ddl.text}</span>
+    </div>
+  </div>`;
+}
 
 function renderMonthly(){
   let list=document.getElementById('monthlyList');
@@ -2130,61 +2200,28 @@ function renderMonthly(){
     list.innerHTML='<div class="empty"><p>暂无月度KPI，点击「+ 新增月度KPI」添加</p></div>';
     updateMonthlySummary(); return;
   }
-  // 排序：优先级权重升序（重要·紧急 最前）
-  let arr=[...monthlyTasks].sort((a,b)=>(PRI_MAP[a.pri]||PRI_MAP.inu).w-(PRI_MAP[b.pri]||PRI_MAP.inu).w);
+  // 分组排序：
+  // ① 计入总进度的细分在「上层」；组内 进度<100 的未完成项顶到最前，进度=100% 的已完成项沉到计入组底部
+  // ② 不计入总进度的细分（inTotal===false）整体放在「下层」
+  const byPri=(a,b)=>(PRI_MAP[a.pri]||PRI_MAP.inu).w-(PRI_MAP[b.pri]||PRI_MAP.inu).w;
+  const inc=monthlyTasks.filter(m=>m.inTotal!==false).slice().sort((a,b)=>{
+    const d=(kpiProgress(a).pct>=100?1:0)-(kpiProgress(b).pct>=100?1:0);
+    return d!==0?d:byPri(a,b);
+  });
+  const exc=monthlyTasks.filter(m=>m.inTotal===false).slice().sort(byPri);
   const total=suiteTotalPct();
   const tFill=total>=100?'var(--green)':'linear-gradient(90deg,var(--primary),#60a5fa)';
+  const incCount=inc.length;
   const totalCard=`<div class="suite-total">
       <div class="suite-head"><div class="suite-title">🎯 月度KPI 套组总进度</div><div class="suite-pct">${total}%</div></div>
       <div class="progress-track"><div class="progress-fill" style="width:${total}%;background:${tFill}"></div></div>
-      <div class="suite-sub">${monthlyTasks.length} 项细分目标 · 平均完成度（任一细分变动，总进度同步联动）</div>
+      <div class="suite-sub">${incCount} 项细分计入总进度 · 平均完成度（任一计入项变动，总进度同步联动；卡片可切换计入/不计入）</div>
       <div class="suite-set"><label>设定总进度</label><input type="number" id="suiteTotalInput" min="0" max="100" value="${total}"> %<button class="btn-add" data-mact="settotal" style="padding:5px 12px;font-size:12px">应用</button></div>
     </div>`;
-  list.innerHTML=totalCard+arr.map(m=>{
-    const p=PRI_MAP[m.pri]||PRI_MAP.inu;
-    const prog=kpiProgress(m);
-    const ddl=ddlInfo(m.deadline);
-    let fillColor = prog.pct>=100?'var(--green)':'linear-gradient(90deg,var(--primary),#60a5fa)';
-    let subHtml='';
-    if(prog.mode==='checklist'){
-      const subs=m.subItems||[];
-      subHtml=`<div class="subitem-wrap">
-        <div class="subitem-head"><span>子项目（${prog.done}/${prog.total}）</span><button class="subitem-add" data-kact="addsub" data-id="${m.id}">+ 子项目</button></div>
-        ${subs.length?subs.map(s=>`<div class="subitem-row ${s.done?'done':''}">
-          <div class="subitem-check ${s.done?'checked':''}" data-kact="togglesub" data-kid="${m.id}" data-sid="${s.id}"></div>
-          <div class="subitem-main">
-            <div class="subitem-title">${esc(s.title)}</div>
-            <div class="subitem-meta">
-              <span class="subitem-step">权重 ${s.step||1}</span>
-              ${s.linkedTaskId?`<span class="task-link-badge" title="已联动今日任务">🔗 今日任务</span>`:''}
-            </div>
-          </div>
-          <span class="task-link" data-kact="linksub" data-kid="${m.id}" data-sid="${s.id}" title="联动今日任务">🔗</span>
-          <span class="task-edit" data-kact="editsub" data-kid="${m.id}" data-sid="${s.id}" title="编辑子项目">✎</span>
-          <span class="task-del" data-kact="delsub" data-kid="${m.id}" data-sid="${s.id}" title="删除子项目">×</span>
-        </div>`).join(''):'<div class="subitem-empty">暂无子项目，点「+ 子项目」把该 KPI 拆成可勾选的细分项</div>'}
-      </div>`;
-    }
-    return `<div class="monthly-item">
-      <div class="monthly-head">
-        <div class="monthly-title">${esc(m.title)}</div>
-        <div class="monthly-actions">
-          <span class="task-edit" data-mact="edit" data-id="${m.id}" title="二次修改">✎</span>
-          <span class="task-del" data-mact="del" data-id="${m.id}" title="删除">×</span>
-        </div>
-      </div>
-      <div class="monthly-progress">
-        <div class="progress-track"><div class="progress-fill" style="width:${prog.pct}%;background:${fillColor}"></div></div>
-        <div class="progress-text">${prog.mode==='checklist'?`已完成 ${prog.done}/${prog.total} 项子目标 · 完成度 ${prog.pct}%`:`${prog.cur} / ${prog.tgt} ${esc(m.unit||'')} · 完成度 ${prog.pct}%`}</div>
-      </div>
-      ${subHtml}
-      <div class="monthly-meta">
-        <span class="task-priority ${p.cls}">${p.label}</span>
-        <span class="task-time">📅 ${fmtDeadline(m.deadline)}</span>
-        <span class="${ddl.cls}">⏳ ${ddl.text}</span>
-      </div>
-    </div>`;
-  }).join('');
+  let html=totalCard;
+  if(inc.length){ html+='<div class="kpi-group-sep">计入总进度（'+inc.length+'）</div>'+inc.map(m=>monthlyCard(m)).join(''); }
+  if(exc.length){ html+='<div class="kpi-group-sep">不计入总进度（'+exc.length+'）</div>'+exc.map(m=>monthlyCard(m)).join(''); }
+  list.innerHTML=html;
   updateMonthlySummary();
 }
 
@@ -2204,6 +2241,7 @@ function editMonthly(id){
   document.getElementById('monthlyUnit').value=m.unit||'';
   document.getElementById('monthlyPri').value=m.pri;
   document.getElementById('monthlyDeadline').value=m.deadline;
+  document.getElementById('monthlyInTotal').checked = m.inTotal!==false;
   document.getElementById('monthlyModal').classList.add('show');
 }
 function resetMonthlyFields(){
@@ -2213,6 +2251,7 @@ function resetMonthlyFields(){
   document.getElementById('monthlyUnit').value='';
   document.getElementById('monthlyPri').value='inu';
   document.getElementById('monthlyDeadline').value=defaultMonthlyDeadline();
+  document.getElementById('monthlyInTotal').checked=true;
 }
 function closeMonthlyModal(){editingMonthlyId=null;document.getElementById('monthlyModal').classList.remove('show');resetMonthlyFields()}
 function saveMonthlyTask(){
@@ -2223,11 +2262,12 @@ function saveMonthlyTask(){
   let unit=document.getElementById('monthlyUnit').value.trim();
   let pri=document.getElementById('monthlyPri').value;
   let deadline=document.getElementById('monthlyDeadline').value||defaultMonthlyDeadline();
+  let inTotal=document.getElementById('monthlyInTotal').checked;
   if(editingMonthlyId){
     let m=monthlyTasks.find(x=>x.id===editingMonthlyId);
-    if(m){m.title=title;m.current=current;m.target=target;m.unit=unit;m.pri=pri;m.deadline=deadline;}
+    if(m){m.title=title;m.current=current;m.target=target;m.unit=unit;m.pri=pri;m.deadline=deadline;m.inTotal=inTotal;}
   }else{
-    monthlyTasks.push({id:Date.now(),title,current,target,unit,pri,deadline,subItems:[]});
+    monthlyTasks.push({id:Date.now(),title,current,target,unit,pri,deadline,subItems:[],inTotal});
   }
   closeMonthlyModal(); renderMonthly(); saveMonthly();
 }
@@ -2245,7 +2285,7 @@ function bindMonthly(){
   if(list)list.addEventListener('click',function(e){
     const el=e.target.closest('[data-mact]'); if(!el)return;
     const id=Number(el.dataset.id), act=el.dataset.mact;
-    if(act==='edit')editMonthly(id); else if(act==='del')delMonthly(id); else if(act==='settotal'){ const v=parseFloat(document.getElementById('suiteTotalInput').value); if(!isNaN(v))setSuiteTotal(Math.max(0,Math.min(100,v))); }
+    if(act==='edit')editMonthly(id); else if(act==='del')delMonthly(id); else if(act==='toggleTotal'){ const m=monthlyTasks.find(x=>x.id===id); if(m){ m.inTotal = m.inTotal===false; saveMonthly(); renderMonthly(); } } else if(act==='settotal'){ const v=parseFloat(document.getElementById('suiteTotalInput').value); if(!isNaN(v))setSuiteTotal(Math.max(0,Math.min(100,v))); }
   });
   if(list)list.addEventListener('click',function(e){
     const k=e.target.closest('[data-kact]'); if(!k)return;
