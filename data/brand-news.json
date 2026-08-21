@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-08-13",
-  "note": "每日 09:00（周一~周六）自动刷新；合并保留全部历史动态，未读新闻不会因更新而消失。",
+  "updatedAt": "2026-08-21",
+  "note": "每日 09:00 自动刷新（含周日）；合并保留全部历史动态，未读新闻不会因更新而消失。",
   "items": [
     {
       "id": "n01",
@@ -738,6 +738,39 @@
       "url": "https://disco32.com/products/comtacvi",
       "source": "3M 官网 / DISCO32 在售页",
       "date": "2026"
+    },
+    {
+      "id": "n72",
+      "brand": "INVISIO",
+      "category": "news",
+      "catLabel": "订单",
+      "title": "加拿大武装部队授予 INVISIO 最高 4.5 亿瑞典克朗框架协议",
+      "summary": "加拿大武装部队（CAF）经本土合作伙伴 Simex Defence 授予 INVISIO 一份 Standing Offer（类框架协议），初始 2 年、可续约 3 年，潜在总价值最高 4.5 亿瑞典克朗（约 4,300 万美元），不保证最低采购量、按需求下发订单；覆盖全军的陆军/空军/海军/特种作战，产品为 Racal Acoustics RA5100 战术头戴、RA71 控制单元、线缆、备件及保障服务（不含 T30 / Drone Aware）。这是 INVISIO 在北美军警市场的重要斩获。",
+      "url": "https://corp.invisio.com/news-and-events/pressrelease/canadian-armed-forces-award-invisio-framework-agreement-with-potential-value-up-to-sek-450-million",
+      "source": "INVISIO 官方新闻稿",
+      "date": "2026-08-14"
+    },
+    {
+      "id": "n73",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "财报",
+      "title": "AXIL Brands 发布 FY2026 全年及 Q4 财报：Q4 营收创纪录 +48.9%",
+      "summary": "AXIL Brands（NYSE American: AXIL）8/18 提交 8-K 与 10-K：Q4（截至 2026-05-31）营收同比 +48.9% 至创纪录 860 万美元、净利润 150 万美元（稀释 EPS 0.18 美元），毛利率 72.0%（高于此前指引 67%~71% 上限）；全年营收 3,080 万美元（+17.5%）。零售扩张已从约 1,800 店增至约 6,000 店（Walmart 约 1,250 店、Sportsman's Warehouse 70 店、海军陆战队交易所 MCX 全线上架）。财年结束后收到约 91 万美元 CBP 关税退税，计入 FY2027。财报后股价当日涨约 5%。",
+      "url": "https://goaxil.com/blogs/press-releases/axil-brands-inc-reports-fiscal-2026-and-fourth-quarter-financial-results",
+      "source": "AXIL 官方 / SEC 8-K",
+      "date": "2026-08-18"
+    },
+    {
+      "id": "n74",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "AXIL 预告 X-Core 2 次世代无线耳塞将于 2026 年 9 月发布",
+      "summary": "AXIL 在 8/19 Q4 业绩电话会上称 X-Core 2 是「本年度最重要的产品发布」，针对用户反馈升级，定于 2026 年 9 月上市，为既有 GSX3.0 / XCOR Pro / MX II 之外的新品。管理层同时披露截至 8/14 现金头寸升至 740 万美元（5/31 为 450 万美元）；因大客户订单时点波动，未给出 FY2027 Q1 指引。9 月 X-Core 2 上市与营销动作值得在战术听力防护品类重点盯防。",
+      "url": "https://www.sahmcapital.com/en-us/news/content/full-transcript-axil-brands-q4-2026-earnings-call-2026-08-19",
+      "source": "AXIL Q4 业绩电话会实录",
+      "date": "2026-08-19"
     }
   ]
 }
