@@ -9,17 +9,23 @@
         {
           "date": "2026-07",
           "tag": "召回",
-          "headline": "ComTac VIII 部分批次全球召回（啸叫高达 106 dBA 风险，英国 OPSS/澳洲 ACCC 同步）"
+          "headline": "ComTac VIII 部分批次全球召回（啸叫高达 106 dBA 风险，英国 OPSS/澳洲 ACCC 同步）",
+          "url": "https://www.gov.uk/product-safety-alerts-reports-recalls/product-recall-3m-peltor-comtac-viii-headset-2607-0161",
+          "source": "GOV.UK 产品安全召回"
         },
         {
           "date": "2026-02",
           "tag": "新品",
-          "headline": "ComTac IX NIB 战术耳机 EMEA 首发（NIB 免电台 5-10m 全双工）"
+          "headline": "ComTac IX NIB 战术耳机 EMEA 首发（NIB 免电台 5-10m 全双工）",
+          "url": "https://www.linkedin.com/posts/3m-peltor-communication-solutions_3mpeltor-comtac-enforcetac-activity-7430739071934607360-jKia",
+          "source": "3M PELTOR 官方 LinkedIn"
         },
         {
           "date": "2026",
           "tag": "参数",
-          "headline": "在售 NIB 队间通信涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力）"
+          "headline": "在售 NIB 队间通信涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力）",
+          "url": "https://disco32.com/products/comtacvi",
+          "source": "3M 官网 / DISCO32 在售页"
         }
       ]
     },
@@ -30,7 +36,9 @@
         {
           "date": "2026-06",
           "tag": "新品",
-          "headline": "Impact Sport 粉色版 R-01526P / Bolt / Bluetooth 5.0 在售主推"
+          "headline": "Impact Sport 粉色版 R-01526P / Bolt / Bluetooth 5.0 在售主推",
+          "url": "https://www.outdoorsfirst.com/whitetail/article/howard-leight-improving-on-a-legend/",
+          "source": "Outdoor First（Howard Leight 新闻稿）"
         }
       ]
     },
@@ -41,17 +49,23 @@
         {
           "date": "2026-07",
           "tag": "新品",
-          "headline": "SHOTSYNC 计时器 / Recon BT / Cloak 上架官网 New Products"
+          "headline": "SHOTSYNC 计时器 / Recon BT / Cloak 上架官网 New Products",
+          "url": "https://www.walkersgameear.com/new-products/",
+          "source": "Walker's 官网 New Products"
         },
         {
           "date": "2026-07",
           "tag": "新品",
-          "headline": "Razor Junior 青少年耳罩全美零售全渠道铺货"
+          "headline": "Razor Junior 青少年耳罩全美零售全渠道铺货",
+          "url": "https://huntinglife.com/walkers-new-razor-junior-muffs-specifically-safeguard-the-hearing-of-youth-shooters",
+          "source": "Hunting Life（Walker's 新闻稿）"
         },
         {
           "date": "2026",
           "tag": "新品",
-          "headline": "Razor X-TRM MAHP「Shake Awake」运动激活防护首发（行业首创）"
+          "headline": "Razor X-TRM MAHP「Shake Awake」运动激活防护首发（行业首创）",
+          "url": "https://huntinglife.com/walkers-reveals-all-new-shake-awake-muffs-with-patent-pending-motion-activated-hearing-protection",
+          "source": "Hunting Life / Walker's 新闻稿（SHOT Show 2026）"
         }
       ]
     },
@@ -62,22 +76,30 @@
         {
           "date": "2026-08",
           "tag": "新品",
-          "headline": "十周年四款 AI 新品全球首发：C53 防爆 / M23T TWS / M21 通信 / M35 概念"
+          "headline": "十周年四款 AI 新品全球首发：C53 防爆 / M23T TWS / M21 通信 / M35 概念",
+          "url": "https://www.sohu.com/a/1057763022_122135544",
+          "source": "搜狐（行动者科技十周年报道）"
         },
         {
           "date": "2026",
           "tag": "新品",
-          "headline": "M32 Mark 4 十周年旗舰亮相（Adaptive Sound Tracking + 标配凝胶耳垫）"
+          "headline": "M32 Mark 4 十周年旗舰亮相（Adaptive Sound Tracking + 标配凝胶耳垫）",
+          "url": "https://www.earmor.com/m32/",
+          "source": "EARMOR 官网 / IWA 2026 展报"
         },
         {
           "date": "2026-06",
           "tag": "新品",
-          "headline": "M81 蜂鸟全双工通话器警用反恐展首发"
+          "headline": "M81 蜂鸟全双工通话器警用反恐展首发",
+          "url": "https://opsmen.tezhongzhuangbei.com/gsdt.html",
+          "source": "广州行动者科技（EARMOR）公司动态"
         },
         {
           "date": "2026-01",
           "tag": "新品",
-          "headline": "E10 赛级耳塞上市 / M33 PRO 新 DSP 自适应降噪"
+          "headline": "E10 赛级耳塞上市 / M33 PRO 新 DSP 自适应降噪",
+          "url": "https://opsmen.tezhongzhuangbei.com/gsdt.html",
+          "source": "广州行动者科技（EARMOR）公司动态"
         }
       ]
     },
@@ -88,7 +110,9 @@
         {
           "date": "2026",
           "tag": "经营",
-          "headline": "2026 官网无新品；在售旗舰仍 NoizeBarrier TAC 2.0"
+          "headline": "2026 官网无新品；在售旗舰仍 NoizeBarrier TAC 2.0",
+          "url": "https://www.otto-comm.com/products/headsets-and-earplugs/noizebarrier-headsets-and-earplugs/noizebarrier%20tac%202",
+          "source": "OTTO Communications 官网"
         }
       ]
     },
@@ -99,12 +123,16 @@
         {
           "date": "2026-08",
           "tag": "订单",
-          "headline": "加拿大武装部队框架协议最高 SEK 450M（约 $43M，RA5100/RA71）"
+          "headline": "加拿大武装部队框架协议最高 SEK 450M（约 $43M，RA5100/RA71）",
+          "url": "https://corp.invisio.com/news-and-events/pressrelease/canadian-armed-forces-award-invisio-framework-agreement-with-potential-value-up-to-sek-450-million",
+          "source": "INVISIO 官方新闻稿"
         },
         {
           "date": "2026-06",
           "tag": "新品",
-          "headline": "Drone Aware 反无人机感知 Eurosatory 预览（计划 Q3 2026 集成 T30）"
+          "headline": "Drone Aware 反无人机感知 Eurosatory 预览（计划 Q3 2026 集成 T30）",
+          "url": "https://corp.invisio.com/news-and-events/press-releases/?page=1",
+          "source": "INVISIO 官网新闻稿列表"
         }
       ]
     },
@@ -115,22 +143,30 @@
         {
           "date": "2026-08",
           "tag": "财报",
-          "headline": "FY2026+Q4 财报：Q4 营收 +48.9% 创纪录、毛利率 72%、门店扩至约 6000 家"
+          "headline": "FY2026+Q4 财报：Q4 营收 +48.9% 创纪录、毛利率 72%、门店扩至约 6000 家",
+          "url": "https://goaxil.com/blogs/press-releases/axil-brands-inc-reports-fiscal-2026-and-fourth-quarter-financial-results",
+          "source": "AXIL 官方 / SEC 8-K"
         },
         {
           "date": "2026-08",
           "tag": "新品",
-          "headline": "预告 X-Core 2 次世代无线耳塞 9 月上市"
+          "headline": "预告 X-Core 2 次世代无线耳塞 9 月上市",
+          "url": "https://www.sahmcapital.com/en-us/news/content/full-transcript-axil-brands-q4-2026-earnings-call-2026-08-19",
+          "source": "AXIL Q4 业绩电话会实录"
         },
         {
           "date": "2026",
           "tag": "经营",
-          "headline": "FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%），毛利率 67%~71%"
+          "headline": "FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%），毛利率 67%~71%",
+          "url": "https://www.stocktitan.net/sec-filings/AXIL/8-k-axil-brands-inc-reports-material-event-91cb7ad18f17.html",
+          "source": "StockTitan / SEC 8-K"
         },
         {
           "date": "2026",
           "tag": "渠道",
-          "headline": "零售扩张 Walmart 3700 店 / Sportsman's Warehouse 70 店 / Home Depot 线上"
+          "headline": "零售扩张 Walmart 3700 店 / Sportsman's Warehouse 70 店 / Home Depot 线上",
+          "url": "https://goldenstatenewswire.com/article/881506246-axil-brands-inc-reports-second-quarter-fiscal-year-2026-financial-results",
+          "source": "AXIL Brands FY26 Q2 财报稿"
         }
       ]
     },
@@ -141,17 +177,23 @@
         {
           "date": "2026-03",
           "tag": "通告",
-          "headline": "NFMI 耳塞单独使用性能 Product Advisory（3/9）"
+          "headline": "NFMI 耳塞单独使用性能 Product Advisory（3/9）",
+          "url": "https://gentexcorp.com/blog/",
+          "source": "Gentex 官网 Product Advisory"
         },
         {
           "date": "2026-02",
           "tag": "新品",
-          "headline": "VPU 语音投射附件发布（2/17，配套战术呼吸面罩）"
+          "headline": "VPU 语音投射附件发布（2/17，配套战术呼吸面罩）",
+          "url": "https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/",
+          "source": "Gentex 官网"
         },
         {
           "date": "2026-01",
           "tag": "新品",
-          "headline": "AMP Rail Mount Vent Mode / FAST XP 执法版头盔系统"
+          "headline": "AMP Rail Mount Vent Mode / FAST XP 执法版头盔系统",
+          "url": "https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/",
+          "source": "Gentex 官网"
         }
       ]
     },
@@ -162,12 +204,16 @@
         {
           "date": "2026-08",
           "tag": "状态更正",
-          "headline": "Supreme X2 SFA 已正式开售（此前误判未开售，官网 In stock $493）"
+          "headline": "Supreme X2 SFA 已正式开售（此前误判未开售，官网 In stock $493）",
+          "url": "https://sordin.com/products/sordin-supreme-x2-sfa",
+          "source": "Sordin 官网产品页 / LinkedIn"
         },
         {
           "date": "2026-05",
           "tag": "新品",
-          "headline": "Supreme X2 发布取代 Pro-X（SNR 29/NRR 23，SordinFLEX 平台）"
+          "headline": "Supreme X2 发布取代 Pro-X（SNR 29/NRR 23，SordinFLEX 平台）",
+          "url": "https://www.rifleconfigurator.com/articles/sordin-supreme-x2-launch",
+          "source": "Rifle Configurator 产品档案"
         }
       ]
     },
@@ -178,7 +224,9 @@
         {
           "date": "2026",
           "tag": "新品",
-          "headline": "PRO Custom Molded 31dB / Percussive 2026 Edition 年度更新款"
+          "headline": "PRO Custom Molded 31dB / Percussive 2026 Edition 年度更新款",
+          "url": "https://decibullz.com/products/pro-custom-molded-earplugs-31db-nrr-pro-pack",
+          "source": "Decibullz 官网"
         }
       ]
     }
