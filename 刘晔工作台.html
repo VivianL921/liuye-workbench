@@ -253,6 +253,18 @@ body{
 /* 首页：任务区 + 本周工作状态右栏 */
 .home-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
 .home-side{position:sticky;top:20px;display:flex;flex-direction:column;gap:12px}
+/* 竞品监测：两栏（竞品上新 + 市场动态） */
+.monitor-grid{display:grid;grid-template-columns:1fr 400px;gap:16px;align-items:start}
+.monitor-main{min-width:0}
+.monitor-side{position:sticky;top:20px;display:flex;flex-direction:column;gap:10px}
+.sub-col-title{font-size:14px;font-weight:700;margin:2px 0 12px;display:flex;align-items:baseline;gap:8px;border-left:4px solid var(--primary);padding-left:8px}
+.sub-col-title small{font-size:11px;font-weight:400;color:var(--text-sec)}
+.news-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.bu-srcrow{margin-top:6px}
+.tl-srcrow{margin-top:4px}
+.bu-src,.tl-src{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:var(--primary);text-decoration:none;font-weight:600}
+.bu-src:hover,.tl-src:hover{text-decoration:underline}
+@media(max-width:1100px){ .monitor-grid{grid-template-columns:1fr} .monitor-side{position:static} }
 .wstatus-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm)}
 .wstatus-title{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px}
 .wstatus-metric{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.5)}
@@ -640,8 +652,7 @@ body{
     </div>
     <nav class="nav">
       <div class="nav-item active" data-tab="tasks"><span class="ni-ico">✅</span><span>今日任务</span></div>
-      <div class="nav-item" data-tab="brands"><span class="ni-ico">🔍</span><span>品牌新品监控</span></div>
-      <div class="nav-item" data-tab="news"><span class="ni-ico">📰</span><span>品牌市场动态</span></div>
+      <div class="nav-item" data-tab="monitor"><span class="ni-ico">🔍</span><span>竞品监测</span></div>
       <div class="nav-item" data-tab="review"><span class="ni-ico">📖</span><span>每日复盘</span></div>
       <div class="nav-item" data-tab="sop"><span class="ni-ico">🗂️</span><span>业务SOP</span></div>
       <div class="nav-item" data-tab="sales"><span class="ni-ico">📈</span><span>年度销售计划</span></div>
@@ -729,46 +740,49 @@ body{
   </div><!-- /home-grid -->
   </div>
 
-  <!-- ============ 品牌新品监控 ============ -->
-  <div class="tab-content" id="tab-brands">
+  <!-- ============ 竞品监测（品牌新品监控 + 品牌市场动态 合并） ============ -->
+  <div class="tab-content" id="tab-monitor">
     <div class="section-title">
-      <span>品牌新品监控</span>
-      <span class="count" id="brandCount">10个品牌</span>
+      <span>竞品监测</span>
+      <span class="count" id="monitorCount">10 品牌 · — 动态</span>
     </div>
-    <div class="monitor-bar">
-      <div class="monitor-stats" id="brandMonitorStats"></div>
-      <div class="monitor-filter">
-        <button class="mf active" data-filter="all">全部</button>
-        <button class="mf alert" data-filter="new">🔴 只看有新品</button>
+    <div class="monitor-grid">
+      <!-- 左栏：竞品上新（产品 / 参数 / 技术更新） -->
+      <div class="monitor-main">
+        <div class="sub-col-title">🔧 竞品上新 <small>新品 / 在售产品参数 / 技术更新</small></div>
+        <div class="monitor-bar">
+          <div class="monitor-stats" id="brandMonitorStats"></div>
+          <div class="monitor-filter">
+            <button class="mf active" data-filter="all">全部</button>
+            <button class="mf alert" data-filter="new">🔴 只看有新品</button>
+          </div>
+          <button class="btn-refresh-m" id="btnRefreshBrands">🔄 刷新监控</button>
+        </div>
+        <div class="timeline-wrap">
+          <div class="timeline-head" id="tlHead">
+            <h4>📌 更新时间线（持续累积，每次刷新自动并入最新动态）</h4>
+            <span class="timeline-toggle" id="tlToggle">收起 ▾</span>
+          </div>
+          <div class="timeline" id="brandTimeline"></div>
+        </div>
+        <div style="margin-bottom:12px;font-size:12px;color:var(--text-sec)">
+          <b style="color:var(--red)">红</b>=官网有新品发布且你未确认该发布 ｜ <b style="color:var(--text-sec)">灰</b>=已确认或官网暂无新品 ｜ 仅红色品牌显示「确认已查」，点后变灰，<b>直到该品牌官网再次发布新品才重新变红</b>（不再每天清零）｜ 每张品牌卡点「监控要点 ▾」可看本轮完整核查记录 ｜ <b>周一~周六 09:00 自动刷新（周日不更新）</b>
+        </div>
+        <div class="brand-grid" id="brandGrid"></div>
       </div>
-      <button class="btn-refresh-m" id="btnRefreshBrands">🔄 刷新监控</button>
+      <!-- 右栏：市场动态（新闻 / 参展 / 渠道 / 经营财报） -->
+      <aside class="monitor-side">
+        <div class="sub-col-title">📰 市场动态 <small>新闻 / 参展 / 渠道 / 财报经营</small></div>
+        <div class="news-head">
+          <span class="count" id="newsCount">—</span>
+          <button class="btn-refresh" id="btnRefreshNews">🔄 刷新动态</button>
+        </div>
+        <div style="margin-bottom:10px;font-size:12px;color:var(--text-sec)">
+          跨 <b>亚马逊 / Reddit / Instagram / Facebook / LinkedIn / 各品牌官网 / 专业新闻站</b> 抓取 10 大品牌动态。<b style="color:var(--red)">红色=未读置顶</b>，灰色=已读置底；点来源链接即标记已读（电脑手机云同步）。<b id="newsUpdated"></b>
+        </div>
+        <div class="news-list" id="newsList"></div>
+      </aside>
     </div>
-    <div class="timeline-wrap">
-      <div class="timeline-head" id="tlHead">
-        <h4>📌 更新时间线（持续累积，每次刷新自动并入最新动态）</h4>
-        <span class="timeline-toggle" id="tlToggle">收起 ▾</span>
-      </div>
-      <div class="timeline" id="brandTimeline"></div>
-    </div>
-    <div style="margin-bottom:12px;font-size:12px;color:var(--text-sec)">
-      <b style="color:var(--red)">红</b>=官网有新品发布且你未确认该发布 ｜ <b style="color:var(--text-sec)">灰</b>=已确认或官网暂无新品 ｜ 仅红色品牌显示「确认已查」，点后变灰，<b>直到该品牌官网再次发布新品才重新变红</b>（不再每天清零）｜ 每张品牌卡点「监控要点 ▾」可看本轮完整核查记录 ｜ <b>周一~周六 09:00 自动刷新（周日不更新）</b>
-    </div>
-    <div class="brand-grid" id="brandGrid"></div>
-  </div>
-
-  <!-- ============ 品牌市场动态 ============ -->
-  <div class="tab-content" id="tab-news">
-    <div class="section-title">
-      <span>品牌市场动态</span>
-      <span style="display:flex;align-items:center;gap:10px">
-        <span class="count" id="newsCount">—</span>
-        <button class="btn-refresh" id="btnRefreshNews">🔄 刷新动态</button>
-      </span>
-    </div>
-    <div style="margin-bottom:12px;font-size:12px;color:var(--text-sec)">
-      跨 <b>亚马逊 / Reddit / Instagram / Facebook / LinkedIn / 各品牌官网 / 专业新闻站</b> 抓取 10 大品牌动态（新品 / 召回 / 新闻 / 参展 / 评测等）。<b style="color:var(--red)">红色=未读置顶</b>，灰色=已读置底；点来源链接即标记已读（电脑手机云同步）。<b id="newsUpdated"></b>
-    </div>
-    <div class="news-list" id="newsList"></div>
   </div>
 
   <!-- ============ 每日复盘 ============ -->
@@ -2627,13 +2641,13 @@ let brandFilter='all';     // 'all' | 'new'（只看有未确认新品的品牌�
 const TAG_CLS={'新品':'t-new','参数':'t-spec','状态更正':'t-fix','召回':'t-recall','经营':'t-biz','渠道':'t-biz','通告':'t-note'};
 function tagCls(t){return TAG_CLS[t]||'t-note';}
 // 内联兜底：双击以 file:// 打开时 fetch 本地 json 会被浏览器拦截，用此数据保证按钮/新品/新闻正常显示
-const BRAND_STATUS_FALLBACK = {"savedAt":1787284228662,"updatedAt":"2026-08-21","brands":{"3M PELTOR":{"releaseDate":"2026-02","summary":"ComTac IX NIB 战术耳机于 Enforce Tac 2026（2/23-25 纽伦堡）在 EMEA 首发，美国等区域随后上市：NIB 5-10m 免电台头戴互通（4讲60听全双工）、MAP 任务音频档案、双重防护达 40dB；工业侧 PELTOR WS ALERT X+（BT5.2 MultiPoint、aptX HD、68h 锂电、OTA 升级、Class 5 28dB）在售。在售 NIB 队间通信头戴涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力一代，见品牌市场动态 n71）。⚠同期 ComTac VIII 部分批次全球召回（详见品牌市场动态）。","updates":[{"date":"2026-07","tag":"召回","headline":"ComTac VIII 部分批次全球召回（啸叫高达 106 dBA 风险，英国 OPSS/澳洲 ACCC 同步）"},{"date":"2026-02","tag":"新品","headline":"ComTac IX NIB 战术耳机 EMEA 首发（NIB 免电台 5-10m 全双工）"},{"date":"2026","tag":"参数","headline":"在售 NIB 队间通信涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力）"}]},"HOWARD LEIGHT":{"releaseDate":"2026-06","summary":"近 30 天官网无新品发布。在售主力：Impact Sport 粉色版 R-01526P（NRR 22dB、82dB 压缩、3.5mm AUX）、Impact Sport Bolt、Impact Sport Bluetooth 5.0；Impact Sport 仍是 Amazon 电子射击耳罩长期畅销款。","updates":[{"date":"2026-06","tag":"新品","headline":"Impact Sport 粉色版 R-01526P / Bolt / Bluetooth 5.0 在售主推"}]},"WALKER'S":{"releaseDate":"2026-07","summary":"★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。★本轮补录：Razor X-TRM Digital Muffs 首发行业首创 MAHP「Shake Awake」运动激活听力保护（专利待审，微动自动开机预载压制，含蓝牙+凝胶耳垫，约 $80，SHOT Show 2026），见 n69。","updates":[{"date":"2026-07","tag":"新品","headline":"SHOTSYNC 计时器 / Recon BT / Cloak 上架官网 New Products"},{"date":"2026-07","tag":"新品","headline":"Razor Junior 青少年耳罩全美零售全渠道铺货"},{"date":"2026","tag":"新品","headline":"Razor X-TRM MAHP「Shake Awake」运动激活防护首发（行业首创）"}]},"EARMOR":{"releaseDate":"2026-08","summary":"★本轮重大更新：母公司广州市行动者科技于 2026-08-01 十周年庆典上「四款新品全球首发」——C53（全球首款同时获 IECEx Ex ia 级与 Ma 级最高防爆认证，可在 0 区等高危环境实现 8 人全双工无按键通话）；M23T AI 听力保护 TWS 耳机（仅 21.8mm 厚，蓝牙 6.0，毫秒级压制枪声，支持 89 种语言 AI 实时翻译）；M21 AI 轻量化战术通信终端（仿生耳撑无感佩戴，动铁单元+声学算法增强脚步声并实现 8° 辨位，降风噪，支持双通道对讲机并行接入）；M35（概念版）首款 AI 视听感知战术终端（1200 万像素 4K 录像 + 视觉语言模型，赋予个体防护装备多模态感知）。同期拿下全国 PPE 行业首家按最新防爆法规取得的最高本安级别认证。此前 2026 年新品：M81「蜂鸟」全双工通话器（6 月警用反恐展首发）、E10 赛级耳塞（1-09 上市）、M33 PRO（自适应 DSP、IPX-5）。另 IWA 2026 十周年旗舰 M32 Mark 4 正式亮相（Adaptive Sound Tracking 增强低频语音、标配 Silicon Gel Seals、NRR 22，见 n68），补齐「可靠有线+高舒适」主力线。SHOT Show / IWA 2026 主力仍为 M300T（含 Tactical Pink 新配色）/ M20T PRO / M31·M32 PLUS。","updates":[{"date":"2026-08","tag":"新品","headline":"十周年四款 AI 新品全球首发：C53 防爆 / M23T TWS / M21 通信 / M35 概念"},{"date":"2026","tag":"新品","headline":"M32 Mark 4 十周年旗舰亮相（Adaptive Sound Tracking + 标配凝胶耳垫）"},{"date":"2026-06","tag":"新品","headline":"M81 蜂鸟全双工通话器警用反恐展首发"},{"date":"2026-01","tag":"新品","headline":"E10 赛级耳塞上市 / M33 PRO 新 DSP 自适应降噪"}]},"OTTO ENGINEERING":{"releaseDate":"2026","summary":"2026 年官网未见新品发布（新闻页最新条目为 CMMC Level 2 网络安全成熟度认证，以及 2025-08-05 的 DarkStar 发布）。在售旗舰仍为 NoizeBarrier TAC 2.0（NRR 23dB/SNR 29、IP68、MIL-STD-810G、2×AA 100h、较前代轻 12%）。","updates":[{"date":"2026","tag":"经营","headline":"2026 官网无新品；在售旗舰仍 NoizeBarrier TAC 2.0"}]},"INVISIO":{"releaseDate":"2026-08","summary":"INVISIO Drone Aware™ 反无人机感知能力于 Eurosatory 2026（6/11）预览并计划 Q3 2026 正式集成到 T30 头戴；截至本轮核查 T30 产品页已将其列为内置功能，可判断已在 Q3 进入市场。★8/14 重大订单：加拿大武装部队（经 Simex Defence）授予最高 4.5 亿瑞典克朗（约 4,300 万美元）框架协议，覆盖全军种 Racal Acoustics RA5100/RA71 等（不含 T30/Drone Aware）。近 30 天无新硬件发布。","updates":[{"date":"2026-08","tag":"订单","headline":"加拿大武装部队框架协议最高 SEK 450M（约 $43M，RA5100/RA71）"},{"date":"2026-06","tag":"新品","headline":"Drone Aware 反无人机感知 Eurosatory 预览（计划 Q3 2026 集成 T30）"}]},"AXIL":{"releaseDate":"2026","summary":"在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。★8/18 FY2026+Q4 财报：Q4 营收创纪录 +48.9% 至 860 万美元、毛利率 72%、门店扩至约 6,000 家；★8/19 预告 X-Core 2 次世代无线耳塞 9 月上市（本年度最重要新品）。零售渠道持续扩张（Walmart 约 1,250 店、Sportsman's Warehouse 70 店、Home Depot 线上、MCX 全线上架）。","updates":[{"date":"2026-08","tag":"财报","headline":"FY2026+Q4 财报：Q4 营收 +48.9% 创纪录、毛利率 72%、门店扩至约 6000 家"},{"date":"2026-08","tag":"新品","headline":"预告 X-Core 2 次世代无线耳塞 9 月上市"},{"date":"2026","tag":"经营","headline":"FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%），毛利率 67%~71%"},{"date":"2026","tag":"渠道","headline":"零售扩张 Walmart 3700 店 / Sportsman's Warehouse 70 店 / Home Depot 线上"}]},"OPS-CORE":{"releaseDate":"2026-02","summary":"★本轮补录：Ops-Core Voice Projection Unit (VPU) 于 2026-02-17 发布，为 Special Operations Tactical Respirator 配套的语音投射附件。2026 年内其他新品：AMP Rail Mount Kit with Vent Mode（1 月 SHOT Show 首发，耳杯可微移散热且保持 NFMI 通信）、FAST XP 执法版头盔系统（1/19）。⚠另有 2026-03-09 NFMI 耳塞单独使用性能的产品通告（Product Advisory）。","updates":[{"date":"2026-03","tag":"通告","headline":"NFMI 耳塞单独使用性能 Product Advisory（3/9）"},{"date":"2026-02","tag":"新品","headline":"VPU 语音投射附件发布（2/17，配套战术呼吸面罩）"},{"date":"2026-01","tag":"新品","headline":"AMP Rail Mount Vent Mode / FAST XP 执法版头盔系统"}]},"SORDIN":{"releaseDate":"2026-08","summary":"Sordin Supreme X2 SFA（X2 系列最高防护成员）已于 2026-08 正式开售，官网产品页显示 In stock、$493，NRR 25/SNR 31（较基础 X2 的 23/29 更高），401g，AA 60h/可充 90h，SFA 可拆卸距离环两档衰减切换、SordinHEAR2 四档、3.5mm AUX、可折叠（见 n70）。在售旗舰 Supreme X2（2026-05-27 发布，取代 Pro-X）官网 €371.54，SordinFLEX 免工具切换头带/颈带/盔挂，SNR 29/NRR 23，82dB(A) 限幅；X2BT 蓝牙版仍在研发。","updates":[{"date":"2026-08","tag":"状态更正","headline":"Supreme X2 SFA 已正式开售（此前误判未开售，官网 In stock $493）"},{"date":"2026-05","tag":"新品","headline":"Supreme X2 发布取代 Pro-X（SNR 29/NRR 23，SordinFLEX 平台）"}]},"DECIBULLZ":{"releaseDate":"2026","summary":"★本轮首次纳入监控数据。官网主推 PRO Custom Molded Earplugs 31dB NRR Pro-Pack，随包配「ALL-NEW Decibullz 塑形工具」（THERMOFIT 可反复重塑、3 组 Max Protect 泡沫 tip + 5 组硅胶 tip、硬壳收纳盒+硅胶挂绳）；Percussive 射击滤波耳塞（2026 Edition 年度更新款，已补全塑形工具套件）脉冲防护达 33dB NRR、ANSI IPIL 认证；另有 USA Edition 爱国限定与 +Awareness 声管对讲版。","updates":[{"date":"2026","tag":"新品","headline":"PRO Custom Molded 31dB / Percussive 2026 Edition 年度更新款"}]}}};
+const BRAND_STATUS_FALLBACK = {"savedAt": 1787284228662, "updatedAt": "2026-08-21", "brands": {"3M PELTOR": {"releaseDate": "2026-02", "summary": "ComTac IX NIB 战术耳机于 Enforce Tac 2026（2/23-25 纽伦堡）在 EMEA 首发，美国等区域随后上市：NIB 5-10m 免电台头戴互通（4讲60听全双工）、MAP 任务音频档案、双重防护达 40dB；工业侧 PELTOR WS ALERT X+（BT5.2 MultiPoint、aptX HD、68h 锂电、OTA 升级、Class 5 28dB）在售。在售 NIB 队间通信头戴涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力一代，见品牌市场动态 n71）。⚠同期 ComTac VIII 部分批次全球召回（详见品牌市场动态）。", "updates": [{"date": "2026-07", "tag": "召回", "headline": "ComTac VIII 部分批次全球召回（啸叫高达 106 dBA 风险，英国 OPSS/澳洲 ACCC 同步）", "url": "https://www.gov.uk/product-safety-alerts-reports-recalls/product-recall-3m-peltor-comtac-viii-headset-2607-0161", "source": "GOV.UK 产品安全召回"}, {"date": "2026-02", "tag": "新品", "headline": "ComTac IX NIB 战术耳机 EMEA 首发（NIB 免电台 5-10m 全双工）", "url": "https://www.linkedin.com/posts/3m-peltor-communication-solutions_3mpeltor-comtac-enforcetac-activity-7430739071934607360-jKia", "source": "3M PELTOR 官方 LinkedIn"}, {"date": "2026", "tag": "参数", "headline": "在售 NIB 队间通信涵盖 ComTac VI NIB / VIII / IX 三代（ComTac VI NIB 为广泛可采购主力）", "url": "https://disco32.com/products/comtacvi", "source": "3M 官网 / DISCO32 在售页"}]}, "HOWARD LEIGHT": {"releaseDate": "2026-06", "summary": "近 30 天官网无新品发布。在售主力：Impact Sport 粉色版 R-01526P（NRR 22dB、82dB 压缩、3.5mm AUX）、Impact Sport Bolt、Impact Sport Bluetooth 5.0；Impact Sport 仍是 Amazon 电子射击耳罩长期畅销款。", "updates": [{"date": "2026-06", "tag": "新品", "headline": "Impact Sport 粉色版 R-01526P / Bolt / Bluetooth 5.0 在售主推", "url": "https://www.outdoorsfirst.com/whitetail/article/howard-leight-improving-on-a-legend/", "source": "Outdoor First（Howard Leight 新闻稿）"}]}, "WALKER'S": {"releaseDate": "2026-07", "summary": "★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。★本轮补录：Razor X-TRM Digital Muffs 首发行业首创 MAHP「Shake Awake」运动激活听力保护（专利待审，微动自动开机预载压制，含蓝牙+凝胶耳垫，约 $80，SHOT Show 2026），见 n69。", "updates": [{"date": "2026-07", "tag": "新品", "headline": "SHOTSYNC 计时器 / Recon BT / Cloak 上架官网 New Products", "url": "https://www.walkersgameear.com/new-products/", "source": "Walker's 官网 New Products"}, {"date": "2026-07", "tag": "新品", "headline": "Razor Junior 青少年耳罩全美零售全渠道铺货", "url": "https://huntinglife.com/walkers-new-razor-junior-muffs-specifically-safeguard-the-hearing-of-youth-shooters", "source": "Hunting Life（Walker's 新闻稿）"}, {"date": "2026", "tag": "新品", "headline": "Razor X-TRM MAHP「Shake Awake」运动激活防护首发（行业首创）", "url": "https://huntinglife.com/walkers-reveals-all-new-shake-awake-muffs-with-patent-pending-motion-activated-hearing-protection", "source": "Hunting Life / Walker's 新闻稿（SHOT Show 2026）"}]}, "EARMOR": {"releaseDate": "2026-08", "summary": "★本轮重大更新：母公司广州市行动者科技于 2026-08-01 十周年庆典上「四款新品全球首发」——C53（全球首款同时获 IECEx Ex ia 级与 Ma 级最高防爆认证，可在 0 区等高危环境实现 8 人全双工无按键通话）；M23T AI 听力保护 TWS 耳机（仅 21.8mm 厚，蓝牙 6.0，毫秒级压制枪声，支持 89 种语言 AI 实时翻译）；M21 AI 轻量化战术通信终端（仿生耳撑无感佩戴，动铁单元+声学算法增强脚步声并实现 8° 辨位，降风噪，支持双通道对讲机并行接入）；M35（概念版）首款 AI 视听感知战术终端（1200 万像素 4K 录像 + 视觉语言模型，赋予个体防护装备多模态感知）。同期拿下全国 PPE 行业首家按最新防爆法规取得的最高本安级别认证。此前 2026 年新品：M81「蜂鸟」全双工通话器（6 月警用反恐展首发）、E10 赛级耳塞（1-09 上市）、M33 PRO（自适应 DSP、IPX-5）。另 IWA 2026 十周年旗舰 M32 Mark 4 正式亮相（Adaptive Sound Tracking 增强低频语音、标配 Silicon Gel Seals、NRR 22，见 n68），补齐「可靠有线+高舒适」主力线。SHOT Show / IWA 2026 主力仍为 M300T（含 Tactical Pink 新配色）/ M20T PRO / M31·M32 PLUS。", "updates": [{"date": "2026-08", "tag": "新品", "headline": "十周年四款 AI 新品全球首发：C53 防爆 / M23T TWS / M21 通信 / M35 概念", "url": "https://www.sohu.com/a/1057763022_122135544", "source": "搜狐（行动者科技十周年报道）"}, {"date": "2026", "tag": "新品", "headline": "M32 Mark 4 十周年旗舰亮相（Adaptive Sound Tracking + 标配凝胶耳垫）", "url": "https://www.earmor.com/m32/", "source": "EARMOR 官网 / IWA 2026 展报"}, {"date": "2026-06", "tag": "新品", "headline": "M81 蜂鸟全双工通话器警用反恐展首发", "url": "https://opsmen.tezhongzhuangbei.com/gsdt.html", "source": "广州行动者科技（EARMOR）公司动态"}, {"date": "2026-01", "tag": "新品", "headline": "E10 赛级耳塞上市 / M33 PRO 新 DSP 自适应降噪", "url": "https://opsmen.tezhongzhuangbei.com/gsdt.html", "source": "广州行动者科技（EARMOR）公司动态"}]}, "OTTO ENGINEERING": {"releaseDate": "2026", "summary": "2026 年官网未见新品发布（新闻页最新条目为 CMMC Level 2 网络安全成熟度认证，以及 2025-08-05 的 DarkStar 发布）。在售旗舰仍为 NoizeBarrier TAC 2.0（NRR 23dB/SNR 29、IP68、MIL-STD-810G、2×AA 100h、较前代轻 12%）。", "updates": [{"date": "2026", "tag": "经营", "headline": "2026 官网无新品；在售旗舰仍 NoizeBarrier TAC 2.0", "url": "https://www.otto-comm.com/products/headsets-and-earplugs/noizebarrier-headsets-and-earplugs/noizebarrier%20tac%202", "source": "OTTO Communications 官网"}]}, "INVISIO": {"releaseDate": "2026-08", "summary": "INVISIO Drone Aware™ 反无人机感知能力于 Eurosatory 2026（6/11）预览并计划 Q3 2026 正式集成到 T30 头戴；截至本轮核查 T30 产品页已将其列为内置功能，可判断已在 Q3 进入市场。★8/14 重大订单：加拿大武装部队（经 Simex Defence）授予最高 4.5 亿瑞典克朗（约 4,300 万美元）框架协议，覆盖全军种 Racal Acoustics RA5100/RA71 等（不含 T30/Drone Aware）。近 30 天无新硬件发布。", "updates": [{"date": "2026-08", "tag": "订单", "headline": "加拿大武装部队框架协议最高 SEK 450M（约 $43M，RA5100/RA71）", "url": "https://corp.invisio.com/news-and-events/pressrelease/canadian-armed-forces-award-invisio-framework-agreement-with-potential-value-up-to-sek-450-million", "source": "INVISIO 官方新闻稿"}, {"date": "2026-06", "tag": "新品", "headline": "Drone Aware 反无人机感知 Eurosatory 预览（计划 Q3 2026 集成 T30）", "url": "https://corp.invisio.com/news-and-events/press-releases/?page=1", "source": "INVISIO 官网新闻稿列表"}]}, "AXIL": {"releaseDate": "2026", "summary": "在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。★8/18 FY2026+Q4 财报：Q4 营收创纪录 +48.9% 至 860 万美元、毛利率 72%、门店扩至约 6,000 家；★8/19 预告 X-Core 2 次世代无线耳塞 9 月上市（本年度最重要新品）。零售渠道持续扩张（Walmart 约 1,250 店、Sportsman's Warehouse 70 店、Home Depot 线上、MCX 全线上架）。", "updates": [{"date": "2026-08", "tag": "财报", "headline": "FY2026+Q4 财报：Q4 营收 +48.9% 创纪录、毛利率 72%、门店扩至约 6000 家", "url": "https://goaxil.com/blogs/press-releases/axil-brands-inc-reports-fiscal-2026-and-fourth-quarter-financial-results", "source": "AXIL 官方 / SEC 8-K"}, {"date": "2026-08", "tag": "新品", "headline": "预告 X-Core 2 次世代无线耳塞 9 月上市", "url": "https://www.sahmcapital.com/en-us/news/content/full-transcript-axil-brands-q4-2026-earnings-call-2026-08-19", "source": "AXIL Q4 业绩电话会实录"}, {"date": "2026", "tag": "经营", "headline": "FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%），毛利率 67%~71%", "url": "https://www.stocktitan.net/sec-filings/AXIL/8-k-axil-brands-inc-reports-material-event-91cb7ad18f17.html", "source": "StockTitan / SEC 8-K"}, {"date": "2026", "tag": "渠道", "headline": "零售扩张 Walmart 3700 店 / Sportsman's Warehouse 70 店 / Home Depot 线上", "url": "https://goldenstatenewswire.com/article/881506246-axil-brands-inc-reports-second-quarter-fiscal-year-2026-financial-results", "source": "AXIL Brands FY26 Q2 财报稿"}]}, "OPS-CORE": {"releaseDate": "2026-02", "summary": "★本轮补录：Ops-Core Voice Projection Unit (VPU) 于 2026-02-17 发布，为 Special Operations Tactical Respirator 配套的语音投射附件。2026 年内其他新品：AMP Rail Mount Kit with Vent Mode（1 月 SHOT Show 首发，耳杯可微移散热且保持 NFMI 通信）、FAST XP 执法版头盔系统（1/19）。⚠另有 2026-03-09 NFMI 耳塞单独使用性能的产品通告（Product Advisory）。", "updates": [{"date": "2026-03", "tag": "通告", "headline": "NFMI 耳塞单独使用性能 Product Advisory（3/9）", "url": "https://gentexcorp.com/blog/", "source": "Gentex 官网 Product Advisory"}, {"date": "2026-02", "tag": "新品", "headline": "VPU 语音投射附件发布（2/17，配套战术呼吸面罩）", "url": "https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/", "source": "Gentex 官网"}, {"date": "2026-01", "tag": "新品", "headline": "AMP Rail Mount Vent Mode / FAST XP 执法版头盔系统", "url": "https://www.gentexcorp.com/news/gentex-unveils-ops-core-fast-xp-helmet-system-for-law-enforcement/", "source": "Gentex 官网"}]}, "SORDIN": {"releaseDate": "2026-08", "summary": "Sordin Supreme X2 SFA（X2 系列最高防护成员）已于 2026-08 正式开售，官网产品页显示 In stock、$493，NRR 25/SNR 31（较基础 X2 的 23/29 更高），401g，AA 60h/可充 90h，SFA 可拆卸距离环两档衰减切换、SordinHEAR2 四档、3.5mm AUX、可折叠（见 n70）。在售旗舰 Supreme X2（2026-05-27 发布，取代 Pro-X）官网 €371.54，SordinFLEX 免工具切换头带/颈带/盔挂，SNR 29/NRR 23，82dB(A) 限幅；X2BT 蓝牙版仍在研发。", "updates": [{"date": "2026-08", "tag": "状态更正", "headline": "Supreme X2 SFA 已正式开售（此前误判未开售，官网 In stock $493）", "url": "https://sordin.com/products/sordin-supreme-x2-sfa", "source": "Sordin 官网产品页 / LinkedIn"}, {"date": "2026-05", "tag": "新品", "headline": "Supreme X2 发布取代 Pro-X（SNR 29/NRR 23，SordinFLEX 平台）", "url": "https://www.rifleconfigurator.com/articles/sordin-supreme-x2-launch", "source": "Rifle Configurator 产品档案"}]}, "DECIBULLZ": {"releaseDate": "2026", "summary": "★本轮首次纳入监控数据。官网主推 PRO Custom Molded Earplugs 31dB NRR Pro-Pack，随包配「ALL-NEW Decibullz 塑形工具」（THERMOFIT 可反复重塑、3 组 Max Protect 泡沫 tip + 5 组硅胶 tip、硬壳收纳盒+硅胶挂绳）；Percussive 射击滤波耳塞（2026 Edition 年度更新款，已补全塑形工具套件）脉冲防护达 33dB NRR、ANSI IPIL 认证；另有 USA Edition 爱国限定与 +Awareness 声管对讲版。", "updates": [{"date": "2026", "tag": "新品", "headline": "PRO Custom Molded 31dB / Percussive 2026 Edition 年度更新款", "url": "https://decibullz.com/products/pro-custom-molded-earplugs-31db-nrr-pro-pack", "source": "Decibullz 官网"}]}}};
 // 同步预填：即使 fetch 失败（如 file:// 双击打开）也能立即显示品牌状态与「确认已查」按钮
 (function prefillBS(){ if(BRAND_STATUS_FALLBACK&&BRAND_STATUS_FALLBACK.brands){ for(const k in BRAND_STATUS_FALLBACK.brands) BRAND_STATUS[k]=BRAND_STATUS_FALLBACK.brands[k]; } })();
 function syncBase(){ return SYNC_RAW.substring(0, SYNC_RAW.lastIndexOf('/')+1); }
 function loadBrandStatus(){
   const applyBS=j=>{ const src=(j&&j.brands)?j.brands:((BRAND_STATUS_FALLBACK&&BRAND_STATUS_FALLBACK.brands)||{}); for(const k in src) BRAND_STATUS[k]=src[k]; if(typeof renderBrands==='function'){renderBrands(); renderReviewStats();} };
-  return fetch(syncBase()+'data/brand-status.json', {cache:'no-store'})
+  return fetch(syncBase()+'brand-status.json', {cache:'no-store'})
     .then(r=>r.ok?r.json():null)
     .then(j=>{ if(j&&j.brands) applyBS(j); else applyBS(null); })
     .catch(()=>applyBS(null));
@@ -2698,7 +2712,8 @@ function renderBrands(){
       <div class="exhib-item"><b>${e.show}</b>${e.date?` · ${e.date}`:''}${e.booth?` · 展位 ${e.booth}`:''}${e.channel?` · ${e.channel}`:''}${e.url?` · <a href="${e.url}" target="_blank">来源链接</a>`:''}</div>`).join('');
     // 卡内「最新动态」一行 + 「监控要点」完整核查记录（此前 summary 一直未被展示，这里补上）
     const latest=(st.updates&&st.updates[0])||null;
-    const latestHtml = latest?`<div class="brand-update"><span class="utag ${tagCls(latest.tag)}">${latest.tag||'新品'}</span><span class="udate">${latest.date||''}</span><span>${esc(latest.headline||'')}</span></div>`:'';
+    const latestSrc = latest&&latest.url?`<div class="bu-srcrow"><a class="bu-src" href="${esc(latest.url)}" target="_blank" title="${esc(latest.source||'来源')}">🔗 来源：${esc(latest.source||'查看')}</a></div>`:'';
+    const latestHtml = latest?`<div class="brand-update"><span class="utag ${tagCls(latest.tag)}">${latest.tag||'新品'}</span><span class="udate">${latest.date||''}</span><span class="uhead">${esc(latest.headline||'')}</span></div>${latestSrc}`:'';
     const sumHtml = st.summary?`<details class="brand-summary"><summary>监控要点（本轮完整核查记录）</summary><div class="bs-body">${esc(st.summary).replace(/★/g,'<span class="bs-star">★</span>')}</div></details>`:'';
     return `<div class="brand-card">
       <div class="brand-head">
@@ -2742,9 +2757,14 @@ function renderTimeline(){
   const ups=brandUpdatesAll();
   el.innerHTML=ups.map(u=>{
     const isNew=hasNewRelease({name:u.brand})?' is-new':'';
+    const burl=(BRANDS.find(x=>x.name===u.brand)||{}).url||'';
+    const usrc = u.url
+      ? `<a class="tl-src" href="${esc(u.url)}" target="_blank" title="${esc(u.source||'来源')}">🔗 来源：${esc(u.source||'查看')}</a>`
+      : (burl?`<a class="tl-src" href="${esc(burl)}" target="_blank" title="品牌官网">🔗 品牌官网</a>`:'');
     return `<div class="tl-item${isNew}">
       <div class="tl-row"><span class="tl-date">${u.date||'—'}</span><span class="tl-tag ${tagCls(u.tag)}">${u.tag||'新品'}</span><span class="tl-brand">${esc(u.brand)}</span></div>
       <div class="tl-head">${esc(u.headline||'')}</div>
+      ${usrc?`<div class="tl-srcrow">${usrc}</div>`:''}
     </div>`;
   }).join('');
   if(!ups.length) el.innerHTML='<div class="tl-head" style="color:var(--text-sec)">暂无更新记录</div>';
@@ -2788,7 +2808,7 @@ function loadNews(){
     if(u) u.textContent='　更新于 '+((j&&j.updatedAt)||(NEWS_FALLBACK&&NEWS_FALLBACK.updatedAt)||'');
     renderNews();
   };
-  return fetch(syncBase()+'data/brand-news.json', {cache:'no-store'})
+  return fetch(syncBase()+'brand-news.json', {cache:'no-store'})
     .then(r=>r.ok?r.json():null)
     .then(j=>{ if(j&&Array.isArray(j.items)) applyNews(j); else applyNews(null); })
     .catch(()=>applyNews(null))
@@ -2800,10 +2820,14 @@ function renderNews(){
   const cnt=document.getElementById('newsCount');
   if(!NEWS_ITEMS.length){
     if(cnt)cnt.textContent='0';
+    const mc0=document.getElementById('monitorCount');
+    if(mc0)mc0.textContent=BRANDS.length+' 品牌 · 0 条动态';
     list.innerHTML='<div class="news-empty">暂无动态，点「刷新动态」拉取最新抓取结果</div>';
     return;
   }
   if(cnt)cnt.textContent=NEWS_ITEMS.length+'条（未读'+(NEWS_ITEMS.length-read.length)+'）';
+  const mc=document.getElementById('monitorCount');
+  if(mc)mc.textContent=BRANDS.length+' 品牌 · '+NEWS_ITEMS.length+' 条动态';
   const sorted=[...NEWS_ITEMS].sort((a,b)=>{
     const ra=read.includes(a.id)?1:0, rb=read.includes(b.id)?1:0;
     if(ra!==rb)return ra-rb;                       // 未读(0)置顶，已读(1)沉底
