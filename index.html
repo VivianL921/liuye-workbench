@@ -231,6 +231,28 @@ body{
 .subitem-empty{font-size:12px;color:var(--text-sec);padding:6px 0}
 .form-hint{font-size:11px;color:var(--text-sec);margin-top:-4px;margin-bottom:8px;line-height:1.6}
 
+/* 月度KPI 套组总进度卡 */
+.suite-total{border:1px solid var(--border);border-radius:14px;padding:16px;background:linear-gradient(135deg,var(--primary-light),rgba(255,255,255,.35));margin-bottom:14px}
+.suite-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.suite-title{font-weight:600;font-size:15px}
+.suite-pct{font-size:28px;font-weight:800;color:var(--primary)}
+.suite-sub{font-size:11px;color:var(--text-sec);margin-top:6px}
+.suite-set{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--text-sec)}
+.suite-set input{width:64px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px}
+/* 首页：任务区 + 本周工作状态右栏 */
+.home-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
+.home-side{position:sticky;top:20px;display:flex;flex-direction:column;gap:12px}
+.wstatus-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm)}
+.wstatus-title{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.wstatus-metric{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.5)}
+.wstatus-metric:last-child{border-bottom:none}
+.ws-label{font-size:12px;color:var(--text-sec)}
+.ws-big{font-size:26px;font-weight:700;line-height:1.15;margin-top:2px}
+.ws-big.up{color:var(--green)}
+.ws-cmp{font-size:11px;margin-top:3px;display:flex;align-items:center;gap:3px;font-weight:500}
+.ws-cmp.up{color:var(--green)} .ws-cmp.down{color:var(--red)} .ws-cmp.flat{color:var(--text-sec)}
+.ws-sub{font-size:11px;color:var(--text-sec);margin-top:3px}
+
 /* Add Task Modal */
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
@@ -575,6 +597,8 @@ body{
   .nav-item{flex-direction:column;gap:3px;padding:7px 4px;font-size:10px;flex:1;border-radius:12px}
   .nav-item .ni-ico{font-size:18px}
   .main{padding-bottom:76px}
+  .home-grid{grid-template-columns:1fr}
+  .home-side{position:static}
   .topbar .ts{display:none}
 }
 @media(max-width:768px){.brand-grid{grid-template-columns:1fr}}
@@ -640,6 +664,8 @@ body{
 
   <!-- ============ 今日任务 ============ -->
   <div class="tab-content active" id="tab-tasks">
+   <div class="home-grid">
+    <div class="home-main">
     <div class="subtabs">
       <button class="subtab active" data-sub="daily">📅 今日任务</button>
       <button class="subtab" data-sub="monthly">📊 月度KPI</button>
@@ -668,6 +694,28 @@ body{
       <button class="btn-add" id="btnAddMonthly" style="margin-bottom:14px">+ 新增月度KPI</button>
       <div class="monthly-list" id="monthlyList"></div>
     </div>
+   </div><!-- /home-main -->
+   <aside class="home-side">
+     <div class="wstatus-card">
+       <div class="wstatus-title">📊 本周工作状态</div>
+       <div class="wstatus-metric">
+         <div class="ws-label">本周完成率</div>
+         <div class="ws-big" id="wsRate">--</div>
+         <div class="ws-cmp" id="wsRateCmp"></div>
+       </div>
+       <div class="wstatus-metric">
+         <div class="ws-label">本周任务量</div>
+         <div class="ws-big" id="wsVol">--</div>
+         <div class="ws-cmp" id="wsVolCmp"></div>
+       </div>
+       <div class="wstatus-metric">
+         <div class="ws-label">本月目标</div>
+         <div class="ws-big" id="wsGoal">--</div>
+         <div class="ws-sub" id="wsGoalSub"></div>
+       </div>
+     </div>
+   </aside>
+  </div><!-- /home-grid -->
   </div>
 
   <!-- ============ 品牌新品监控 ============ -->
@@ -841,7 +889,6 @@ body{
         <option value="order">订单管理</option>
         <option value="brand">品牌活动</option>
         <option value="bizdev">业务开发</option>
-        <option value="meeting-internal">项目会议·内部周会</option>
         <option value="meeting-customer">项目会议·客户会议</option>
         <option value="meeting-distributor">项目会议·经销商会议</option>
       </select>
@@ -1496,7 +1543,7 @@ function pullSync(){
     return false;
   }).catch(e=>{ console.error('pullSync 失败', e); return false; });
 }
-function rerenderAll(){ renderTasks(); renderMonthly(); renderBrands(); renderReview(); renderSOP(); renderSalesPlan(); }
+function rerenderAll(){ renderTasks(); renderMonthly(); renderBrands(); renderReview(); renderSOP(); renderSalesPlan(); renderWeekStatus(); }
 function setupSyncUI(){
   const btn=document.getElementById('btnSync');
   if(btn) btn.onclick=()=>{ const m=document.getElementById('syncModal'); if(m) m.classList.add('show'); };
@@ -2008,19 +2055,92 @@ function updateProgress(){
   circ.style.strokeDashoffset=150.8*(1-pct/100);
 }
 
+// ============ 月度KPI 套组：总进度 + 本周工作状态 ============
+function suiteTotalPct(){
+  if(!monthlyTasks.length) return 0;
+  let sum=0; monthlyTasks.forEach(m=>sum+=kpiProgress(m).pct);
+  return Math.round(sum/monthlyTasks.length);
+}
+// 把单个 KPI 的完成度设定为 pct%（用于总进度反向联动到各细分）
+function setKpiProgressTo(kpi,pct){
+  const subs=kpi.subItems||[];
+  if(subs.length){
+    const n=Math.round(subs.length*pct/100);
+    subs.forEach((s,i)=>{
+      const want=i<n;
+      if(s.done!==want){
+        s.done=want;
+        if(s.linkedTaskId){
+          const tk=tasks.find(t=>t.id===s.linkedTaskId);
+          if(tk){ tk.done=want; if(want){tk.doneDate=getToday();archiveTask(tk,tk.doneDate);}else{tk.doneDate=null;unarchiveTask(tk.id);} saveTasks(); }
+        }
+      }
+    });
+  }else{
+    const tgt=Number(kpi.target)||0;
+    kpi.current=Math.max(0,Math.min(tgt,Math.round(tgt*pct/100)));
+  }
+}
+// 设定套组总进度 → 所有细分目标同步到该完成度（同步后退）
+function setSuiteTotal(pct){
+  if(!monthlyTasks.length)return;
+  monthlyTasks.forEach(m=>setKpiProgressTo(m,pct));
+  saveMonthly(); renderMonthly();
+}
+// 计算某一周（周一 mon 起）的完成统计
+function computeWeekStats(mon){
+  const today=getToday();
+  let done=0,total=0;
+  for(let i=0;i<7;i++){
+    const d=new Date(mon); d.setDate(mon.getDate()+i); const ds=fmtDate(d);
+    let cd,ct;
+    if(ds===today){ cd=tasks.filter(t=>t.done&&t.doneDate===today).length; ct=tasks.length; }
+    else { const a=getArchive()[ds]||[]; cd=a.length; const st=JSON.parse(localStorage.getItem('liuye_day_stats')||'{}')[ds]; ct=(st&&st.total)?st.total:a.length; }
+    done+=cd; total+=ct;
+  }
+  return {done,total,pct:total>0?Math.round(done/total*100):0};
+}
+// 本周工作状态：完成率/任务量环比上周 + 本月目标（=套组总进度）
+function renderWeekStatus(){
+  const elRate=document.getElementById('wsRate'); if(!elRate)return;
+  const {mon}=getWeekRange();
+  const lastMon=new Date(mon); lastMon.setDate(mon.getDate()-7);
+  const cur=computeWeekStats(mon), prev=computeWeekStats(lastMon);
+  elRate.textContent=cur.pct+'%';
+  const rc=document.getElementById('wsRateCmp');
+  if(prev.total>0){ const d=cur.pct-prev.pct; rc.className='ws-cmp '+(d>0?'up':d<0?'down':'flat'); rc.textContent=(d>0?'▲ 较上周 +':d<0?'▼ 较上周 ':'— 与上周持平 ')+Math.abs(d)+'pp'; }
+  else { rc.className='ws-cmp flat'; rc.textContent='— 上周无数据'; }
+  const elVol=document.getElementById('wsVol'); elVol.textContent=cur.total+' 项';
+  const vc=document.getElementById('wsVolCmp');
+  if(prev.total>0){ const d=cur.total-prev.total; const pc=prev.total>0?Math.round(d/prev.total*100):0; vc.className='ws-cmp '+(d>0?'up':d<0?'down':'flat'); vc.textContent=(d>0?'▲ 较上周 +':d<0?'▼ 较上周 ':'— 与上周持平 ')+Math.abs(pc)+'%'; }
+  else { vc.className='ws-cmp flat'; vc.textContent='— 上周无数据'; }
+  const goal=suiteTotalPct();
+  const elGoal=document.getElementById('wsGoal'); elGoal.textContent=goal+'%'; elGoal.className='ws-big'+(goal>=100?' up':'');
+  document.getElementById('wsGoalSub').textContent='月度套组目标（'+monthlyTasks.length+' 项细分平均）';
+}
+
 // ============ 月度KPI ============
 function saveMonthly(){localStorage.setItem('liuye_monthly_tasks',JSON.stringify(monthlyTasks))}
 
 function renderMonthly(){
   let list=document.getElementById('monthlyList');
   if(!list)return;
+  renderWeekStatus();
   if(monthlyTasks.length===0){
     list.innerHTML='<div class="empty"><p>暂无月度KPI，点击「+ 新增月度KPI」添加</p></div>';
     updateMonthlySummary(); return;
   }
   // 排序：优先级权重升序（重要·紧急 最前）
   let arr=[...monthlyTasks].sort((a,b)=>(PRI_MAP[a.pri]||PRI_MAP.inu).w-(PRI_MAP[b.pri]||PRI_MAP.inu).w);
-  list.innerHTML=arr.map(m=>{
+  const total=suiteTotalPct();
+  const tFill=total>=100?'var(--green)':'linear-gradient(90deg,var(--primary),#60a5fa)';
+  const totalCard=`<div class="suite-total">
+      <div class="suite-head"><div class="suite-title">🎯 月度KPI 套组总进度</div><div class="suite-pct">${total}%</div></div>
+      <div class="progress-track"><div class="progress-fill" style="width:${total}%;background:${tFill}"></div></div>
+      <div class="suite-sub">${monthlyTasks.length} 项细分目标 · 平均完成度（任一细分变动，总进度同步联动）</div>
+      <div class="suite-set"><label>设定总进度</label><input type="number" id="suiteTotalInput" min="0" max="100" value="${total}"> %<button class="btn-add" data-mact="settotal" style="padding:5px 12px;font-size:12px">应用</button></div>
+    </div>`;
+  list.innerHTML=totalCard+arr.map(m=>{
     const p=PRI_MAP[m.pri]||PRI_MAP.inu;
     const prog=kpiProgress(m);
     const ddl=ddlInfo(m.deadline);
@@ -2125,7 +2245,7 @@ function bindMonthly(){
   if(list)list.addEventListener('click',function(e){
     const el=e.target.closest('[data-mact]'); if(!el)return;
     const id=Number(el.dataset.id), act=el.dataset.mact;
-    if(act==='edit')editMonthly(id); else if(act==='del')delMonthly(id);
+    if(act==='edit')editMonthly(id); else if(act==='del')delMonthly(id); else if(act==='settotal'){ const v=parseFloat(document.getElementById('suiteTotalInput').value); if(!isNaN(v))setSuiteTotal(Math.max(0,Math.min(100,v))); }
   });
   if(list)list.addEventListener('click',function(e){
     const k=e.target.closest('[data-kact]'); if(!k)return;
@@ -2681,7 +2801,7 @@ function bindNews(){
 }
 
 // ============ REVIEW ============
-const CAT_MAP={'distributor':['经销商对接','cat-distributor'],'newproduct':['新品跟进','cat-newproduct'],competitor:['竞品监控','cat-competitor'],customer:['客户跟进','cat-customer'],'order':['订单管理','cat-order'],brand:['品牌活动','cat-brand'],'meeting-internal':['内部周会','cat-meeting-internal'],'meeting-customer':['客户会议','cat-meeting-customer'],'meeting-distributor':['经销商会议','cat-meeting-distributor']};
+const CAT_MAP={'distributor':['经销商对接','cat-distributor'],'newproduct':['新品跟进','cat-newproduct'],competitor:['竞品监控','cat-competitor'],customer:['客户跟进','cat-customer'],'order':['订单管理','cat-order'],brand:['品牌活动','cat-brand'],'meeting-customer':['客户会议','cat-meeting-customer'],'meeting-distributor':['经销商会议','cat-meeting-distributor']};
 // 自定义任务分类（持久化、自动同步到云）
 function getCustomCats(){try{return JSON.parse(localStorage.getItem('liuye_custom_cats')||'[]')}catch(e){return[]}}
 function getUserCats(){const m=Object.assign({},CAT_MAP);getCustomCats().forEach(c=>{m[c.value]=[c.label,'']});return m}
