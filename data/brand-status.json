@@ -1,6 +1,6 @@
 {
-  "savedAt": 1786593816507,
-  "updatedAt": "2026-08-13",
+  "savedAt": 1787284228662,
+  "updatedAt": "2026-08-21",
   "brands": {
     "3M PELTOR": {
       "releaseDate": "2026-02",
@@ -93,9 +93,14 @@
       ]
     },
     "INVISIO": {
-      "releaseDate": "2026-06",
-      "summary": "INVISIO Drone Aware™ 反无人机感知能力于 Eurosatory 2026（6/11）预览首发并计划 Q3 2026 正式集成到 T30 头戴（官方确认 Q3 上市），可对来袭无人机做早期识别；Q2 财报确认该功能为季度重要事件之一。近 30 天无新硬件发布。",
+      "releaseDate": "2026-08",
+      "summary": "INVISIO Drone Aware™ 反无人机感知能力于 Eurosatory 2026（6/11）预览并计划 Q3 2026 正式集成到 T30 头戴；截至本轮核查 T30 产品页已将其列为内置功能，可判断已在 Q3 进入市场。★8/14 重大订单：加拿大武装部队（经 Simex Defence）授予最高 4.5 亿瑞典克朗（约 4,300 万美元）框架协议，覆盖全军种 Racal Acoustics RA5100/RA71 等（不含 T30/Drone Aware）。近 30 天无新硬件发布。",
       "updates": [
+        {
+          "date": "2026-08",
+          "tag": "订单",
+          "headline": "加拿大武装部队框架协议最高 SEK 450M（约 $43M，RA5100/RA71）"
+        },
         {
           "date": "2026-06",
           "tag": "新品",
@@ -105,8 +110,18 @@
     },
     "AXIL": {
       "releaseDate": "2026",
-      "summary": "在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4、可换面板）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。近 30 天官网无全新型号。★本轮补充经营面：公司给出 FY2026 Q4 营收指引 800~1000 万美元（同比 +39%~74%）、毛利率 67%~71%，全年 3020~3220 万美元（+15%~23%）；并扩大与 Monster Jam 的品牌授权合作、将 Reviv3 ProCare 独立为子公司以便后续剥离，聚焦听力防护主业。零售渠道持续扩张（Walmart 约 3,700 店、Sportsman's Warehouse 70 店、Home Depot 线上）。",
+      "summary": "在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。★8/18 FY2026+Q4 财报：Q4 营收创纪录 +48.9% 至 860 万美元、毛利率 72%、门店扩至约 6,000 家；★8/19 预告 X-Core 2 次世代无线耳塞 9 月上市（本年度最重要新品）。零售渠道持续扩张（Walmart 约 1,250 店、Sportsman's Warehouse 70 店、Home Depot 线上、MCX 全线上架）。",
       "updates": [
+        {
+          "date": "2026-08",
+          "tag": "财报",
+          "headline": "FY2026+Q4 财报：Q4 营收 +48.9% 创纪录、毛利率 72%、门店扩至约 6000 家"
+        },
+        {
+          "date": "2026-08",
+          "tag": "新品",
+          "headline": "预告 X-Core 2 次世代无线耳塞 9 月上市"
+        },
         {
           "date": "2026",
           "tag": "经营",
