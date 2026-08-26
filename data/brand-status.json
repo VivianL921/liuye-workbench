@@ -44,8 +44,15 @@
     },
     "WALKER'S": {
       "releaseDate": "2026-07",
-      "summary": "★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。★本轮补录：Razor X-TRM Digital Muffs 首发行业首创 MAHP「Shake Awake」运动激活听力保护（专利待审，微动自动开机预载压制，含蓝牙+凝胶耳垫，约 $80，SHOT Show 2026），见 n69。",
+      "summary": "★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。★本轮补录：Razor X-TRM Digital Muffs 首发行业首创 MAHP「Shake Awake」运动激活听力保护（专利待审，微动自动开机预载压制，含蓝牙+凝胶耳垫，约 $80，SHOT Show 2026），见 n69。 ★本轮新增：Suppressor Earbuds 入耳式电子耳塞（GWP-SUPR，25dB NRR、IP54、9h+充电仓36h、4全向麦）在售，补全入耳式防护线。",
       "updates": [
+        {
+          "date": "2026-08",
+          "tag": "新品",
+          "headline": "Suppressor Earbuds 入耳式电子耳塞上市（25dB NRR / IP54 / 9h+充电仓36h，GWP-SUPR）",
+          "url": "https://www.walkersgameear.com/suppressor-earbud/",
+          "source": "Walker's 官网产品页"
+        },
         {
           "date": "2026-07",
           "tag": "新品",
