@@ -1,6 +1,6 @@
 {
-  "savedAt": 1787646978822,
-  "updatedAt": "2026-08-26",
+  "savedAt": 1787794845741,
+  "updatedAt": "2026-08-27",
   "brands": {
     "3M PELTOR": {
       "releaseDate": "2026-02",
@@ -43,9 +43,16 @@
       ]
     },
     "WALKER'S": {
-      "releaseDate": "2026-07",
-      "summary": "★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。★本轮补录：Razor X-TRM Digital Muffs 首发行业首创 MAHP「Shake Awake」运动激活听力保护（专利待审，微动自动开机预载压制，含蓝牙+凝胶耳垫，约 $80，SHOT Show 2026），见 n69。 ★本轮新增：Suppressor Earbuds 入耳式电子耳塞（GWP-SUPR，25dB NRR、IP54、9h+充电仓36h、4全向麦）在售，补全入耳式防护线。",
+      "releaseDate": "2026-08",
+      "summary": "★本轮新增：官网 New Products 上架 SHOTSYNC 可穿戴射击计时器（$49.99，麦克风+加速度计、BT5.2 LE、App 设定 par 时间与训练数据留存）、Recon Bluetooth Digital Ear Muffs（$149.99）、Cloak Dual Mic Electronic Ear Muff（$49.99）。同时 Razor Junior 青少年耳罩 2026-07 发稿宣布线上+全美零售全渠道铺货（NRR 23dB、0.02s 声激活压缩）。★本轮补录：Razor X-TRM Digital Muffs 首发行业首创 MAHP「Shake Awake」运动激活听力保护（专利待审，微动自动开机预载压制，含蓝牙+凝胶耳垫，约 $80，SHOT Show 2026），见 n69。 ★本轮新增：Suppressor Earbuds 入耳式电子耳塞（GWP-SUPR，25dB NRR、IP54、9h+充电仓36h、4全向麦）在售，补全入耳式防护线。 ★本轮新增：Recon Hybrid Comms 蓝牙对讲附件（GWP-RECM-BT-WT，$69.99，专利待审）——BT5.0 + 22 个 GMRS 频道、最远 3 英里免手持通话、PTT/VOX 双模、高增益鹅颈麦、3×AAA，仅与全新 Recon Digital Muff（$99.99）专属整合，把「耳罩+对讲」做成约 $170 的融合套装（同系列另有 FireMax Muff Walkie Talkie $69.99）。⚠价格情报：官网 End of Summer Sale 期间蓝牙线普遍腰斩（Firemax BT $219.99→$129.99、Disrupter $279.99→$149.99、Restrictor $249.99→$129.99、Isolator $199.99→$99.99 且买一送一），报价对标应以实际成交价为准（见 n86）。",
       "updates": [
+        {
+          "date": "2026-08",
+          "tag": "新品",
+          "headline": "Recon Hybrid Comms 蓝牙对讲附件（22 GMRS 频道 / 3 英里，专属配 Recon 数字耳罩）",
+          "url": "https://www.walkersgameear.com/recon-hybrid-comms-bluetooth-walkie-talkie/",
+          "source": "Walker's 官网产品页"
+        },
         {
           "date": "2026-08",
           "tag": "新品",
@@ -78,8 +85,15 @@
     },
     "EARMOR": {
       "releaseDate": "2026-08",
-      "summary": "★本轮重大更新：母公司广州市行动者科技于 2026-08-01 十周年庆典上「四款新品全球首发」——C53（全球首款同时获 IECEx Ex ia 级与 Ma 级最高防爆认证，可在 0 区等高危环境实现 8 人全双工无按键通话）；M23T AI 听力保护 TWS 耳机（仅 21.8mm 厚，蓝牙 6.0，毫秒级压制枪声，支持 89 种语言 AI 实时翻译）；M21 AI 轻量化战术通信终端（仿生耳撑无感佩戴，动铁单元+声学算法增强脚步声并实现 8° 辨位，降风噪，支持双通道对讲机并行接入）；M35（概念版）首款 AI 视听感知战术终端（1200 万像素 4K 录像 + 视觉语言模型，赋予个体防护装备多模态感知）。同期拿下全国 PPE 行业首家按最新防爆法规取得的最高本安级别认证。此前 2026 年新品：M81「蜂鸟」全双工通话器（6 月警用反恐展首发）、E10 赛级耳塞（1-09 上市）、M33 PRO（自适应 DSP、IPX-5）。另 IWA 2026 十周年旗舰 M32 Mark 4 正式亮相（Adaptive Sound Tracking 增强低频语音、标配 Silicon Gel Seals、NRR 22，见 n68），补齐「可靠有线+高舒适」主力线。SHOT Show / IWA 2026 主力仍为 M300T（含 Tactical Pink 新配色）/ M20T PRO / M31·M32 PLUS。",
+      "summary": "★本轮重大更新：母公司广州市行动者科技于 2026-08-01 十周年庆典上「四款新品全球首发」——C53（全球首款同时获 IECEx Ex ia 级与 Ma 级最高防爆认证，可在 0 区等高危环境实现 8 人全双工无按键通话）；M23T AI 听力保护 TWS 耳机（仅 21.8mm 厚，蓝牙 6.0，毫秒级压制枪声，支持 89 种语言 AI 实时翻译）；M21 AI 轻量化战术通信终端（仿生耳撑无感佩戴，动铁单元+声学算法增强脚步声并实现 8° 辨位，降风噪，支持双通道对讲机并行接入）；M35（概念版）首款 AI 视听感知战术终端（1200 万像素 4K 录像 + 视觉语言模型，赋予个体防护装备多模态感知）。同期拿下全国 PPE 行业首家按最新防爆法规取得的最高本安级别认证。此前 2026 年新品：M81「蜂鸟」全双工通话器（6 月警用反恐展首发）、E10 赛级耳塞（1-09 上市）、M33 PRO（自适应 DSP、IPX-5）。另 IWA 2026 十周年旗舰 M32 Mark 4 正式亮相（Adaptive Sound Tracking 增强低频语音、标配 Silicon Gel Seals、NRR 22，见 n68），补齐「可靠有线+高舒适」主力线。SHOT Show / IWA 2026 主力仍为 M300T（含 Tactical Pink 新配色）/ M20T PRO / M31·M32 PLUS。 ★本轮新增（渠道背书）：8/24 公司动态披露香港警队反恐特勤队 CTRU 在两场大型跨部门演习中实装 M31/M32 MARK 系列（含 8/15 新皇岗口岸约 5,000 人规模压力测试），为其有线主力线在境外正规警队的公开实装证据。",
       "updates": [
+        {
+          "date": "2026-08",
+          "tag": "经营",
+          "headline": "香港警队反恐特勤 CTRU 跨部门演习实装 M31/M32 MARK 系列",
+          "url": "https://opsmen.tezhongzhuangbei.com/gsdt_date_156008.html",
+          "source": "广州行动者科技（EARMOR）公司动态"
+        },
         {
           "date": "2026-08",
           "tag": "新品",
@@ -144,9 +158,16 @@
       ]
     },
     "AXIL": {
-      "releaseDate": "2026",
-      "summary": "在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。★8/18 FY2026+Q4 财报：Q4 营收创纪录 +48.9% 至 860 万美元、毛利率 72%、门店扩至约 6,000 家；★8/19 预告 X-Core 2 次世代无线耳塞 9 月上市（本年度最重要新品）。零售渠道持续扩张（Walmart 约 1,250 店、Sportsman's Warehouse 70 店、Home Depot 线上、MCX 全线上架）。",
+      "releaseDate": "2026-08",
+      "summary": "在售/新上市矩阵：GS Extreme 3.0（26dB SNR、BT5.3、Sonic Shield X 滤波，$184.60）、XCOR PRO（29dB SNR、5X 增强、12h，$307.67）、MX PRO（30dB SNR、6X、BT5.4）、MXII PRO（22dB SNR）、X30i / X30i LT 耳塞。★本轮重大更新：8/26 官方新闻稿正式发布次世代旗舰 XCOR II，定档 2026-09-15 上市，初始订单已超 280 万美元并于 9 月发货（增强主动降噪、更沉浸声场、更低轮廓机身、充电仓支持 4 次满充）；官方命名为 XCOR II，此前业绩会口径「X-Core 2」应更正。★本轮补录：CRX 模块化入耳式方案（2026-03-12 发布、5/1 上市、MSRP $123.06，SonicShieldX 6X 增强、MMCX 可换蓝牙或战术 PTT 适配器、IP65、续航 10h），是其从零售向军警渠道渗透的试探产品。8/18 FY2026+Q4 财报：Q4 营收创纪录 +48.9% 至 860 万美元、毛利率 72%、门店扩至约 6,000 家。零售渠道持续扩张（Walmart 约 1,250 店、Sportsman's Warehouse 70 店、Home Depot 线上、MCX 全线上架）。",
       "updates": [
+        {
+          "date": "2026-08",
+          "tag": "新品",
+          "headline": "XCOR II 旗舰无线耳塞官方定档 9/15 上市，初始订单超 280 万美元",
+          "url": "https://goaxil.com/blogs/press-releases/axil-brands-announces-launch-of-next-generation-flagship-product-xcor-ii",
+          "source": "AXIL 官方新闻稿"
+        },
         {
           "date": "2026-08",
           "tag": "财报",
@@ -160,6 +181,13 @@
           "headline": "预告 X-Core 2 次世代无线耳塞 9 月上市",
           "url": "https://www.sahmcapital.com/en-us/news/content/full-transcript-axil-brands-q4-2026-earnings-call-2026-08-19",
           "source": "AXIL Q4 业绩电话会实录"
+        },
+        {
+          "date": "2026-03",
+          "tag": "新品",
+          "headline": "CRX 模块化入耳式发布（MMCX 换蓝牙/战术 PTT 适配器、IP65、$123.06）",
+          "url": "https://goaxil.com/blogs/press-releases/axil-brands-unveils-axil-crx-the-ultimate-fusion-of-hearing-protection-and-modular-connectivity",
+          "source": "AXIL 官方新闻稿"
         },
         {
           "date": "2026",
