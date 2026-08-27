@@ -635,12 +635,16 @@ body{
 #tab-map .cm-mapwrap{position:relative;width:100%;background:linear-gradient(180deg,#eef4fb 0%,#e3eef7 100%);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;overflow:hidden}
 #worldSvg{width:100%;height:auto;display:block;overflow:visible}
 .cm-country{fill:#e6ecf2;stroke:#c4cfda;stroke-width:.6;transition:fill .2s,stroke .2s}
-.cm-country.lit{fill:#d7f7ee;stroke:#00d6b2;stroke-width:1.6;filter:drop-shadow(0 0 3px #00d6b2)}
+.cm-country.lit{fill:#dff7f0;stroke:var(--lit,#00d6b2);stroke-width:1.7;filter:drop-shadow(0 0 3px var(--lit,#00d6b2))}
+.cm-country.lit-green{--lit:#00d6b2}
+.cm-country.lit-yellow{--lit:#ffe14d}
+.cm-country.lit-red{--lit:#ff3b3b}
 .cm-pole{stroke:#33414f;stroke-width:2}
-.cm-pennant{fill:#ff4d4f;stroke:#fff;stroke-width:.8}
+.cm-pennant{fill:var(--lit,#ff4d4f);stroke:#fff;stroke-width:.8}
 .cm-tip{position:absolute;display:none;pointer-events:none;background:rgba(20,28,40,.94);color:#fff;padding:6px 10px;border-radius:8px;font-size:12.5px;line-height:1.5;z-index:6;box-shadow:0 8px 22px rgba(0,0,0,.28);white-space:nowrap}
 .cm-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0}
 .cm-hint{font-size:12.5px;color:#7a8694}
+.cm-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 3px;vertical-align:middle;box-shadow:0 0 3px currentColor}
 .cm-add-btn{white-space:nowrap}
 .cm-list-title{font-weight:600;margin:14px 2px 8px;font-size:14px;color:var(--text)}
 .cm-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
@@ -928,7 +932,7 @@ body{
       <span class="count" id="cmTotal">🌍 当前世界客户总数：0 个</span>
     </div>
     <div class="cm-bar">
-      <span class="cm-hint">点亮的国家 = 已有客户（荧光绿边 + 小旗）；鼠标悬停查看该国客户数量。未点亮国家显示为浅色。</span>
+      <span class="cm-hint">点亮国家按客户数分三档描边：<span class="cm-dot" style="background:#ff3b3b;color:#ff3b3b"></span>≥75 红 &nbsp; <span class="cm-dot" style="background:#ffe14d;color:#ffe14d"></span>≥25 黄 &nbsp; <span class="cm-dot" style="background:#00d6b2;color:#00d6b2"></span>1–24 绿；鼠标悬停查看该国客户数，未点亮国家为浅色。</span>
       <button class="btn-save cm-add-btn" id="cmAddBtn" type="button">＋ 添加客户</button>
     </div>
     <div class="cm-mapwrap" id="cmMapWrap">
@@ -3516,13 +3520,16 @@ function onMapMove(e){
   }
   cmTip.style.display='none';
 }
+function cmTier(n){ return n>=75?'lit-red': n>=25?'lit-yellow':'lit-green'; }
+function cmTierColor(n){ return n>=75?'#ff3b3b': n>=25?'#ffe14d':'#00d6b2'; }
 function renderCustomerMap(){
   const svg=document.getElementById('worldSvg'); if(!svg)return;
   buildMapBase();
   const byC=customersByCountry();
   (window.WORLD_COUNTRIES||[]).forEach(c=>{
     const p=document.getElementById('cc_'+c.id); if(!p)return;
-    if(byC[c.id])p.classList.add('lit'); else p.classList.remove('lit');
+    p.classList.remove('lit','lit-green','lit-yellow','lit-red');
+    if(byC[c.id]){ p.classList.add('lit',cmTier(byC[c.id])); }
   });
   const total=customers.length;
   const tEl=document.getElementById('cmTotal'); if(tEl)tEl.textContent='🌍 当前世界客户总数：'+total+' 个';
@@ -3534,8 +3541,10 @@ function renderCustomerMap(){
       const p=document.getElementById('cc_'+id); if(!p)return;
       let cx,cy; try{const b=p.getBBox(); cx=b.x+b.width/2; cy=b.y+b.height/2;}catch(e){return;}
       if(!(cx>0&&cy>0))return;
+      const n=byC[id];
       const g=document.createElementNS('http://www.w3.org/2000/svg','g');
       g.setAttribute('class','cm-flag'); g.setAttribute('transform','translate('+cx+','+cy+')');
+      g.style.setProperty('--lit',cmTierColor(n));
       g.innerHTML='<line x1="0" y1="0" x2="0" y2="-24" class="cm-pole"/><path d="M0,-24 L17,-18 L0,-12 Z" class="cm-pennant"/>';
       flagLayer.appendChild(g);
     });
@@ -3549,7 +3558,8 @@ function renderCustomerList(){
   const ids=Object.keys(byC).sort((a,b)=>byC[b].length-byC[a].length);
   let html='';
   ids.forEach(id=>{
-    html+='<div class="cm-country-row"><div class="cm-cr-head">'+esc(countryName(id))+' <span class="cm-cr-num">'+byC[id].length+'</span></div>';
+    const tn=byC[id].length; const tc=cmTierColor(tn); const ttxt= tn>=75?'#fff':(tn>=25?'#3a2f00':'#043');
+    html+='<div class="cm-country-row"><div class="cm-cr-head">'+esc(countryName(id))+' <span class="cm-cr-num" style="background:'+tc+';color:'+ttxt+'">'+tn+'</span></div>';
     byC[id].forEach(o=>{
       html+='<div class="cm-cust"><span class="cm-cust-name">'+esc(o.c.name||'未命名')+'</span>'+(o.c.note?' <span class="cm-cust-note">'+esc(o.c.note)+'</span>':'')+'<button class="cm-del" data-i="'+o.i+'" title="删除">✕</button></div>';
     });
