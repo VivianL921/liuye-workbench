@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-26",
+  "updatedAt": "2026-08-27",
   "note": "每日 09:00 自动刷新（含周日）；合并保留全部历史动态，未读新闻不会因更新而消失。",
   "items": [
     {
@@ -848,6 +848,72 @@
       "url": "https://gripsintelligence.com/",
       "source": "Grips Intelligence 估算（2026 H1）",
       "date": "2026-06"
+    },
+    {
+      "id": "n82",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "★AXIL 官方发布 XCOR II 旗舰无线耳塞：9/15 上市，初始订单已超 280 万美元",
+      "summary": "AXIL Brands 2026-08-26 发布官方新闻稿（GLOBE NEWSWIRE），正式公布次世代旗舰 XCOR II 将于 2026-09-15 上市，并已锁定超过 280 万美元初始订单、9 月内发货，公司称为「record early demand」来自零售与分销伙伴。升级点：增强型主动降噪（advanced active noise reduction）、更沉浸的声场表现、重新设计的更低轮廓机身、充电仓支持 4 次满充。董事长兼 CEO Jeff Toghraie 称这是「本年度最重要的产品发布」。⚠命名更正：官方名为 XCOR II（此前业绩会口径记为 X-Core 2，见 n74）。对渠道的启示：280 万美元初始订单几乎等于 AXIL 上一财季营收（Q4 860 万）的三分之一，说明大型零售商已提前压货；同价位入耳式电子耳塞在 9-10 月北美狩猎季前会有一轮渠道价格与货架争夺，做同类耳塞的需提前锁定备货与报价窗口。",
+      "url": "https://goaxil.com/blogs/press-releases/axil-brands-announces-launch-of-next-generation-flagship-product-xcor-ii",
+      "source": "AXIL Brands 官方新闻稿（GLOBE NEWSWIRE）",
+      "date": "2026-08-26"
+    },
+    {
+      "id": "n83",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "补录：AXIL CRX 模块化入耳式方案（MMCX 可换蓝牙/战术 PTT 适配器，IP65，MSRP $123.06）",
+      "summary": "本轮核查发现数据集此前缺失的一款关键产品：AXIL 于 2026-03-12 发布 CRX 入耳式方案，2026-05-01 起官网与部分零售上市，MSRP $123.06。核心规格：自研 SonicShieldX™(SSX) 技术 + 动圈单元 + hear-through 处理，最高 6X 听力增强；MMCX 可插拔接口——可另购「有线蓝牙适配器」转无线串流，或「有线战术适配器（PTT + 蓝牙）」转任务通信；IP65 防尘防水（仅耳塞本体，充电仓不含）；触控「Tap and Go」环境音直通；续航 10 小时；随包 3 对记忆棉 tip（S/M/L）+ 2 对硅胶 tip（M/L）。对渠道的启示：CRX 用一根 MMCX 线把「消费级降噪」与「战术 PTT 通信」打通，是 AXIL 从零售向军警渠道渗透的试探性产品，$123 的价格带正好卡在 EARMOR 入耳线与 OTTO/INVISIO 专业线之间，值得作为报价对标。",
+      "url": "https://goaxil.com/blogs/press-releases/axil-brands-unveils-axil-crx-the-ultimate-fusion-of-hearing-protection-and-modular-connectivity",
+      "source": "AXIL Brands 官方新闻稿",
+      "date": "2026-03-12"
+    },
+    {
+      "id": "n84",
+      "brand": "EARMOR",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "★香港警队反恐特勤队 CTRU 大型跨部门演习实装 EARMOR M31/M32 MARK 系列",
+      "summary": "EARMOR 母公司行动者科技 2026-08-24 公司动态披露：香港警队近期连续举行两场大型跨部门演习，画面中反恐特勤队（CTRU）成员再次实装 EARMOR M31/M32 MARK 系列战术耳机。其中 8 月 15 日警队联同多个政府部门在新皇岗口岸进行大规模压力测试，动员约 5,000 人参与，模拟口岸全面启用后的极限客流与突发处置场景。对渠道的启示：这是 EARMOR 有线主力线（M31/M32 MARK）在境外正规警队的公开实装证据，而非展会或赞助曝光——在跟军警客户报价时，「已被 HK CTRU 采用」比参数表更有说服力；同时说明 EARMOR 正把十周年 AI 新品的声量与传统有线主力线的实战背书分开经营，其有线线仍是出货主力。",
+      "url": "https://opsmen.tezhongzhuangbei.com/gsdt_date_156008.html",
+      "source": "广州行动者科技（EARMOR）公司动态",
+      "date": "2026-08-24"
+    },
+    {
+      "id": "n85",
+      "brand": "WALKER'S",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "★Walker's Recon Hybrid Comms 蓝牙对讲附件：22 个 GMRS 频道 / 3 英里通话，专利待审",
+      "summary": "本轮官网核查发现 Walker's 正在把「电子耳罩 + 对讲机」做成融合品类。Recon Hybrid Comms（SKU GWP-RECM-BT-WT，$69.99）是一个专利待审的通信附件，仅与全新 Recon Digital Muff（$99.99）专属整合：蓝牙 5.0 可配任意手机，同时提供 22 个 GMRS 无线电频道、最远 3 英里（约 4.8 km）免手持通话，支持 PTT 按键或可编程语音激活（VOX），高增益全向鹅颈麦，兼容 Walker's Link App（iOS/Android），3×AAA 电池供电。同系列另有 FireMax Muff Walkie Talkie（$69.99）走同一思路。对渠道的启示：Walker's 用 $99.99 耳罩 + $69.99 对讲附件 = 约 $170 的组合，打进过去被 EARMOR M81/全双工通话器和专业 PTT 方案覆盖的「小队通信」场景，但走的是免执照 GMRS 民用频段、面向狩猎与家庭作业客群。做军警渠道不必直接对标，但零售/民用线报价需注意这个价格带已被压到 $170 以内。",
+      "url": "https://www.walkersgameear.com/recon-hybrid-comms-bluetooth-walkie-talkie/",
+      "source": "Walker's 官网产品页",
+      "date": "2026-08"
+    },
+    {
+      "id": "n86",
+      "brand": "WALKER'S",
+      "category": "news",
+      "catLabel": "渠道洞察",
+      "title": "★Walker's 夏末大促力度罕见：蓝牙耳罩/耳塞线普遍腰斩，Isolator 买一送一",
+      "summary": "2026-08-27 核查 Walker's 官网 New Products 页，其电子/蓝牙产品线正处于「End of Summer Sale」大幅折价状态：Firemax Bluetooth Digital Ear Muff $219.99 → $129.99（-41%）、Disrupter 蓝牙降噪耳塞 $279.99 → $149.99（-46%）、Restrictor 蓝牙耳塞 $249.99 → $129.99（-48%）、Isolator 耳塞 $199.99 → $99.99 且买一送一、Razor Slim 耳罩+射击镜套装 $74.99 → $59.99。而同期 SHOTSYNC（$49.99）、Cloak（$49.99）、Recon Digital Muff（$99.99）保持原价，Suppressor Earbuds 已不在 New Products 页促销名单内。对渠道的启示：高价蓝牙线集体腰斩、入门款不降价，通常意味着为 9 月新款上市与狩猎季旺季清理高价位库存；结合 n81（营收 79% 来自 Home Depot），这轮折扣大概率也是配合 big-box 渠道的季末去库存。对我们的直接影响：Q4 报价若与 Walker's 蓝牙线正面竞争，需按 $130-150 的实际成交价（而非 MSRP $220-280）来测算价格带。",
+      "url": "https://www.walkersgameear.com/new-products/",
+      "source": "Walker's 官网 New Products 页（2026-08-27 实时核查）",
+      "date": "2026-08-27"
+    },
+    {
+      "id": "n87",
+      "brand": "OPS-CORE",
+      "category": "news",
+      "catLabel": "合作",
+      "title": "补录：Ops-Core 赞助 Alliance 警察训练基地，头盔与通信平台进训练课程",
+      "summary": "本轮核查补录数据集缺失的一条执法渠道动作：Gentex 于 2026-02-10 以 Ops-Core 品牌宣布赞助美国俄亥俄州 Alliance Police Training Facility——该基地是东海岸主要执法训练目的地之一，服务本地、区域及联邦机构与战术队，学员来源远至田纳西州。赞助内容不只是挂名：Gentex 将把最新 Ops-Core 头盔系统、模块化配件与「communications-ready」平台整合进训练课程，让警员在训练中直接上手。商业销售美洲区副总裁 Fred Grimm 与基地训练官 Joe Weyer 均有引述。对渠道的启示：这是典型的「训练场即展厅」策略——通过让终端使用者在训练中形成装备使用习惯来锁定后续采购，比广告更难被竞品替换。做军警渠道可借鉴：与本地警训机构/靶场共建体验位，往往比参展更能带来复购。",
+      "url": "https://www.prnewswire.com/news-releases/gentex-corporation-under-its-ops-core-brand-announces-sponsorship-of-the-alliance-police-training-facility-302684272.html",
+      "source": "Gentex / PR Newswire",
+      "date": "2026-02-10"
     }
   ]
 }
