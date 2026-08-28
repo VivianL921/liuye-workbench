@@ -16,14 +16,14 @@
 <style>
 :root{
   /* 莫兰迪浅蓝 · iOS 质感系统配色 */
-  --glass:rgba(255,255,255,.50);
-  --glass-strong:rgba(255,255,255,.66);
-  --glass-border:rgba(255,255,255,.72);
+  --glass:rgba(255,255,255,.58);
+  --glass-strong:rgba(255,255,255,.74);
+  --glass-border:rgba(255,255,255,.78);
   --bg-1:#e1e8ef;
   --bg-2:#e7eef4;
   --bg-3:#dde6ee;
-  --text:#3b4350;
-  --text-sec:#8b94a2;
+  --text:#2a313c;
+  --text-sec:#5b6471;
   --card:var(--glass-strong);
   --border:var(--glass-border);
   --primary:#6f8fb0;          /* 莫兰迪雾蓝（主色） */
@@ -63,10 +63,10 @@ body{
   transform:translate(-50%,-50%) scale(var(--sc,1)) translate(var(--px,0%),var(--py,0%));
   will-change:transform;
 }
-/* 照片上叠一层极淡的蒙版，保证毛玻璃卡片文字清晰可读 */
+/* 照片上叠一层蒙版，压低照片亮度、保证毛玻璃卡片文字清晰可读 */
 .app-bg.has-photo::after{
   content:"";position:fixed;inset:0;
-  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.28));
+  background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.40));
   pointer-events:none;
 }
 .sync-btn.bg-btn{display:inline-flex;align-items:center;gap:4px}
@@ -84,6 +84,22 @@ body{
 .bg-scale-row input[type=range]{flex:1;accent-color:var(--primary)}
 .bg-modal-btns{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-top:6px}
 .bg-modal-btns .spacer{flex:1}
+/* 换背景下拉菜单（三个选项） */
+.bg-menu-wrap{position:relative}
+.bg-menu{display:none;position:absolute;top:calc(100% + 8px);right:0;min-width:218px;z-index:1200;
+  flex-direction:column;gap:2px;padding:6px;
+  background:var(--glass-strong);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
+  border:1px solid var(--glass-border);border-radius:14px;box-shadow:0 18px 44px rgba(31,41,72,.22)}
+.bg-menu.open{display:flex}
+.bg-menu-item{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:10px 12px;border:none;background:transparent;border-radius:9px;font-size:13.5px;color:var(--text);cursor:pointer;font-family:inherit}
+.bg-menu-item:hover{background:var(--primary-light)}
+/* 猫猫机器人照片画廊 */
+.bg-cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:14px;max-height:52vh;overflow:auto;padding:2px}
+.bg-cat-thumb{position:relative;padding:0;border:none;background:#0d1424;border-radius:12px;overflow:hidden;aspect-ratio:4/3;cursor:pointer}
+.bg-cat-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.bg-cat-thumb:hover{outline:2px solid var(--primary)}
+.bg-cat-del{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:11px;line-height:20px;text-align:center}
+.bg-cat-empty{grid-column:1/-1;padding:26px 12px;text-align:center;color:var(--text-sec);font-size:13px;line-height:1.8;border:1px dashed var(--glass-border);border-radius:12px}
 
 .app{display:flex;align-items:flex-start;gap:20px;max-width:1440px;margin:0 auto;padding:20px}
 
@@ -733,7 +749,14 @@ body{
         <div class="ts" id="taskSummary"></div>
       </div>
       <div class="topbar-actions">
-        <button id="btnBg" class="sync-btn bg-btn" title="从本地电脑选择一张照片作为工作台背景（可选预览调整大小与位置）">🖼️ 换背景</button>
+        <div class="bg-menu-wrap">
+          <button id="btnBg" class="sync-btn bg-btn" title="更换工作台背景：选择文件 / 猫猫机器人外出拍的照片 / 默认背景">🖼️ 换背景</button>
+          <div class="bg-menu" id="bgMenu">
+            <button class="bg-menu-item" data-act="file">📁 选择文件</button>
+            <button class="bg-menu-item" data-act="cat">🐱 猫猫机器人外出拍的照片</button>
+            <button class="bg-menu-item" data-act="default">↺ 默认背景</button>
+          </div>
+        </div>
         <input type="file" id="bgFile" accept="image/*" style="display:none">
         <button id="btnSync" class="sync-btn" title="云同步：电脑与手机共用一份数据">☁️ <span id="syncState">未配置</span></button>
         <button id="btnExport" class="sync-btn export-btn" title="导出全部「今日任务 + 历史归档 + 每日复盘 + 月度KPI」为 Markdown 文件">⤓ 导出</button>
@@ -2154,6 +2177,58 @@ function closeBgModal(apply){
   _pendingBg=null;
 }
 
+function openCatModal(){ renderCatPhotos(); const m=document.getElementById('bgCatModal'); if(m)m.classList.add('show'); }
+function closeCatModal(){ const m=document.getElementById('bgCatModal'); if(m)m.classList.remove('show'); }
+function getCatPhotos(){ try{ return JSON.parse(localStorage.getItem('liuye_cat_photos')||'[]'); }catch(e){ return []; } }
+function setCatPhotos(arr){ try{ localStorage.setItem('liuye_cat_photos', JSON.stringify(arr)); }catch(e){} }
+function renderCatPhotos(){
+  const grid=document.getElementById('bgCatGrid'); if(!grid)return;
+  const arr=getCatPhotos();
+  if(!arr.length){
+    grid.innerHTML='<div class="bg-cat-empty">🐱 暂无猫猫机器人外出照片。<br>连接猫猫机器人后，这里会自动出现它外出拍的照片；也可以先点「＋ 添加照片」本地添加一张试试。</div>';
+    return;
+  }
+  grid.innerHTML=arr.map(function(s,i){ return '<button class="bg-cat-thumb" data-i="'+i+'"><img src="'+s+'" alt="猫猫照片'+(i+1)+'"><span class="bg-cat-del" data-del="'+i+'">✕</span></button>'; }).join('');
+}
+function bindCatPhotos(){
+  const catAdd=document.getElementById('bgCatAdd');
+  const catFile=document.getElementById('bgCatFile');
+  const grid=document.getElementById('bgCatGrid');
+  const catModal=document.getElementById('bgCatModal');
+  if(catModal)catModal.onclick=function(e){ if(e.target===catModal)closeCatModal(); };
+  const catClose=document.getElementById('bgCatClose'); if(catClose)catClose.onclick=closeCatModal;
+  if(grid)grid.addEventListener('click',function(e){
+    const del=e.target.closest('[data-del]');
+    if(del){ e.stopPropagation(); const i=Number(del.getAttribute('data-del')); const a=getCatPhotos(); a.splice(i,1); setCatPhotos(a); renderCatPhotos(); return; }
+    const th=e.target.closest('[data-i]');
+    if(th){ const i=Number(th.getAttribute('data-i')); const a=getCatPhotos(); if(a[i])openBgModal(a[i]); }
+  });
+  if(catAdd&&catFile)catAdd.addEventListener('click',function(){ catFile.click(); });
+  if(catFile)catFile.addEventListener('change',function(e){
+    const files=e.target.files; e.target.value='';
+    if(!files||!files.length)return;
+    let pending=files.length; const arr=getCatPhotos();
+    Array.prototype.forEach.call(files,function(f){
+      if(!/^image\//.test(f.type)){ if(--pending===0){setCatPhotos(arr);renderCatPhotos();} return; }
+      const r=new FileReader();
+      r.onload=function(){
+        const img=new Image();
+        img.onload=function(){
+          let w=img.width,h=img.height,max=1600;
+          if(w>max||h>max){const k=Math.min(max/w,max/h);w=Math.round(w*k);h=Math.round(h*k);}
+          const cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);
+          let out; try{out=cv.toDataURL('image/jpeg',0.8);}catch(e){out=r.result;}
+          arr.push(out);
+          if(--pending===0){ setCatPhotos(arr); renderCatPhotos(); }
+        };
+        img.onerror=function(){ if(--pending===0){setCatPhotos(arr);renderCatPhotos();} };
+        img.src=r.result;
+      };
+      r.onerror=function(){ if(--pending===0){setCatPhotos(arr);renderCatPhotos();} };
+      r.readAsDataURL(f);
+    });
+  });
+}
 function bindBackground(){
   const pick=document.getElementById('btnBg');
   const file=document.getElementById('bgFile');
@@ -2161,8 +2236,26 @@ function bindBackground(){
   const stage=document.getElementById('bgStage');
   const preview=document.getElementById('bgPreviewImg');
   const slider=document.getElementById('bgScale');
+  const menu=document.getElementById('bgMenu');
 
-  if(pick&&file)pick.addEventListener('click',function(){ file.click(); });
+  // 换背景下拉菜单（选择文件 / 猫猫机器人 / 默认）
+  if(pick&&menu){
+    pick.addEventListener('click',function(e){ e.stopPropagation(); menu.classList.toggle('open'); });
+    document.addEventListener('click',function(e){
+      if(menu.classList.contains('open') && !menu.contains(e.target) && e.target!==pick) menu.classList.remove('open');
+    });
+  }
+  if(menu)menu.querySelectorAll('.bg-menu-item').forEach(function(it){
+    it.addEventListener('click',function(){
+      const act=it.getAttribute('data-act');
+      menu.classList.remove('open');
+      if(act==='file'){ if(file)file.click(); }
+      else if(act==='default'){ localStorage.removeItem('liuye_bg'); applyBackground(); }
+      else if(act==='cat'){ openCatModal(); }
+    });
+  });
+
+  // 选本地文件
   if(file)file.addEventListener('change',function(e){
     const f=e.target.files&&e.target.files[0]; e.target.value='';
     if(!f)return;
@@ -2218,6 +2311,8 @@ function bindBackground(){
   const confirm=document.getElementById('bgConfirm'); if(confirm)confirm.onclick=function(){ closeBgModal(true); };
   const resetD=document.getElementById('bgResetDefault');
   if(resetD)resetD.onclick=function(){ localStorage.removeItem('liuye_bg'); applyBackground(); closeBgModal(false); };
+
+  bindCatPhotos();
 }
 function bindStatic(){
   const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
@@ -3773,6 +3868,21 @@ init();
         <button class="btn-cancel" id="cmCancel" type="button">取消</button>
         <button class="btn-save" id="cmSave" type="button">保存并点亮</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ============ 猫猫机器人照片画廊（换背景来源之一） ============ -->
+  <div class="modal-overlay" id="bgCatModal">
+    <div class="modal" style="max-width:680px">
+      <h3>🐱 猫猫机器人外出拍的照片</h3>
+      <p style="font-size:12.5px;color:var(--text-sec);margin:-8px 0 4px">挑一张作为工作台背景；点缩略图后会进入「调整大小/位置」预览。</p>
+      <div class="bg-cat-grid" id="bgCatGrid"></div>
+      <div class="form-actions">
+        <button class="btn-cancel" id="bgCatAdd" type="button" style="background:var(--primary);color:#fff;border:none">＋ 添加照片</button>
+        <span style="flex:1"></span>
+        <button class="btn-cancel" id="bgCatClose" type="button">关闭</button>
+      </div>
+      <input type="file" id="bgCatFile" accept="image/*" multiple style="display:none">
     </div>
   </div>
 
