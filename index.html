@@ -85,8 +85,8 @@ body{
 .bg-modal-btns{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-top:6px}
 .bg-modal-btns .spacer{flex:1}
 /* 换背景下拉菜单（三个选项） */
-.bg-menu-wrap{position:relative;z-index:10000}
-.bg-menu{display:none;position:absolute;top:calc(100% + 8px);right:0;min-width:228px;z-index:10001;
+.bg-menu-wrap{position:relative}
+.bg-menu{display:none;position:fixed;z-index:2147483600;
   flex-direction:column;gap:2px;padding:6px;
   background:var(--glass-strong);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
   border:1px solid var(--glass-border);border-radius:14px;box-shadow:0 18px 44px rgba(31,41,72,.22)}
@@ -752,11 +752,6 @@ body{
       <div class="topbar-actions">
         <div class="bg-menu-wrap">
           <button id="btnBg" class="sync-btn bg-btn" title="更换工作台背景：选择文件 / 猫猫机器人外出拍的照片 / 默认背景">🖼️ 换背景</button>
-          <div class="bg-menu" id="bgMenu">
-            <button class="bg-menu-item" data-act="file">📁 选择文件</button>
-            <button class="bg-menu-item" data-act="cat">🐱 猫猫机器人外出拍的照片</button>
-            <button class="bg-menu-item" data-act="default">↺ 默认背景</button>
-          </div>
         </div>
         <input type="file" id="bgFile" accept="image/*" style="display:none">
         <button id="btnSync" class="sync-btn" title="云同步：电脑与手机共用一份数据">☁️ <span id="syncState">未配置</span></button>
@@ -2239,12 +2234,21 @@ function bindBackground(){
   const slider=document.getElementById('bgScale');
   const menu=document.getElementById('bgMenu');
 
-  // 换背景下拉菜单（选择文件 / 猫猫机器人 / 默认）
+  // 换背景下拉菜单（选择文件 / 猫猫机器人 / 默认）—— 作为 body 级固定浮层，定位到按钮下方
   if(pick&&menu){
-    pick.addEventListener('click',function(e){ e.stopPropagation(); menu.classList.toggle('open'); });
+    pick.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(menu.classList.contains('open')){ menu.classList.remove('open'); return; }
+      const r=pick.getBoundingClientRect();
+      menu.style.top=(r.bottom+8)+'px';
+      menu.style.left='auto';
+      menu.style.right=(window.innerWidth-r.right)+'px';
+      menu.classList.add('open');
+    });
     document.addEventListener('click',function(e){
       if(menu.classList.contains('open') && !menu.contains(e.target) && e.target!==pick) menu.classList.remove('open');
     });
+    window.addEventListener('resize',function(){ if(menu.classList.contains('open'))menu.classList.remove('open'); });
   }
   if(menu)menu.querySelectorAll('.bg-menu-item').forEach(function(it){
     it.addEventListener('click',function(){
@@ -3909,6 +3913,13 @@ init();
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- ============ 换背景下拉菜单（独立浮层，挂 body 避免被 topbar 层叠上下文遮挡） ============ -->
+  <div class="bg-menu" id="bgMenu">
+    <button class="bg-menu-item" data-act="file">📁 选择文件</button>
+    <button class="bg-menu-item" data-act="cat">🐱 猫猫机器人外出拍的照片</button>
+    <button class="bg-menu-item" data-act="default">↺ 默认背景</button>
   </div>
 
 </body>
