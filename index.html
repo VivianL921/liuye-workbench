@@ -16,9 +16,9 @@
 <style>
 :root{
   /* 莫兰迪浅蓝 · iOS 质感系统配色 */
-  --glass:rgba(255,255,255,.58);
-  --glass-strong:rgba(255,255,255,.74);
-  --glass-border:rgba(255,255,255,.78);
+  --glass:rgba(255,255,255,.78);
+  --glass-strong:rgba(255,255,255,.90);
+  --glass-border:rgba(255,255,255,.85);
   --bg-1:#e1e8ef;
   --bg-2:#e7eef4;
   --bg-3:#dde6ee;
@@ -45,6 +45,7 @@
 body{
   font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Rounded','Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
   color:var(--text);font-size:14px;line-height:1.65;
+  text-shadow:0 1px 1px rgba(255,255,255,.35);
   background:
     radial-gradient(120% 120% at 0% 0%, var(--bg-2) 0%, transparent 55%),
     radial-gradient(120% 120% at 100% 0%, var(--bg-3) 0%, transparent 55%),
@@ -63,10 +64,10 @@ body{
   transform:translate(-50%,-50%) scale(var(--sc,1)) translate(var(--px,0%),var(--py,0%));
   will-change:transform;
 }
-/* 照片上叠一层蒙版，压低照片亮度、保证毛玻璃卡片文字清晰可读 */
+/* 照片保持高清清晰：仅保留极淡的暗角增强层次，不再加白色蒙版（避免朦胧感） */
 .app-bg.has-photo::after{
   content:"";position:fixed;inset:0;
-  background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.40));
+  background:radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(15,22,35,.10) 100%);
   pointer-events:none;
 }
 .sync-btn.bg-btn{display:inline-flex;align-items:center;gap:4px}
