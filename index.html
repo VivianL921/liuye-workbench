@@ -54,11 +54,14 @@ body{
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
 }
-/* ===== 自定义背景画布（用户从本地选择照片） ===== */
-.app-bg{
-  position:fixed;inset:0;z-index:-1;
-  background-size:cover;background-position:center;background-repeat:no-repeat;
-  transition:background-image .35s ease;
+/* ===== 自定义背景画布（用户从本地选择照片，可调整大小/位置） ===== */
+.app-bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:transparent}
+.app-bg img,
+.bg-stage img{
+  position:absolute;left:50%;top:50%;width:100%;height:100%;
+  object-fit:cover;transform-origin:50% 50%;pointer-events:none;user-select:none;-webkit-user-drag:none;
+  transform:translate(-50%,-50%) scale(var(--sc,1)) translate(var(--px,0%),var(--py,0%));
+  will-change:transform;
 }
 /* 照片上叠一层极淡的蒙版，保证毛玻璃卡片文字清晰可读 */
 .app-bg.has-photo::after{
@@ -67,6 +70,20 @@ body{
   pointer-events:none;
 }
 .sync-btn.bg-btn{display:inline-flex;align-items:center;gap:4px}
+/* 背景调整弹窗里的预览舞台 */
+.bg-stage{position:relative;width:100%;aspect-ratio:16/9;max-height:46vh;overflow:hidden;
+  border-radius:14px;border:1px solid var(--border);background:#0d1424;cursor:grab;touch-action:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.bg-stage:active{cursor:grabbing}
+.bg-stage .bg-hint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);
+  font-size:12px;color:#fff;background:rgba(0,0,0,.45);padding:5px 12px;border-radius:20px;
+  pointer-events:none;white-space:nowrap}
+.bg-controls{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.bg-scale-row{display:flex;align-items:center;gap:12px}
+.bg-scale-row label{font-size:13px;color:var(--text-sec);white-space:nowrap}
+.bg-scale-row input[type=range]{flex:1;accent-color:var(--primary)}
+.bg-modal-btns{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-top:6px}
+.bg-modal-btns .spacer{flex:1}
 
 .app{display:flex;align-items:flex-start;gap:20px;max-width:1440px;margin:0 auto;padding:20px}
 
@@ -716,8 +733,7 @@ body{
         <div class="ts" id="taskSummary"></div>
       </div>
       <div class="topbar-actions">
-        <button id="btnBg" class="sync-btn bg-btn" title="从本地电脑选择一张照片作为工作台背景">🖼️ 换背景</button>
-        <button id="btnBgReset" class="sync-btn export-btn" title="恢复默认背景" style="display:none">✕ 默认</button>
+        <button id="btnBg" class="sync-btn bg-btn" title="从本地电脑选择一张照片作为工作台背景（可选预览调整大小与位置）">🖼️ 换背景</button>
         <input type="file" id="bgFile" accept="image/*" style="display:none">
         <button id="btnSync" class="sync-btn" title="云同步：电脑与手机共用一份数据">☁️ <span id="syncState">未配置</span></button>
         <button id="btnExport" class="sync-btn export-btn" title="导出全部「今日任务 + 历史归档 + 每日复盘 + 月度KPI」为 Markdown 文件">⤓ 导出</button>
@@ -2093,47 +2109,74 @@ function mergeAndSave(tasks, archive, reviews, monthly, customCats){
   if(customCats&&customCats.length){ const curC=parseSafe(localStorage.getItem('liuye_custom_cats'))||[]; const cv=new Set(curC.map(c=>c.value)); customCats.forEach(c=>{if(c&&c.value&&!cv.has(c.value)){curC.push(c); cv.add(c.value);}}); localStorage.setItem('liuye_custom_cats',JSON.stringify(curC)); }
 }
 
-// ===== 自定义背景画布（用户从本地照片设置） =====
+// ===== 自定义背景画布（用户从本地照片设置，带预览调整大小/位置） =====
+var _pendingBg=null; // 暂存待确认的背景 {src,sc,px,py}
+
 function applyBackground(){
-  const b=document.getElementById('appBg'); if(!b)return;
-  const data=localStorage.getItem('liuye_bg');
-  const reset=document.getElementById('btnBgReset');
-  if(data){
-    b.style.backgroundImage='url("'+data+'")';
-    b.classList.add('has-photo');
-    if(reset)reset.style.display='';
+  const layer=document.getElementById('appBg'); if(!layer)return;
+  let raw=localStorage.getItem('liuye_bg'), data=null;
+  if(raw){ try{ data=JSON.parse(raw); }catch(e){ data={src:raw}; } }
+  const old=document.getElementById('bgImg'); if(old)old.remove();
+  if(data&&data.src){
+    const im=document.createElement('img'); im.id='bgImg'; im.src=data.src;
+    im.style.setProperty('--sc', data.sc||1);
+    im.style.setProperty('--px', (data.px||0)+'%');
+    im.style.setProperty('--py', (data.py||0)+'%');
+    layer.appendChild(im);
+    layer.classList.add('has-photo');
   }else{
-    b.style.backgroundImage='';
-    b.classList.remove('has-photo');
-    if(reset)reset.style.display='none';
+    layer.classList.remove('has-photo');
   }
 }
+
+function setBgTransform(el,sc,px,py){
+  if(!el)return;
+  el.style.setProperty('--sc', sc);
+  el.style.setProperty('--px', px+'%');
+  el.style.setProperty('--py', py+'%');
+}
+
+function openBgModal(src){
+  _pendingBg={src:src, sc:1, px:0, py:0};
+  const prev=document.getElementById('bgPreviewImg');
+  if(prev){ prev.src=src; setBgTransform(prev,1,0,0); }
+  const slider=document.getElementById('bgScale'); if(slider)slider.value=1;
+  const m=document.getElementById('bgModal'); if(m)m.classList.add('show');
+}
+
+function closeBgModal(apply){
+  const m=document.getElementById('bgModal'); if(m)m.classList.remove('show');
+  if(apply&&_pendingBg){
+    try{ localStorage.setItem('liuye_bg', JSON.stringify(_pendingBg)); }
+    catch(err){ alert('这张照片保存失败（可能过大），请换一张更小或裁剪后的图片。'); }
+    applyBackground();
+  }
+  _pendingBg=null;
+}
+
 function bindBackground(){
   const pick=document.getElementById('btnBg');
-  const reset=document.getElementById('btnBgReset');
   const file=document.getElementById('bgFile');
-  if(pick&&file)pick.addEventListener('click',function(){file.click();});
+  const modal=document.getElementById('bgModal');
+  const stage=document.getElementById('bgStage');
+  const preview=document.getElementById('bgPreviewImg');
+  const slider=document.getElementById('bgScale');
+
+  if(pick&&file)pick.addEventListener('click',function(){ file.click(); });
   if(file)file.addEventListener('change',function(e){
     const f=e.target.files&&e.target.files[0]; e.target.value='';
     if(!f)return;
-    if(!/^image\//.test(f.type)){alert('请选择图片文件（jpg / png / webp 等）');return;}
+    if(!/^image\//.test(f.type)){ alert('请选择图片文件（jpg / png / webp 等）'); return; }
     const reader=new FileReader();
     reader.onload=function(){
-      const src=reader.result;
-      // 用 canvas 等比缩放并压缩，避免 localStorage 超限、渲染卡顿
-      const img=new Image();
+      const src=reader.result, img=new Image();
       img.onload=function(){
-        let w=img.width,h=img.height, max=1920;
+        let w=img.width,h=img.height,max=1920;
         if(w>max||h>max){ const r=Math.min(max/w,max/h); w=Math.round(w*r); h=Math.round(h*r); }
         const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
         const ctx=cv.getContext('2d'); ctx.drawImage(img,0,0,w,h);
-        let out=cv.toDataURL('image/jpeg',0.82);
-        try{ localStorage.setItem('liuye_bg',out); }
-        catch(err){ // 仍超限则降低质量重试一次
-          try{ out=cv.toDataURL('image/jpeg',0.5); localStorage.setItem('liuye_bg',out); }
-          catch(e2){ alert('这张照片太大，无法保存为背景（请换一张更小或裁剪后的图片）。'); return; }
-        }
-        applyBackground();
+        let out; try{ out=cv.toDataURL('image/jpeg',0.82); }catch(e){ out=src; }
+        openBgModal(out);
       };
       img.onerror=function(){ alert('图片读取失败，请换一张试试。'); };
       img.src=src;
@@ -2141,9 +2184,40 @@ function bindBackground(){
     reader.onerror=function(){ alert('文件读取失败，请重试。'); };
     reader.readAsDataURL(f);
   });
-  if(reset)reset.addEventListener('click',function(){
-    localStorage.removeItem('liuye_bg'); applyBackground();
+
+  if(slider&&preview)slider.addEventListener('input',function(){
+    if(!_pendingBg)return;
+    _pendingBg.sc=parseFloat(slider.value);
+    setBgTransform(preview,_pendingBg.sc,_pendingBg.px,_pendingBg.py);
   });
+
+  // 拖动舞台调整图片位置
+  if(stage&&preview){
+    let dragging=false,sx=0,sy=0,spx=0,spy=0;
+    stage.addEventListener('pointerdown',function(e){
+      if(!_pendingBg)return;
+      dragging=true; sx=e.clientX; sy=e.clientY; spx=_pendingBg.px; spy=_pendingBg.py;
+      if(stage.setPointerCapture)try{stage.setPointerCapture(e.pointerId);}catch(_){}
+    });
+    stage.addEventListener('pointermove',function(e){
+      if(!dragging||!_pendingBg)return;
+      const rect=stage.getBoundingClientRect();
+      const dx=((e.clientX-sx)/rect.width)*100;
+      const dy=((e.clientY-sy)/rect.height)*100;
+      _pendingBg.px=Math.max(-50,Math.min(50,spx+dx));
+      _pendingBg.py=Math.max(-50,Math.min(50,spy+dy));
+      setBgTransform(preview,_pendingBg.sc,_pendingBg.px,_pendingBg.py);
+    });
+    const end=function(){ dragging=false; };
+    stage.addEventListener('pointerup',end);
+    stage.addEventListener('pointercancel',end);
+  }
+
+  if(modal)modal.onclick=function(e){ if(e.target===modal)closeBgModal(false); };
+  const cancel=document.getElementById('bgCancel'); if(cancel)cancel.onclick=function(){ closeBgModal(false); };
+  const confirm=document.getElementById('bgConfirm'); if(confirm)confirm.onclick=function(){ closeBgModal(true); };
+  const resetD=document.getElementById('bgResetDefault');
+  if(resetD)resetD.onclick=function(){ localStorage.removeItem('liuye_bg'); applyBackground(); closeBgModal(false); };
 }
 function bindStatic(){
   const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
@@ -3698,6 +3772,30 @@ init();
       <div class="form-actions">
         <button class="btn-cancel" id="cmCancel" type="button">取消</button>
         <button class="btn-save" id="cmSave" type="button">保存并点亮</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 背景调整弹窗 ============ -->
+  <div class="modal-overlay" id="bgModal">
+    <div class="modal" style="max-width:560px">
+      <h3>调整背景</h3>
+      <p style="font-size:12.5px;color:var(--text-sec);margin:-8px 0 14px">选好照片后先预览，拖动图片调整位置、滑块调整大小，满意后点「确认使用」。</p>
+      <div class="bg-stage" id="bgStage">
+        <img id="bgPreviewImg" alt="">
+        <span class="bg-hint">拖动图片调整位置 · 滑块调整大小</span>
+      </div>
+      <div class="bg-controls">
+        <div class="bg-scale-row">
+          <label>大小</label>
+          <input type="range" id="bgScale" min="0.3" max="3" step="0.01" value="1">
+        </div>
+        <div class="bg-modal-btns">
+          <button class="btn-cancel" id="bgResetDefault" type="button" style="background:transparent;border:1px solid var(--border);color:var(--text-sec)">恢复默认</button>
+          <span class="spacer"></span>
+          <button class="btn-cancel" id="bgCancel" type="button">取消</button>
+          <button class="btn-save" id="bgConfirm" type="button">确认使用</button>
+        </div>
       </div>
     </div>
   </div>
