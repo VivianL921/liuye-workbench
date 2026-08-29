@@ -709,35 +709,6 @@ body{
 #cmCountry{width:100%;padding:6px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;background:#fff}
 @media(max-width:600px){ .cm-list{grid-template-columns:1fr} }
 
-/* ===== 专注番茄钟（首页） ===== */
-.pomodoro-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px 28px 24px;max-width:560px;margin:0 auto;box-shadow:var(--shadow)}
-.pomo-title{font-size:17px;font-weight:700;color:var(--text);margin-bottom:18px}
-.pomo-display{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:18px}
-.pomo-time{font-size:56px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-1px;line-height:1;color:var(--text);font-family:'SF Pro Display','-apple-system','Segoe UI',sans-serif}
-.pomo-time.running{color:var(--primary)}
-.pomo-preset-group{display:flex;flex-direction:column;gap:3px}
-.pomo-preset-group label{font-size:11.5px;color:var(--text-sec);font-weight:500}
-.pomo-select{padding:6px 10px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:14px;background:#fff;color:var(--text);cursor:pointer;min-width:68px;text-align:center}
-.pomo-select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-light)}
-.pomo-task-select,.pomo-cat-select{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:12px;font-family:inherit;font-size:14px;background:#fff;color:var(--text);cursor:pointer;margin-bottom:10px}
-.pomo-task-select:focus,.pomo-cat-select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-light)}
-.pomo-btns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-.pomo-btn{padding:10px 26px;border:none;border-radius:12px;font-family:inherit;font-size:14.5px;font-weight:600;cursor:pointer;transition:all .15s}
-.pomo-btn:disabled{opacity:.4;cursor:not-allowed}
-.pomo-start{background:#2a313c;color:#fff}
-.pomo-start:hover:not(:disabled){background:#1a2130}
-.pomo-pause{background:#5b6471;color:#fff}
-.pomo-pause:hover:not(:disabled){background:#4a5361}
-.pomo-switch{background:#e7eef4;color:var(--text)}
-.pomo-switch:hover:not(:disabled){background:#dce4ec}
-.pomo-clear{background:#fef2f2;color:#c0392b}
-.pomo-clear:hover:not(:disabled){background:#fde8e8}
-.pomo-stats{margin-top:16px;font-size:12.5px;color:var(--text-sec);line-height:1.7;min-height:20px}
-@media(max-width:600px){
-  .pomo-display{flex-direction:column;align-items:center;gap:12px}
-  .pomo-time{font-size:44px}
-  .pomodoro-card{padding:22px 18px 18px}
-}
 
 </style>
 </head>
@@ -761,8 +732,7 @@ body{
       <button class="wc-add" id="btnAddZone">+ 添加时区</button>
     </div>
     <nav class="nav">
-      <div class="nav-item active" data-tab="home"><span class="ni-ico">🏠</span><span>首页</span></div>
-      <div class="nav-item" data-tab="tasks"><span class="ni-ico">✅</span><span>今日任务</span></div>
+      <div class="nav-item active" data-tab="tasks"><span class="ni-ico">✅</span><span>今日任务</span></div>
       <div class="nav-item" data-tab="monitor"><span class="ni-ico">🔍</span><span>竞品监测</span></div>
       <div class="nav-item" data-tab="review"><span class="ni-ico">📖</span><span>每日复盘</span></div>
       <div class="nav-item" data-tab="sop"><span class="ni-ico">🗂️</span><span>业务SOP</span></div>
@@ -800,69 +770,8 @@ body{
       </div>
     </header>
 
-  <!-- ============ 首页 · 专注番茄钟 ============ -->
-  <div class="tab-content active" id="tab-home">
-    <div class="pomodoro-card">
-      <div class="pomo-title">专注番茄钟</div>
-      <div class="pomo-display">
-        <div class="pomo-time" id="pomoTime">25:00</div>
-        <div class="pomo-presets">
-          <div class="pomo-preset-group">
-            <label>专注</label>
-            <select id="pomoFocusMin" class="pomo-select">
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20" selected>20</option>
-              <option value="25">25</option>
-              <option value="30">30</option>
-              <option value="45">45</option>
-              <option value="60">60</option>
-            </select>
-          </div>
-          <div class="pomo-preset-group">
-            <label>休息</label>
-            <select id="pomoBreakMin" class="pomo-select">
-              <option value="3">3</option>
-              <option value="5" selected>5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="pomo-task-row">
-        <select id="pomoTask" class="pomo-task-select">
-          <option value="">-- 选择关联任务（留空使用分类）--</option>
-        </select>
-      </div>
-      <div class="pomo-cat-row">
-        <select id="pomoCat" class="pomo-cat-select">
-          <option value="">-- 选择分类 --</option>
-          <option value="distributor">渠道开发</option>
-          <option value="competitor">竞品分析</option>
-          <option value="customer">客户跟进</option>
-          <option value="newproduct">新品上架</option>
-          <option value="order">订单管理</option>
-          <option value="brand">品牌运营</option>
-          <option value="bizdev">商务拓展</option>
-          <option value="meeting-customer">客户会议</option>
-          <option value="meeting-distributor">经销商会议</option>
-          <option value="科研" selected>科研</option>
-        </select>
-      </div>
-      <div class="pomo-btns">
-        <button class="pomo-btn pomo-start" id="pomoStart">开始</button>
-        <button class="pomo-btn pomo-pause" id="pomoPause" disabled>中止</button>
-        <button class="pomo-btn pomo-switch" id="pomoSwitch" disabled>切换</button>
-        <button class="pomo-btn pomo-clear" id="pomoClear">清除</button>
-      </div>
-      <div class="pomo-stats" id="pomoStats"></div>
-    </div>
-  </div>
-
   <!-- ============ 今日任务 ============ -->
-  <div class="tab-content" id="tab-tasks">
+  <div class="tab-content active" id="tab-tasks">
    <div class="home-grid">
     <div class="home-main">
     <div class="subtabs">
@@ -2053,115 +1962,6 @@ function renderWorldClock(){
   }).join('');
 }
 
-// ===== 专注番茄钟 =====
-(function(){
-  var timer=null, remaining=0, total=0, isBreak=false, isRunning=false;
-  var focusSel,breakSel,taskSel,catSel,timeEl,startBtn,pauseBtn,switchBtn,clearBtn,statsEl;
-
-  function fmt(m,s){ return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); }
-  function updDisplay(){ if(!timeEl)return; var m=Math.floor(remaining/60),s=remaining%60; timeEl.textContent=fmt(m,s); document.title=(isRunning?fmt(m,s)+' · ':'')+'刘晔工作台'; }
-  function updStats(){ if(!statsEl)return; var st=JSON.parse(localStorage.getItem('liuye_pomo_stats')||'{"sessions":0,"totalFocus":0}'); statsEl.textContent='🍅 今日已完成 '+st.sessions+' 个番茄 · 累计专注 '+Math.round(st.totalFocus)+' 分钟'; }
-  function saveStats(min){ try{ var st=JSON.parse(localStorage.getItem('liuye_pomo_stats')||'{"sessions":0,"totalFocus":0}'); st.sessions=(st.sessions||0)+1; st.totalFocus=(st.totalFocus||0)+min; localStorage.setItem('liuye_pomo_stats',JSON.stringify(st)); }catch(e){} }
-
-  function stopTimer(){ if(timer){clearInterval(timer);timer=null;} isRunning=false; }
-  function setBtns(r){ if(startBtn)startBtn.disabled=r; if(pauseBtn)pauseBtn.disabled=!r; if(switchBtn)switchBtn.disabled=!r; }
-
-  function tick(){
-    if(remaining>0){ remaining--; updDisplay(); }
-    else{
-      stopTimer(); setBtns(false);
-      // 播放提示音（如果浏览器支持）
-      try{ var a=new AudioContext(); var o=a.createOscillator();var g=a.createGain(); o.connect(g);g.connect(a.destination); o.frequency.value=880; g.gain.value=.15; o.start(); o.stop(a.currentTime+.25); }catch(e){}
-      if(!isBreak){
-        saveStats(Math.round(total/60));
-        alert('⏰ 专注时间到！休息一下吧～');
-        isBreak=true;
-        remaining=(parseInt(breakSel?breakSel.value:5)||5)*60;
-      }else{
-        alert('☕ 休息结束！准备下一个番茄钟？');
-        isBreak=false;
-        remaining=(parseInt(focusSel?focusSel.value:25)||25)*60;
-      }
-      total=remaining; updDisplay();
-    }
-  }
-
-  window.bindPomodoro=function(){
-    focusSel=document.getElementById('pomoFocusMin');
-    breakSel=document.getElementById('pomoBreakMin');
-    taskSel=document.getElementById('pomoTask');
-    catSel=document.getElementById('pomoCat');
-    timeEl=document.getElementById('pomoTime');
-    startBtn=document.getElementById('pomoStart');
-    pauseBtn=document.getElementById('pomoPause');
-    switchBtn=document.getElementById('pomoSwitch');
-    clearBtn=document.getElementById('pomoClear');
-    statsEl=document.getElementById('pomoStats');
-
-    // 初始化显示
-    var fm=parseInt(focusSel?focusSel.value:25)||25;
-    remaining=fm*60; total=remaining; updDisplay(); updStats();
-
-    // 填充关联任务下拉（从今日任务中取未完成的）
-    function fillTasks(){
-      if(!taskSel)return;
-      var ts=JSON.parse(localStorage.getItem('liuye_tasks')||'[]');
-      var html='<option value="">-- 选择关联任务（留空使用分类）--</option>';
-      (ts||[]).forEach(function(t){
-        if(t&&!t.done)html+='<option value="'+esc(t.id||'')+'">'+esc(t.title||'未命名任务')+'</option>';
-      });
-      taskSel.innerHTML=html;
-    }
-    fillTasks();
-
-    // 切换时长时更新显示（仅当不在运行）
-    if(focusSel)focusSel.addEventListener('change',function(){ if(!isRunning){remaining=parseInt(this.value)*60;total=remaining;updDisplay();} });
-    if(breakSel)breakSel.addEventListener('change',function(){});
-
-    // 开始
-    if(startBtn)startBtn.addEventListener('click',function(){
-      if(isRunning)return;
-      if(remaining<=0){
-        remaining=(parseInt(focusSel?focusSel.value:25)||25)*60;
-        total=remaining;
-      }
-      isRunning=true;
-      timeEl.classList.add('running');
-      timer=setInterval(tick,1000);
-      setBtns(true);
-      updDisplay();
-    });
-
-    // 中止
-    if(pauseBtn)pauseBtn.addEventListener('click',function(){
-      if(!isRunning)return;
-      stopTimer();
-      timeEl.classList.remove('running');
-      setBtns(false);
-      updDisplay();
-    });
-
-    // 切换（专注↔休息）
-    if(switchBtn)switchBtn.addEventListener('click',function(){
-      if(isRunning){ stopTimer(); timeEl.classList.remove('running'); }
-      isBreak=!isBreak;
-      remaining=isBreak?(parseInt(breakSel?breakSel.value:5)||5)*60:(parseInt(focusSel?focusSel.value:25)||25)*60;
-      total=remaining;
-      setBtns(isRunning);
-      if(isRunning){ timer=setInterval(tick,1000); setBtns(true); }
-      updDisplay();
-    });
-
-    // 清除
-    if(clearBtn)clearBtn.addEventListener('click',function(){
-      stopTimer(); isBreak=false; isRunning=false;
-      remaining=(parseInt(focusSel?focusSel.value:25)||25)*60; total=remaining;
-      timeEl.classList.remove('running'); setBtns(false); updDisplay();
-      if(taskSel)taskSel.value='';
-    });
-  };
-})();
-
 function initWorldClock(){
   renderWorldClock();
   setInterval(renderWorldClock,1000);
@@ -2223,7 +2023,6 @@ function init(){
   bindLinkModals();
   bindSalesPlan();
   bindBackground();
-  bindPomodoro();
   initWorldClock();
   bindStatic(); bindTaskList(); bindSopList();
   // 跨天守护：标签页一直开着时，到零点自动归档当日统计、清空已完成(已入历史)、重置品牌确认(变灰)
