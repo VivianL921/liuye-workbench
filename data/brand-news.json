@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-31",
+  "updatedAt": "2026-09-01",
   "note": "每日 09:00 自动刷新（含周日）；合并保留全部历史动态，未读新闻不会因更新而消失。",
   "items": [
     {
@@ -788,11 +788,11 @@
       "brand": "HOWARD LEIGHT",
       "category": "news",
       "catLabel": "并购/渠道",
-      "title": "★Howard Leight 随 Honeywell PPE 业务被 PIP 收购，全球分销扩至约 50 国",
-      "summary": "Protective Industrial Products（PIP）完成对 Honeywell 个人防护装备（PPE）业务的收购，收购组合包含 Howard Leight™、North™、Miller™、Fibre-Metal™、Fendall™、Salisbury™、Oliver™、Morning Pride™、KCL™ 等品牌。Howard Leight 自此由 PIP（Odyssey Investment Partners 旗下）运营，PIP 全球制造与分销网络扩至约 50 个国家。对渠道意味着：Howard Leight 的供货与分销体系并入 PIP 头到脚防护产品组合，工业/安防大客户交叉销售增强；但品牌决策链变更，原 Honeywell 渠道政策需重新确认。渠道请留意后续价格/授权变动。",
-      "url": "https://ism-europa.de/en/press/press-list-details/protective-industrial-products-completes-acquisition-of-honeywell-s-personal-protective-equipment-business.html",
-      "source": "ISM Europa / PIP 新闻稿",
-      "date": "2026"
+      "title": "Howard Leight 随 Honeywell PPE 业务被 PIP 收购（$13.25 亿），全球分销扩至约 50 国",
+      "summary": "【本轮日期更正：原记 2026，据 PIP 官方新闻稿实为 2025-05-22 完成交割】Protective Industrial Products（PIP，Odyssey Investment Partners 旗下）于 2025-05-22 在纽约 Latham 宣布完成对 Honeywell（NASDAQ: HON）个人防护装备（PPE）业务的收购，交易 2024-11-22 宣布、对价 13.25 亿美元。收购组合含 Howard Leight™、North™、Miller™、Fibre-Metal™、Fendall™、Salisbury™、Oliver™、Morning Pride™、KCL™ 等品牌，PIP 全球制造与分销网络由此扩至约 50 个国家，覆盖手部/电气/听力/头部/呼吸/坠落/眼部防护等全品类。原 PPE 业务总裁 Michael Garceau 留任并直接向 PIP 总裁兼 CEO Curt Holtz 汇报。对渠道意味着：Howard Leight 的品牌决策链与渠道政策已归属 PIP 而非 Honeywell，报价、授权与售后口径应对接 PIP 体系；交割已逾一年，价格与授权政策大概率已完成并轨，沿用旧 Honeywell 渠道条款存在风险，建议重新确认经销授权书主体。",
+      "url": "https://mx.pipglobal.com/en/about-us/news-and-events/?nID=54",
+      "source": "PIP Global 官方新闻稿",
+      "date": "2025-05-22"
     },
     {
       "id": "n77",
@@ -914,6 +914,17 @@
       "url": "https://www.prnewswire.com/news-releases/gentex-corporation-under-its-ops-core-brand-announces-sponsorship-of-the-alliance-police-training-facility-302684272.html",
       "source": "Gentex / PR Newswire",
       "date": "2026-02-10"
+    },
+    {
+      "id": "n88",
+      "brand": "OPS-CORE",
+      "category": "news",
+      "catLabel": "订单",
+      "title": "★Gentex 经 NSPA 合同向 20+ 北约国家供货 Ops-Core，捷克国防部选定下一代头盔",
+      "summary": "Gentex 于 2026-08-27 官网发稿：通过北约支援与采购局（NSPA）合同，已为 20 余个北约国家的军事人员提供 Ops-Core 头戴系统（含弹道防护、通信与呼吸防护）。近期两项新授标——① 捷克国防部经 NSPA 管理的采购计划选定 Ops-Core 交付下一代头盔系统；② 加拿大陆军 Soldier Systems Program 新增头盔配件订单。官方并披露其头戴系统已在「五眼」全面列装：美军特种作战司令部/陆军/海军陆战队，英国特种部队与皇家海军陆战队，新西兰陆军与特种部队，澳大利亚陆军与特种作战部队。EMEA 地面系统销售总监 Jim Clarke 强调「可扩展、任务自适应」定位；NSPA 项目经理 Céline Danielli 说明 28 国 COMMIT 伙伴关系可经 NATO 物流交易平台（NLSE）直接采购。对渠道的启示：NSPA/NLSE 是欧洲军警采购的「集中采购快车道」——进不了这个框架协议，在北约国家就只能打零散标。做欧洲军警渠道要盯住 NSPA 长期协议的上架资格，而非逐国投标；同时捷克这类中东欧国家正处装备换代高峰，头盔换代往往带动配套通信/听力防护耳机的整套替换，是耳机品类的跟单窗口。注：官方通稿未披露合同金额，第三方所称捷克合同逾 10 亿捷克克朗未获一手确认，不予采信。",
+      "url": "https://www.gentexcorp.com/news/gentex-equips-20-nato-nations-through-nspa-contract/",
+      "source": "Gentex Corporation 官网新闻",
+      "date": "2026-08-27"
     }
   ]
 }
