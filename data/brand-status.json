@@ -1,6 +1,6 @@
 {
   "savedAt": 1787794845741,
-  "updatedAt": "2026-08-31",
+  "updatedAt": "2026-09-01",
   "brands": {
     "3M PELTOR": {
       "releaseDate": "2026-02",
@@ -207,8 +207,15 @@
     },
     "OPS-CORE": {
       "releaseDate": "2026-02",
-      "summary": "★本轮补录：Ops-Core Voice Projection Unit (VPU) 于 2026-02-17 发布，为 Special Operations Tactical Respirator 配套的语音投射附件。2026 年内其他新品：AMP Rail Mount Kit with Vent Mode（1 月 SHOT Show 首发，耳杯可微移散热且保持 NFMI 通信）、FAST XP 执法版头盔系统（1/19）。⚠另有 2026-03-09 NFMI 耳塞单独使用性能的产品通告（Product Advisory）。",
+      "summary": "★本轮新增（8/27 官网）：Gentex 经北约 NSPA 合同已向 20 余个北约国家供货 Ops-Core 头戴系统；新授标含捷克国防部下一代头盔系统（NSPA 管理采购）与加拿大陆军 Soldier Systems Program 头盔配件订单；官方确认已在「五眼」列装（美 SOF/陆军/陆战队、英特种部队与皇家海军陆战队、新西兰、澳大利亚）。2026 年新品：Voice Projection Unit (VPU，2/17，配套 Special Operations Tactical Respirator 的语音投射附件)、AMP Rail Mount Kit with Vent Mode（1 月 SHOT Show 首发，耳杯可微移散热且保持 NFMI 通信）、FAST XP 执法版头盔系统（1/19）。⚠另有 2026-03-09 NFMI 耳塞单独使用性能的产品通告（Product Advisory）。",
       "updates": [
+        {
+          "date": "2026-08",
+          "tag": "订单",
+          "headline": "经 NSPA 合同供货 20+ 北约国家；捷克国防部选定下一代头盔（8/27）",
+          "url": "https://www.gentexcorp.com/news/gentex-equips-20-nato-nations-through-nspa-contract/",
+          "source": "Gentex 官网"
+        },
         {
           "date": "2026-03",
           "tag": "通告",
