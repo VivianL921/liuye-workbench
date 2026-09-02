@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-01",
+  "updatedAt": "2026-09-02",
   "note": "每日 09:00 自动刷新（含周日）；合并保留全部历史动态，未读新闻不会因更新而消失。",
   "items": [
     {
@@ -925,6 +925,28 @@
       "url": "https://www.gentexcorp.com/news/gentex-equips-20-nato-nations-through-nspa-contract/",
       "source": "Gentex Corporation 官网新闻",
       "date": "2026-08-27"
+    },
+    {
+      "id": "n89",
+      "brand": "WALKER'S",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "Walker's 上线劳动节大促：促销码 USA20 全站 8 折",
+      "summary": "截至 2026-09-02，Walker's 官网首页 hero 轮播新增「LABOR DAY SALE - USE CODE USA20 & SAVE 20%」，主推 Razor Slim 电子耳罩（NRR 23dB）。该促销与 8/27 上线的 End of Summer Sale 叠加并行（Suppressor BT 耳塞 $249.99→$129.99、Disrupter BT $279.99→$149.99、Isolator 耳塞与 Ultimate Alpha 耳罩买一赠一），显示其已提前为 9/7 劳动节及狩猎季开季铺量。页面未标注促销起止日期。对渠道的启示：Q4 报价与 Walker's 蓝牙/电子线竞争时，需按实际成交价（常见 8 折 + 季末腰斩）而非 MSRP 测算。",
+      "url": "https://www.walkersgameear.com/",
+      "source": "Walker's Game Ear 官网",
+      "date": "2026-09-02"
+    },
+    {
+      "id": "n90",
+      "brand": "EARMOR",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "EARMOR E10 Pro 赛级听力耳塞上市（E10 升级款）",
+      "summary": "EARMOR 母公司广州行动者科技于 2026-08-31 发布公司动态「赛级听力隐形盾牌｜EARMOR 耳魔 E10 Pro 正式上市」，为既有 E10 赛级耳塞的升级款，补齐十周年四款 AI 新品（C53/M23T/M21/M35）之外的「赛级射击」细分线。官方详情页未披露完整参数与定价；对渠道含义：E10 Pro 是面向竞技射击/靶场裁判人群的高防护入耳式选品，可与 M20T PRO、M23T 形成价位梯队，建议后续跟进其 MSRP 与上架节奏（注：本条目为 8/31 发布、上一轮 09-01 核查窗口外延的补录）。",
+      "url": "https://opsmen.tezhongzhuangbei.com/gsdt",
+      "source": "广州行动者科技（EARMOR）公司动态",
+      "date": "2026-08-31"
     }
   ]
 }
