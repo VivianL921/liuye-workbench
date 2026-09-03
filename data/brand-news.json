@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-02",
+  "updatedAt": "2026-09-03",
   "note": "每日 09:00 自动刷新（含周日）；合并保留全部历史动态，未读新闻不会因更新而消失。",
   "items": [
     {
@@ -947,6 +947,105 @@
       "url": "https://opsmen.tezhongzhuangbei.com/gsdt",
       "source": "广州行动者科技（EARMOR）公司动态",
       "date": "2026-08-31"
+    },
+    {
+      "id": "n91",
+      "brand": "INVISIO",
+      "category": "news",
+      "catLabel": "财报",
+      "title": "INVISIO 2026 年第一季度中期报告：'史上最强第一季度'",
+      "summary": "INVISIO 于 2026-05-06 发布 2026 年第一季度中期报告，标题称'史上最强第一季度（our strongest first quarter so far）'。该报告为 2026 年已发布但此前未收录的财务动态，与已知 H1 财报(7/17)属不同报告期；Q2 后至 9/3 无新增订单或财报。对同业是北欧军用听力防护供应商上半年增长曲线的早期佐证。",
+      "url": "https://corp.invisio.com/news-and-events/pressrelease/invisio-interim-report-january-march-2026-our-strongest-first-quarter-so-far",
+      "source": "INVISIO Corporate Press Releases",
+      "date": "2026-05-06"
+    },
+    {
+      "id": "n92",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "合作",
+      "title": "AXIL 全系助听护耳产品进驻美国海军陆战队 Exchange (MCX)",
+      "summary": "AXIL 于 2026-06-17 宣布其全线高端助听/护耳产品预计 7 月起在美国部分 Marine Corps Exchange (MCX) 门店上架，渠道拓展至军用/军属零售网络（此前清单未收录，补录）。这是继 Sportsman's Warehouse、Walmart、Home Depot 之后的又一线下渠道扩张，强化战术护耳在军政消费场景的覆盖。",
+      "url": "https://goaxil.com/blogs/press-releases/axil-brands-announces-full-range-of-advanced-hearing-protection-and-enhancement-products-at-u-s-marine-corps-exchanges-mcx",
+      "source": "AXIL Press Releases (GlobeNewswire)",
+      "date": "2026-06-17"
+    },
+    {
+      "id": "n93",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "合作",
+      "title": "AXIL 扩大与 Walmart 合作：MX PRO 与 MX Passive 进约 1,250 家门店",
+      "summary": "2026-04-29 AXIL 宣布 Walmart 将把 AXIL 产品扩展至 MX PRO 与 MX Passive 型号，覆盖线上及约 1,250 家美国实体店（预计财年一季度上线，此前清单未收录，补录）。相较已收录的 1/8 Walmart 3,700 店合作，本次为针对具体型号的新一轮扩围，进一步加深大流通渠道渗透。",
+      "url": "https://goaxil.com/blogs/press-releases/axil-brands-announces-expanded-partnership-with-walmart",
+      "source": "AXIL Press Releases (GlobeNewswire)",
+      "date": "2026-04-29"
+    },
+    {
+      "id": "n94",
+      "brand": "AXIL",
+      "category": "news",
+      "catLabel": "合作",
+      "title": "AXIL 助听护耳产品登陆 Home Depot 线上商城",
+      "summary": "2026-04-01 AXIL 宣布与 Home Depot 达成新协议，旗舰护耳产品系列在 HomeDepot.com 上架销售，开拓家装/工业 DIY 渠道（此前清单未收录，补录）。该渠道后续在 6 月财报相关披露中被提示为营收集中来源之一，显示其已成为 AXIL 重要分销阵地。",
+      "url": "https://goaxil.com/blogs/press-releases/axil-brands-launches-axil-hearing-protection-products-at-homedepot-online",
+      "source": "AXIL Press Releases (GlobeNewswire)",
+      "date": "2026-04-01"
+    },
+    {
+      "id": "n95",
+      "brand": "EARMOR",
+      "category": "expo",
+      "catLabel": "动态",
+      "title": "2026 阿联酋特警挑战赛｜泰国特警队选用 EARMOR E10 耳塞出征",
+      "summary": "泰国皇家警察特警队为 2026 阿联酋特警挑战赛全体队员配发 EARMOR E10 拾音降噪耳塞作听力防护。渠道含义：中国战术听力防护品牌获东南亚执法队整建制采用，印证 80+ 国/泰国工厂布局；E10 采用 FlipQuiet™ 双模物理降噪、仅重 1.5g。",
+      "url": "https://opsmen.tezhongzhuangbei.com/gsdt_date_155720.html",
+      "source": "特种装备网公众号 / 行动者科技",
+      "date": "2026-02-06"
+    },
+    {
+      "id": "n96",
+      "brand": "EARMOR",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "阿联酋特警赛裁判&运动员的秘密武器：E10 如何实现'双重防护'",
+      "summary": "2026 阿联酋特警挑战赛狙击科目中，裁判/安全员在电子降噪耳罩（约 28dB）内叠加 EARMOR E10 耳塞（SNR 20dB），理论叠加达 35dB+，解决长达 10 小时值守的强噪暴露。渠道含义：验证 E10 与现有拾音降噪耳罩'底层防护'兼容逻辑，强化其在专业单位多场景叠加定位。",
+      "url": "https://opsmen.tezhongzhuangbei.com/gsdt_date_155743.html",
+      "source": "广州市行动者科技有限责任公司",
+      "date": "2026-03-05"
+    },
+    {
+      "id": "n97",
+      "brand": "EARMOR",
+      "category": "news",
+      "catLabel": "动态",
+      "title": "从阿联酋到'尖刀·使命'：E10 赛级耳塞到 M80 全双工通信护航特警挑战赛",
+      "summary": "面向 2026'尖刀·使命'全国特警挑战赛，EARMOR 以 E10 降噪耳塞 + M80'小鸟'全双工通信系统 + M81'蜂鸟'轻便通信系统组成完整'赛级'装备矩阵。渠道含义：由单品（E10 赛级耳塞 1/9）扩展至'听力+通信'组合方案；文中 M20T Pro 标称 SNR 33dB，体现高噪环境技术支撑。",
+      "url": "https://opsmen.tezhongzhuangbei.com/gsdt_date_155790.html",
+      "source": "广州市行动者科技有限责任公司",
+      "date": "2026-04-02"
+    },
+    {
+      "id": "n98",
+      "brand": "EARMOR",
+      "category": "expo",
+      "catLabel": "动态",
+      "title": "人民守护者天山砺刃：EARMOR E10 再放光彩（尖刀·使命 2026 全国特警挑战赛）",
+      "summary": "2026-07-20 至 24 乌鲁木齐'尖刀·使命 2026'全国公安特警挑战赛（55 队/584 人），香港反恐特勤队（CTRU）女子代表队等高度认可 E10 轻便稳固、降噪/通透双模切换。渠道含义：继 8/24 HK CTRU 跨部演习后，E10 在国内顶级赛事再获实证；文内确认升级版 E10 PRO 已推出（海绵耳帽较基础款 +8dB）。",
+      "url": "https://opsmen.tezhongzhuangbei.com/gsdt_date_155983.html",
+      "source": "广州市行动者科技有限责任公司",
+      "date": "2026-07-27"
+    },
+    {
+      "id": "n99",
+      "brand": "OPS-CORE",
+      "category": "news",
+      "catLabel": "新品",
+      "title": "Gentex 发布 Ops-Core NOMAD 夜战 NVG/VAS 挂载系统",
+      "summary": "Gentex 于 2026-01-16 发布 Ops-Core® NOMAD™（Night Operations Mounting and Deployment）系统：轻量低轮廓头带，可在无需传统防弹/运动盔的情况下稳固挂载夜视与视觉增强（NVG/VAS）设备。渠道含义：属 OPS-CORE 头盔配件线 2026 新品，非听力防护类；此前未收录，为遗漏的 2026 品牌动态。",
+      "url": "https://www.gentexcorp.com/news/gentex-corporation-announces-the-ops-core-nomad-system/",
+      "source": "Gentex Corporation",
+      "date": "2026-01-16"
     }
   ]
 }
